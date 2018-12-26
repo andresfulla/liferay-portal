@@ -5,19 +5,29 @@ import {buildQueryString, translateQueryToCriteria} from '../../utils/odata.es';
 import {
 	SUPPORTED_CONJUNCTIONS,
 	SUPPORTED_OPERATORS,
-	SUPPORTED_PROPERTY_TYPES
+	SUPPORTED_PROPERTY_TYPES,
 } from '../../utils/constants.es';
 import '../../libs/odata-parser.js';
 
+/**
+ *
+ *
+ * @class ODataQueryBuilder
+ * @extends {Component}
+ */
 class ODataQueryBuilder extends Component {
 	static propTypes = {
 		initialQuery: PropTypes.string,
 		inputId: PropTypes.string,
 		modelLabel: PropTypes.string,
-		onChange: PropTypes.func,
 		properties: PropTypes.array.isRequired
 	};
 
+	/**
+	 *Creates an instance of ODataQueryBuilder.
+	 * @param {*} props
+	 * @memberof ODataQueryBuilder
+	 */
 	constructor(props) {
 		super(props);
 
@@ -27,20 +37,32 @@ class ODataQueryBuilder extends Component {
 			criteriaMap: initialQuery && initialQuery !== '()' ?
 				translateQueryToCriteria(initialQuery) :
 				null,
-			query: initialQuery
+			query: initialQuery,
 		};
+		this._handleChange = this._handleChange.bind(this);
 	}
 
-	_handleChange = newCriteriaMap => {
+	/**
+	 *
+	 *
+	 * @param {*} newCriteriaMap
+	 * @memberof ODataQueryBuilder
+	 */
+	_handleChange(newCriteriaMap) {
 		this.setState(
 			{
 				criteriaMap: newCriteriaMap,
-				query: buildQueryString([newCriteriaMap])
-			},
-			this.props.onChange
+				query: buildQueryString([newCriteriaMap]),
+			}
 		);
-	};
+	}
 
+	/**
+	 *
+	 *
+	 * @return {Node}
+	 * @memberof ODataQueryBuilder
+	 */
 	render() {
 		const {inputId, modelLabel, properties} = this.props;
 

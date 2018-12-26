@@ -203,9 +203,10 @@ function skipGroup({oDataASTNode, prevConjunction}) {
  * Converts an OData filter query string to an object that can be used by the
  * criteria builder
  * @param {string} queryString
- * @returns {object} Criteria representation of the query string
+ * @return {object} Criteria representation of the query string
  */
 function translateQueryToCriteria(queryString) {
+	if (queryString === '()') return null;
 	let criteria;
 
 	try {
