@@ -2,6 +2,12 @@ import React, {Component} from 'react';
 import {PropTypes} from 'prop-types';
 import getCN from 'classnames';
 
+/**
+ *
+ *
+ * @class ClaySelect
+ * @extends {Component}
+ */
 class ClaySelect extends Component {
 	static propTypes = {
 		onChange: PropTypes.func.isRequired,
@@ -9,13 +15,19 @@ class ClaySelect extends Component {
 			PropTypes.shape(
 				{
 					label: PropTypes.string,
-					value: PropTypes.string.isRequired
+					value: PropTypes.string.isRequired,
 				}
 			)
 		).isRequired,
-		selected: PropTypes.string
+		selected: PropTypes.string,
 	};
 
+	/**
+	 *
+	 *
+	 * @return {Node}
+	 * @memberof ClaySelect
+	 */
 	render() {
 		const {className, options, selected, ...otherProps} = this.props;
 

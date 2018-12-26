@@ -8,11 +8,6 @@
 		position: relative;
 	}
 
-	.conjunction-button {
-		margin: 8px 0 8px 24px;
-		text-transform: uppercase;
-	}
-
 	.conjunction-label {
 		color: $mainLighten28;
 		font-size: 14px;
@@ -60,7 +55,9 @@
 	&.criteria-group-item-root {
 		border-left: 3px solid $chartBlue;
 		padding: 8px;
-
+		&.color--organization {
+			border-left-color: $chartPurple;
+		}
 		.read-only-container .criterion-string {
 			margin-left: 8px;
 		}

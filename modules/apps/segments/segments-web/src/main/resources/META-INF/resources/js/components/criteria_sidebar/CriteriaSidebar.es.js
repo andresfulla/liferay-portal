@@ -53,18 +53,20 @@ class CriteriaSidebar extends Component {
 						searchValue={searchValue}
 					/>
 				</div>
-
 				<ul className="properties-list">
 					{filteredProperties.length ?
 						filteredProperties.map(
-							({label, name, type}, index) => (
+							({label, name, type}, index) => {
+								return (
 								<CriteriaSidebarItem
 									key={index}
 									label={label}
 									name={name}
 									type={type}
+									className={`color--${this.props.propertyKey}`}
 								/>
 							)
+							}
 						) :
 						<li className="empty-message">
 							{Liferay.Language.get('no-results-were-found')}
