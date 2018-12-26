@@ -44,7 +44,10 @@ class SegmentEdit extends Component {
 	state = {
 		membersCount: this.props.initialMembersCount || 0
 	};
-
+	constructor(props) {
+		super(props)
+		debugger;
+	}
 	_handleSegmentNameBlur = event => {
 		const {handleBlur, setValues, values} = this.props;
 

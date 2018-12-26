@@ -1,7 +1,6 @@
 import React, {Component, Fragment} from 'react';
 import {PropTypes} from 'prop-types';
 import CriteriaRow from './CriteriaRow.es';
-import ClayButton from '../shared/ClayButton.es';
 import ClayIcon from '../shared/ClayIcon.es';
 import {CONJUNCTIONS} from '../../utils/constants.es';
 import {DragSource as dragSource} from 'react-dnd';
@@ -15,6 +14,8 @@ import {
 	insertAtIndex,
 	replaceAtIndex
 } from '../../utils/utils.es';
+import Conjunction from './Conjunction.es';
+
 
 /**
  * Passes the required values to the drop target.
@@ -184,49 +185,33 @@ class CriteriaGroup extends Component {
 		return criteria ? !criteria.items.length : true;
 	}
 
+	/**
+	 *
+	 * @memberof CriteriaGroup
+	 * @param {number} index
+	 * @return {Node}
+	 */
 	_renderConjunction = index => {
 		const {
 			criteria,
 			editing,
 			groupId,
 			onMove,
-			supportedConjunctions
+			supportedConjunctions,
 		} = this.props;
 
 		return (
-			<Fragment>
-				<DropZone
-					dropIndex={index}
-					groupId={groupId}
-					onCriterionAdd={this._handleCriterionAdd}
-					onMove={onMove}
-				/>
-
-				{editing ?
-					<ClayButton
-						className="btn-sm conjunction-button"
-						label={this._getConjunctionLabel(
-							criteria.conjunctionName,
-							supportedConjunctions
-						)}
-						onClick={this._handleConjunctionClick}
-					/> :
-					<div className="conjunction-label">
-						{this._getConjunctionLabel(
-							criteria.conjunctionName,
-							supportedConjunctions
-						)}
-					</div>
-				}
-
-				<DropZone
-					before
-					dropIndex={index}
-					groupId={groupId}
-					onCriterionAdd={this._handleCriterionAdd}
-					onMove={onMove}
-				/>
-			</Fragment>
+			<Conjunction
+				conjunctionName={criteria.conjunctionName}
+				editing={editing}
+				groupId={groupId}
+				onMove={onMove}
+				supportedConjunctions={supportedConjunctions}
+				index={index}
+				_getConjunctionLabel={this._getConjunctionLabel}
+				_handleCriterionAdd={this._handleCriterionAdd}
+				_handleConjunctionClick={this._handleConjunctionClick}
+			/>
 		);
 	}
 
