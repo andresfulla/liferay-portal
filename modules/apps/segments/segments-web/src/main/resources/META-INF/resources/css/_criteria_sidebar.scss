@@ -15,6 +15,9 @@
 		.criteria-sidebar-item-root {
 			align-items: center;
 			border-left: 3px solid $chartBlue;
+			&.color--organization {
+				border-left-color: $chartPurple;
+			}
 			display: flex;
 			font-size: 14px;
 			margin: 4px 0;
