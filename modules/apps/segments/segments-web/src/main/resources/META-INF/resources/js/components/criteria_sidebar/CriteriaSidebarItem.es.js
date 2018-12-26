@@ -56,12 +56,14 @@ class CriteriaSidebarItem extends Component {
 			connectDragSource,
 			dragging,
 			label,
-			type
+			type,
+			className,
 		} = this.props;
 
 		const classes = getCN(
 			'criteria-sidebar-item-root',
-			{dragging}
+			{dragging},
+			className,
 		);
 
 		return connectDragSource(
