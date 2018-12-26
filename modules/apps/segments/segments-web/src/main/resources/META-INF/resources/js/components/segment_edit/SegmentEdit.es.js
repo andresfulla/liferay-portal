@@ -96,7 +96,10 @@ class SegmentEdit extends Component {
 			}
 		);
 	};
-
+	constructor(props) {
+		super(props)
+		debugger;
+	}
 	_handleSegmentNameBlur = event => {
 		const {handleBlur, setValues, values} = this.props;
 
