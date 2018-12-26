@@ -1,5 +1,6 @@
+/* globals module */
+
 const path = require('path');
-const webpack = require('webpack');
 
 module.exports = {
 	entry: './src/main/resources/META-INF/resources/js/libs/ODataParser.es.js',
@@ -9,5 +10,5 @@ module.exports = {
 		library: 'oDataParser',
 		libraryTarget: 'window',
 		path: path.resolve('./src/main/resources/META-INF/resources/js/libs/')
-	}
+	},
 };

@@ -30,7 +30,7 @@ export const PROPERTY_TYPES = {
 	BOOLEAN: 'boolean',
 	DATE: 'date',
 	NUMBER: 'number',
-	STRING: 'string'
+	STRING: 'string',
 };
 
 /**
@@ -44,44 +44,44 @@ const {BOOLEAN, DATE, NUMBER, STRING} = PROPERTY_TYPES;
 export const SUPPORTED_CONJUNCTIONS = [
 	{
 		label: Liferay.Language.get('and'),
-		name: AND
+		name: AND,
 	},
 	{
 		label: Liferay.Language.get('or'),
-		name: OR
-	}
+		name: OR,
+	},
 ];
 
 export const SUPPORTED_OPERATORS = [
 	{
 		label: Liferay.Language.get('equals'),
-		name: EQ
+		name: EQ,
 	},
 	{
 		label: Liferay.Language.get('greater-than-or-equals'),
-		name: GE
+		name: GE,
 	},
 	{
 		label: Liferay.Language.get('greater-than'),
-		name: GT
+		name: GT,
 	},
 	{
 		label: Liferay.Language.get('less-than-or-equals'),
-		name: LE
+		name: LE,
 	},
 	{
 		label: Liferay.Language.get('less-than'),
-		name: LT
+		name: LT,
 	},
 	{
 		label: Liferay.Language.get('not-equals'),
-		name: NE
-	}
+		name: NE,
+	},
 ];
 
 export const SUPPORTED_PROPERTY_TYPES = {
 	[BOOLEAN]: [EQ, NE],
 	[DATE]: [EQ, GE, GT, LE, LT, NE],
 	[NUMBER]: [EQ, GE, GT, LE, LT, NE],
-	[STRING]: [EQ, NE]
+	[STRING]: [EQ, NE],
 };
