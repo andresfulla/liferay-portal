@@ -96,6 +96,8 @@ class CriteriaMultiBuilderComp extends React.Component {
 	 */
 	onCriteriaChange(criteriaChange, index) {
 		this.setState(state => {
+			if (state.editing !== index) return state;
+
 			return {
 				contributors: state.contributors.map((c, i) => {
 					if (index === i) {
@@ -125,8 +127,8 @@ class CriteriaMultiBuilderComp extends React.Component {
 			supportedOperators,
 			supportedPropertyTypes,
 		} = this.props;
-		const currentEditting = this.state.editing;
-		const selectedCriteria = this.props.criterias[currentEditting];
+		const currentEditing = this.state.editing;
+		const selectedCriteria = this.props.criterias[currentEditing];
 		const criteriaProps = this.props.criterias;
 
 		return (
@@ -148,7 +150,6 @@ class CriteriaMultiBuilderComp extends React.Component {
 											_getConjunctionLabel={() => 'AND'}
 											_handleCriterionAdd={this._handleCriterionAdd}
 											_handleConjunctionClick={this._handleConjunctionClick}
-
 										/>
 									}
 									<CriteriaBuilder
@@ -162,7 +163,7 @@ class CriteriaMultiBuilderComp extends React.Component {
 										supportedPropertyTypes={supportedPropertyTypes}
 										onEditionToggle={this.onCriteriaEdit}
 										onChange={this.onCriteriaChange}
-										editing={currentEditting === i}
+										editing={currentEditing === i}
 										id={i}
 									/>
 								</React.Fragment>
