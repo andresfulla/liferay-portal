@@ -7,7 +7,7 @@ import {sub} from '../../utils/utils.es';
 import CriteriaBuilder from './CriteriaBuilder.es';
 import ClayButton from '../shared/ClayButton.es';
 import {buildQueryString, translateQueryToCriteria} from '../../utils/odata.es';
-import Conjunction from './conjunction.es';
+import Conjunction from './Conjunction.es';
 
 /**
  *
@@ -101,12 +101,11 @@ class CriteriaMultiBuilderComp extends React.Component {
 			return {
 				contributors: state.contributors.map((c, i) => {
 					if (index === i) {
-						const newState = {
+						return {
+							...c,
 							criteriaMap: criteriaChange,
 							query: buildQueryString([criteriaChange]),
 						};
-
-						return newState;
 					}
 
 					return c;
@@ -126,10 +125,10 @@ class CriteriaMultiBuilderComp extends React.Component {
 			supportedConjunctions,
 			supportedOperators,
 			supportedPropertyTypes,
+			criterias: criteriaProps,
 		} = this.props;
 		const currentEditing = this.state.editing;
-		const selectedCriteria = this.props.criterias[currentEditing];
-		const criteriaProps = this.props.criterias;
+		const selectedCriteria = criteriaProps[currentEditing];
 
 		return (
 			<div className={this.classes}>
@@ -174,11 +173,11 @@ class CriteriaMultiBuilderComp extends React.Component {
 					<ClayButton style='primary' className="mt-4">Add More Filters</ClayButton>
 				</div>
 				<div className="criteria-builder-section-sidebar">
-					{selectedCriteria && <CriteriaSidebar
-						supportedProperties={selectedCriteria.properties}
+					{<CriteriaSidebar
+						supportedProperties={selectedCriteria && selectedCriteria.properties}
 						title={sub(
 							Liferay.Language.get('x-properties'),
-							[selectedCriteria.modelLabel]
+							[selectedCriteria && selectedCriteria.modelLabel]
 						)}
 					/>}
 				</div>
