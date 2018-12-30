@@ -12,7 +12,7 @@ import {
 	generateGroupId,
 	getChildGroupIds,
 	insertAtIndex,
-	replaceAtIndex
+	replaceAtIndex,
 } from '../../utils/utils.es';
 import Conjunction from './Conjunction.es';
 
@@ -21,7 +21,7 @@ import Conjunction from './Conjunction.es';
  * Passes the required values to the drop target.
  * This method must be called `beginDrag`.
  * @param {Object} props Component's current props
- * @returns {Object} The props to be passed to the drop target.
+ * @return {Object} The props to be passed to the drop target.
  */
 function beginDrag({criteria, index, parentGroupId}) {
 	const childGroupIds = getChildGroupIds(criteria);
@@ -30,7 +30,7 @@ function beginDrag({criteria, index, parentGroupId}) {
 		childGroupIds,
 		criterion: criteria,
 		groupId: parentGroupId,
-		index
+		index,
 	};
 }
 
@@ -43,15 +43,21 @@ function beginDrag({criteria, index, parentGroupId}) {
 const withDragSource = dragSource(
 	DragTypes.CRITERIA_GROUP,
 	{
-		beginDrag
+		beginDrag,
 	},
 	(connect, monitor) => ({
 		connectDragPreview: connect.dragPreview(),
 		connectDragSource: connect.dragSource(),
-		dragging: monitor.isDragging()
+		dragging: monitor.isDragging(),
 	})
 );
 
+/**
+ *
+ *
+ * @class CriteriaGroup
+ * @extends {Component}
+ */
 class CriteriaGroup extends Component {
 	static propTypes = {
 		connectDragPreview: PropTypes.func,
@@ -69,25 +75,22 @@ class CriteriaGroup extends Component {
 		supportedConjunctions: PropTypes.array,
 		supportedOperators: PropTypes.array,
 		supportedProperties: PropTypes.array,
-		supportedPropertyTypes: PropTypes.object
+		supportedPropertyTypes: PropTypes.object,
 	};
 
 	static defaultProps = {
-		root: false
+		root: false,
 	};
 
+	/**
+	 *Creates an instance of CriteriaGroup.
+	 * @param {*} props
+	 * @memberof CriteriaGroup
+	 */
 	constructor(props) {
 		super(props);
 
 		this.NestedCriteriaGroupWithDrag = withDragSource(CriteriaGroup);
-	}
-
-	_getConjunctionLabel(conjunctionName, conjunctions) {
-		const conjunction = conjunctions.find(
-			({name}) => name === conjunctionName
-		);
-
-		return conjunction ? conjunction.label : undefined;
 	}
 
 	_handleConjunctionClick = event => {
@@ -106,7 +109,7 @@ class CriteriaGroup extends Component {
 		onChange(
 			{
 				...criteria,
-				conjunctionName: conjunctionSelected
+				conjunctionName: conjunctionSelected,
 			}
 		);
 	}
@@ -129,7 +132,7 @@ class CriteriaGroup extends Component {
 				operatorName :
 				supportedOperators[0].name,
 			propertyName,
-			value
+			value,
 		};
 
 		if (root && !criteria) {
@@ -137,7 +140,7 @@ class CriteriaGroup extends Component {
 				{
 					conjunctionName: CONJUNCTIONS.AND,
 					groupId: generateGroupId(),
-					items: [newCriterion]
+					items: [newCriterion],
 				}
 			);
 		}
@@ -149,7 +152,7 @@ class CriteriaGroup extends Component {
 						newCriterion,
 						criteria.items,
 						index
-					)
+					),
 				}
 			);
 		}
@@ -161,7 +164,7 @@ class CriteriaGroup extends Component {
 		onChange(
 			{
 				...criteria,
-				items: replaceAtIndex(newCriterion, criteria.items, index)
+				items: replaceAtIndex(newCriterion, criteria.items, index),
 			}
 		);
 	}
@@ -174,7 +177,7 @@ class CriteriaGroup extends Component {
 				...criteria,
 				items: criteria.items.filter(
 					(fItem, fIndex) => fIndex !== index
-				)
+				),
 			}
 		);
 	}
@@ -201,17 +204,27 @@ class CriteriaGroup extends Component {
 		} = this.props;
 
 		return (
-			<Conjunction
-				conjunctionName={criteria.conjunctionName}
-				editing={editing}
-				groupId={groupId}
-				onMove={onMove}
-				supportedConjunctions={supportedConjunctions}
-				index={index}
-				_getConjunctionLabel={this._getConjunctionLabel}
-				_handleCriterionAdd={this._handleCriterionAdd}
-				_handleConjunctionClick={this._handleConjunctionClick}
-			/>
+			<React.Fragment>
+				<DropZone
+					dropIndex={index}
+					groupId={groupId}
+					onCriterionAdd={this._handleCriterionAdd}
+					onMove={onMove}
+				/>
+				<Conjunction
+					conjunctionName={criteria.conjunctionName}
+					editing={editing}
+					supportedConjunctions={supportedConjunctions}
+					_handleConjunctionClick={this._handleConjunctionClick}
+				/>
+				<DropZone
+					before
+					dropIndex={index}
+					groupId={groupId}
+					onCriterionAdd={this._handleCriterionAdd}
+					onMove={onMove}
+				/>
+			</React.Fragment>
 		);
 	}
 
@@ -225,13 +238,13 @@ class CriteriaGroup extends Component {
 			supportedConjunctions,
 			supportedOperators,
 			supportedProperties,
-			supportedPropertyTypes
+			supportedPropertyTypes,
 		} = this.props;
 
 		const classes = getCN(
 			'criterion',
 			{
-				'criterion-group': criterion.items
+				'criterion-group': criterion.items,
 			}
 		);
 
@@ -280,6 +293,12 @@ class CriteriaGroup extends Component {
 		);
 	}
 
+	/**
+	 *
+	 *
+	 * @return {*}
+	 * @memberof CriteriaGroup
+	 */
 	render() {
 		const {
 			connectDragPreview,
@@ -289,14 +308,14 @@ class CriteriaGroup extends Component {
 			editing,
 			groupId,
 			onMove,
-			root
+			root,
 		} = this.props;
 
 		const classes = getCN(
 			'criteria-group-root',
 			`criteria-group-item${root ? '-root' : ''}`,
 			{
-				'dnd-drag': dragging
+				'dnd-drag': dragging,
 			}
 		);
 

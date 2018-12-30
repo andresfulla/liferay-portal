@@ -51,9 +51,6 @@ class CriteriaMultiBuilderComp extends React.Component {
 	 */
 	constructor(props) {
 		super(props);
-		this.state = {
-			editing: undefined,
-		};
 		this.classes = getCN(
 			'criteria-builder-root',
 			{
@@ -71,7 +68,10 @@ class CriteriaMultiBuilderComp extends React.Component {
 					query: c.initialQuery,
 				};
 			}),
+			editing: undefined,
+			conjunctionName: 'and',
 		};
+		this._handleRootConjunctionClick = this._handleRootConjunctionClick.bind(this);
 	}
 
 	/**
@@ -117,6 +117,31 @@ class CriteriaMultiBuilderComp extends React.Component {
 	/**
 	 *
 	 *
+	 * @memberof CriteriaMultiBuilderComp
+	 */
+	_handleRootConjunctionClick(event) {
+		event.preventDefault();
+
+		this.setState((prevState) => {
+			const {supportedConjunctions} = this.props;
+			const conjunctionName = prevState.conjunctionName;
+			const index = supportedConjunctions.findIndex(
+				item => item.name === conjunctionName
+			);
+			const conjunctionSelected = index === supportedConjunctions.length - 1 ?
+				supportedConjunctions[0].name :
+				supportedConjunctions[index + 1].name;
+
+			return {
+				...prevState,
+				conjunctionName: conjunctionSelected,
+			};
+		});
+	}
+
+	/**
+	 *
+	 *
 	 * @return {Node}
 	 * @memberof CriteriaMultiBuilderComp
 	 */
@@ -140,15 +165,11 @@ class CriteriaMultiBuilderComp extends React.Component {
 									{
 										(i !== 0) &&
 										<Conjunction
-											conjunctionName={'AND'}
+											conjunctionName={this.state.conjunctionName}
 											editing={true}
-											groupId={'groupId'}
-											onMove={'onMove'}
 											supportedConjunctions={supportedConjunctions}
-											index={'index'}
-											_getConjunctionLabel={() => 'AND'}
-											_handleCriterionAdd={this._handleCriterionAdd}
-											_handleConjunctionClick={this._handleConjunctionClick}
+											_handleCriterionAdd={() => this._handleCriterionAdd}
+											_handleConjunctionClick={this._handleRootConjunctionClick}
 										/>
 									}
 									<CriteriaBuilder
@@ -171,6 +192,14 @@ class CriteriaMultiBuilderComp extends React.Component {
 					}
 					{/* TODO this button should be ghost */}
 					<ClayButton style='primary' className="mt-4">Add More Filters</ClayButton>
+					{
+						this.state.contributors &&
+						this.state.contributors.map((c, i) => {
+							if (i !== 0) return ` ${this.state.conjunctionName} ` + c.query;
+
+							return c.query;
+						})
+					}
 				</div>
 				<div className="criteria-builder-section-sidebar">
 					{<CriteriaSidebar

@@ -13,6 +13,21 @@ export default class Conjunction extends React.Component {
 	/**
 	 *
 	 *
+	 * @param {*} conjunctionName
+	 * @param {*} conjunctions
+	 * @return {*}
+	 * @memberof Conjunction
+	 */
+	_getConjunctionLabel(conjunctionName, conjunctions) {
+		const conjunction = conjunctions.find(
+			({name}) => name === conjunctionName
+		);
+
+		return conjunction ? conjunction.label : undefined;
+	}
+	/**
+	 *
+	 *
 	 * @memberof Conjunction
 	 * @return {Node}
 	 */
@@ -20,44 +35,26 @@ export default class Conjunction extends React.Component {
 		const {
 			conjunctionName,
 			editing,
-			groupId,
-			onMove,
 			supportedConjunctions,
-			index,
 		} = this.props;
 
 		return (<React.Fragment>
-			<DropZone
-				dropIndex={index}
-				groupId={groupId}
-				onCriterionAdd={this.props._handleCriterionAdd}
-				onMove={onMove}
-			/>
-
 			{editing ?
 				<ClayButton
 					className="btn-sm conjunction-button"
-					label={this.props._getConjunctionLabel(
+					label={this._getConjunctionLabel(
 						conjunctionName,
 						supportedConjunctions
 					)}
 					onClick={this.props._handleConjunctionClick}
 				/> :
 				<div className="conjunction-label">
-					{this.props._getConjunctionLabel(
+					{this._getConjunctionLabel(
 						conjunctionName,
 						supportedConjunctions
 					)}
 				</div>
 			}
-
-			<DropZone
-				before
-				dropIndex={index}
-				groupId={groupId}
-				onCriterionAdd={this.props._handleCriterionAdd}
-				onMove={onMove}
-			/>
 		</React.Fragment>);
 	}
 }
