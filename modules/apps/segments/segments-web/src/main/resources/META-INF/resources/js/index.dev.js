@@ -114,6 +114,7 @@ const props = [
 		'conjunctionId': '',
 		'conjunctionInputId': '_com_liferay_segments_web_internal_portlet_SegmentsPortlet_criterionConjunctionuser',
 		'modelLabel': 'User',
+		'propertyKey': 'user',
 	},
 	{
 		'inputId': '_com_liferay_segments_web_internal_portlet_SegmentsPortlet_criterionFilteruser-organization',
@@ -168,6 +169,7 @@ const props = [
 		'conjunctionId': '',
 		'conjunctionInputId': '_com_liferay_segments_web_internal_portlet_SegmentsPortlet_criterionConjunctionuser-organization',
 		'modelLabel': 'User Organization',
+		'propertyKey': 'organization',
 	},
 ];
 

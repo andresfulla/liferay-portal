@@ -55,7 +55,9 @@
 	&.criteria-group-item-root {
 		border-left: 3px solid $chartBlue;
 		padding: 8px;
-
+		&.color--organization {
+			border-left-color: $chartPurple;
+		}
 		.read-only-container .criterion-string {
 			margin-left: 8px;
 		}

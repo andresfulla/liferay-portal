@@ -8,6 +8,7 @@ import CriteriaBuilder from './CriteriaBuilder.es';
 import ClayButton from '../shared/ClayButton.es';
 import {buildQueryString, translateQueryToCriteria} from '../../utils/odata.es';
 import Conjunction from './Conjunction.es';
+import ClaySelect from '../shared/ClaySelect.es';
 
 /**
  *
@@ -69,6 +70,7 @@ class CriteriaMultiBuilderComp extends React.Component {
 					inputId: c.inputId,
 					properties: c.properties,
 					modelLabel: c.modelLabel,
+					propertyKey: c.propertyKey,
 				};
 			}),
 			editing: undefined,
@@ -216,7 +218,9 @@ class CriteriaMultiBuilderComp extends React.Component {
 										onChange={this.onCriteriaChange}
 										editing={currentEditing === i}
 										id={i}
+										propertyKey={criteria.propertyKey}
 									/>
+									{criteria.propertyKey}
 								</React.Fragment>
 							);
 						})
@@ -229,12 +233,15 @@ class CriteriaMultiBuilderComp extends React.Component {
 							return c.query;
 						})
 					}
-					<br />
-					<select>
-						{this.props.contributorsTypes.map(type => {
-							return <option key={type.propertyKey} value={type.propertyKey}>{type.name}</option>;
-						})}
-					</select>
+					<ClaySelect
+						className={`mt-4 mw10`}
+						options={this.props.contributorsTypes.map(type => ({
+							label: type.name,
+							value: type.propertyKey,
+						}))}
+						selected={selectedCriteria && selectedCriteria.propertyKey}
+						onChange={() => {}}
+					></ClaySelect>
 					<ClayButton style='primary' className="mt-4" onClick={this._createNewContributor}>Add More Filters</ClayButton>
 				</div>
 				<div className="criteria-builder-section-sidebar">

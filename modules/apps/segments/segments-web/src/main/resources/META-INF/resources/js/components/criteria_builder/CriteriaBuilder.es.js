@@ -269,8 +269,9 @@ class CriteriaBuilder extends Component {
 			supportedProperties,
 			supportedPropertyTypes,
 			editing,
+			propertyKey,
 		} = this.props;
-		
+
 		return (
 			<div className="sheet sheet-lg">
 				<div className="criteria-builder-toolbar">
@@ -287,6 +288,7 @@ class CriteriaBuilder extends Component {
 					editing={editing}
 					groupId={criteria && criteria.groupId}
 					modelLabel={modelLabel}
+					propertyKey={propertyKey}
 					onChange={this._handleCriteriaChange}
 					onMove={this._handleCriterionMove}
 					root

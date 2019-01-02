@@ -309,11 +309,13 @@ class CriteriaGroup extends Component {
 			groupId,
 			onMove,
 			root,
+			propertyKey,
 		} = this.props;
 
 		const classes = getCN(
 			'criteria-group-root',
 			`criteria-group-item${root ? '-root' : ''}`,
+			`color--${propertyKey}`,
 			{
 				'dnd-drag': dragging,
 			}

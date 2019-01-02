@@ -1,5 +1,4 @@
 import React from 'react';
-import DropZone from './DropZone.es';
 import ClayButton from '../shared/ClayButton.es';
 
 /**
