@@ -188,7 +188,7 @@ ReactDOM.render(
 	<ThemeContext.Provider value={context}>
 		<div className="segments-root">
 			<ContributorsBuilder
-				criterias={contributors}
+				initialContributors={contributors}
 				propertyGroups={propertyGroups}
 				supportedConjunctions={SUPPORTED_CONJUNCTIONS}
 				supportedOperators={SUPPORTED_OPERATORS}

@@ -1,5 +1,6 @@
 import getCN from 'classnames';
 import React from 'react';
+import PropTypes from 'prop-types';
 import {DragDropContext as dragDropContext} from 'react-dnd';
 import HTML5Backend from 'react-dnd-html5-backend';
 import CriteriaSidebar from '../criteria_sidebar/CriteriaSidebar.es';
@@ -9,6 +10,23 @@ import ClayButton from '../shared/ClayButton.es';
 import {buildQueryString, translateQueryToCriteria} from '../../utils/odata.es';
 import Conjunction from './Conjunction.es';
 import ClaySelect from '../shared/ClaySelect.es';
+
+/**
+ *
+ *
+ * @param {string} propertyKey
+ * @param {Array} propertiesArray
+ * @return {*}
+ */
+function createContributor(propertyKey, propertiesArray = []) {
+	return {
+		criteriaMap: null,
+		query: '',
+		inputId: 'exxample', // TODO inputId generator
+		propertyKey: propertyKey,
+		properties: propertiesArray,
+	};
+}
 
 /**
  *
@@ -23,7 +41,7 @@ import ClaySelect from '../shared/ClaySelect.es';
 /**
  *
  * @typedef CriteriaMultiBuilderProps
- * @property {Array<Criteria>} criterias
+ * @property {Array<Criteria>} initialContributors
  * @property {*} supportedConjunctions // TODO to be typed and documented
  * @property {*} supportedOperators // TODO to be typed and documented
  * @property {*} supportedPropertyTypes // TODO to be typed and documented
@@ -61,23 +79,23 @@ class ContributorsBuilderComp extends React.Component {
 		this.onCriteriaEdit = this.onCriteriaEdit.bind(this);
 		this.onCriteriaChange = this.onCriteriaChange.bind(this);
 		this.state = {
-			contributors: this.props.criterias.map(c => {
+			contributors: this.props.initialContributors.map(c => {
 				const propertyGroup = this.props.propertyGroups.find(t => c.propertyKey === t.propertyKey);
 
 				return {
-					criteriaMap: c.initialQuery && c.initialQuery !== '()' ?
+					criteriaMap: c.initialQuery ?
 						translateQueryToCriteria(c.initialQuery) :
 						null,
 					query: c.initialQuery,
 					inputId: c.inputId,
-					modelLabel: c.modelLabel,
 					propertyKey: c.propertyKey,
 					properties: propertyGroup && propertyGroup.properties,
 				};
 			}),
 			editing: undefined,
 			conjunctionName: 'and',
-			newPropertyKey: this.props.propertyGroups[0].propertyKey,
+			newPropertyKey: this.props.propertyGroups.length &&
+				this.props.propertyGroups[0].propertyKey,
 		};
 		this._handleRootConjunctionClick = this._handleRootConjunctionClick.bind(this);
 		this._createNewContributor = this._createNewContributor.bind(this);
@@ -141,7 +159,7 @@ class ContributorsBuilderComp extends React.Component {
 
 	/**
 	 *
-	 *
+	 * @param {Event} event
 	 * @memberof CriteriaMultiBuilderComp
 	 */
 	_handleRootConjunctionClick(event) {
@@ -153,7 +171,8 @@ class ContributorsBuilderComp extends React.Component {
 			const index = supportedConjunctions.findIndex(
 				item => item.name === conjunctionName
 			);
-			const conjunctionSelected = index === supportedConjunctions.length - 1 ?
+			const conjunctionSelected =
+			(index === supportedConjunctions.length - 1) ?
 				supportedConjunctions[0].name :
 				supportedConjunctions[index + 1].name;
 
@@ -171,16 +190,14 @@ class ContributorsBuilderComp extends React.Component {
 	 */
 	_createNewContributor() {
 		this.setState((prevState, props) => {
-			const propertyGroup = props.propertyGroups.find(t => prevState.newPropertyKey === t.propertyKey);
+			const propertyGroup = props.propertyGroups
+				.find(t => prevState.newPropertyKey === t.propertyKey);
 			const contributors = [
 				...prevState.contributors,
-				{
-					criteriaMap: null,
-					query: '',
-					inputId: 'exxample',
-					propertyKey: this.state.newPropertyKey,
-					properties: propertyGroup && propertyGroup.properties,
-				},
+				createContributor(
+					prevState.newPropertyKey,
+					propertyGroup && propertyGroup.properties,
+				),
 			];
 
 			return {
@@ -198,18 +215,15 @@ class ContributorsBuilderComp extends React.Component {
 	 * @memberof ContributorsBuilderComp
 	 */
 	_onPropertySelection(property, id) {
-
 		this.setState((prevState) => {
 			const prevContributors = prevState.contributors;
 			const prevContributor = prevContributors[id];
-			const propertyGroup = this.props.propertyGroups.find(t => prevContributor.propertyKey === t.propertyKey);
-			const updatedContributor = {
-				...prevContributor,
-				query: '',
-				criteriaMap: null,
-				propertyKey: property,
-				properties: propertyGroup && propertyGroup.properties,
-			};
+			const propertyGroup = this.props.propertyGroups
+				.find(t => prevContributor.propertyKey === t.propertyKey);
+			const updatedContributor = createContributor(
+				property,
+				propertyGroup && propertyGroup.properties
+			);
 
 			return {
 				...prevState,
@@ -232,10 +246,11 @@ class ContributorsBuilderComp extends React.Component {
 			supportedConjunctions,
 			supportedOperators,
 			supportedPropertyTypes,
+			propertyGroups,
 		} = this.props;
 		const currentEditing = this.state.editing;
-		const selectedCriteria = this.state.contributors[currentEditing];
-		const selectedProperty = selectedCriteria && this.props.propertyGroups.find(c => selectedCriteria.propertyKey === c.propertyKey);
+		const selectedContributor = this.state.contributors[currentEditing];
+		const selectedProperty = selectedContributor && propertyGroups.find(c => selectedContributor.propertyKey === c.propertyKey);
 
 		return (
 			<div className={this.classes}>
@@ -299,7 +314,7 @@ class ContributorsBuilderComp extends React.Component {
 							})
 						}
 						<ClaySelect
-							className={`mt-4 mw10`}
+							className={`mt-4 mw15`}
 							options={this.props.propertyGroups.map(type => ({
 								label: type.name,
 								value: type.propertyKey,
@@ -324,5 +339,49 @@ class ContributorsBuilderComp extends React.Component {
 		);
 	}
 }
+
+const property = PropTypes.shape({
+	name: PropTypes.string.isRequired,
+	label: PropTypes.string.isRequired,
+	type: PropTypes.string.isRequired,
+});
+const propertyGroup = PropTypes.shape({
+	name: PropTypes.string.isRequired,
+	propertyKey: PropTypes.string.isRequired,
+	properties: PropTypes.arrayOf(property),
+});
+const initialContributor = PropTypes.shape({
+	inputId: PropTypes.string.isRequired,
+	initialQuery: PropTypes.string.isRequired,
+	conjunctionId: PropTypes.string.isRequired,
+	conjunctionInputId: PropTypes.string.isRequired,
+	propertyKey: PropTypes.string.isRequired,
+});
+
+const propertyTypes = PropTypes.shape({
+	boolean: PropTypes.arrayOf(PropTypes.string).isRequired,
+	date: PropTypes.arrayOf(PropTypes.string).isRequired,
+	number: PropTypes.arrayOf(PropTypes.string).isRequired,
+	string: PropTypes.arrayOf(PropTypes.string).isRequired,
+});
+
+const operators = PropTypes.shape({
+	label: PropTypes.string.isRequired,
+	name: PropTypes.string.isRequired,
+});
+
+const conjuctions = PropTypes.shape({
+	label: PropTypes.string.isRequired,
+	name: PropTypes.string.isRequired,
+});
+
+
+ContributorsBuilderComp.propTypes = {
+	initialContributors: PropTypes.arrayOf(initialContributor),
+	propertyGroups: PropTypes.arrayOf(propertyGroup),
+	supportedConjunctions: PropTypes.arrayOf(conjuctions).isRequired,
+	supportedOperators: PropTypes.arrayOf(operators).isRequired,
+	supportedPropertyTypes: propertyTypes.isRequired,
+};
 
 export default dragDropContext(HTML5Backend)(ContributorsBuilderComp);

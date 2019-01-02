@@ -277,7 +277,7 @@ class CriteriaBuilder extends Component {
 			<div className="sheet sheet-lg">
 				<div className="criteria-builder-toolbar">
 					<ClaySelect
-						className={`mw10`}
+						className={`mw15`}
 						options={this.props.supportedPropertyGroups.map(p => ({
 							label: p.label,
 							value: p.value,
