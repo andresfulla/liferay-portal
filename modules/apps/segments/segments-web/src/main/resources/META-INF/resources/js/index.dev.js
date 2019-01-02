@@ -278,7 +278,6 @@ const contributorsTypes = [{
 			'type': 'string',
 		},
 	],
-	color: '#1f8fff',
 },{
 	name: 'Organization',
 	propertyKey: 'organization',
@@ -329,7 +328,6 @@ const contributorsTypes = [{
 			'type': 'string',
 		},
 	],
-	color: '#f114c8',
 }];
 
 ReactDOM.render(

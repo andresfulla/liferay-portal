@@ -251,6 +251,7 @@ class CriteriaMultiBuilderComp extends React.Component {
 							Liferay.Language.get('x-properties'),
 							[selectedCriteria && selectedCriteria.modelLabel]
 						)}
+						propertyKey={selectedCriteria && selectedCriteria.propertyKey}
 					/>}
 				</div>
 			</div>
