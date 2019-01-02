@@ -14,161 +14,15 @@ const props = [
 	{
 		'inputId': '_com_liferay_segments_web_internal_portlet_SegmentsPortlet_criterionFilteruser',
 		'initialQuery': '',
-		'properties': [
-			{
-				'name': 'ancestorOrganizationIds',
-				'label': 'Ancestor Organization IDs',
-				'type': 'string',
-			},
-			{
-				'name': 'classPK',
-				'label': 'Class PK',
-				'type': 'string',
-			},
-			{
-				'name': 'companyId',
-				'label': 'Company ID',
-				'type': 'string',
-			},
-			{
-				'name': 'dateModified',
-				'label': 'Date Modified',
-				'type': 'string',
-			},
-			{
-				'name': 'emailAddress',
-				'label': 'Email Address',
-				'type': 'string',
-			},
-			{
-				'name': 'firstName',
-				'label': 'First Name',
-				'type': 'string',
-			},
-			{
-				'name': 'groupId',
-				'label': 'Group ID',
-				'type': 'string',
-			},
-			{
-				'name': 'groupIds',
-				'label': 'Group IDs',
-				'type': 'string',
-			},
-			{
-				'name': 'jobTitle',
-				'label': 'Job Title',
-				'type': 'string',
-			},
-			{
-				'name': 'lastName',
-				'label': 'Last Name',
-				'type': 'string',
-			},
-			{
-				'name': 'organizationCount',
-				'label': 'Organization Count',
-				'type': 'string',
-			},
-			{
-				'name': 'organizationIds',
-				'label': 'Organization IDs',
-				'type': 'string',
-			},
-			{
-				'name': 'roleIds',
-				'label': 'Role IDs',
-				'type': 'string',
-			},
-			{
-				'name': 'scopeGroupId',
-				'label': 'Scope Group ID',
-				'type': 'string',
-			},
-			{
-				'name': 'screenName',
-				'label': 'Screen Name',
-				'type': 'string',
-			},
-			{
-				'name': 'teamIds',
-				'label': 'Team IDs',
-				'type': 'string',
-			},
-			{
-				'name': 'userGroupIds',
-				'label': 'User Group IDs',
-				'type': 'string',
-			},
-			{
-				'name': 'userId',
-				'label': 'User ID',
-				'type': 'string',
-			},
-			{
-				'name': 'userName',
-				'label': 'User Name',
-				'type': 'string',
-			},
-		],
 		'conjunctionId': '',
 		'conjunctionInputId': '_com_liferay_segments_web_internal_portlet_SegmentsPortlet_criterionConjunctionuser',
-		'modelLabel': 'User',
 		'propertyKey': 'user',
 	},
 	{
 		'inputId': '_com_liferay_segments_web_internal_portlet_SegmentsPortlet_criterionFilteruser-organization',
 		'initialQuery': '',
-		'properties': [
-			{
-				'name': 'classPK',
-				'label': 'Class PK',
-				'type': 'string',
-			},
-			{
-				'name': 'companyId',
-				'label': 'Company ID',
-				'type': 'string',
-			},
-			{
-				'name': 'dateModified',
-				'label': 'Date Modified',
-				'type': 'string',
-			},
-			{
-				'name': 'name',
-				'label': 'Name',
-				'type': 'string',
-			},
-			{
-				'name': 'nameTreePath',
-				'label': 'Name Tree Path',
-				'type': 'string',
-			},
-			{
-				'name': 'organizationId',
-				'label': 'Organization ID',
-				'type': 'string',
-			},
-			{
-				'name': 'parentOrganizationId',
-				'label': 'Parent Organization ID',
-				'type': 'string',
-			},
-			{
-				'name': 'treePath',
-				'label': 'Tree Path',
-				'type': 'string',
-			},
-			{
-				'name': 'type',
-				'label': 'Type',
-				'type': 'string',
-			},
-		],
 		'conjunctionId': '',
 		'conjunctionInputId': '_com_liferay_segments_web_internal_portlet_SegmentsPortlet_criterionConjunctionuser-organization',
-		'modelLabel': 'User Organization',
 		'propertyKey': 'organization',
 	},
 ];
@@ -178,7 +32,7 @@ const context = {
 	'spritemap': '/o/admin-theme/images/lexicon/icons.svg',
 };
 
-const contributorsTypes = [{
+const contributorTypes = [{
 	name: 'User',
 	propertyKey: 'user',
 	properties: [
@@ -279,7 +133,7 @@ const contributorsTypes = [{
 		},
 	],
 },{
-	name: 'Organization',
+	name: 'User Organization',
 	propertyKey: 'organization',
 	properties: [
 		{
@@ -335,7 +189,7 @@ ReactDOM.render(
 		<div className="segments-root">
 			<CriteriaMultiBuilder
 				criterias={props}
-				contributorsTypes={contributorsTypes}
+				contributorTypes={contributorTypes}
 				supportedConjunctions={SUPPORTED_CONJUNCTIONS}
 				supportedOperators={SUPPORTED_OPERATORS}
 				supportedPropertyTypes={SUPPORTED_PROPERTY_TYPES}

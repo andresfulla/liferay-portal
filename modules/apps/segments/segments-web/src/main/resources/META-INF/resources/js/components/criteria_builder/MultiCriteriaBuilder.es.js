@@ -62,20 +62,22 @@ class CriteriaMultiBuilderComp extends React.Component {
 		this.onCriteriaChange = this.onCriteriaChange.bind(this);
 		this.state = {
 			contributors: this.props.criterias.map(c => {
+				const contributorType = this.props.contributorTypes.find(t => c.propertyKey === t.propertyKey);
+
 				return {
 					criteriaMap: c.initialQuery && c.initialQuery !== '()' ?
 						translateQueryToCriteria(c.initialQuery) :
 						null,
 					query: c.initialQuery,
 					inputId: c.inputId,
-					properties: c.properties,
 					modelLabel: c.modelLabel,
 					propertyKey: c.propertyKey,
+					properties: contributorType && contributorType.properties,
 				};
 			}),
 			editing: undefined,
 			conjunctionName: 'and',
-			newContributor: this.props.contributorsTypes[0],
+			newContributor: this.props.contributorTypes[0],
 		};
 		this._handleRootConjunctionClick = this._handleRootConjunctionClick.bind(this);
 		this._createNewContributor = this._createNewContributor.bind(this);
@@ -161,8 +163,7 @@ class CriteriaMultiBuilderComp extends React.Component {
 					criteriaMap: null,
 					query: '',
 					inputId: 'exxample',
-					modelLabel: propertyType.name,
-					properties: propertyType.properties,
+					propertyKey: propertyType.propertyKey,
 				},
 			];
 
@@ -187,6 +188,7 @@ class CriteriaMultiBuilderComp extends React.Component {
 		} = this.props;
 		const currentEditing = this.state.editing;
 		const selectedCriteria = this.state.contributors[currentEditing];
+		const selectedProperty = selectedCriteria && this.props.contributorTypes.find(c => selectedCriteria.propertyKey === c.propertyKey);
 
 		return (
 			<div className={this.classes}>
@@ -235,23 +237,23 @@ class CriteriaMultiBuilderComp extends React.Component {
 					}
 					<ClaySelect
 						className={`mt-4 mw10`}
-						options={this.props.contributorsTypes.map(type => ({
+						options={this.props.contributorTypes.map(type => ({
 							label: type.name,
 							value: type.propertyKey,
 						}))}
-						selected={selectedCriteria && selectedCriteria.propertyKey}
+						selected={selectedProperty && selectedProperty.propertyKey}
 						onChange={() => {}}
 					></ClaySelect>
 					<ClayButton style='primary' className="mt-4" onClick={this._createNewContributor}>Add More Filters</ClayButton>
 				</div>
 				<div className="criteria-builder-section-sidebar">
 					{<CriteriaSidebar
-						supportedProperties={selectedCriteria && selectedCriteria.properties}
+						supportedProperties={selectedProperty && selectedProperty.properties}
 						title={sub(
 							Liferay.Language.get('x-properties'),
-							[selectedCriteria && selectedCriteria.modelLabel]
+							[selectedProperty && selectedProperty.modelLabel]
 						)}
-						propertyKey={selectedCriteria && selectedCriteria.propertyKey}
+						propertyKey={selectedProperty && selectedProperty.propertyKey}
 					/>}
 				</div>
 			</div>

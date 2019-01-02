@@ -63,6 +63,7 @@ class CriteriaSidebar extends Component {
 									label={label}
 									name={name}
 									type={type}
+									className={`color--${this.props.propertyKey}`}
 								/>
 							)
 							}
