@@ -62,7 +62,7 @@ class CriteriaMultiBuilderComp extends React.Component {
 		this.onCriteriaChange = this.onCriteriaChange.bind(this);
 		this.state = {
 			contributors: this.props.criterias.map(c => {
-				const contributorType = this.props.contributorTypes.find(t => c.propertyKey === t.propertyKey);
+				const propertyGroup = this.props.propertyGroups.find(t => c.propertyKey === t.propertyKey);
 
 				return {
 					criteriaMap: c.initialQuery && c.initialQuery !== '()' ?
@@ -72,15 +72,16 @@ class CriteriaMultiBuilderComp extends React.Component {
 					inputId: c.inputId,
 					modelLabel: c.modelLabel,
 					propertyKey: c.propertyKey,
-					properties: contributorType && contributorType.properties,
+					properties: propertyGroup && propertyGroup.properties,
 				};
 			}),
 			editing: undefined,
 			conjunctionName: 'and',
-			newContributor: this.props.contributorTypes[0],
+			newPropertyKey: this.props.propertyGroups[0].propertyKey,
 		};
 		this._handleRootConjunctionClick = this._handleRootConjunctionClick.bind(this);
 		this._createNewContributor = this._createNewContributor.bind(this);
+		this._handleSelectorChange = this._handleSelectorChange.bind(this);
 	}
 
 	/**
@@ -94,6 +95,21 @@ class CriteriaMultiBuilderComp extends React.Component {
 		this.setState({
 			editing: editing ? undefined : id,
 		});
+	}
+
+	/**
+	 *
+	 *
+	 * @param {*} e
+	 * @memberof CriteriaMultiBuilderComp
+	 */
+	_handleSelectorChange(e) {
+		const newPropertyKey = e.target.value;
+
+		this.setState(prevState => ({
+			...prevState,
+			newPropertyKey,
+		}));
 	}
 
 	/**
@@ -154,16 +170,16 @@ class CriteriaMultiBuilderComp extends React.Component {
 	 * @memberof CriteriaMultiBuilderComp
 	 */
 	_createNewContributor() {
-		const propertyType = this.state.newContributor;
-
-		this.setState((prevState) => {
+		this.setState((prevState, props) => {
+			const propertyGroup = props.propertyGroups.find(t => prevState.newPropertyKey === t.propertyKey);
 			const contributors = [
 				...prevState.contributors,
 				{
 					criteriaMap: null,
 					query: '',
 					inputId: 'exxample',
-					propertyKey: propertyType.propertyKey,
+					propertyKey: this.state.newPropertyKey,
+					properties: propertyGroup && propertyGroup.properties,
 				},
 			];
 
@@ -188,7 +204,7 @@ class CriteriaMultiBuilderComp extends React.Component {
 		} = this.props;
 		const currentEditing = this.state.editing;
 		const selectedCriteria = this.state.contributors[currentEditing];
-		const selectedProperty = selectedCriteria && this.props.contributorTypes.find(c => selectedCriteria.propertyKey === c.propertyKey);
+		const selectedProperty = selectedCriteria && this.props.propertyGroups.find(c => selectedCriteria.propertyKey === c.propertyKey);
 
 		return (
 			<div className={this.classes}>
@@ -197,16 +213,19 @@ class CriteriaMultiBuilderComp extends React.Component {
 						this.state.contributors.map((criteria, i) => {
 							return (
 								<React.Fragment key={i}>
-									{
-										(i !== 0) &&
-										<Conjunction
-											conjunctionName={this.state.conjunctionName}
-											editing={true}
-											supportedConjunctions={supportedConjunctions}
-											_handleCriterionAdd={() => this._handleCriterionAdd}
-											_handleConjunctionClick={this._handleRootConjunctionClick}
-										/>
-									}
+									<div className={`sheet-lg`}>
+										{
+											(i !== 0) &&
+											<Conjunction
+												className={`ml-0`}
+												conjunctionName={this.state.conjunctionName}
+												editing={true}
+												supportedConjunctions={supportedConjunctions}
+												_handleCriterionAdd={() => this._handleCriterionAdd}
+												_handleConjunctionClick={this._handleRootConjunctionClick}
+											/>
+										}
+									</div>
 									<CriteriaBuilder
 										initialQuery={criteria.query}
 										criteria={criteria.criteriaMap}
@@ -222,29 +241,41 @@ class CriteriaMultiBuilderComp extends React.Component {
 										id={i}
 										propertyKey={criteria.propertyKey}
 									/>
-									{criteria.propertyKey}
+									<div className="form-group">
+										<input
+											className="field form-control"
+											data-testid="query-input"
+											id={criteria.inputId}
+											name={criteria.inputId}
+											type="hidden"
+											readOnly
+											value={criteria.query}
+										/>
+									</div>
 								</React.Fragment>
 							);
 						})
 					}
-					{
-						this.state.contributors &&
-						this.state.contributors.map((c, i) => {
-							if (i !== 0 && c.query !== '') return ` ${this.state.conjunctionName} ` + c.query;
+					<div className={`sheet-lg`}>
+						{
+							this.state.contributors &&
+							this.state.contributors.map((c, i) => {
+								if (i !== 0 && c.query !== '') return ` ${this.state.conjunctionName} ` + c.query;
 
-							return c.query;
-						})
-					}
-					<ClaySelect
-						className={`mt-4 mw10`}
-						options={this.props.contributorTypes.map(type => ({
-							label: type.name,
-							value: type.propertyKey,
-						}))}
-						selected={selectedProperty && selectedProperty.propertyKey}
-						onChange={() => {}}
-					></ClaySelect>
-					<ClayButton style='primary' className="mt-4" onClick={this._createNewContributor}>Add More Filters</ClayButton>
+								return c.query;
+							})
+						}
+						<ClaySelect
+							className={`mt-4 mw10`}
+							options={this.props.propertyGroups.map(type => ({
+								label: type.name,
+								value: type.propertyKey,
+							}))}
+							selected={this.state.newPropertyKey}
+							onChange={this._handleSelectorChange}
+						></ClaySelect>
+						<ClayButton style='primary' className="mt-4" onClick={this._createNewContributor}>Add More Filters</ClayButton>
+					</div>
 				</div>
 				<div className="criteria-builder-section-sidebar">
 					{<CriteriaSidebar

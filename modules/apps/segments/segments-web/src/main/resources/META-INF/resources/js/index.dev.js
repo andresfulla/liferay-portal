@@ -10,7 +10,7 @@ import {
 } from './utils/constants.es';
 import CriteriaMultiBuilder from './components/criteria_builder/MultiCriteriaBuilder.es';
 
-const props = [
+const contributors = [
 	{
 		'inputId': '_com_liferay_segments_web_internal_portlet_SegmentsPortlet_criterionFilteruser',
 		'initialQuery': '',
@@ -32,7 +32,7 @@ const context = {
 	'spritemap': '/o/admin-theme/images/lexicon/icons.svg',
 };
 
-const contributorTypes = [{
+const propertyGroups = [{
 	name: 'User',
 	propertyKey: 'user',
 	properties: [
@@ -188,8 +188,8 @@ ReactDOM.render(
 	<ThemeContext.Provider value={context}>
 		<div className="segments-root">
 			<CriteriaMultiBuilder
-				criterias={props}
-				contributorTypes={contributorTypes}
+				criterias={contributors}
+				propertyGroups={propertyGroups}
 				supportedConjunctions={SUPPORTED_CONJUNCTIONS}
 				supportedOperators={SUPPORTED_OPERATORS}
 				supportedPropertyTypes={SUPPORTED_PROPERTY_TYPES}

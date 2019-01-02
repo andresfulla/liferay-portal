@@ -35,12 +35,13 @@ export default class Conjunction extends React.Component {
 			conjunctionName,
 			editing,
 			supportedConjunctions,
+			className,
 		} = this.props;
 
 		return (<React.Fragment>
 			{editing ?
 				<ClayButton
-					className="btn-sm conjunction-button"
+					className={`btn-sm conjunction-button ${className}`}
 					label={this._getConjunctionLabel(
 						conjunctionName,
 						supportedConjunctions
