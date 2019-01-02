@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 import ClayToggle from '../shared/ClayToggle.es';
 import CriteriaGroup from './CriteriaGroup.es';
 import {insertAtIndex, removeAtIndex, replaceAtIndex} from '../../utils/utils.es';
+import ClaySelect from '../shared/ClaySelect.es';
 
 const CRITERIA_GROUP_SHAPE = {
 	conjunctionName: PropTypes.string,
@@ -275,6 +276,15 @@ class CriteriaBuilder extends Component {
 		return (
 			<div className="sheet sheet-lg">
 				<div className="criteria-builder-toolbar">
+					<ClaySelect
+						className={`mw10`}
+						options={this.props.supportedPropertyGroups.map(p => ({
+							label: p.label,
+							value: p.value,
+						}))}
+						selected={propertyKey}
+						onChange={(e) =>this.props.onPropertyGroupSelection(e.target.value, this.props.id)}
+					></ClaySelect>
 					<ClayToggle
 						checked={editing}
 						iconOff="pencil"

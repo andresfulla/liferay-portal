@@ -193,6 +193,37 @@ class ContributorsBuilderComp extends React.Component {
 	/**
 	 *
 	 *
+	 * @param {*} property
+	 * @param {*} id
+	 * @memberof ContributorsBuilderComp
+	 */
+	_onPropertySelection(property, id) {
+
+		this.setState((prevState) => {
+			const prevContributors = prevState.contributors;
+			const prevContributor = prevContributors[id];
+			const propertyGroup = this.props.propertyGroups.find(t => prevContributor.propertyKey === t.propertyKey);
+			const updatedContributor = {
+				...prevContributor,
+				query: '',
+				criteriaMap: null,
+				propertyKey: property,
+				properties: propertyGroup && propertyGroup.properties,
+			};
+
+			return {
+				...prevState,
+				contributors: prevContributors.map((p, i) => {
+					if (i === id) return updatedContributor;
+
+					return p;
+				}),
+			};
+		});
+	}
+	/**
+	 *
+	 *
 	 * @return {Node}
 	 * @memberof CriteriaMultiBuilderComp
 	 */
@@ -239,6 +270,8 @@ class ContributorsBuilderComp extends React.Component {
 										onChange={this.onCriteriaChange}
 										editing={currentEditing === i}
 										id={i}
+										onPropertyGroupSelection={this._onPropertySelection.bind(this)}
+										supportedPropertyGroups={this.props.propertyGroups.map(p => ({value: p.propertyKey, label: p.name}))}
 										propertyKey={criteria.propertyKey}
 									/>
 									<div className="form-group">

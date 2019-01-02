@@ -8,7 +8,7 @@ import {
 	SUPPORTED_OPERATORS,
 	SUPPORTED_PROPERTY_TYPES,
 } from './utils/constants.es';
-import CriteriaMultiBuilder from './components/criteria_builder/MultiCriteriaBuilder.es';
+import ContributorsBuilder from './components/criteria_builder/ContributorsBuilder.es';
 
 const contributors = [
 	{
@@ -187,7 +187,7 @@ const propertyGroups = [{
 ReactDOM.render(
 	<ThemeContext.Provider value={context}>
 		<div className="segments-root">
-			<CriteriaMultiBuilder
+			<ContributorsBuilder
 				criterias={contributors}
 				propertyGroups={propertyGroups}
 				supportedConjunctions={SUPPORTED_CONJUNCTIONS}
