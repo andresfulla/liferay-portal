@@ -176,11 +176,166 @@ const context = {
 	'spritemap': '/o/admin-theme/images/lexicon/icons.svg',
 };
 
+const contributorsTypes = [{
+	name: 'User',
+	propertyKey: 'user',
+	properties: [
+		{
+			'name': 'ancestorOrganizationIds',
+			'label': 'Ancestor Organization IDs',
+			'type': 'string',
+		},
+		{
+			'name': 'classPK',
+			'label': 'Class PK',
+			'type': 'string',
+		},
+		{
+			'name': 'companyId',
+			'label': 'Company ID',
+			'type': 'string',
+		},
+		{
+			'name': 'dateModified',
+			'label': 'Date Modified',
+			'type': 'string',
+		},
+		{
+			'name': 'emailAddress',
+			'label': 'Email Address',
+			'type': 'string',
+		},
+		{
+			'name': 'firstName',
+			'label': 'First Name',
+			'type': 'string',
+		},
+		{
+			'name': 'groupId',
+			'label': 'Group ID',
+			'type': 'string',
+		},
+		{
+			'name': 'groupIds',
+			'label': 'Group IDs',
+			'type': 'string',
+		},
+		{
+			'name': 'jobTitle',
+			'label': 'Job Title',
+			'type': 'string',
+		},
+		{
+			'name': 'lastName',
+			'label': 'Last Name',
+			'type': 'string',
+		},
+		{
+			'name': 'organizationCount',
+			'label': 'Organization Count',
+			'type': 'string',
+		},
+		{
+			'name': 'organizationIds',
+			'label': 'Organization IDs',
+			'type': 'string',
+		},
+		{
+			'name': 'roleIds',
+			'label': 'Role IDs',
+			'type': 'string',
+		},
+		{
+			'name': 'scopeGroupId',
+			'label': 'Scope Group ID',
+			'type': 'string',
+		},
+		{
+			'name': 'screenName',
+			'label': 'Screen Name',
+			'type': 'string',
+		},
+		{
+			'name': 'teamIds',
+			'label': 'Team IDs',
+			'type': 'string',
+		},
+		{
+			'name': 'userGroupIds',
+			'label': 'User Group IDs',
+			'type': 'string',
+		},
+		{
+			'name': 'userId',
+			'label': 'User ID',
+			'type': 'string',
+		},
+		{
+			'name': 'userName',
+			'label': 'User Name',
+			'type': 'string',
+		},
+	],
+	color: '#1f8fff',
+},{
+	name: 'Organization',
+	propertyKey: 'organization',
+	properties: [
+		{
+			'name': 'classPK',
+			'label': 'Class PK',
+			'type': 'string',
+		},
+		{
+			'name': 'companyId',
+			'label': 'Company ID',
+			'type': 'string',
+		},
+		{
+			'name': 'dateModified',
+			'label': 'Date Modified',
+			'type': 'string',
+		},
+		{
+			'name': 'name',
+			'label': 'Name',
+			'type': 'string',
+		},
+		{
+			'name': 'nameTreePath',
+			'label': 'Name Tree Path',
+			'type': 'string',
+		},
+		{
+			'name': 'organizationId',
+			'label': 'Organization ID',
+			'type': 'string',
+		},
+		{
+			'name': 'parentOrganizationId',
+			'label': 'Parent Organization ID',
+			'type': 'string',
+		},
+		{
+			'name': 'treePath',
+			'label': 'Tree Path',
+			'type': 'string',
+		},
+		{
+			'name': 'type',
+			'label': 'Type',
+			'type': 'string',
+		},
+	],
+	color: '#f114c8',
+}];
+
 ReactDOM.render(
 	<ThemeContext.Provider value={context}>
 		<div className="segments-root">
 			<CriteriaMultiBuilder
 				criterias={props}
+				contributorsTypes={contributorsTypes}
 				supportedConjunctions={SUPPORTED_CONJUNCTIONS}
 				supportedOperators={SUPPORTED_OPERATORS}
 				supportedPropertyTypes={SUPPORTED_PROPERTY_TYPES}

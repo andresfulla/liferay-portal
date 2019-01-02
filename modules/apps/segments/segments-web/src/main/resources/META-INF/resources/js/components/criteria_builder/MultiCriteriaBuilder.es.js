@@ -66,12 +66,17 @@ class CriteriaMultiBuilderComp extends React.Component {
 						translateQueryToCriteria(c.initialQuery) :
 						null,
 					query: c.initialQuery,
+					inputId: c.inputId,
+					properties: c.properties,
+					modelLabel: c.modelLabel,
 				};
 			}),
 			editing: undefined,
 			conjunctionName: 'and',
+			newContributor: this.props.contributorsTypes[0],
 		};
 		this._handleRootConjunctionClick = this._handleRootConjunctionClick.bind(this);
+		this._createNewContributor = this._createNewContributor.bind(this);
 	}
 
 	/**
@@ -142,6 +147,33 @@ class CriteriaMultiBuilderComp extends React.Component {
 	/**
 	 *
 	 *
+	 * @memberof CriteriaMultiBuilderComp
+	 */
+	_createNewContributor() {
+		const propertyType = this.state.newContributor;
+
+		this.setState((prevState) => {
+			const contributors = [
+				...prevState.contributors,
+				{
+					criteriaMap: null,
+					query: '',
+					inputId: 'exxample',
+					modelLabel: propertyType.name,
+					properties: propertyType.properties,
+				},
+			];
+
+			return {
+				...prevState,
+				contributors,
+			};
+		});
+	}
+
+	/**
+	 *
+	 *
 	 * @return {Node}
 	 * @memberof CriteriaMultiBuilderComp
 	 */
@@ -150,10 +182,9 @@ class CriteriaMultiBuilderComp extends React.Component {
 			supportedConjunctions,
 			supportedOperators,
 			supportedPropertyTypes,
-			criterias: criteriaProps,
 		} = this.props;
 		const currentEditing = this.state.editing;
-		const selectedCriteria = criteriaProps[currentEditing];
+		const selectedCriteria = this.state.contributors[currentEditing];
 
 		return (
 			<div className={this.classes}>
@@ -175,9 +206,9 @@ class CriteriaMultiBuilderComp extends React.Component {
 									<CriteriaBuilder
 										initialQuery={criteria.query}
 										criteria={criteria.criteriaMap}
-										inputId={criteriaProps[i].inputId}
-										modelLabel={criteriaProps[i].modelLabel}
-										supportedProperties={criteriaProps[i].properties}
+										inputId={criteria.inputId}
+										modelLabel={criteria.modelLabel}
+										supportedProperties={criteria.properties}
 										supportedConjunctions={supportedConjunctions}
 										supportedOperators={supportedOperators}
 										supportedPropertyTypes={supportedPropertyTypes}
@@ -190,16 +221,21 @@ class CriteriaMultiBuilderComp extends React.Component {
 							);
 						})
 					}
-					{/* TODO this button should be ghost */}
-					<ClayButton style='primary' className="mt-4">Add More Filters</ClayButton>
 					{
 						this.state.contributors &&
 						this.state.contributors.map((c, i) => {
-							if (i !== 0) return ` ${this.state.conjunctionName} ` + c.query;
+							if (i !== 0 && c.query !== '') return ` ${this.state.conjunctionName} ` + c.query;
 
 							return c.query;
 						})
 					}
+					<br />
+					<select>
+						{this.props.contributorsTypes.map(type => {
+							return <option key={type.propertyKey} value={type.propertyKey}>{type.name}</option>;
+						})}
+					</select>
+					<ClayButton style='primary' className="mt-4" onClick={this._createNewContributor}>Add More Filters</ClayButton>
 				</div>
 				<div className="criteria-builder-section-sidebar">
 					{<CriteriaSidebar
