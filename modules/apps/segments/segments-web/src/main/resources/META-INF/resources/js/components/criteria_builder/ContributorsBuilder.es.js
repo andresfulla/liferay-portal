@@ -44,7 +44,7 @@ import ClaySelect from '../shared/ClaySelect.es';
  * @property {string} classes
  * @property {CriteriaMultiBuilderState} state
  */
-class CriteriaMultiBuilderComp extends React.Component {
+class ContributorsBuilderComp extends React.Component {
 	/**
 	 *Creates an instance of CriteriaMultiBuilderComp.
 	 * @param {CriteriaMultiBuilderProps} props
@@ -292,4 +292,4 @@ class CriteriaMultiBuilderComp extends React.Component {
 	}
 }
 
-export default dragDropContext(HTML5Backend)(CriteriaMultiBuilderComp);
+export default dragDropContext(HTML5Backend)(ContributorsBuilderComp);
