@@ -313,16 +313,6 @@ class ContributorsBuilderComp extends React.Component {
 								return c.query;
 							})
 						}
-						<ClaySelect
-							className={`mt-4 mw15`}
-							options={this.props.propertyGroups.map(type => ({
-								label: type.name,
-								value: type.propertyKey,
-							}))}
-							selected={this.state.newPropertyKey}
-							onChange={this._handleSelectorChange}
-						></ClaySelect>
-						<ClayButton style='primary' className="mt-4" onClick={this._createNewContributor}>Add More Filters</ClayButton>
 					</div>
 				</div>
 				<div className="criteria-builder-section-sidebar">
@@ -330,7 +320,7 @@ class ContributorsBuilderComp extends React.Component {
 						supportedProperties={selectedProperty && selectedProperty.properties}
 						title={sub(
 							Liferay.Language.get('x-properties'),
-							[selectedProperty && selectedProperty.modelLabel]
+							[selectedProperty && selectedProperty.name]
 						)}
 						propertyKey={selectedProperty && selectedProperty.propertyKey}
 					/>}
