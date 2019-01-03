@@ -1,20 +1,15 @@
 import React, {Component} from 'react';
 import PropTypes from 'prop-types';
 import ClayButton from '../shared/ClayButton.es';
-import ClaySelect from '../shared/ClaySelect.es';
 import ClaySpinner from '../shared/ClaySpinner.es';
 import debounce from 'lodash.debounce';
 import TitleEditor from '../title_editor/TitleEditor.es';
-import ODataQueryBuilder from '../odata_query_builder/ODataQueryBuilder.es';
-import {SUPPORTED_CONJUNCTIONS} from '../../utils/constants.es';
 import {getPluralMessage} from '../../utils/utils.es';
-import TitleEditor from '../title_editor/TitleEditor.es';
 import {
 	SUPPORTED_CONJUNCTIONS,
 	SUPPORTED_OPERATORS,
-	SUPPORTED_PROPERTY_TYPES,
+	SUPPORTED_PROPERTY_TYPES
 } from '../../utils/constants.es';
-import {sub} from '../../utils/utils.es';
 import {FieldArray, withFormik} from 'formik';
 import ContributorBuilder from '../criteria_builder/ContributorsBuilder.es';
 
@@ -29,7 +24,7 @@ class SegmentEdit extends Component {
 					initialQuery: PropTypes.string,
 					inputId: PropTypes.string,
 					modelLabel: PropTypes.string,
-					properties: PropTypes.array,
+					properties: PropTypes.array
 				}
 			)
 		),
@@ -42,20 +37,21 @@ class SegmentEdit extends Component {
 		locale: PropTypes.string.isRequired,
 		portletNamespace: PropTypes.string,
 		previewMembersURL: PropTypes.string,
+		propertyGroups: PropTypes.array,
 		redirect: PropTypes.string,
 		requestMembersCountURL: PropTypes.string,
 		setValues: PropTypes.func,
-		values: PropTypes.object,
+		values: PropTypes.object
 	};
 
 	static defaultProps = {
 		initialSegmentActive: true,
 		initialSegmentName: DEFAULT_SEGMENT_NAME,
-		portletNamespace: '',
+		portletNamespace: ''
 	};
 
 	state = {
-		membersCount: this.props.initialMembersCount || 0,
+		membersCount: this.props.initialMembersCount || 0
 	};
 	constructor(props) {
 		super(props);
@@ -102,15 +98,20 @@ class SegmentEdit extends Component {
 			}
 		);
 	};
-	constructor(props) {
-		super(props)
-		debugger;
-	}
 	_handleSegmentNameBlur = event => {
-		const {handleBlur, setValues, values} = this.props;
+		const {
+			handleBlur,
+			setValues,
+			values
+		} = this.props;
 
 		if (values.name === '') {
-			setValues({...values, name: DEFAULT_SEGMENT_NAME});
+			setValues(
+				{
+					...values,
+					name: DEFAULT_SEGMENT_NAME
+				}
+			);
 		}
 
 		handleBlur(event);
@@ -123,55 +124,19 @@ class SegmentEdit extends Component {
 	};
 
 	_renderContributors = () => {
-		const {handleChange, values, contributors, propertyGroups} = this.props;
+		const {contributors, propertyGroups} = this.props;
 
 		return (
-			<ContributorBuilder
-				initialContributors={contributors}
-				propertyGroups={propertyGroups}
-				supportedConjunctions={SUPPORTED_CONJUNCTIONS}
-				supportedOperators={SUPPORTED_OPERATORS}
-				supportedPropertyTypes={SUPPORTED_PROPERTY_TYPES}
-			/>
+			(propertyGroups && contributors) ?
+				<ContributorBuilder
+					initialContributors={contributors}
+					propertyGroups={propertyGroups}
+					supportedConjunctions={SUPPORTED_CONJUNCTIONS}
+					supportedOperators={SUPPORTED_OPERATORS}
+					supportedPropertyTypes={SUPPORTED_PROPERTY_TYPES}
+				/> :
+				null
 		);
-		// values.contributors.map(
-		// 	(contributor, index) => {
-		// 		return (
-		// 			<Fragment key={contributor.inputId}>
-		// 				<input
-		// 					id={contributor.conjunctionInputId}
-		// 					name={contributor.conjunctionInputId}
-		// 					type="hidden"
-		// 					value={contributor.conjunctionId ||
-		// 						SUPPORTED_CONJUNCTIONS[0].name}
-		// 				/>
-
-		// 				{index !== 0 &&
-		// 					<ClaySelect
-		// 						className="contributor-conjunction"
-		// 						name={`contributors.${index}.conjunctionId`}
-		// 						onChange={handleChange}
-		// 						options={SUPPORTED_CONJUNCTIONS.map(
-		// 							({label, name}) => ({
-		// 								label: label.toUpperCase(),
-		// 								value: name
-		// 							})
-		// 						)}
-		// 						selected={contributor.conjunctionId}
-		// 					/>
-		// 				}
-
-		// 				<ODataQueryBuilder
-		// 					initialQuery={contributor.initialQuery}
-		// 					inputId={contributor.inputId}
-		// 					modelLabel={contributor.modelLabel}
-		// 					onChange={this._handleQueryChange}
-		// 					properties={contributor.properties}
-		// 				/>
-		// 			</Fragment>
-		// 		);
-		// 	}
-		// )
 	};
 
 	render() {
@@ -181,7 +146,7 @@ class SegmentEdit extends Component {
 			portletNamespace,
 			previewMembersURL,
 			redirect,
-			values,
+			values
 		} = this.props;
 
 		const {membersCount, membersCountLoading} = this.state;
@@ -284,8 +249,8 @@ export default withFormik(
 			{
 				active: props.initialSegmentActive || true,
 				contributors: props.contributors || [],
-				name: props.initialSegmentName || DEFAULT_SEGMENT_NAME,
+				name: props.initialSegmentName || DEFAULT_SEGMENT_NAME
 			}
-		),
+		)
 	}
 )(SegmentEdit);

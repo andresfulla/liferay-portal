@@ -80,8 +80,9 @@
 		"checkFormat": "npm run csf",
 		"csf": "csf src/**/*.{es.js,scss}",
 		"format": "npm run csf -- -i",
-		"start": "webpack-dev-server --config webpack.dev.config.js",
-		"test": "jest"
+		"start": "webpack-dev-server --config ./webpack.dev.config.js",
+		"test": "jest",
+		"test:watch": "jest --watch"
 	},
 	"version": "1.0.0"
 }
