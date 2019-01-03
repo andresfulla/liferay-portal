@@ -6,12 +6,14 @@ describe(
 	'ClayToggle',
 	() => {
 		afterEach(cleanup);
-
+		const mockOnChange = () => {};
 		it(
 			'should render',
 			() => {
 				const {asFragment} = render(
-					<ClayToggle />
+					<ClayToggle
+						onChange={mockOnChange}
+					/>
 				);
 
 				expect(asFragment()).toMatchSnapshot();

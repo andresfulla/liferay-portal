@@ -20,12 +20,12 @@ class ClaySpinner extends Component {
 			}
 		);
 
-		return loading && (
+		return loading ? (
 			<span
 				className={classes}
 				data-testid="spinner"
 			/>
-		);
+		) : null;
 	}
 }
 

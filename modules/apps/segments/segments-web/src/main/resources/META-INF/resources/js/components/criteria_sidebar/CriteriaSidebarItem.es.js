@@ -21,6 +21,7 @@ function beginDrag({name}) {
 
 class CriteriaSidebarItem extends Component {
 	static propTypes = {
+		className: PropTypes.string,
 		connectDragSource: PropTypes.func,
 		dragging: PropTypes.bool,
 		label: PropTypes.string,
@@ -53,11 +54,11 @@ class CriteriaSidebarItem extends Component {
 
 	render() {
 		const {
+			className,
 			connectDragSource,
 			dragging,
 			label,
-			type,
-			className,
+			type
 		} = this.props;
 
 		const classes = getCN(
