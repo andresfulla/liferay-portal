@@ -8,35 +8,35 @@ import {
 	SUPPORTED_OPERATORS,
 	SUPPORTED_PROPERTY_TYPES,
 } from './utils/constants.es';
-import ContributorsBuilder from './components/criteria_builder/ContributorsBuilder.es';
+import SegmentEdit from './components/segment_edit/SegmentEdit.es';
 
-const contributors = [
-	{
-		'inputId': '_com_liferay_segments_web_internal_portlet_SegmentsPortlet_criterionFilteruser',
-		'initialQuery': '',
-		'conjunctionId': '',
-		'conjunctionInputId': '_com_liferay_segments_web_internal_portlet_SegmentsPortlet_criterionConjunctionuser',
-		'propertyKey': 'user',
-	},
-	{
-		'inputId': '_com_liferay_segments_web_internal_portlet_SegmentsPortlet_criterionFilteruser-organization',
-		'initialQuery': '',
-		'conjunctionId': '',
-		'conjunctionInputId': '_com_liferay_segments_web_internal_portlet_SegmentsPortlet_criterionConjunctionuser-organization',
-		'propertyKey': 'organization',
-	},
-];
-
-const context = {
-	'assetsPath': 'assets',
-	'spritemap': '/o/admin-theme/images/lexicon/icons.svg',
-};
-
-const propertyGroups = [{
-	name: 'User',
-	propertyKey: 'user',
-	properties: [
+const altProps = {
+	'contributors': [
 		{
+			'inputId': '_com_liferay_segments_web_internal_portlet_SegmentsPortlet_criterionFilteruser',
+			'initialQuery': '',
+			'conjunctionId': '',
+			'conjunctionInputId': '_com_liferay_segments_web_internal_portlet_SegmentsPortlet_criterionConjunctionuser',
+			'propertyKey': 'user',
+		},
+		{
+			'inputId': '_com_liferay_segments_web_internal_portlet_SegmentsPortlet_criterionFilteruser-organization',
+			'initialQuery': '',
+			'conjunctionId': '',
+			'conjunctionInputId': '_com_liferay_segments_web_internal_portlet_SegmentsPortlet_criterionConjunctionuser-organization',
+			'propertyKey': 'organization',
+		},
+	],
+	'initialMembersCount': 0,
+	'initialSegmentActive': false,
+	'initialSegmentName': '',
+	'locale': 'en_US',
+	'portletNamespace': '_com_liferay_segments_web_internal_portlet_SegmentsPortlet_',
+	'redirect': 'http://localhost:8080/group/guest/~/control_panel/manage/-/segments/entries?p_p_auth=1EwOzg1e',
+	'propertyGroups': [{
+		name: 'User',
+		propertyKey: 'user',
+		properties: [{
 			'name': 'ancestorOrganizationIds',
 			'label': 'Ancestor Organization IDs',
 			'type': 'string',
@@ -54,7 +54,7 @@ const propertyGroups = [{
 		{
 			'name': 'dateModified',
 			'label': 'Date Modified',
-			'type': 'string',
+			'type': 'date',
 		},
 		{
 			'name': 'emailAddress',
@@ -130,13 +130,11 @@ const propertyGroups = [{
 			'name': 'userName',
 			'label': 'User Name',
 			'type': 'string',
-		},
-	],
-},{
-	name: 'User Organization',
-	propertyKey: 'organization',
-	properties: [
-		{
+		}],
+	},{
+		name: 'User Organization',
+		propertyKey: 'organization',
+		properties: [{
 			'name': 'classPK',
 			'label': 'Class PK',
 			'type': 'string',
@@ -149,7 +147,7 @@ const propertyGroups = [{
 		{
 			'name': 'dateModified',
 			'label': 'Date Modified',
-			'type': 'string',
+			'type': 'date',
 		},
 		{
 			'name': 'name',
@@ -180,20 +178,19 @@ const propertyGroups = [{
 			'name': 'type',
 			'label': 'Type',
 			'type': 'string',
-		},
-	],
-}];
+		}],
+	}],
+};
+
+const context = {
+	'assetsPath': 'assets',
+	'spritemap': '/o/admin-theme/images/lexicon/icons.svg',
+};
 
 ReactDOM.render(
 	<ThemeContext.Provider value={context}>
 		<div className="segments-root">
-			<ContributorsBuilder
-				initialContributors={contributors}
-				propertyGroups={propertyGroups}
-				supportedConjunctions={SUPPORTED_CONJUNCTIONS}
-				supportedOperators={SUPPORTED_OPERATORS}
-				supportedPropertyTypes={SUPPORTED_PROPERTY_TYPES}
-			/>
+			<SegmentEdit {...altProps} />
 		</div>
 	</ThemeContext.Provider>,
 	document.getElementById('app')
