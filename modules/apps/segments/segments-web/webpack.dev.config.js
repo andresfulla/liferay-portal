@@ -15,7 +15,7 @@ module.exports = {
 	},
 	entry: {
 		'ODataParser': path.resolve(__dirname, 'src', 'main', 'resources', 'META-INF', 'resources', 'js', 'libs', 'ODataParser.es.js'),
-		'index.dev': path.resolve(__dirname, 'src', 'main', 'resources', 'META-INF', 'resources', 'js', 'index.dev.js')
+		'index.dev': path.resolve(__dirname, 'src', 'main', 'resources', 'META-INF', 'resources', 'js', 'index.dev.es.js')
 	},
 	mode: 'development',
 	module: {
