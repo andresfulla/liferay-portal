@@ -39,7 +39,6 @@
 		"babel-preset-react": "^6.0.0",
 		"check-source-formatting": "^2.0.13",
 		"clay-css": "^2.5.1",
-		"cpr": "^3.0.1",
 		"css-loader": "^2.0.1",
 		"eslint": "^5.8.0",
 		"eslint-config-liferay": "^2.0.18",
