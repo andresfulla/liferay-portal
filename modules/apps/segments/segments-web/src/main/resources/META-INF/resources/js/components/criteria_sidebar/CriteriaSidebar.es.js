@@ -5,6 +5,7 @@ import CriteriaSidebarItem from './CriteriaSidebarItem.es';
 
 class CriteriaSidebar extends Component {
 	static propTypes = {
+		propertyKey: PropTypes.string,
 		supportedProperties: PropTypes.array,
 		title: PropTypes.string
 	};
@@ -56,17 +57,15 @@ class CriteriaSidebar extends Component {
 				<ul className="properties-list">
 					{filteredProperties.length ?
 						filteredProperties.map(
-							({label, name, type}, index) => {
-								return (
+							({label, name, type}, index) => (
 								<CriteriaSidebarItem
+									className={`color--${this.props.propertyKey}`}
 									key={index}
 									label={label}
 									name={name}
 									type={type}
-									className={`color--${this.props.propertyKey}`}
 								/>
 							)
-							}
 						) :
 						<li className="empty-message">
 							{Liferay.Language.get('no-results-were-found')}
