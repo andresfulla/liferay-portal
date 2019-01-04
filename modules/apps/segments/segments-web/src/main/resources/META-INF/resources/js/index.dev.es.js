@@ -3,188 +3,183 @@ import 'clay-css/lib/css/atlas.css';
 import React from 'react';
 import ReactDOM from 'react-dom';
 import ThemeContext from './ThemeContext.es';
-import {
-	SUPPORTED_CONJUNCTIONS,
-	SUPPORTED_OPERATORS,
-	SUPPORTED_PROPERTY_TYPES,
-} from './utils/constants.es';
 import SegmentEdit from './components/segment_edit/SegmentEdit.es';
 
 const altProps = {
 	'contributors': [
 		{
-			'inputId': '_com_liferay_segments_web_internal_portlet_SegmentsPortlet_criterionFilteruser',
-			'initialQuery': '',
 			'conjunctionId': '',
 			'conjunctionInputId': '_com_liferay_segments_web_internal_portlet_SegmentsPortlet_criterionConjunctionuser',
-			'propertyKey': 'user',
+			'initialQuery': '',
+			'inputId': '_com_liferay_segments_web_internal_portlet_SegmentsPortlet_criterionFilteruser',
+			'propertyKey': 'user'
 		},
 		{
-			'inputId': '_com_liferay_segments_web_internal_portlet_SegmentsPortlet_criterionFilteruser-organization',
-			'initialQuery': '',
 			'conjunctionId': '',
 			'conjunctionInputId': '_com_liferay_segments_web_internal_portlet_SegmentsPortlet_criterionConjunctionuser-organization',
-			'propertyKey': 'organization',
-		},
+			'initialQuery': '',
+			'inputId': '_com_liferay_segments_web_internal_portlet_SegmentsPortlet_criterionFilteruser-organization',
+			'propertyKey': 'user-organization'
+		}
 	],
 	'initialMembersCount': 0,
 	'initialSegmentActive': false,
 	'initialSegmentName': '',
 	'locale': 'en_US',
 	'portletNamespace': '_com_liferay_segments_web_internal_portlet_SegmentsPortlet_',
-	'redirect': 'http://localhost:8080/group/guest/~/control_panel/manage/-/segments/entries?p_p_auth=1EwOzg1e',
 	'propertyGroups': [{
 		name: 'User',
-		propertyKey: 'user',
 		properties: [{
-			'name': 'ancestorOrganizationIds',
 			'label': 'Ancestor Organization IDs',
-			'type': 'string',
+			'name': 'ancestorOrganizationIds',
+			'type': 'string'
 		},
 		{
-			'name': 'classPK',
 			'label': 'Class PK',
-			'type': 'string',
+			'name': 'classPK',
+			'type': 'string'
 		},
 		{
-			'name': 'companyId',
 			'label': 'Company ID',
-			'type': 'string',
+			'name': 'companyId',
+			'type': 'string'
 		},
 		{
-			'name': 'dateModified',
 			'label': 'Date Modified',
-			'type': 'date',
+			'name': 'dateModified',
+			'type': 'date'
 		},
 		{
-			'name': 'emailAddress',
 			'label': 'Email Address',
-			'type': 'string',
+			'name': 'emailAddress',
+			'type': 'string'
 		},
 		{
-			'name': 'firstName',
 			'label': 'First Name',
-			'type': 'string',
+			'name': 'firstName',
+			'type': 'string'
 		},
 		{
-			'name': 'groupId',
 			'label': 'Group ID',
-			'type': 'string',
+			'name': 'groupId',
+			'type': 'string'
 		},
 		{
-			'name': 'groupIds',
 			'label': 'Group IDs',
-			'type': 'string',
+			'name': 'groupIds',
+			'type': 'string'
 		},
 		{
-			'name': 'jobTitle',
 			'label': 'Job Title',
-			'type': 'string',
+			'name': 'jobTitle',
+			'type': 'string'
 		},
 		{
-			'name': 'lastName',
 			'label': 'Last Name',
-			'type': 'string',
+			'name': 'lastName',
+			'type': 'string'
 		},
 		{
-			'name': 'organizationCount',
 			'label': 'Organization Count',
-			'type': 'string',
+			'name': 'organizationCount',
+			'type': 'string'
 		},
 		{
-			'name': 'organizationIds',
 			'label': 'Organization IDs',
-			'type': 'string',
+			'name': 'organizationIds',
+			'type': 'string'
 		},
 		{
-			'name': 'roleIds',
 			'label': 'Role IDs',
-			'type': 'string',
+			'name': 'roleIds',
+			'type': 'string'
 		},
 		{
-			'name': 'scopeGroupId',
 			'label': 'Scope Group ID',
-			'type': 'string',
+			'name': 'scopeGroupId',
+			'type': 'string'
 		},
 		{
-			'name': 'screenName',
 			'label': 'Screen Name',
-			'type': 'string',
+			'name': 'screenName',
+			'type': 'string'
 		},
 		{
-			'name': 'teamIds',
 			'label': 'Team IDs',
-			'type': 'string',
+			'name': 'teamIds',
+			'type': 'string'
 		},
 		{
-			'name': 'userGroupIds',
 			'label': 'User Group IDs',
-			'type': 'string',
+			'name': 'userGroupIds',
+			'type': 'string'
 		},
 		{
-			'name': 'userId',
 			'label': 'User ID',
-			'type': 'string',
+			'name': 'userId',
+			'type': 'string'
 		},
 		{
-			'name': 'userName',
 			'label': 'User Name',
-			'type': 'string',
+			'name': 'userName',
+			'type': 'string'
 		}],
-	},{
+		propertyKey: 'user'
+	}, {
 		name: 'User Organization',
-		propertyKey: 'organization',
 		properties: [{
-			'name': 'classPK',
 			'label': 'Class PK',
-			'type': 'string',
+			'name': 'classPK',
+			'type': 'string'
 		},
 		{
-			'name': 'companyId',
 			'label': 'Company ID',
-			'type': 'string',
+			'name': 'companyId',
+			'type': 'string'
 		},
 		{
-			'name': 'dateModified',
 			'label': 'Date Modified',
-			'type': 'date',
+			'name': 'dateModified',
+			'type': 'date'
 		},
 		{
-			'name': 'name',
 			'label': 'Name',
-			'type': 'string',
+			'name': 'name',
+			'type': 'string'
 		},
 		{
-			'name': 'nameTreePath',
 			'label': 'Name Tree Path',
-			'type': 'string',
+			'name': 'nameTreePath',
+			'type': 'string'
 		},
 		{
-			'name': 'organizationId',
 			'label': 'Organization ID',
-			'type': 'string',
+			'name': 'organizationId',
+			'type': 'string'
 		},
 		{
-			'name': 'parentOrganizationId',
 			'label': 'Parent Organization ID',
-			'type': 'string',
+			'name': 'parentOrganizationId',
+			'type': 'string'
 		},
 		{
-			'name': 'treePath',
 			'label': 'Tree Path',
-			'type': 'string',
+			'name': 'treePath',
+			'type': 'string'
 		},
 		{
-			'name': 'type',
 			'label': 'Type',
-			'type': 'string',
+			'name': 'type',
+			'type': 'string'
 		}],
+		propertyKey: 'user-organization'
 	}],
+	'redirect': 'http://localhost:8080/group/guest/~/control_panel/manage/-/segments/entries?p_p_auth=1EwOzg1e'
 };
 
 const context = {
 	'assetsPath': 'assets',
-	'spritemap': '/o/admin-theme/images/lexicon/icons.svg',
+	'spritemap': '/o/admin-theme/images/lexicon/icons.svg'
 };
 
 ReactDOM.render(

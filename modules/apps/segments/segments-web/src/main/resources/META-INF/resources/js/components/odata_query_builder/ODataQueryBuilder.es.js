@@ -5,7 +5,7 @@ import {buildQueryString, translateQueryToCriteria} from '../../utils/odata.es';
 import {
 	SUPPORTED_CONJUNCTIONS,
 	SUPPORTED_OPERATORS,
-	SUPPORTED_PROPERTY_TYPES,
+	SUPPORTED_PROPERTY_TYPES
 } from '../../utils/constants.es';
 import '../../libs/odata-parser.js';
 
@@ -37,7 +37,7 @@ class ODataQueryBuilder extends Component {
 			criteriaMap: initialQuery && initialQuery !== '()' ?
 				translateQueryToCriteria(initialQuery) :
 				null,
-			query: initialQuery,
+			query: initialQuery
 		};
 		this._handleChange = this._handleChange.bind(this);
 	}
@@ -52,7 +52,7 @@ class ODataQueryBuilder extends Component {
 		this.setState(
 			{
 				criteriaMap: newCriteriaMap,
-				query: buildQueryString([newCriteriaMap]),
+				query: buildQueryString([newCriteriaMap])
 			}
 		);
 	}

@@ -12,6 +12,12 @@ import getCN from 'classnames';
 class ClayButton extends Component {
 	static propTypes = {
 		borderless: PropTypes.bool,
+		children: PropTypes.oneOfType(
+			[
+				PropTypes.arrayOf(PropTypes.node),
+				PropTypes.node
+			]
+		),
 		className: PropTypes.string,
 		href: PropTypes.string,
 		iconName: PropTypes.string,
@@ -27,17 +33,17 @@ class ClayButton extends Component {
 				'danger',
 				'dark',
 				'light',
-				'unstyled',
+				'unstyled'
 			]
 		),
-		type: PropTypes.string,
+		type: PropTypes.string
 	};
 
 	static defaultProps = {
 		borderless: false,
 		monospaced: false,
 		style: 'secondary',
-		type: 'button',
+		type: 'button'
 	};
 
 	/**

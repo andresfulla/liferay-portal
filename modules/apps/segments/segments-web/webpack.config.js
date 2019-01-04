@@ -10,5 +10,5 @@ module.exports = {
 		library: 'oDataParser',
 		libraryTarget: 'window',
 		path: path.resolve('./src/main/resources/META-INF/resources/js/libs/')
-	},
+	}
 };

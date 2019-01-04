@@ -21,9 +21,9 @@
 		"clay-css": "^2.5.1",
 		"css-loader": "^2.1.0",
 		"formik": "^1.4.1",
-		"lodash.debounce": "^4.0.8",
 		"html-webpack-plugin": "^3.2.0",
 		"html-webpack-template": "^6.2.0",
+		"lodash.debounce": "^4.0.8",
 		"lodash.uniqueid": "^4.0.1",
 		"node-sass": "^4.11.0",
 		"prop-types": "^15.6.2",
@@ -77,10 +77,10 @@
 	"scripts": {
 		"build": "babel --source-maps -d classes/META-INF/resources src/main/resources/META-INF/resources && liferay-npm-bundler",
 		"build:libs": "webpack",
-		"start": "webpack-dev-server --config ./webpack.dev.config.js",
 		"checkFormat": "npm run csf",
 		"csf": "csf src/**/*.es.js",
 		"format": "npm run csf -- -i",
+		"start": "webpack-dev-server --config ./webpack.dev.config.js",
 		"test": "jest"
 	},
 	"version": "1.0.0"

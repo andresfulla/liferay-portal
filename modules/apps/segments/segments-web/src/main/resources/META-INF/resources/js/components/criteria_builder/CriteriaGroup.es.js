@@ -12,10 +12,9 @@ import {
 	generateGroupId,
 	getChildGroupIds,
 	insertAtIndex,
-	replaceAtIndex,
+	replaceAtIndex
 } from '../../utils/utils.es';
 import Conjunction from './Conjunction.es';
-
 
 /**
  * Passes the required values to the drop target.
@@ -30,7 +29,7 @@ function beginDrag({criteria, index, parentGroupId}) {
 		childGroupIds,
 		criterion: criteria,
 		groupId: parentGroupId,
-		index,
+		index
 	};
 }
 
@@ -43,12 +42,12 @@ function beginDrag({criteria, index, parentGroupId}) {
 const withDragSource = dragSource(
 	DragTypes.CRITERIA_GROUP,
 	{
-		beginDrag,
+		beginDrag
 	},
 	(connect, monitor) => ({
 		connectDragPreview: connect.dragPreview(),
 		connectDragSource: connect.dragSource(),
-		dragging: monitor.isDragging(),
+		dragging: monitor.isDragging()
 	})
 );
 
@@ -71,15 +70,16 @@ class CriteriaGroup extends Component {
 		onChange: PropTypes.func,
 		onMove: PropTypes.func,
 		parentGroupId: PropTypes.string,
+		propertyKey: PropTypes.string.isRequired,
 		root: PropTypes.bool,
 		supportedConjunctions: PropTypes.array,
 		supportedOperators: PropTypes.array,
 		supportedProperties: PropTypes.array,
-		supportedPropertyTypes: PropTypes.object,
+		supportedPropertyTypes: PropTypes.object
 	};
 
 	static defaultProps = {
-		root: false,
+		root: false
 	};
 
 	/**
@@ -109,7 +109,7 @@ class CriteriaGroup extends Component {
 		onChange(
 			{
 				...criteria,
-				conjunctionName: conjunctionSelected,
+				conjunctionName: conjunctionSelected
 			}
 		);
 	}
@@ -132,7 +132,7 @@ class CriteriaGroup extends Component {
 				operatorName :
 				supportedOperators[0].name,
 			propertyName,
-			value,
+			value
 		};
 
 		if (root && !criteria) {
@@ -140,7 +140,7 @@ class CriteriaGroup extends Component {
 				{
 					conjunctionName: CONJUNCTIONS.AND,
 					groupId: generateGroupId(),
-					items: [newCriterion],
+					items: [newCriterion]
 				}
 			);
 		}
@@ -152,7 +152,7 @@ class CriteriaGroup extends Component {
 						newCriterion,
 						criteria.items,
 						index
-					),
+					)
 				}
 			);
 		}
@@ -164,7 +164,7 @@ class CriteriaGroup extends Component {
 		onChange(
 			{
 				...criteria,
-				items: replaceAtIndex(newCriterion, criteria.items, index),
+				items: replaceAtIndex(newCriterion, criteria.items, index)
 			}
 		);
 	}
@@ -177,7 +177,7 @@ class CriteriaGroup extends Component {
 				...criteria,
 				items: criteria.items.filter(
 					(fItem, fIndex) => fIndex !== index
-				),
+				)
 			}
 		);
 	}
@@ -200,7 +200,7 @@ class CriteriaGroup extends Component {
 			editing,
 			groupId,
 			onMove,
-			supportedConjunctions,
+			supportedConjunctions
 		} = this.props;
 
 		return (
@@ -214,8 +214,8 @@ class CriteriaGroup extends Component {
 				<Conjunction
 					conjunctionName={criteria.conjunctionName}
 					editing={editing}
+					handleConjunctionClick={this._handleConjunctionClick}
 					supportedConjunctions={supportedConjunctions}
-					_handleConjunctionClick={this._handleConjunctionClick}
 				/>
 				<DropZone
 					before
@@ -238,13 +238,13 @@ class CriteriaGroup extends Component {
 			supportedConjunctions,
 			supportedOperators,
 			supportedProperties,
-			supportedPropertyTypes,
+			supportedPropertyTypes
 		} = this.props;
 
 		const classes = getCN(
 			'criterion',
 			{
-				'criterion-group': criterion.items,
+				'criterion-group': criterion.items
 			}
 		);
 
@@ -308,8 +308,8 @@ class CriteriaGroup extends Component {
 			editing,
 			groupId,
 			onMove,
-			root,
 			propertyKey,
+			root
 		} = this.props;
 
 		const classes = getCN(
@@ -317,7 +317,7 @@ class CriteriaGroup extends Component {
 			`criteria-group-item${root ? '-root' : ''}`,
 			`color--${propertyKey}`,
 			{
-				'dnd-drag': dragging,
+				'dnd-drag': dragging
 			}
 		);
 

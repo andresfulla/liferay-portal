@@ -7,13 +7,13 @@ import {insertAtIndex, removeAtIndex, replaceAtIndex} from '../../utils/utils.es
 const CRITERIA_GROUP_SHAPE = {
 	conjunctionName: PropTypes.string,
 	groupId: PropTypes.string,
-	items: PropTypes.array,
+	items: PropTypes.array
 };
 
 const CRITERION_SHAPE = {
 	operatorName: PropTypes.string,
 	propertyName: PropTypes.string,
-	value: PropTypes.oneOfType([PropTypes.string, PropTypes.array]),
+	value: PropTypes.oneOfType([PropTypes.string, PropTypes.array])
 };
 
 const propTypes = {
@@ -25,19 +25,23 @@ const propTypes = {
 				PropTypes.oneOfType(
 					[
 						PropTypes.shape(CRITERIA_GROUP_SHAPE),
-						PropTypes.shape(CRITERION_SHAPE),
+						PropTypes.shape(CRITERION_SHAPE)
 					]
 				)
-			),
+			)
 		}
 	),
+	editing: PropTypes.bool.isRequired,
+	id: PropTypes.number.isRequired,
 	modelLabel: PropTypes.string,
 	onChange: PropTypes.func,
+	onEditionToggle: PropTypes.func,
+	propertyKey: PropTypes.string.isRequired,
 	supportedConjunctions: PropTypes.arrayOf(
 		PropTypes.shape(
 			{
 				label: PropTypes.string,
-				name: PropTypes.string.isRequired,
+				name: PropTypes.string.isRequired
 			}
 		)
 	),
@@ -49,11 +53,11 @@ const propTypes = {
 				label: PropTypes.string,
 				name: PropTypes.string.isRequired,
 				options: PropTypes.array,
-				type: PropTypes.string.isRequired,
+				type: PropTypes.string.isRequired
 			}
 		)
 	).isRequired,
-	supportedPropertyTypes: PropTypes.object,
+	supportedPropertyTypes: PropTypes.object
 };
 
 /**
@@ -63,11 +67,6 @@ const propTypes = {
  * @extends {Component}
  */
 class CriteriaBuilder extends Component {
-	/**
-	 *Creates an instance of CriteriaBuilder.
-	 * @param {*} props
-	 * @memberof CriteriaBuilder
-	 */
 	constructor(props) {
 		super(props);
 		this._handleToggleEdit = this._handleToggleEdit.bind(this);
@@ -76,7 +75,7 @@ class CriteriaBuilder extends Component {
 		this._searchAndUpdateCriteria = this._searchAndUpdateCriteria.bind(this);
 	}
 	static defaultProps = {
-		readOnly: false,
+		readOnly: false
 	};
 
 	/**
@@ -108,7 +107,7 @@ class CriteriaBuilder extends Component {
 								cleanedItem = {
 									conjunctionName: soloItem.conjunctionName,
 									groupId: soloItem.groupId,
-									items: this._cleanCriteriaMapItems(soloItem.items),
+									items: this._cleanCriteriaMapItems(soloItem.items)
 								};
 							}
 							else {
@@ -118,7 +117,7 @@ class CriteriaBuilder extends Component {
 						else {
 							cleanedItem = {
 								...item,
-								items: this._cleanCriteriaMapItems(item.items),
+								items: this._cleanCriteriaMapItems(item.items)
 							};
 						}
 					}
@@ -134,9 +133,9 @@ class CriteriaBuilder extends Component {
 	 * Switches the edit state between true and false.
 	 */
 	_handleToggleEdit() {
-		const {id, editing} = this.props;
+		const {editing, id} = this.props;
 
-		this.props.onEditionToggle && this.props.onEditionToggle(id, editing);
+		return this.props.onEditionToggle && this.props.onEditionToggle(id, editing);
 	}
 
 	/**
@@ -146,7 +145,7 @@ class CriteriaBuilder extends Component {
 	_handleCriteriaChange(newCriteria) {
 		const items = this._cleanCriteriaMapItems([newCriteria], true);
 
-		this.props.§ge(items[items.length - 1], this.props.id);
+		this.props.onChange(items[items.length - 1], this.props.id);
 	}
 
 	/**
@@ -250,7 +249,7 @@ class CriteriaBuilder extends Component {
 						) :
 						item;
 				}
-			),
+			)
 		};
 	}
 
@@ -263,21 +262,21 @@ class CriteriaBuilder extends Component {
 	render() {
 		const {
 			criteria,
+			editing,
 			modelLabel,
+			propertyKey,
 			supportedConjunctions,
 			supportedOperators,
 			supportedProperties,
-			supportedPropertyTypes,
-			editing,
-			propertyKey,
+			supportedPropertyTypes
 		} = this.props;
 
 		return (
 			<div className="sheet sheet-lg">
 				<div className="criteria-builder-toolbar">
 					<ClayToggle
-						className='ml-auto'
 						checked={editing}
+						className="ml-auto"
 						iconOff="pencil"
 						iconOn="pencil"
 						onChange={this._handleToggleEdit}
@@ -289,9 +288,9 @@ class CriteriaBuilder extends Component {
 					editing={editing}
 					groupId={criteria && criteria.groupId}
 					modelLabel={modelLabel}
-					propertyKey={propertyKey}
 					onChange={this._handleCriteriaChange}
 					onMove={this._handleCriterionMove}
+					propertyKey={propertyKey}
 					root
 					supportedConjunctions={supportedConjunctions}
 					supportedOperators={supportedOperators}

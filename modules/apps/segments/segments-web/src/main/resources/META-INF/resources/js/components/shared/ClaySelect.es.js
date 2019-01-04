@@ -10,16 +10,17 @@ import getCN from 'classnames';
  */
 class ClaySelect extends Component {
 	static propTypes = {
+		className: PropTypes.string,
 		onChange: PropTypes.func.isRequired,
 		options: PropTypes.arrayOf(
 			PropTypes.shape(
 				{
 					label: PropTypes.string,
-					value: PropTypes.string.isRequired,
+					value: PropTypes.string.isRequired
 				}
 			)
 		).isRequired,
-		selected: PropTypes.string,
+		selected: PropTypes.string
 	};
 
 	/**
