@@ -3,12 +3,6 @@ import {PropTypes} from 'prop-types';
 import ClayIcon from './ClayIcon.es';
 import getCN from 'classnames';
 
-/**
- *
- *
- * @class ClayButton
- * @extends {Component}
- */
 class ClayButton extends Component {
 	static propTypes = {
 		borderless: PropTypes.bool,
@@ -46,12 +40,6 @@ class ClayButton extends Component {
 		type: 'button'
 	};
 
-	/**
-	 *
-	 *
-	 * @return {Node}
-	 * @memberof ClayButton
-	 */
 	render() {
 		const {
 			borderless,

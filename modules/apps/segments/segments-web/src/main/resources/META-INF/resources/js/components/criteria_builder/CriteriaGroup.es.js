@@ -20,7 +20,7 @@ import Conjunction from './Conjunction.es';
  * Passes the required values to the drop target.
  * This method must be called `beginDrag`.
  * @param {Object} props Component's current props
- * @return {Object} The props to be passed to the drop target.
+ * @returns {Object} The props to be passed to the drop target.
  */
 function beginDrag({criteria, index, parentGroupId}) {
 	const childGroupIds = getChildGroupIds(criteria);
@@ -51,12 +51,6 @@ const withDragSource = dragSource(
 	})
 );
 
-/**
- *
- *
- * @class CriteriaGroup
- * @extends {Component}
- */
 class CriteriaGroup extends Component {
 	static propTypes = {
 		connectDragPreview: PropTypes.func,
@@ -82,11 +76,6 @@ class CriteriaGroup extends Component {
 		root: false
 	};
 
-	/**
-	 *Creates an instance of CriteriaGroup.
-	 * @param {*} props
-	 * @memberof CriteriaGroup
-	 */
 	constructor(props) {
 		super(props);
 
@@ -188,12 +177,6 @@ class CriteriaGroup extends Component {
 		return criteria ? !criteria.items.length : true;
 	}
 
-	/**
-	 *
-	 * @memberof CriteriaGroup
-	 * @param {number} index
-	 * @return {Node}
-	 */
 	_renderConjunction = index => {
 		const {
 			criteria,
@@ -293,12 +276,6 @@ class CriteriaGroup extends Component {
 		);
 	}
 
-	/**
-	 *
-	 *
-	 * @return {*}
-	 * @memberof CriteriaGroup
-	 */
 	render() {
 		const {
 			connectDragPreview,

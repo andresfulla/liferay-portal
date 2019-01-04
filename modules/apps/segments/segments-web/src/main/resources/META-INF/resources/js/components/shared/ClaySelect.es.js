@@ -2,12 +2,6 @@ import React, {Component} from 'react';
 import {PropTypes} from 'prop-types';
 import getCN from 'classnames';
 
-/**
- *
- *
- * @class ClaySelect
- * @extends {Component}
- */
 class ClaySelect extends Component {
 	static propTypes = {
 		className: PropTypes.string,
@@ -23,12 +17,6 @@ class ClaySelect extends Component {
 		selected: PropTypes.string
 	};
 
-	/**
-	 *
-	 *
-	 * @return {Node}
-	 * @memberof ClaySelect
-	 */
 	render() {
 		const {className, options, selected, ...otherProps} = this.props;
 
