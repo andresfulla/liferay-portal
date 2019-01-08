@@ -15,9 +15,11 @@
 		.criteria-sidebar-item-root {
 			align-items: center;
 			border-left: 3px solid $chartBlue;
-			&.color--user-organization {
-				border-left-color: $chartOrange;
-			}
+			@include generatePropertyGroupLoop(
+				$propertyGroupsColors,
+				'border-left-color',
+				'color--'
+			);
 			display: flex;
 			font-size: 14px;
 			margin: 4px 0;
