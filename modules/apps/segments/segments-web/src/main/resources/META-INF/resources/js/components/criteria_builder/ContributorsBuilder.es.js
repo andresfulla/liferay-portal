@@ -77,6 +77,8 @@ class ContributorsBuilderComp extends React.Component {
 				const propertyGroup = this.props.propertyGroups.find(t => c.propertyKey === t.propertyKey);
 
 				return {
+					conjunctionId: c.conjunctionId || 'and',
+					conjunctionInputId: c.conjunctionInputId,
 					criteriaMap: c.initialQuery ?
 						translateQueryToCriteria(c.initialQuery) :
 						null,
@@ -150,21 +152,27 @@ class ContributorsBuilderComp extends React.Component {
 
 	_handleRootConjunctionClick(event) {
 		event.preventDefault();
-
 		this.setState(
 			(prevState, prevProps) => {
+				const prevContributors = prevState.contributors;
+				const prevConjunction = prevContributors[0] && prevContributors[0].conjunctionId;
+
 				const {supportedConjunctions} = prevProps;
-				const {conjunctionName} = prevState;
 				const conjunctionIndex = supportedConjunctions.findIndex(
-					item => item.name === conjunctionName
+					item => item.name === prevConjunction
 				);
 				const conjunctionSelected = (conjunctionIndex === supportedConjunctions.length - 1) ?
 					supportedConjunctions[0].name :
 					supportedConjunctions[conjunctionIndex + 1].name;
 
+				const contributors = prevContributors.map(c => ({
+					...c,
+					conjunctionId: conjunctionSelected
+				}));
+
 				return {
 					...prevState,
-					conjunctionName: conjunctionSelected
+					contributors: contributors
 				};
 			}
 		);
@@ -251,13 +259,20 @@ class ContributorsBuilderComp extends React.Component {
 										<div className={'sheet-lg'}>
 											{
 												(i !== 0) &&
-												<Conjunction
-													className={'ml-0'}
-													conjunctionName={this.state.conjunctionName}
-													editing={true}
-													handleConjunctionClick={this._handleRootConjunctionClick}
-													supportedConjunctions={supportedConjunctions}
-												/>
+												<React.Fragment>
+													<Conjunction
+														className={'ml-0'}
+														conjunctionName={criteria.conjunctionId}
+														editing={true}
+														supportedConjunctions={supportedConjunctions}
+													/>
+													<input
+														id={criteria.conjunctionInputId}
+														value={criteria.conjunctionId}
+														type='hidden'
+														readOnly
+													/>
+												</React.Fragment>
 											}
 										</div>
 										<CriteriaBuilder
