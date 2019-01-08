@@ -1,4 +1,5 @@
 .segments-root {
+	@import "mixins";
 	@import "variables";
 
 	/* ---------- Components ---------- */
@@ -12,14 +13,5 @@
 	@import "empty_drop_zone";
 	@import "segment_edit";
 	@import "title_editor";
-	.conjunction-button {
-		margin: 8px 0 8px 24px;
-		text-transform: uppercase;
-	}
-	.mw15 {
-
-		// TODO ask someone about this
-
-		max-width: 15em;
-	}
+	@import "conjunction";
 }
