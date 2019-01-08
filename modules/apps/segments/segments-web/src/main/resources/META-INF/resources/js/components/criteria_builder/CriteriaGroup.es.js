@@ -148,14 +148,16 @@ class CriteriaGroup extends Component {
 	}
 
 	_handleCriterionChange = index => newCriterion => {
-		const {criteria, onChange} = this.props;
+		const {criteria, onChange, editing} = this.props;
 
-		onChange(
-			{
-				...criteria,
-				items: replaceAtIndex(newCriterion, criteria.items, index)
-			}
-		);
+		if (editing) {
+			onChange(
+				{
+					...criteria,
+					items: replaceAtIndex(newCriterion, criteria.items, index)
+				}
+			);
+		}
 	}
 
 	_handleCriterionDelete = index => {
