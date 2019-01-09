@@ -180,7 +180,6 @@ public class CTManagerTest {
 			_user.getUserId(), _testVersionClassClassName.getClassNameId(),
 			RandomTestUtil.nextLong(), _TEST_RESOURCE_CLASS_ENTITY_ID,
 			ctCollectionId, new ServiceContext());
-
 		_ctEntryLocalService.addCTEntry(
 			_user.getUserId(), _testVersionClassClassName.getClassNameId(),
 			RandomTestUtil.nextLong(), _TEST_RESOURCE_CLASS_ENTITY_ID,
@@ -306,8 +305,7 @@ public class CTManagerTest {
 			_user.getUserId(), _testVersionClassClassName.getClassNameId(),
 			_TEST_VERSION_CLASS_ENTITY_ID, _TEST_RESOURCE_CLASS_ENTITY_ID);
 
-		Assert.assertFalse(
-			"Optional must not be present", ctEntryOptional.isPresent());
+		Assert.assertFalse("Optional is present", ctEntryOptional.isPresent());
 	}
 
 	private static final long _TEST_RESOURCE_CLASS_ENTITY_ID = 1L;
