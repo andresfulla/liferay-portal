@@ -51,9 +51,9 @@ public class BulkSelectionSelectionRunnerImpl implements BulkSelectionRunner {
 				BulkSelectionBackgroundTaskExecutor.class.getName(),
 				BackgroundTaskConstants.STATUS_IN_PROGRESS);
 
-		Stream<BackgroundTask> backgroundTaskStream = backgroundTasks.stream();
+		Stream<BackgroundTask> stream = backgroundTasks.stream();
 
-		if (backgroundTaskStream.anyMatch(
+		if (stream.anyMatch(
 				backgroundTask -> backgroundTask.getUserId() == userId)) {
 
 			return true;

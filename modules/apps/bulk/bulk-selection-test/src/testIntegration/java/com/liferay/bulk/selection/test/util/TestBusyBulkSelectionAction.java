@@ -43,7 +43,6 @@ public class TestBusyBulkSelectionAction
 		Map<String, Serializable> inputMap) {
 
 		Assert.assertTrue(
-			"bulkSelectionRunner is busy",
 			_bulkSelectionRunner.isBusy(MapUtil.getLong(inputMap, "userId")));
 	}
 

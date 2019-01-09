@@ -54,9 +54,7 @@ public class BulkSelectionRunnerTest {
 
 		PrincipalThreadLocal.setName(userId);
 
-		Assert.assertFalse(
-			"bulkSelectionRunner is not busy",
-			_bulkSelectionRunner.isBusy(userId));
+		Assert.assertFalse(_bulkSelectionRunner.isBusy(userId));
 
 		HashMap<String, Serializable> inputMap = new HashMap<>();
 
@@ -66,9 +64,7 @@ public class BulkSelectionRunnerTest {
 			_testBulkSelectionFactory.create(new HashMap<>()),
 			_testBusyBulkSelectionAction, inputMap);
 
-		Assert.assertFalse(
-			"bulkSelectionRunner is not busy",
-			_bulkSelectionRunner.isBusy(userId));
+		Assert.assertFalse(_bulkSelectionRunner.isBusy(userId));
 	}
 
 	@Test
