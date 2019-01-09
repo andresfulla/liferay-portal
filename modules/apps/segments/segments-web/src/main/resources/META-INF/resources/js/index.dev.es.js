@@ -35,6 +35,27 @@ const altProps = {
 			type: 'string'
 		},
 		{
+			label: 'Segmentation Team Members',
+			name: 'segmentationTeamMembers',
+			options: [{
+				label: 'Kevin',
+				value: 'kevin'
+			}, {
+				label: 'Angelo',
+				value: 'angelo'
+			}, {
+				label: 'David',
+				value: 'david'
+			}, {
+				label: 'Edu',
+				value: 'edu'
+			}, {
+				label: 'Andres',
+				value: 'andres'
+			}],
+			type: 'string'
+		},
+		{
 			label: 'Class PK',
 			name: 'classPK',
 			type: 'string'
