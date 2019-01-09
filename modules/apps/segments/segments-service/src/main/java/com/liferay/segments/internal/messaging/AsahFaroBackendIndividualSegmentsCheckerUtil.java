@@ -95,11 +95,9 @@ public class AsahFaroBackendIndividualSegmentsCheckerUtil {
 
 		properties.setProperty(
 			"asahFaroBackendDataSourceId", asahFaroBackendDataSourceId);
-
 		properties.setProperty(
 			"asahFaroBackendSecuritySignature",
 			asahFaroBackendSecuritySignature);
-
 		properties.setProperty("asahFaroBackendURL", asahFaroBackendURL);
 
 		ComponentInstance componentInstance = _componentFactory.newInstance(
