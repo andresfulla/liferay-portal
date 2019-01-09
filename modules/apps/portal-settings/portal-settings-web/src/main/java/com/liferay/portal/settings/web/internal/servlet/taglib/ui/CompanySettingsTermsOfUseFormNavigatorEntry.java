@@ -16,7 +16,7 @@ package com.liferay.portal.settings.web.internal.servlet.taglib.ui;
 
 import com.liferay.portal.kernel.servlet.taglib.ui.FormNavigatorConstants;
 import com.liferay.portal.kernel.servlet.taglib.ui.FormNavigatorEntry;
-import com.liferay.portal.kernel.term.TermsOfUseContentProvider;
+import com.liferay.portal.kernel.terms.of.use.TermsOfUseContentProvider;
 import com.liferay.portal.settings.web.internal.constants.PortalSettingsWebKeys;
 
 import java.io.IOException;

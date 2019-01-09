@@ -12,25 +12,25 @@
  * details.
  */
 
-package com.liferay.portal.internal.term;
+package com.liferay.portal.kernel.terms.of.use;
 
-import com.liferay.portal.kernel.term.TermsOfUseContentProvider;
-import com.liferay.portal.kernel.util.ServiceProxyFactory;
+import aQute.bnd.annotation.ProviderType;
+
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 
 /**
  * @author Eduardo García
  */
-public class TermsOfUseContentProviderUtil {
+@ProviderType
+public interface TermsOfUseContentProvider {
 
-	public static TermsOfUseContentProvider getTermsOfUseContentProvider() {
-		return _termsOfUseContentProvider;
-	}
+	public void includeConfig(
+			HttpServletRequest request, HttpServletResponse response)
+		throws Exception;
 
-	private static volatile TermsOfUseContentProvider
-		_termsOfUseContentProvider =
-			ServiceProxyFactory.newServiceTrackedInstance(
-				TermsOfUseContentProvider.class,
-				TermsOfUseContentProviderUtil.class,
-				"_termsOfUseContentProvider", false, true);
+	public void includeView(
+			HttpServletRequest request, HttpServletResponse response)
+		throws Exception;
 
 }
