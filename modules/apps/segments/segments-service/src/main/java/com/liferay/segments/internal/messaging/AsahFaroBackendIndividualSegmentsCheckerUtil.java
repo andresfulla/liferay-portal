@@ -213,9 +213,9 @@ public class AsahFaroBackendIndividualSegmentsCheckerUtil {
 			int curPage = 1;
 
 			while (true) {
-				List<Individual> items = individualResults.getItems();
+				List<Individual> individuals = individualResults.getItems();
 
-				items.forEach(
+				individuals.forEach(
 					individual -> _addSegmentsEntryRel(
 						segmentsEntry, individual, serviceContext));
 
