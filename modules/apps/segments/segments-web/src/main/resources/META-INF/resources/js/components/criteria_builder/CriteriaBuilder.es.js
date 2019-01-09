@@ -35,7 +35,7 @@ const propTypes = {
 	id: PropTypes.number.isRequired,
 	modelLabel: PropTypes.string,
 	onChange: PropTypes.func,
-	onEditionToggle: PropTypes.func,
+	onEditToggle: PropTypes.func,
 	propertyKey: PropTypes.string.isRequired,
 	supportedConjunctions: PropTypes.arrayOf(
 		PropTypes.shape(
@@ -122,7 +122,7 @@ class CriteriaBuilder extends Component {
 	_handleToggleEdit = () => {
 		const {editing, id} = this.props;
 
-		return this.props.onEditionToggle && this.props.onEditionToggle(id, editing);
+		return this.props.onEditToggle && this.props.onEditToggle(id, editing);
 	}
 
 	/**
