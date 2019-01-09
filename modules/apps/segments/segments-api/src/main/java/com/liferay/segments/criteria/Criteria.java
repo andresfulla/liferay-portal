@@ -138,10 +138,10 @@ public final class Criteria implements Serializable {
 		AND("and"), OR("or");
 
 		public static Conjunction parse(String value) {
-			if (AND.getValue().equals(value)) {
+			if (Objects.equals(AND.getValue(), value)) {
 				return AND;
 			}
-			else if (OR.getValue().equals(value)) {
+			else if (Objects.equals(OR.getValue(), value)) {
 				return OR;
 			}
 
@@ -170,10 +170,10 @@ public final class Criteria implements Serializable {
 		CONTEXT("context"), MODEL("model");
 
 		public static Type parse(String value) {
-			if (CONTEXT.getValue().equals(value)) {
+			if (Objects.equals(CONTEXT.getValue(), value)) {
 				return CONTEXT;
 			}
-			else if (MODEL.getValue().equals(value)) {
+			else if (Objects.equals(MODEL.getValue(), value)) {
 				return MODEL;
 			}
 
