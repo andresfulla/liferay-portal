@@ -8,6 +8,7 @@ import {DragSource as dragSource, DropTarget as dropTarget} from 'react-dnd';
 import {DragTypes} from '../../utils/drag-types.es';
 import getCN from 'classnames';
 import {generateGroupId, sub} from '../../utils/utils.es';
+import TypedInput from './TypedInput.es';
 
 const acceptedDragTypes = [
 	DragTypes.CRITERIA_ROW,
@@ -51,7 +52,7 @@ function drop(props, monitor) {
 		index: startIndex
 	} = monitor.getItem();
 
-	const {operatorName, propertyName, value = ''} = droppedCriterion;
+	const {operatorName, propertyName, defaultValue: value} = droppedCriterion;
 
 	const newCriterion = {
 		operatorName: operatorName ?
@@ -195,6 +196,17 @@ class CriteriaRow extends Component {
 		);
 	};
 
+	_handleTypedInputChange = value => {
+		const {criterion, onChange} = this.props;
+
+		onChange(
+			{
+				...criterion,
+				value
+			}
+		);
+	}
+
 	render() {
 		const {
 			canDrop,
@@ -285,10 +297,11 @@ class CriteriaRow extends Component {
 								selected={selectedOperator && selectedOperator.name}
 							/>
 
-							<input
-								className="criterion-input form-control"
-								onChange={this._handleInputChange('value')}
-								type="text"
+							<TypedInput
+								className={'mw15'}
+								onChange={this._handleTypedInputChange}
+								type={selectedProperty.type}
+								options={selectedProperty.options}
 								value={value}
 							/>
 
