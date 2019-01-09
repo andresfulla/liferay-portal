@@ -29,6 +29,7 @@ export const RELATIONAL_OPERATORS = {
 export const PROPERTY_TYPES = {
 	BOOLEAN: 'boolean',
 	DATE: 'date',
+	ID: 'id',
 	NUMBER: 'number',
 	STRING: 'string'
 };
@@ -39,7 +40,7 @@ export const PROPERTY_TYPES = {
 
 const {AND, OR} = CONJUNCTIONS;
 const {EQ, GE, GT, LE, LT, NE} = RELATIONAL_OPERATORS;
-const {BOOLEAN, DATE, NUMBER, STRING} = PROPERTY_TYPES;
+const {BOOLEAN, DATE, ID, NUMBER, STRING} = PROPERTY_TYPES;
 
 export const SUPPORTED_CONJUNCTIONS = [
 	{
@@ -82,6 +83,7 @@ export const SUPPORTED_OPERATORS = [
 export const SUPPORTED_PROPERTY_TYPES = {
 	[BOOLEAN]: [EQ, NE],
 	[DATE]: [EQ, GE, GT, LE, LT, NE],
+	[ID]: [EQ, NE],
 	[NUMBER]: [EQ, GE, GT, LE, LT, NE],
 	[STRING]: [EQ, NE]
 };

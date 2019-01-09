@@ -35,7 +35,7 @@ SelectSegmentsEntryOrganizationsDisplayContext selectSegmentsEntryOrganizationsD
 	viewTypeItems="<%= selectSegmentsEntryOrganizationsDisplayContext.getViewTypeItems() %>"
 />
 
-<aui:form cssClass="container-fluid-1280" name="fm">
+<aui:form cssClass="container-fluid-1280" name="selectOrganizationFm">
 	<liferay-ui:search-container
 		id="selectSegmentsEntryOrganizations"
 		searchContainer="<%= selectSegmentsEntryOrganizationsDisplayContext.getOrganizationSearchContainer() %>"
@@ -62,6 +62,17 @@ SelectSegmentsEntryOrganizationsDisplayContext selectSegmentsEntryOrganizationsD
 				orderable="<%= true %>"
 				value="<%= LanguageUtil.get(request, organization.getType()) %>"
 			/>
+
+			<liferay-ui:search-container-column-text>
+				<%
+				Map<String, Object> data = new HashMap<String, Object>();
+
+				data.put("entityid", organization.getOrganizationId());
+				data.put("entityname", organization.getName());
+				%>
+
+				<aui:button cssClass="selector-button" data="<%= data %>" value="select" />
+			</liferay-ui:search-container-column-text>
 		</liferay-ui:search-container-row>
 
 		<liferay-ui:search-iterator
@@ -92,4 +103,10 @@ SelectSegmentsEntryOrganizationsDisplayContext selectSegmentsEntryOrganizationsD
 				result);
 		}
 	);
+</aui:script>
+
+<aui:script use="aui-base">
+	var Util = Liferay.Util;
+
+	Util.selectEntityHandler('#<portlet:namespace />selectOrganizationFm', '<%= HtmlUtil.escapeJS(selectSegmentsEntryOrganizationsDisplayContext.getEventName()) %>';
 </aui:script>

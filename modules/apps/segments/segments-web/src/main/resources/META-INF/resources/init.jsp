@@ -46,6 +46,8 @@ page import="com.liferay.segments.web.internal.display.context.SegmentsDisplayCo
 page import="com.liferay.segments.web.internal.display.context.SelectSegmentsEntryOrganizationsDisplayContext" %><%@
 page import="com.liferay.segments.web.internal.display.context.SelectSegmentsEntryUsersDisplayContext" %>
 
+<%@ page import="java.util.HashMap" %>
+
 <liferay-frontend:defineObjects />
 
 <liferay-theme:defineObjects />

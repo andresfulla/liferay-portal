@@ -207,6 +207,33 @@ class CriteriaRow extends Component {
 		);
 	}
 
+	_handleSelectEntity = () => {
+		const {criterion, supportedProperties} = this.props;
+
+		const selectedProperty = this._getSelectedItem(
+			supportedProperties,
+			criterion.propertyName
+		);
+
+		const {id, title, uri} = selectedProperty.selectEntity;
+
+		Liferay.Util.selectEntity(
+			{
+				dialog: {
+					constrain: true,
+					destroyOnHide: true,
+					modal: true
+				},
+				id,
+				title,
+				uri
+			},
+			event => {
+				console.log('hey', event);
+			}
+		);
+	}
+
 	render() {
 		const {
 			canDrop,
@@ -303,6 +330,26 @@ class CriteriaRow extends Component {
 								type={selectedProperty.type}
 								value={value}
 							/>
+
+							{selectedProperty.selectEntity ?
+								<div className="input-group select-entity-input">
+									<div className="input-group-item input-group-prepend">
+										<input type="hidden" value={value} />
+
+										<input className="form-control" readOnly value={value} />
+									</div>
+
+									<span className="input-group-append input-group-item input-group-item-shrink">
+										<ClayButton label={Liferay.Language.get('select')} onClick={this._handleSelectEntity} />
+									</span>
+								</div>
+								: <input
+									className="criterion-input form-control"
+									onChange={this._handleInputChange('value')}
+									type="text"
+									value={value}
+								/>
+							}
 
 							<ClayButton
 								borderless
