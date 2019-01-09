@@ -219,6 +219,7 @@ class CriteriaGroup extends Component {
 			groupId,
 			modelLabel,
 			onMove,
+			propertyKey,
 			root,
 			supportedConjunctions,
 			supportedOperators,
@@ -245,6 +246,7 @@ class CriteriaGroup extends Component {
 						onChange={this._handleCriterionChange(index)}
 						onMove={onMove}
 						parentGroupId={groupId}
+						propertyKey={propertyKey}
 						supportedConjunctions={supportedConjunctions}
 						supportedOperators={supportedOperators}
 						supportedProperties={supportedProperties}
