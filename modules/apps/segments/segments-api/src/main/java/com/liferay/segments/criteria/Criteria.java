@@ -91,7 +91,8 @@ public final class Criteria implements Serializable {
 		Stream<Criterion> stream = criteria.stream();
 
 		return stream.filter(
-			criterion -> Objects.equals(type.getValue(), criterion.getType())
+			criterion -> Objects.equals(
+				type.getValue(), criterion.getTypeValue())
 		).map(
 			criterion -> Conjunction.parse(criterion.getConjunction())
 		).findFirst(
@@ -108,9 +109,10 @@ public final class Criteria implements Serializable {
 		public Criterion(
 			Type type, String filterString, Conjunction conjunction) {
 
-			_type = type.getValue();
 			_filterString = filterString;
 			_conjunction = conjunction.getValue();
+
+			_typeValue = type.getValue();
 		}
 
 		public String getConjunction() {
@@ -121,13 +123,13 @@ public final class Criteria implements Serializable {
 			return _filterString;
 		}
 
-		public String getType() {
-			return _type;
+		public String getTypeValue() {
+			return _typeValue;
 		}
 
 		private String _conjunction;
 		private String _filterString;
-		private String _type;
+		private String _typeValue;
 
 	}
 
