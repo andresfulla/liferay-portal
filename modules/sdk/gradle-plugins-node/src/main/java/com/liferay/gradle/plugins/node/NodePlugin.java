@@ -767,7 +767,7 @@ public class NodePlugin implements Plugin<Project> {
 		String oldDigest = new String(bytes, StandardCharsets.UTF_8);
 		String newDigest = FileUtil.getDigest(sourceFileCollection);
 
-		if (!Objects.equals(newDigest, oldDigest)) {
+		if (!Objects.equals(oldDigest, newDigest)) {
 			return true;
 		}
 
