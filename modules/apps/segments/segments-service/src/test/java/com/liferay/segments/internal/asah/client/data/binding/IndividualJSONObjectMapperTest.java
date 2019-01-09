@@ -93,7 +93,7 @@ public class IndividualJSONObjectMapperTest {
 	@Test
 	public void testMapToResultsWithNoResults() throws Exception {
 		Results<Individual> results = _individualJSONObjectMapper.mapToResults(
-			_read("get-individuals-noresults.json"));
+			_read("get-individuals-no-results.json"));
 
 		Assert.assertEquals(0, results.getTotal());
 

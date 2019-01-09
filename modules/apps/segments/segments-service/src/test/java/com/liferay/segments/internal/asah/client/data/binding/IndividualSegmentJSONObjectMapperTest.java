@@ -87,7 +87,7 @@ public class IndividualSegmentJSONObjectMapperTest {
 	public void testMapToResultsWithNoResults() throws Exception {
 		Results<IndividualSegment> results =
 			_individualSegmentJSONObjectMapper.mapToResults(
-				_read("get-individual-segments-noresults.json"));
+				_read("get-individual-segments-no-results.json"));
 
 		Assert.assertEquals(0, results.getTotal());
 
