@@ -148,7 +148,7 @@ class CriteriaGroup extends Component {
 	}
 
 	_handleCriterionChange = index => newCriterion => {
-		const {criteria, onChange, editing} = this.props;
+		const {criteria, editing, onChange} = this.props;
 
 		if (editing) {
 			onChange(

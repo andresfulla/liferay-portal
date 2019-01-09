@@ -6,13 +6,13 @@ describe(
 	'ClayToggle',
 	() => {
 		afterEach(cleanup);
-		const mockOnChange = () => {};
+
 		it(
 			'should render',
 			() => {
 				const {asFragment} = render(
 					<ClayToggle
-						onChange={mockOnChange}
+						onChange={jest.fn()}
 					/>
 				);
 
