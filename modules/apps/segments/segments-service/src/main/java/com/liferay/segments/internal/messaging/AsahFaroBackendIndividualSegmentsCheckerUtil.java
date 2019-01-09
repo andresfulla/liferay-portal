@@ -159,7 +159,7 @@ public class AsahFaroBackendIndividualSegmentsCheckerUtil {
 		if (!userIdOptional.isPresent()) {
 			if (_log.isWarnEnabled()) {
 				_log.warn(
-					"Unable to find an user corresponding to individual " +
+					"Unable to find a user corresponding to individual " +
 						individual.getId());
 			}
 
