@@ -30,6 +30,7 @@ class ContributorsBuilderComp extends React.Component {
 						translateQueryToCriteria(c.initialQuery) :
 						null,
 					inputId: c.inputId,
+					modelLabel: propertyGroup && propertyGroup.name,
 					properties: propertyGroup && propertyGroup.properties,
 					propertyKey: c.propertyKey,
 					query: c.initialQuery
@@ -205,16 +206,6 @@ class ContributorsBuilderComp extends React.Component {
 							}
 						)
 					}
-					<div className={'sheet-lg'}>
-						{
-							this.state.contributors &&
-							this.state.contributors.map(
-								(c, i) => {
-									return (i !== 0 && c.query !== '') ? ` ${this.state.conjunctionName} ${c.query}` : c.query;
-								}
-							)
-						}
-					</div>
 				</div>
 
 				<div className="criteria-builder-section-sidebar">
