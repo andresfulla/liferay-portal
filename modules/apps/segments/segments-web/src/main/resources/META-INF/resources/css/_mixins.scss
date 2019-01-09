@@ -6,6 +6,7 @@
 	@each $a in $array {
 		$className: nth($a, 1);
 		$color: nth($a, 2);
+
 		@include generatePropertyGroup($color, $cssProperty, #{$classPrefix + $className});
 	}
 }
