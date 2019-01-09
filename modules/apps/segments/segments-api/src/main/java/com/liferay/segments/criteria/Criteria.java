@@ -40,7 +40,7 @@ public final class Criteria implements Serializable {
 	public void addCriterion(
 		String key, Type type, String filterString, Conjunction conjunction) {
 
-		_criterionMap.put(key, new Criterion(type, filterString, conjunction));
+		_criteria.put(key, new Criterion(type, filterString, conjunction));
 	}
 
 	public void addFilter(
@@ -50,10 +50,10 @@ public final class Criteria implements Serializable {
 			return;
 		}
 
-		String curFilterString = _filterStringMap.get(type.getValue());
+		String curFilterString = _filterStrings.get(type.getValue());
 
 		if (Validator.isNull(curFilterString)) {
-			_filterStringMap.put(type.getValue(), filterString);
+			_filterStrings.put(type.getValue(), filterString);
 
 			return;
 		}
@@ -70,23 +70,23 @@ public final class Criteria implements Serializable {
 		sb.append(filterString);
 		sb.append(StringPool.CLOSE_PARENTHESIS);
 
-		_filterStringMap.put(type.getValue(), sb.toString());
+		_filterStrings.put(type.getValue(), sb.toString());
 	}
 
 	public Criterion getCriterion(String key) {
-		return _criterionMap.get(key);
+		return _criteria.get(key);
 	}
 
 	public Map<String, Criterion> getCriterionMap() {
-		return _criterionMap;
+		return _criteria;
 	}
 
 	public String getFilterString(Type type) {
-		return _filterStringMap.get(type.getValue());
+		return _filterStrings.get(type.getValue());
 	}
 
 	public Conjunction getTypeConjunction(Type type) {
-		Collection<Criterion> criterionList = _criterionMap.values();
+		Collection<Criterion> criterionList = _criteria.values();
 
 		Stream<Criterion> stream = criterionList.stream();
 
@@ -195,7 +195,7 @@ public final class Criteria implements Serializable {
 
 	}
 
-	private Map<String, Criterion> _criterionMap = new HashMap();
-	private Map<String, String> _filterStringMap = new HashMap();
+	private Map<String, Criterion> _criteria = new HashMap();
+	private Map<String, String> _filterStrings = new HashMap();
 
 }
