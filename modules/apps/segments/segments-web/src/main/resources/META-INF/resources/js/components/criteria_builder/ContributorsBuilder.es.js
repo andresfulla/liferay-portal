@@ -18,10 +18,10 @@ class ContributorsBuilderComp extends React.Component {
 				'read-only': false
 			}
 		);
-		const {initialContributors} = props;
+		const {initialContributors, propertyGroups} = props;
 		const contributors = initialContributors && initialContributors.map(
 			c => {
-				const propertyGroup = this.props.propertyGroups.find(t => c.propertyKey === t.propertyKey);
+				const propertyGroup = propertyGroups && propertyGroups.find(t => c.propertyKey === t.propertyKey);
 
 				return {
 					conjunctionId: c.conjunctionId || 'and',
@@ -97,6 +97,7 @@ class ContributorsBuilderComp extends React.Component {
 
 	_handleRootConjunctionClick(event) {
 		event.preventDefault();
+
 		this.setState(
 			(prevState, prevProps) => {
 				const prevContributors = prevState.contributors;
@@ -155,6 +156,7 @@ class ContributorsBuilderComp extends React.Component {
 														editing={true}
 														supportedConjunctions={supportedConjunctions}
 													/>
+
 													<input
 														id={criteria.conjunctionInputId}
 														readOnly
@@ -164,6 +166,7 @@ class ContributorsBuilderComp extends React.Component {
 												</React.Fragment>
 											}
 										</div>
+
 										<CriteriaBuilder
 											criteria={criteria.criteriaMap}
 											editing={currentEditing === i}
@@ -172,7 +175,7 @@ class ContributorsBuilderComp extends React.Component {
 											inputId={criteria.inputId}
 											modelLabel={criteria.modelLabel}
 											onChange={this.onCriteriaChange}
-											onEditionToggle={this.onCriteriaEdit}
+											onEditToggle={this.onCriteriaEdit}
 											propertyKey={criteria.propertyKey}
 											supportedConjunctions={supportedConjunctions}
 											supportedOperators={supportedOperators}
@@ -185,6 +188,7 @@ class ContributorsBuilderComp extends React.Component {
 											)}
 											supportedPropertyTypes={supportedPropertyTypes}
 										/>
+
 										<div className="form-group">
 											<input
 												className="field form-control"
@@ -212,6 +216,7 @@ class ContributorsBuilderComp extends React.Component {
 						}
 					</div>
 				</div>
+
 				<div className="criteria-builder-section-sidebar">
 					{
 						<CriteriaSidebar
@@ -231,7 +236,7 @@ class ContributorsBuilderComp extends React.Component {
 	}
 }
 
-const conjuctions = PropTypes.shape(
+const conjunctions = PropTypes.shape(
 	{
 		label: PropTypes.string.isRequired,
 		name: PropTypes.string.isRequired
@@ -278,7 +283,7 @@ const propertyTypes = PropTypes.shape(
 ContributorsBuilderComp.propTypes = {
 	initialContributors: PropTypes.arrayOf(initialContributor),
 	propertyGroups: PropTypes.arrayOf(propertyGroup),
-	supportedConjunctions: PropTypes.arrayOf(conjuctions).isRequired,
+	supportedConjunctions: PropTypes.arrayOf(conjunctions).isRequired,
 	supportedOperators: PropTypes.arrayOf(operators).isRequired,
 	supportedPropertyTypes: propertyTypes.isRequired
 };

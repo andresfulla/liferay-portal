@@ -55,11 +55,13 @@
 	&.criteria-group-item-root {
 		border-left: 3px solid $chartBlue;
 		padding: 8px;
+
 		@include generatePropertyGroupLoop(
 			$propertyGroupsColors,
 			'border-left-color',
 			'color--'
 		);
+
 		.read-only-container .criterion-string {
 			margin-left: 8px;
 		}

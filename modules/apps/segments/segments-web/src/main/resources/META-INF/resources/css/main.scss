@@ -5,6 +5,7 @@
 	/* ---------- Components ---------- */
 
 	@import "clay_button";
+	@import "conjunction";
 	@import "criteria_builder";
 	@import "criteria_group";
 	@import "criteria_row";
@@ -13,5 +14,4 @@
 	@import "empty_drop_zone";
 	@import "segment_edit";
 	@import "title_editor";
-	@import "conjunction";
 }
