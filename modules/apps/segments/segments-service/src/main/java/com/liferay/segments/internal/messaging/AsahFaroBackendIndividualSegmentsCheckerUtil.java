@@ -76,15 +76,13 @@ public class AsahFaroBackendIndividualSegmentsCheckerUtil {
 	protected void activate() {
 		String asahFaroBackendDataSourceId = System.getProperty(
 			"asah.faro.backend.dataSourceId");
-
 		String asahFaroBackendSecuritySignature = System.getProperty(
 			"asah.faro.backend.security.signature");
-
-		String asahFaroBackendUrl = System.getProperty("asah.faro.backend.url");
+		String asahFaroBackendURL = System.getProperty("asah.faro.backend.url");
 
 		if (Validator.isNull(asahFaroBackendDataSourceId) ||
 			Validator.isNull(asahFaroBackendSecuritySignature) ||
-			Validator.isNull(asahFaroBackendUrl)) {
+			Validator.isNull(asahFaroBackendURL)) {
 
 			if (_log.isWarnEnabled()) {
 				_log.warn("Unable to configure Asah Faro Backend Client");
@@ -102,7 +100,7 @@ public class AsahFaroBackendIndividualSegmentsCheckerUtil {
 			"asahFaroBackendSecuritySignature",
 			asahFaroBackendSecuritySignature);
 
-		properties.setProperty("asahFaroBackendUrl", asahFaroBackendUrl);
+		properties.setProperty("asahFaroBackendURL", asahFaroBackendURL);
 
 		ComponentInstance componentInstance = _componentFactory.newInstance(
 			(Dictionary)properties);
