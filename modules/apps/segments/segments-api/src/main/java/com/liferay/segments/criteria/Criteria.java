@@ -86,9 +86,9 @@ public final class Criteria implements Serializable {
 	}
 
 	public Conjunction getTypeConjunction(Type type) {
-		Collection<Criterion> criterionList = _criteria.values();
+		Collection<Criterion> criteria = _criteria.values();
 
-		Stream<Criterion> stream = criterionList.stream();
+		Stream<Criterion> stream = criteria.stream();
 
 		return stream.filter(
 			criterion -> Objects.equals(type.getValue(), criterion.getType())
