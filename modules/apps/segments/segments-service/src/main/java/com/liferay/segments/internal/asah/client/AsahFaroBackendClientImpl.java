@@ -117,14 +117,14 @@ public class AsahFaroBackendClientImpl implements AsahFaroBackendClient {
 
 	@Activate
 	protected void activate(Map<String, Object> properties) {
-		_jsonWebServiceClient.setBaseURI(
-			_getString("asahFaroBackendUrl", properties));
+		_dataSourceId = _getString("asahFaroBackendDataSourceId", properties);
 
 		_headers.put(
 			"OSB-Asah-Faro-Backend-Security-Signature",
 			_getString("asahFaroBackendSecuritySignature", properties));
 
-		_dataSourceId = _getString("asahFaroBackendDataSourceId", properties);
+		_jsonWebServiceClient.setBaseURI(
+			_getString("asahFaroBackendUrl", properties));
 	}
 
 	private MultivaluedMap<String, Object> _getParameters(
