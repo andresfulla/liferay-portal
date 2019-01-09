@@ -50,9 +50,9 @@ public final class Criteria implements Serializable {
 			return;
 		}
 
-		String curFilterString = _filterStrings.get(type.getValue());
+		String typeValueFilterString = _filterStrings.get(type.getValue());
 
-		if (Validator.isNull(curFilterString)) {
+		if (Validator.isNull(typeValueFilterString)) {
 			_filterStrings.put(type.getValue(), filterString);
 
 			return;
@@ -61,7 +61,7 @@ public final class Criteria implements Serializable {
 		StringBundler sb = new StringBundler(9);
 
 		sb.append(StringPool.OPEN_PARENTHESIS);
-		sb.append(curFilterString);
+		sb.append(typeValueFilterString);
 		sb.append(StringPool.CLOSE_PARENTHESIS);
 		sb.append(StringPool.SPACE);
 		sb.append(conjunction.getValue());
