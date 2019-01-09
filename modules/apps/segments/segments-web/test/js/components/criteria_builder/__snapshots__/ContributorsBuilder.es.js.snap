@@ -118,9 +118,6 @@ exports[`ContributorBuilder should render: initialRender 1`] = `
           value=""
         />
       </div>
-      <div
-        class="sheet-lg"
-      />
     </div>
     <div
       class="criteria-builder-section-sidebar"
