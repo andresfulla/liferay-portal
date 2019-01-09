@@ -117,14 +117,14 @@ public class AsahFaroBackendClientImpl implements AsahFaroBackendClient {
 
 	@Activate
 	protected void activate(Map<String, Object> properties) {
-		_dataSourceId = _getString("asahFaroBackendDataSourceId", properties);
+		_dataSourceId = _getString(properties, "asahFaroBackendDataSourceId");
 
 		_headers.put(
 			"OSB-Asah-Faro-Backend-Security-Signature",
-			_getString("asahFaroBackendSecuritySignature", properties));
+			_getString(properties, "asahFaroBackendSecuritySignature"));
 
 		_jsonWebServiceClient.setBaseURI(
-			_getString("asahFaroBackendUrl", properties));
+			_getString(properties, "asahFaroBackendUrl"));
 	}
 
 	private MultivaluedMap<String, Object> _getParameters(
@@ -139,7 +139,7 @@ public class AsahFaroBackendClientImpl implements AsahFaroBackendClient {
 		return uriVariables;
 	}
 
-	private String _getString(String key, Map<String, Object> properties) {
+	private String _getString(Map<String, Object> properties, String key) {
 		if (!properties.containsKey(key)) {
 			return null;
 		}
