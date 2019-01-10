@@ -40,13 +40,9 @@ class ContributorsBuilderComp extends React.Component {
 			editing: undefined,
 			newPropertyKey: propertyGroups.length && propertyGroups[0].propertyKey
 		};
-		this._onCriteriaEdit = this._onCriteriaEdit.bind(this);
-		this._onCriteriaChange = this._onCriteriaChange.bind(this);
-		this._handleRootConjunctionClick = this._handleRootConjunctionClick.bind(this);
-		this._handleSelectorChange = this._handleSelectorChange.bind(this);
 	}
 
-	_onCriteriaEdit(id, editing) {
+	_onCriteriaEdit = (id, editing) => {
 		this.setState(
 			{
 				editing: editing ? undefined : id
@@ -54,7 +50,7 @@ class ContributorsBuilderComp extends React.Component {
 		);
 	}
 
-	_handleSelectorChange(e) {
+	_handleSelectorChange = e => {
 		const newPropertyKey = e.target.value;
 
 		this.setState(
@@ -67,7 +63,7 @@ class ContributorsBuilderComp extends React.Component {
 		);
 	}
 
-	_onCriteriaChange(criteriaChange, index) {
+	_onCriteriaChange = (criteriaChange, index) => {
 		this.setState(
 			state => {
 				let newState;
@@ -92,7 +88,7 @@ class ContributorsBuilderComp extends React.Component {
 		);
 	}
 
-	_handleRootConjunctionClick(event) {
+	_handleRootConjunctionClick = event => {
 		event.preventDefault();
 
 		this.setState(
