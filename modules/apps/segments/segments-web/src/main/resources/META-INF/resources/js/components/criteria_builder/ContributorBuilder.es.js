@@ -7,6 +7,7 @@ import CriteriaSidebar from '../criteria_sidebar/CriteriaSidebar.es';
 import {sub} from '../../utils/utils.es';
 import CriteriaBuilder from './CriteriaBuilder.es';
 import {buildQueryString, translateQueryToCriteria} from '../../utils/odata.es';
+import {CONJUNCTIONS} from '../../utils/constants.es';
 import Conjunction from './Conjunction.es';
 
 class ContributorBuilder extends React.Component {
@@ -23,7 +24,7 @@ class ContributorBuilder extends React.Component {
 					);
 
 				return {
-					conjunctionId: c.conjunctionId || 'and',
+					conjunctionId: c.conjunctionId || CONJUNCTIONS.AND,
 					conjunctionInputId: c.conjunctionInputId,
 					criteriaMap: c.initialQuery ?
 						translateQueryToCriteria(c.initialQuery) :
@@ -38,7 +39,7 @@ class ContributorBuilder extends React.Component {
 		);
 
 		this.state = {
-			conjunctionName: 'and',
+			conjunctionName: CONJUNCTIONS.AND,
 			contributors,
 			editing: undefined,
 			newPropertyKey: propertyGroups.length && propertyGroups[0].propertyKey
