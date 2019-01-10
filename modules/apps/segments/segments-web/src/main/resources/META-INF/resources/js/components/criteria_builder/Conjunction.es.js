@@ -1,6 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import ClayButton from '../shared/ClayButton.es';
+import getCN from 'classnames';
 
 class Conjunction extends React.Component {
 	_getConjunctionLabel(conjunctionName, conjunctions) {
@@ -18,24 +19,31 @@ class Conjunction extends React.Component {
 			supportedConjunctions
 		} = this.props;
 
-		return (<React.Fragment>
-			{editing ?
+		const classnames = getCN(
+			{
+				'btn-sm conjunction-button': editing,
+				'conjunction-label': !editing
+			},
+			className
+		);
+
+		return (
+			editing ?
 				<ClayButton
-					className={`btn-sm conjunction-button ${className}`}
+					className={classnames}
 					label={this._getConjunctionLabel(
 						conjunctionName,
 						supportedConjunctions
 					)}
 					onClick={this.props.handleConjunctionClick}
 				/> :
-				<div className="conjunction-label">
+				<div className={classnames}>
 					{this._getConjunctionLabel(
 						conjunctionName,
 						supportedConjunctions
 					)}
 				</div>
-			}
-		</React.Fragment>);
+		);
 	}
 }
 
