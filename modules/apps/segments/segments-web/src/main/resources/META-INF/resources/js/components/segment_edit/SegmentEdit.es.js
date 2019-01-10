@@ -11,7 +11,7 @@ import {
 	SUPPORTED_PROPERTY_TYPES
 } from '../../utils/constants.es';
 import {FieldArray, withFormik} from 'formik';
-import ContributorBuilder from '../criteria_builder/ContributorsBuilder.es';
+import ContributorBuilder from '../criteria_builder/ContributorBuilder.es';
 
 const DEFAULT_SEGMENT_NAME = Liferay.Language.get('unnamed-segment');
 
