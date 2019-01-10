@@ -14,7 +14,7 @@ describe(
 					<CriteriaBuilder
 						editing={false}
 						id={0}
-						propertyKey={'user'}
+						propertyKey="user"
 						supportedProperties={[]}
 					/>
 				);

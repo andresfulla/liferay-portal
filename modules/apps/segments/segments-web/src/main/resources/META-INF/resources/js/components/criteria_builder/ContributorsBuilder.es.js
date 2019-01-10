@@ -12,13 +12,9 @@ import Conjunction from './Conjunction.es';
 class ContributorsBuilderComp extends React.Component {
 	constructor(props) {
 		super(props);
-		this.classes = getCN(
-			'criteria-builder-root',
-			{
-				'read-only': false
-			}
-		);
+
 		const {initialContributors, propertyGroups} = props;
+
 		const contributors = initialContributors && initialContributors.map(
 			c => {
 				const propertyGroup = propertyGroups && propertyGroups.find(t => c.propertyKey === t.propertyKey);
@@ -37,20 +33,23 @@ class ContributorsBuilderComp extends React.Component {
 				};
 			}
 		);
-		this.onCriteriaEdit = this.onCriteriaEdit.bind(this);
-		this.onCriteriaChange = this.onCriteriaChange.bind(this);
+
+		this.classes = getCN(
+			'criteria-builder-root'
+		);
 		this.state = {
 			conjunctionName: 'and',
 			contributors,
 			editing: undefined,
-			newPropertyKey: this.props.propertyGroups.length &&
-				this.props.propertyGroups[0].propertyKey
+			newPropertyKey: propertyGroups.length && propertyGroups[0].propertyKey
 		};
+		this._onCriteriaEdit = this._onCriteriaEdit.bind(this);
+		this._onCriteriaChange = this._onCriteriaChange.bind(this);
 		this._handleRootConjunctionClick = this._handleRootConjunctionClick.bind(this);
 		this._handleSelectorChange = this._handleSelectorChange.bind(this);
 	}
 
-	onCriteriaEdit(id, editing) {
+	_onCriteriaEdit(id, editing) {
 		this.setState(
 			{
 				editing: editing ? undefined : id
@@ -71,7 +70,7 @@ class ContributorsBuilderComp extends React.Component {
 		);
 	}
 
-	onCriteriaChange(criteriaChange, index) {
+	_onCriteriaChange(criteriaChange, index) {
 		this.setState(
 			state => {
 				let newState;
@@ -175,8 +174,8 @@ class ContributorsBuilderComp extends React.Component {
 											initialQuery={criteria.query}
 											inputId={criteria.inputId}
 											modelLabel={criteria.modelLabel}
-											onChange={this.onCriteriaChange}
-											onEditToggle={this.onCriteriaEdit}
+											onChange={this._onCriteriaChange}
+											onEditToggle={this._onCriteriaEdit}
 											propertyKey={criteria.propertyKey}
 											supportedConjunctions={supportedConjunctions}
 											supportedOperators={supportedOperators}
