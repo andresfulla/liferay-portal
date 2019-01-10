@@ -17,7 +17,10 @@ class ContributorBuilder extends React.Component {
 
 		const contributors = initialContributors && initialContributors.map(
 			c => {
-				const propertyGroup = propertyGroups && propertyGroups.find(t => c.propertyKey === t.propertyKey);
+				const propertyGroup = propertyGroups &&
+					propertyGroups.find(
+						propertyGroup => c.propertyKey === propertyGroup.propertyKey
+					);
 
 				return {
 					conjunctionId: c.conjunctionId || 'and',
@@ -50,8 +53,8 @@ class ContributorBuilder extends React.Component {
 		);
 	}
 
-	_handleSelectorChange = e => {
-		const newPropertyKey = e.target.value;
+	_handleSelectorChange = event => {
+		const newPropertyKey = event.target.value;
 
 		this.setState(
 			prevState => (
@@ -67,22 +70,24 @@ class ContributorBuilder extends React.Component {
 		this.setState(
 			state => {
 				let newState;
+
 				if (state.editing !== index) {
 					newState = state;
 				}
 				else {
 					newState = {
 						contributors: state.contributors.map(
-							(c, i) => {
+							(contributor, i) => {
 								return (index === i) ? {
-									...c,
+									...contributor,
 									criteriaMap: criteriaChange,
 									query: buildQueryString([criteriaChange])
-								} : c;
+								} : contributor;
 							}
 						)
 					};
 				}
+
 				return newState;
 			}
 		);
@@ -95,19 +100,22 @@ class ContributorBuilder extends React.Component {
 			(prevState, prevProps) => {
 				const prevContributors = prevState.contributors;
 
-				const prevConjunction = prevContributors[0] && prevContributors[0].conjunctionId;
+				const prevConjunction = prevContributors[0] &&
+					prevContributors[0].conjunctionId;
 
 				const {supportedConjunctions} = prevProps;
+
 				const conjunctionIndex = supportedConjunctions.findIndex(
 					item => item.name === prevConjunction
 				);
+
 				const conjunctionSelected = (conjunctionIndex === supportedConjunctions.length - 1) ?
 					supportedConjunctions[0].name :
 					supportedConjunctions[conjunctionIndex + 1].name;
 
 				const contributors = prevContributors.map(
-					c => ({
-						...c,
+					contributor => ({
+						...contributor,
 						conjunctionId: conjunctionSelected
 					})
 				);
@@ -127,9 +135,15 @@ class ContributorBuilder extends React.Component {
 			supportedOperators,
 			supportedPropertyTypes
 		} = this.props;
+
 		const currentEditing = this.state.editing;
+
 		const selectedContributor = this.state.contributors[currentEditing];
-		const selectedProperty = selectedContributor && propertyGroups.find(c => selectedContributor.propertyKey === c.propertyKey);
+
+		const selectedProperty = selectedContributor &&
+			propertyGroups.find(
+				propertyGroup => selectedContributor.propertyKey === propertyGroup.propertyKey
+			);
 
 		return (
 			<div className="criteria-builder-root">
@@ -174,9 +188,9 @@ class ContributorBuilder extends React.Component {
 											supportedOperators={supportedOperators}
 											supportedProperties={criteria.properties}
 											supportedPropertyGroups={this.props.propertyGroups.map(
-												p => ({
-													label: p.name,
-													value: p.propertyKey
+												({name, propertyKey}) => ({
+													label: name,
+													value: propertyKey
 												})
 											)}
 											supportedPropertyTypes={supportedPropertyTypes}
@@ -225,6 +239,7 @@ const conjunctions = PropTypes.shape(
 		name: PropTypes.string.isRequired
 	}
 );
+
 const initialContributor = PropTypes.shape(
 	{
 		conjunctionId: PropTypes.string.isRequired,
@@ -234,12 +249,14 @@ const initialContributor = PropTypes.shape(
 		propertyKey: PropTypes.string.isRequired
 	}
 );
+
 const operators = PropTypes.shape(
 	{
 		label: PropTypes.string.isRequired,
 		name: PropTypes.string.isRequired
 	}
 );
+
 const property = PropTypes.shape(
 	{
 		label: PropTypes.string.isRequired,
@@ -247,6 +264,7 @@ const property = PropTypes.shape(
 		type: PropTypes.string.isRequired
 	}
 );
+
 const propertyGroup = PropTypes.shape(
 	{
 		name: PropTypes.string.isRequired,
@@ -254,6 +272,7 @@ const propertyGroup = PropTypes.shape(
 		propertyKey: PropTypes.string.isRequired
 	}
 );
+
 const propertyTypes = PropTypes.shape(
 	{
 		boolean: PropTypes.arrayOf(PropTypes.string).isRequired,
