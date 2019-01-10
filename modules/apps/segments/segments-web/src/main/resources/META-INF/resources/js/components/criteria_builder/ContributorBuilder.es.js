@@ -67,30 +67,19 @@ class ContributorBuilder extends React.Component {
 	}
 
 	_onCriteriaChange = (criteriaChange, index) => {
-		this.setState(
-			state => {
-				let newState;
-
-				if (state.editing !== index) {
-					newState = state;
-				}
-				else {
-					newState = {
-						contributors: state.contributors.map(
-							(contributor, i) => {
-								return (index === i) ? {
-									...contributor,
-									criteriaMap: criteriaChange,
-									query: buildQueryString([criteriaChange])
-								} : contributor;
-							}
-						)
-					};
-				}
-
-				return newState;
-			}
-		);
+		if (this.state.editing === index) {
+			this.setState({
+				contributors: this.state.contributors.map(
+					(contributor, i) => index === i ?
+						{
+							...contributor,
+							criteriaMap: criteriaChange,
+							query: buildQueryString([criteriaChange])
+						} :
+						contributor
+				)
+			});
+		}
 	}
 
 	_handleRootConjunctionClick = event => {
