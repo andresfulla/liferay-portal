@@ -19,30 +19,29 @@ class TypedInput extends React.Component {
 	render() {
 		const {options, value} = this.props;
 
-		return (
-			<React.Fragment>
-				{
-					(options.length === 0) ?
-						<input
-							className="criterion-input form-control"
-							onChange={this._onChange}
-							type="text"
-							value={value}
-						/> :
-						<ClaySelect
-							className="criterion-input form-control"
-							onChange={this._onChange}
-							options={options.map(
-								o => ({
-									label: o.label,
-									value: o.value
-								})
-							)}
-							selected={value}
-						/>
-				}
-			</React.Fragment>
+		const classnames = getCN(
+			'criterion-input',
+			'form-control'
 		);
+
+		return (options.length === 0) ?
+			<input
+				className={classnames}
+				onChange={this._onChange}
+				type="text"
+				value={value}
+			/> :
+			<ClaySelect
+				className={classnames}
+				onChange={this._onChange}
+				options={options.map(
+					o => ({
+						label: o.label,
+						value: o.value
+					})
+				)}
+				selected={value}
+			/>;
 	}
 }
 
