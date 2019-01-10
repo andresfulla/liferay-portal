@@ -34,7 +34,7 @@ class CriteriaSidebar extends Component {
 	}
 
 	render() {
-		const {supportedProperties, title} = this.props;
+		const {propertyKey, supportedProperties, title} = this.props;
 
 		const {searchValue} = this.state;
 
@@ -59,7 +59,7 @@ class CriteriaSidebar extends Component {
 						filteredProperties.map(
 							({label, name, type}, index) => (
 								<CriteriaSidebarItem
-									className={`color--${this.props.propertyKey}`}
+									className={`color--${propertyKey}`}
 									key={index}
 									label={label}
 									name={name}
