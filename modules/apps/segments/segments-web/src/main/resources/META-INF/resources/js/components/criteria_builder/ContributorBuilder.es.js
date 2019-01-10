@@ -1,4 +1,3 @@
-import getCN from 'classnames';
 import React from 'react';
 import PropTypes from 'prop-types';
 import {DragDropContext as dragDropContext} from 'react-dnd';
