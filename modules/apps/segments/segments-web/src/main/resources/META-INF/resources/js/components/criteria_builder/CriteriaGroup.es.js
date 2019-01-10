@@ -114,7 +114,7 @@ class CriteriaGroup extends Component {
 	_handleCriterionAdd = (index, criterion) => {
 		const {criteria, onChange, root, supportedOperators} = this.props;
 
-		const {operatorName, propertyName, defaultValue: value} = criterion;
+		const {defaultValue: value, operatorName, propertyName} = criterion;
 
 		const newCriterion = {
 			operatorName: operatorName ?
