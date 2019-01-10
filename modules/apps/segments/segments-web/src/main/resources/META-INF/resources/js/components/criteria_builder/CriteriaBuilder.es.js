@@ -120,9 +120,9 @@ class CriteriaBuilder extends Component {
 	 * Switches the edit state between true and false.
 	 */
 	_handleToggleEdit = () => {
-		const {editing, id} = this.props;
+		const {editing, id, onEditToggle} = this.props;
 
-		return this.props.onEditToggle && this.props.onEditToggle(id, editing);
+		return onEditToggle && onEditToggle(id, editing);
 	}
 
 	/**

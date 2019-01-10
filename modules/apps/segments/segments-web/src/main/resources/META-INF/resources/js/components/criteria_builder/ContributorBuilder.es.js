@@ -124,9 +124,9 @@ class ContributorBuilder extends React.Component {
 			supportedPropertyTypes
 		} = this.props;
 
-		const currentEditing = this.state.editing;
+		const {contributors, editing} = this.state;
 
-		const selectedContributor = this.state.contributors[currentEditing];
+		const selectedContributor = contributors[editing];
 
 		const selectedProperty = selectedContributor &&
 			propertyGroups.find(
@@ -136,85 +136,76 @@ class ContributorBuilder extends React.Component {
 		return (
 			<div className="criteria-builder-root">
 				<div className="criteria-builder-section-main">
-					{
-						this.state.contributors.map(
-							(criteria, i) => {
-								return (
-									<React.Fragment key={i}>
-										<div className={'sheet-lg'}>
-											{
-												(i !== 0) &&
-												<React.Fragment>
-													<Conjunction
-														className={'ml-0'}
-														conjunctionName={criteria.conjunctionId}
-														editing={true}
-														supportedConjunctions={supportedConjunctions}
-													/>
+					{contributors.map(
+						(criteria, i) => (
+							<React.Fragment key={i}>
+								<div className="sheet-lg">
+									{(i !== 0) &&
+										<React.Fragment>
+											<Conjunction
+												className="ml-0"
+												conjunctionName={criteria.conjunctionId}
+												editing
+												supportedConjunctions={supportedConjunctions}
+											/>
 
-													<input
-														id={criteria.conjunctionInputId}
-														readOnly
-														type="hidden"
-														value={criteria.conjunctionId}
-													/>
-												</React.Fragment>
-											}
-										</div>
-
-										<CriteriaBuilder
-											criteria={criteria.criteriaMap}
-											editing={currentEditing === i}
-											id={i}
-											initialQuery={criteria.query}
-											inputId={criteria.inputId}
-											modelLabel={criteria.modelLabel}
-											onChange={this._onCriteriaChange}
-											onEditToggle={this._onCriteriaEdit}
-											propertyKey={criteria.propertyKey}
-											supportedConjunctions={supportedConjunctions}
-											supportedOperators={supportedOperators}
-											supportedProperties={criteria.properties}
-											supportedPropertyGroups={this.props.propertyGroups.map(
-												({name, propertyKey}) => ({
-													label: name,
-													value: propertyKey
-												})
-											)}
-											supportedPropertyTypes={supportedPropertyTypes}
-										/>
-
-										<div className="form-group">
 											<input
-												className="field form-control"
-												data-testid={criteria.inputId}
-												id={criteria.inputId}
-												name={criteria.inputId}
+												id={criteria.conjunctionInputId}
 												readOnly
 												type="hidden"
-												value={criteria.query}
+												value={criteria.conjunctionId}
 											/>
-										</div>
-									</React.Fragment>
-								);
-							}
+										</React.Fragment>
+									}
+								</div>
+
+								<CriteriaBuilder
+									criteria={criteria.criteriaMap}
+									editing={editing === i}
+									id={i}
+									initialQuery={criteria.query}
+									inputId={criteria.inputId}
+									modelLabel={criteria.modelLabel}
+									onChange={this._onCriteriaChange}
+									onEditToggle={this._onCriteriaEdit}
+									propertyKey={criteria.propertyKey}
+									supportedConjunctions={supportedConjunctions}
+									supportedOperators={supportedOperators}
+									supportedProperties={criteria.properties}
+									supportedPropertyGroups={propertyGroups.map(
+										({name, propertyKey}) => ({
+											label: name,
+											value: propertyKey
+										})
+									)}
+									supportedPropertyTypes={supportedPropertyTypes}
+								/>
+
+								<div className="form-group">
+									<input
+										className="field form-control"
+										data-testid={criteria.inputId}
+										id={criteria.inputId}
+										name={criteria.inputId}
+										readOnly
+										type="hidden"
+										value={criteria.query}
+									/>
+								</div>
+							</React.Fragment>
 						)
-					}
+					)}
 				</div>
 
 				<div className="criteria-builder-section-sidebar">
-					{
-						<CriteriaSidebar
-							propertyKey={selectedProperty && selectedProperty.propertyKey}
-							supportedProperties={selectedProperty && selectedProperty.properties}
-							title={
-								sub(
-									Liferay.Language.get('x-properties'),
-									[selectedProperty && selectedProperty.name]
-								)
-							}
-						/>
-					}
+					<CriteriaSidebar
+						propertyKey={selectedProperty && selectedProperty.propertyKey}
+						supportedProperties={selectedProperty && selectedProperty.properties}
+						title={sub(
+							Liferay.Language.get('x-properties'),
+							[selectedProperty && selectedProperty.name]
+						)}
+					/>
 				</div>
 			</div>
 		);
