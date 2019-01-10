@@ -34,9 +34,6 @@ class ContributorsBuilderComp extends React.Component {
 			}
 		);
 
-		this.classes = getCN(
-			'criteria-builder-root'
-		);
 		this.state = {
 			conjunctionName: 'and',
 			contributors,
@@ -139,7 +136,7 @@ class ContributorsBuilderComp extends React.Component {
 		const selectedProperty = selectedContributor && propertyGroups.find(c => selectedContributor.propertyKey === c.propertyKey);
 
 		return (
-			<div className={this.classes}>
+			<div className="criteria-builder-root">
 				<div className="criteria-builder-section-main">
 					{
 						this.state.contributors.map(
