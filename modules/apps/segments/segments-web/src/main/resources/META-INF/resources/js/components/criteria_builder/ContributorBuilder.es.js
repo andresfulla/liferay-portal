@@ -86,13 +86,13 @@ class ContributorBuilder extends React.Component {
 		event.preventDefault();
 
 		this.setState(
-			(prevState, prevProps) => {
+			(prevState, props) => {
 				const prevContributors = prevState.contributors;
 
 				const prevConjunction = prevContributors[0] &&
 					prevContributors[0].conjunctionId;
 
-				const {supportedConjunctions} = prevProps;
+				const {supportedConjunctions} = props;
 
 				const conjunctionIndex = supportedConjunctions.findIndex(
 					item => item.name === prevConjunction
@@ -110,7 +110,6 @@ class ContributorBuilder extends React.Component {
 				);
 
 				return {
-					...prevState,
 					contributors
 				};
 			}
