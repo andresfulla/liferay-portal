@@ -52,7 +52,7 @@ function drop(props, monitor) {
 		index: startIndex
 	} = monitor.getItem();
 
-	const {operatorName, propertyName, defaultValue: value} = droppedCriterion;
+	const {defaultValue: value, operatorName, propertyName} = droppedCriterion;
 
 	const newCriterion = {
 		operatorName: operatorName ?
@@ -300,8 +300,8 @@ class CriteriaRow extends Component {
 							<TypedInput
 								className={'mw15'}
 								onChange={this._handleTypedInputChange}
-								type={selectedProperty.type}
 								options={selectedProperty.options}
+								type={selectedProperty.type}
 								value={value}
 							/>
 

@@ -16,13 +16,12 @@ class TypedInput extends React.Component {
 		}
 	}
 	render() {
-		const {value, options, className} = this.props;
-		const isOption = options.length;
+		const {className, options, value} = this.props;
 
 		return (
 			<div className={className}>
 				{
-					(isOption === 0) ?
+					(options.length === 0) ?
 						<input
 							className="criterion-input form-control"
 							onChange={this._onChange}
@@ -30,18 +29,20 @@ class TypedInput extends React.Component {
 							value={value}
 						/> :
 						<ClaySelect
-							selected={value}
-							options={options.map(o => ({
-								label: o.label,
-								value: o.value
-							}))}
 							onChange={this._onChange}
+							options={options.map(
+								o => ({
+									label: o.label,
+									value: o.value
+								})
+							)}
+							selected={value}
 						/>
 				}
 			</div>
 		);
 	}
-};
+}
 
 TypedInput.propTypes = {
 	className: propTypes.string,
