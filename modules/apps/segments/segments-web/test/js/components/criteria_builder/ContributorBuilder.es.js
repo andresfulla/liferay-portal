@@ -1,5 +1,5 @@
 import React from 'react';
-import ContributorsBuilder from 'components/criteria_builder/ContributorsBuilder.es';
+import ContributorBuilder from 'components/criteria_builder/ContributorBuilder.es';
 import {cleanup, render} from 'react-testing-library';
 import {SUPPORTED_CONJUNCTIONS, SUPPORTED_OPERATORS, SUPPORTED_PROPERTY_TYPES} from '../../../../src/main/resources/META-INF/resources/js/utils/constants.es';
 
@@ -170,7 +170,7 @@ describe(
 			'should render',
 			() => {
 				const {asFragment} = render(
-					<ContributorsBuilder
+					<ContributorBuilder
 						initialContributors={initialContributors}
 						propertyGroups={propertyGroups}
 						supportedConjunctions={SUPPORTED_CONJUNCTIONS}

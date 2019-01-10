@@ -9,7 +9,7 @@ import CriteriaBuilder from './CriteriaBuilder.es';
 import {buildQueryString, translateQueryToCriteria} from '../../utils/odata.es';
 import Conjunction from './Conjunction.es';
 
-class ContributorsBuilderComp extends React.Component {
+class ContributorBuilder extends React.Component {
 	constructor(props) {
 		super(props);
 
@@ -263,7 +263,7 @@ const propertyTypes = PropTypes.shape(
 	}
 );
 
-ContributorsBuilderComp.propTypes = {
+ContributorBuilder.propTypes = {
 	initialContributors: PropTypes.arrayOf(initialContributor),
 	propertyGroups: PropTypes.arrayOf(propertyGroup),
 	supportedConjunctions: PropTypes.arrayOf(conjunctions).isRequired,
@@ -271,4 +271,4 @@ ContributorsBuilderComp.propTypes = {
 	supportedPropertyTypes: propertyTypes.isRequired
 };
 
-export default dragDropContext(HTML5Backend)(ContributorsBuilderComp);
+export default dragDropContext(HTML5Backend)(ContributorBuilder);
