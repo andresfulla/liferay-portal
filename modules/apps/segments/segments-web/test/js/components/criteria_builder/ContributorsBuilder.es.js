@@ -16,147 +16,147 @@ const initialContributors = [
 const propertyGroups = [{
 	name: 'User',
 	properties: [{
-		'label': 'Ancestor Organization IDs',
-		'name': 'ancestorOrganizationIds',
-		'type': 'string'
+		label: 'Ancestor Organization IDs',
+		name: 'ancestorOrganizationIds',
+		type: 'string'
 	},
 	{
-		'label': 'Class PK',
-		'name': 'classPK',
-		'type': 'string'
+		label: 'Class PK',
+		name: 'classPK',
+		type: 'string'
 	},
 	{
-		'label': 'Company ID',
-		'name': 'companyId',
-		'type': 'string'
+		label: 'Company ID',
+		name: 'companyId',
+		type: 'string'
 	},
 	{
-		'label': 'Date Modified',
-		'name': 'dateModified',
-		'type': 'date'
+		label: 'Date Modified',
+		name: 'dateModified',
+		type: 'date'
 	},
 	{
-		'label': 'Email Address',
-		'name': 'emailAddress',
-		'type': 'string'
+		label: 'Email Address',
+		name: 'emailAddress',
+		type: 'string'
 	},
 	{
-		'label': 'First Name',
-		'name': 'firstName',
-		'type': 'string'
+		label: 'First Name',
+		name: 'firstName',
+		type: 'string'
 	},
 	{
-		'label': 'Group ID',
-		'name': 'groupId',
-		'type': 'string'
+		label: 'Group ID',
+		name: 'groupId',
+		type: 'string'
 	},
 	{
-		'label': 'Group IDs',
-		'name': 'groupIds',
-		'type': 'string'
+		label: 'Group IDs',
+		name: 'groupIds',
+		type: 'string'
 	},
 	{
-		'label': 'Job Title',
-		'name': 'jobTitle',
-		'type': 'string'
+		label: 'Job Title',
+		name: 'jobTitle',
+		type: 'string'
 	},
 	{
-		'label': 'Last Name',
-		'name': 'lastName',
-		'type': 'string'
+		label: 'Last Name',
+		name: 'lastName',
+		type: 'string'
 	},
 	{
-		'label': 'Organization Count',
-		'name': 'organizationCount',
-		'type': 'string'
+		label: 'Organization Count',
+		name: 'organizationCount',
+		type: 'string'
 	},
 	{
-		'label': 'Organization IDs',
-		'name': 'organizationIds',
-		'type': 'string'
+		label: 'Organization IDs',
+		name: 'organizationIds',
+		type: 'string'
 	},
 	{
-		'label': 'Role IDs',
-		'name': 'roleIds',
-		'type': 'string'
+		label: 'Role IDs',
+		name: 'roleIds',
+		type: 'string'
 	},
 	{
-		'label': 'Scope Group ID',
-		'name': 'scopeGroupId',
-		'type': 'string'
+		label: 'Scope Group ID',
+		name: 'scopeGroupId',
+		type: 'string'
 	},
 	{
-		'label': 'Screen Name',
-		'name': 'screenName',
-		'type': 'string'
+		label: 'Screen Name',
+		name: 'screenName',
+		type: 'string'
 	},
 	{
-		'label': 'Team IDs',
-		'name': 'teamIds',
-		'type': 'string'
+		label: 'Team IDs',
+		name: 'teamIds',
+		type: 'string'
 	},
 	{
-		'label': 'User Group IDs',
-		'name': 'userGroupIds',
-		'type': 'string'
+		label: 'User Group IDs',
+		name: 'userGroupIds',
+		type: 'string'
 	},
 	{
-		'label': 'User ID',
-		'name': 'userId',
-		'type': 'string'
+		label: 'User ID',
+		name: 'userId',
+		type: 'string'
 	},
 	{
-		'label': 'User Name',
-		'name': 'userName',
-		'type': 'string'
+		label: 'User Name',
+		name: 'userName',
+		type: 'string'
 	}],
 	propertyKey: 'user'
 }, {
 	name: 'User Organization',
 	properties: [{
-		'label': 'Class PK',
-		'name': 'classPK',
-		'type': 'string'
+		label: 'Class PK',
+		name: 'classPK',
+		type: 'string'
 	},
 	{
-		'label': 'Company ID',
-		'name': 'companyId',
-		'type': 'string'
+		label: 'Company ID',
+		name: 'companyId',
+		type: 'string'
 	},
 	{
-		'label': 'Date Modified',
-		'name': 'dateModified',
-		'type': 'date'
+		label: 'Date Modified',
+		name: 'dateModified',
+		type: 'date'
 	},
 	{
-		'label': 'Name',
-		'name': 'name',
-		'type': 'string'
+		label: 'Name',
+		name: 'name',
+		type: 'string'
 	},
 	{
-		'label': 'Name Tree Path',
-		'name': 'nameTreePath',
-		'type': 'string'
+		label: 'Name Tree Path',
+		name: 'nameTreePath',
+		type: 'string'
 	},
 	{
-		'label': 'Organization ID',
-		'name': 'organizationId',
-		'type': 'string'
+		label: 'Organization ID',
+		name: 'organizationId',
+		type: 'string'
 	},
 	{
-		'label': 'Parent Organization ID',
-		'name': 'parentOrganizationId',
-		'type': 'string'
+		label: 'Parent Organization ID',
+		name: 'parentOrganizationId',
+		type: 'string'
 	},
 	{
-		'label': 'Tree Path',
-		'name': 'treePath',
-		'type': 'string'
+		label: 'Tree Path',
+		name: 'treePath',
+		type: 'string'
 	},
 	{
-		'label': 'Type',
-		'name': 'type',
-		'type': 'string'
+		label: 'Type',
+		name: 'type',
+		type: 'string'
 	}],
 	propertyKey: 'user-organization'
 }];
