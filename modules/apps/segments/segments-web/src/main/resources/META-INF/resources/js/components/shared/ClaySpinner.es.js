@@ -9,6 +9,10 @@ class ClaySpinner extends Component {
 		size: PropTypes.oneOf(['sm'])
 	};
 
+	static defaultProps = {
+		loading: false
+	}
+
 	render() {
 		const {light, loading, size} = this.props;
 
@@ -20,12 +24,12 @@ class ClaySpinner extends Component {
 			}
 		);
 
-		return loading ? (
+		return loading && (
 			<span
 				className={classes}
 				data-testid="spinner"
 			/>
-		) : null;
+		);
 	}
 }
 
