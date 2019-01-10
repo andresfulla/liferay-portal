@@ -1,6 +1,7 @@
 import React from 'react';
 import propTypes from 'prop-types';
 import ClaySelect from '../shared/ClaySelect.es';
+import getCN from 'classnames';
 
 class TypedInput extends React.Component {
 	constructor(props) {
@@ -16,10 +17,10 @@ class TypedInput extends React.Component {
 		}
 	}
 	render() {
-		const {className, options, value} = this.props;
+		const {options, value} = this.props;
 
 		return (
-			<div className={className}>
+			<React.Fragment>
 				{
 					(options.length === 0) ?
 						<input
@@ -29,6 +30,7 @@ class TypedInput extends React.Component {
 							value={value}
 						/> :
 						<ClaySelect
+							className="criterion-input form-control"
 							onChange={this._onChange}
 							options={options.map(
 								o => ({
@@ -39,13 +41,12 @@ class TypedInput extends React.Component {
 							selected={value}
 						/>
 				}
-			</div>
+			</React.Fragment>
 		);
 	}
 }
 
 TypedInput.propTypes = {
-	className: propTypes.string,
 	onChange: propTypes.func,
 	options: propTypes.array,
 	type: propTypes.string.isRequired,

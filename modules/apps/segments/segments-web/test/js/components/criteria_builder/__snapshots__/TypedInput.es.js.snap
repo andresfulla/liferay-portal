@@ -1,0 +1,40 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`CriteriaRow should render type string with pseudotype options 1`] = `
+<DocumentFragment>
+  <select
+    class="form-control criterion-input form-control"
+  >
+    <option
+      value="defaultValue"
+    >
+      Default Value
+    </option>
+    <option
+      value="someOtherOption"
+    >
+      Some Other Option
+    </option>
+  </select>
+</DocumentFragment>
+`;
+
+exports[`CriteriaRow should render type string with value 1`] = `
+<DocumentFragment>
+  <input
+    class="criterion-input form-control"
+    type="text"
+    value="defautvalue"
+  />
+</DocumentFragment>
+`;
+
+exports[`CriteriaRow should render with type string 1`] = `
+<DocumentFragment>
+  <input
+    class="criterion-input form-control"
+    type="text"
+    value=""
+  />
+</DocumentFragment>
+`;

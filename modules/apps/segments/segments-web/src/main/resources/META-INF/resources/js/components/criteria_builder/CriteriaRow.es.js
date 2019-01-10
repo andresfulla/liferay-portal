@@ -298,7 +298,6 @@ class CriteriaRow extends Component {
 							/>
 
 							<TypedInput
-								className={'mw15'}
 								onChange={this._handleTypedInputChange}
 								options={selectedProperty.options}
 								type={selectedProperty.type}
