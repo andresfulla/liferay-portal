@@ -167,11 +167,22 @@ public class GitWorkingDirectory {
 	}
 
 	public void checkoutUpstreamLocalGitBranch() {
-		String currentBranchName = getCurrentBranchName();
+		LocalGitBranch currentLocalGitBranch = getCurrentLocalGitBranch();
+
+		String currentBranchName = currentLocalGitBranch.getName();
 
 		if (!currentBranchName.equals(getUpstreamBranchName())) {
 			LocalGitBranch upstreamLocalGitBranch = getLocalGitBranch(
 				getUpstreamBranchName());
+
+			if (upstreamLocalGitBranch == null) {
+				upstreamLocalGitBranch = createLocalGitBranch(
+					getUpstreamBranchName(), true,
+					currentLocalGitBranch.getSHA());
+
+				upstreamLocalGitBranch = fetch(
+					upstreamLocalGitBranch, getUpstreamRemoteGitBranch());
+			}
 
 			checkoutLocalGitBranch(upstreamLocalGitBranch);
 		}
@@ -577,7 +588,7 @@ public class GitWorkingDirectory {
 		long start = System.currentTimeMillis();
 
 		GitUtil.ExecutionResult executionResult = executeBashCommands(
-			3, GitUtil.RETRY_DELAY, 1000 * 60 * 30, sb.toString());
+			3, GitUtil.RETRY_DELAY, 1000 * 60 * 15, sb.toString());
 
 		if (executionResult.getExitValue() != 0) {
 			System.out.println(gitBranchesSHAReportStringBuilder.toString());

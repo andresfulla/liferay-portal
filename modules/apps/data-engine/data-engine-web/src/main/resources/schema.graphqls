@@ -28,6 +28,10 @@ schema {
 	query: QueryType
 }
 
+type CountDataDefinitionType {
+	total: Int
+}
+
 type DataDefinitionFieldType {
 	defaultValue: String
 	indexable: Boolean
@@ -56,6 +60,10 @@ type GetDataDefinitionType {
 	dataDefinition: DataDefinition
 }
 
+type ListDataDefinitionType {
+	dataDefinitions: [DataDefinition]
+}
+
 type LocalizedValueType {
 	key: String
 	value: String
@@ -67,7 +75,10 @@ type MutationType {
 }
 
 type QueryType {
+	countDataDefinition(companyId: ID!, groupId: ID!, languageId: String!): CountDataDefinitionType
 	getDataDefinition(dataDefinitionId: ID!, languageId: String!): GetDataDefinitionType
+	listDataDefinition(companyId: ID!, groupId: ID!, languageId: String!, start: Int!, end: Int!): ListDataDefinitionType
+
 }
 
 type SaveDataDefinitionType {

@@ -67,9 +67,9 @@ public abstract class DEBaseDataFetcher {
 	protected ResourceBundle getResourceBundle(String languageId) {
 		List<ResourceBundle> resourceBundles = new ArrayList<>();
 
-		Locale locale = LocaleUtil.fromLanguageId(languageId);
-
 		Portal portal = getPortal();
+
+		Locale locale = LocaleUtil.fromLanguageId(languageId);
 
 		ResourceBundle portalResourceBundle = portal.getResourceBundle(locale);
 

@@ -16,19 +16,27 @@ package com.liferay.data.engine.internal.service;
 
 import com.liferay.data.engine.constants.DEActionKeys;
 import com.liferay.data.engine.exception.DEDataDefinitionException;
-import com.liferay.data.engine.executor.DEDeleteRequestExecutor;
-import com.liferay.data.engine.executor.DEGetRequestExecutor;
-import com.liferay.data.engine.executor.DESaveRequestExecutor;
+import com.liferay.data.engine.internal.executor.DEDataDefinitionCountRequestExecutor;
+import com.liferay.data.engine.internal.executor.DEDataDefinitionDeleteRequestExecutor;
+import com.liferay.data.engine.internal.executor.DEDataDefinitionGetRequestExecutor;
+import com.liferay.data.engine.internal.executor.DEDataDefinitionListRequestExecutor;
+import com.liferay.data.engine.internal.executor.DEDataDefinitionSaveRequestExecutor;
+import com.liferay.data.engine.internal.io.DEDataDefinitionFieldsDeserializerTracker;
 import com.liferay.data.engine.internal.security.permission.DEDataEnginePermissionSupport;
 import com.liferay.data.engine.model.DEDataDefinition;
+import com.liferay.data.engine.service.DEDataDefinitionCountRequest;
+import com.liferay.data.engine.service.DEDataDefinitionCountResponse;
 import com.liferay.data.engine.service.DEDataDefinitionDeleteRequest;
 import com.liferay.data.engine.service.DEDataDefinitionDeleteResponse;
 import com.liferay.data.engine.service.DEDataDefinitionGetRequest;
 import com.liferay.data.engine.service.DEDataDefinitionGetResponse;
+import com.liferay.data.engine.service.DEDataDefinitionListRequest;
+import com.liferay.data.engine.service.DEDataDefinitionListResponse;
 import com.liferay.data.engine.service.DEDataDefinitionSaveRequest;
 import com.liferay.data.engine.service.DEDataDefinitionSaveResponse;
 import com.liferay.data.engine.service.DEDataDefinitionService;
 import com.liferay.dynamic.data.mapping.exception.NoSuchStructureException;
+import com.liferay.dynamic.data.mapping.service.DDMStructureService;
 import com.liferay.portal.kernel.exception.PortalException;
 import com.liferay.portal.kernel.log.Log;
 import com.liferay.portal.kernel.log.LogFactoryUtil;
@@ -49,6 +57,18 @@ import org.osgi.service.component.annotations.Reference;
 public class DEDataDefinitionServiceImpl implements DEDataDefinitionService {
 
 	@Override
+	public DEDataDefinitionCountResponse execute(
+		DEDataDefinitionCountRequest deDataDefinitionCountRequest) {
+
+		DEDataDefinitionCountRequestExecutor
+			deDataDefinitionCountRequestExecutor =
+				getDEDataDefinitionCountRequestExecutor();
+
+		return deDataDefinitionCountRequestExecutor.execute(
+			deDataDefinitionCountRequest);
+	}
+
+	@Override
 	public DEDataDefinitionDeleteResponse execute(
 			DEDataDefinitionDeleteRequest deDataDefinitionDeleteRequest)
 		throws DEDataDefinitionException {
@@ -60,22 +80,28 @@ public class DEDataDefinitionServiceImpl implements DEDataDefinitionService {
 			_modelResourcePermission.check(
 				getPermissionChecker(), deDataDefinitionId, ActionKeys.DELETE);
 
-			return deDeleteRequestExecutor.execute(
+			return deDataDefinitionDeleteRequestExecutor.execute(
 				deDataDefinitionDeleteRequest);
 		}
 		catch (DEDataDefinitionException dedde) {
-			_log.error(dedde, dedde);
+			if (_log.isDebugEnabled()) {
+				_log.debug(dedde, dedde);
+			}
 
 			throw dedde;
 		}
 		catch (NoSuchStructureException nsse) {
-			_log.error(nsse, nsse);
+			if (_log.isDebugEnabled()) {
+				_log.debug(nsse, nsse);
+			}
 
 			throw new DEDataDefinitionException.NoSuchDataDefinition(
 				deDataDefinitionDeleteRequest.getDEDataDefinitionId(), nsse);
 		}
 		catch (Exception e) {
-			_log.error(e, e);
+			if (_log.isDebugEnabled()) {
+				_log.debug(e, e);
+			}
 
 			throw new DEDataDefinitionException(e);
 		}
@@ -93,22 +119,50 @@ public class DEDataDefinitionServiceImpl implements DEDataDefinitionService {
 			_modelResourcePermission.check(
 				getPermissionChecker(), deDataDefinitionId, ActionKeys.VIEW);
 
-			return deGetRequestExecutor.execute(deDataDefinitionGetRequest);
+			return deDataDefinitionGetRequestExecutor.execute(
+				deDataDefinitionGetRequest);
 		}
 		catch (DEDataDefinitionException dedde) {
-			_log.error(dedde, dedde);
+			if (_log.isDebugEnabled()) {
+				_log.debug(dedde.getMessage(), dedde);
+			}
 
 			throw dedde;
 		}
 		catch (NoSuchStructureException nsse) {
-			_log.error(nsse, nsse);
+			if (_log.isDebugEnabled()) {
+				_log.debug(nsse.getMessage(), nsse);
+			}
 
 			throw new DEDataDefinitionException.NoSuchDataDefinition(
 				deDataDefinitionGetRequest.getDEDataDefinitionId(), nsse);
 		}
 		catch (Exception e) {
-			_log.error(e, e);
+			if (_log.isDebugEnabled()) {
+				_log.debug(e.getMessage(), e);
+			}
 
+			throw new DEDataDefinitionException(e);
+		}
+	}
+
+	@Override
+	public DEDataDefinitionListResponse execute(
+			DEDataDefinitionListRequest deDataDefinitionListRequest)
+		throws DEDataDefinitionException {
+
+		DEDataDefinitionListRequestExecutor
+			deDataDefinitionListRequestExecutor =
+				getDEDataDefinitionListRequestExecutor();
+
+		try {
+			return deDataDefinitionListRequestExecutor.execute(
+				deDataDefinitionListRequest);
+		}
+		catch (DEDataDefinitionException dedde) {
+			throw dedde;
+		}
+		catch (Exception e) {
 			throw new DEDataDefinitionException(e);
 		}
 	}
@@ -136,18 +190,23 @@ public class DEDataDefinitionServiceImpl implements DEDataDefinitionService {
 			}
 
 			DEDataDefinitionSaveResponse deDataDefinitionSaveResponse =
-				deSaveRequestExecutor.execute(deDataDefinitionSaveRequest);
+				deDataDefinitionSaveRequestExecutor.execute(
+					deDataDefinitionSaveRequest);
 
 			return DEDataDefinitionSaveResponse.Builder.of(
 				deDataDefinitionSaveResponse.getDEDataDefinitionId());
 		}
 		catch (DEDataDefinitionException dedde) {
-			_log.error(dedde, dedde);
+			if (_log.isDebugEnabled()) {
+				_log.debug(dedde, dedde);
+			}
 
 			throw dedde;
 		}
 		catch (NoSuchStructureException nsse) {
-			_log.error(nsse, nsse);
+			if (_log.isDebugEnabled()) {
+				_log.debug(nsse, nsse);
+			}
 
 			throw new DEDataDefinitionException.NoSuchDataDefinition(
 				deDataDefinition.getDEDataDefinitionId(), nsse);
@@ -157,10 +216,37 @@ public class DEDataDefinitionServiceImpl implements DEDataDefinitionService {
 				mhp.actionId, mhp);
 		}
 		catch (Exception e) {
-			_log.error(e, e);
+			if (_log.isDebugEnabled()) {
+				_log.debug(e, e);
+			}
 
 			throw new DEDataDefinitionException(e);
 		}
+	}
+
+	public DEDataDefinitionCountRequestExecutor
+		getDEDataDefinitionCountRequestExecutor() {
+
+		if (_deDataDefinitionCountRequestExecutor == null) {
+			_deDataDefinitionCountRequestExecutor =
+				new DEDataDefinitionCountRequestExecutor(
+					ddmStructureService, portal);
+		}
+
+		return _deDataDefinitionCountRequestExecutor;
+	}
+
+	public DEDataDefinitionListRequestExecutor
+		getDEDataDefinitionListRequestExecutor() {
+
+		if (_deDataDefinitionListRequestExecutor == null) {
+			_deDataDefinitionListRequestExecutor =
+				new DEDataDefinitionListRequestExecutor(
+					ddmStructureService,
+					deDataDefinitionFieldsDeserializerTracker, portal);
+		}
+
+		return _deDataDefinitionListRequestExecutor;
 	}
 
 	protected void checkCreateDataDefinitionPermission(
@@ -203,16 +289,26 @@ public class DEDataDefinitionServiceImpl implements DEDataDefinitionService {
 	}
 
 	@Reference
+	protected DDMStructureService ddmStructureService;
+
+	@Reference
+	protected DEDataDefinitionDeleteRequestExecutor
+		deDataDefinitionDeleteRequestExecutor;
+
+	@Reference
+	protected DEDataDefinitionFieldsDeserializerTracker
+		deDataDefinitionFieldsDeserializerTracker;
+
+	@Reference
+	protected DEDataDefinitionGetRequestExecutor
+		deDataDefinitionGetRequestExecutor;
+
+	@Reference
+	protected DEDataDefinitionSaveRequestExecutor
+		deDataDefinitionSaveRequestExecutor;
+
+	@Reference
 	protected DEDataEnginePermissionSupport deDataEnginePermissionSupport;
-
-	@Reference
-	protected DEDeleteRequestExecutor deDeleteRequestExecutor;
-
-	@Reference
-	protected DEGetRequestExecutor deGetRequestExecutor;
-
-	@Reference
-	protected DESaveRequestExecutor deSaveRequestExecutor;
 
 	@Reference
 	protected Portal portal;
@@ -220,6 +316,10 @@ public class DEDataDefinitionServiceImpl implements DEDataDefinitionService {
 	private static final Log _log = LogFactoryUtil.getLog(
 		DEDataDefinitionServiceImpl.class);
 
+	private DEDataDefinitionCountRequestExecutor
+		_deDataDefinitionCountRequestExecutor;
+	private DEDataDefinitionListRequestExecutor
+		_deDataDefinitionListRequestExecutor;
 	private ModelResourcePermission<DEDataDefinition> _modelResourcePermission;
 
 }
