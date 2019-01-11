@@ -4,11 +4,7 @@ import ClaySelect from '../shared/ClaySelect.es';
 import getCN from 'classnames';
 
 class TypedInput extends React.Component {
-	constructor(props) {
-		super(props);
-		this._onChange = this._onChange.bind(this);
-	}
-	_onChange(event) {
+	_onChange = event => {
 		const {onChange} = this.props;
 		const value = event.target.value;
 
@@ -16,6 +12,7 @@ class TypedInput extends React.Component {
 			onChange(value);
 		}
 	}
+
 	render() {
 		const {options, value} = this.props;
 
