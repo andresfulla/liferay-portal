@@ -65,7 +65,7 @@ class ContributorBuilder extends React.Component {
 
 	_onCriteriaChange = (criteriaChange, index) => {
 		this.setState(
-			(prevState) => {
+			prevState => {
 				let diffState = null;
 				if (prevState.editing === index) {
 					diffState = {
@@ -151,8 +151,8 @@ class ContributorBuilder extends React.Component {
 												className="ml-0"
 												conjunctionName={criteria.conjunctionId}
 												editing
-												supportedConjunctions={supportedConjunctions}
 												handleConjunctionClick={this._handleRootConjunctionClick}
+												supportedConjunctions={supportedConjunctions}
 											/>
 
 											<input
