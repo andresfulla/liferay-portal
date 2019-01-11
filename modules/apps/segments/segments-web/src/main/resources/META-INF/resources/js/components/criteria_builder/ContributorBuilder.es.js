@@ -67,6 +67,7 @@ class ContributorBuilder extends React.Component {
 		this.setState(
 			prevState => {
 				let diffState = null;
+
 				if (prevState.editing === index) {
 					diffState = {
 						contributors: prevState.contributors.map(
@@ -82,6 +83,7 @@ class ContributorBuilder extends React.Component {
 						)
 					};
 				}
+
 				return diffState;
 			}
 		);
