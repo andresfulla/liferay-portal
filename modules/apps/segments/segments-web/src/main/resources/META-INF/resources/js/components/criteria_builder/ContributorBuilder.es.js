@@ -57,29 +57,34 @@ class ContributorBuilder extends React.Component {
 		const newPropertyKey = event.target.value;
 
 		this.setState(
-			prevState => (
-				{
-					...prevState,
-					newPropertyKey
-				}
-			)
+			{
+				newPropertyKey
+			}
 		);
 	}
 
 	_onCriteriaChange = (criteriaChange, index) => {
-		if (this.state.editing === index) {
-			this.setState({
-				contributors: this.state.contributors.map(
-					(contributor, i) => index === i ?
-						{
-							...contributor,
-							criteriaMap: criteriaChange,
-							query: buildQueryString([criteriaChange])
-						} :
-						contributor
-				)
-			});
-		}
+		this.setState(
+			(prevState) => {
+				let diffState = null;
+				if (prevState.editing === index) {
+					diffState = {
+						contributors: prevState.contributors.map(
+							(contributor, i) => {
+								return index === i ?
+									{
+										...contributor,
+										criteriaMap: criteriaChange,
+										query: buildQueryString([criteriaChange])
+									} :
+									contributor;
+							}
+						)
+					};
+				}
+				return diffState;
+			}
+		);
 	}
 
 	_handleRootConjunctionClick = event => {
@@ -212,14 +217,14 @@ class ContributorBuilder extends React.Component {
 	}
 }
 
-const conjunctions = PropTypes.shape(
+const conjunctionShape = PropTypes.shape(
 	{
 		label: PropTypes.string.isRequired,
 		name: PropTypes.string.isRequired
 	}
 );
 
-const initialContributor = PropTypes.shape(
+const initialContributorShape = PropTypes.shape(
 	{
 		conjunctionId: PropTypes.string.isRequired,
 		conjunctionInputId: PropTypes.string.isRequired,
@@ -229,14 +234,14 @@ const initialContributor = PropTypes.shape(
 	}
 );
 
-const operators = PropTypes.shape(
+const operatorShape = PropTypes.shape(
 	{
 		label: PropTypes.string.isRequired,
 		name: PropTypes.string.isRequired
 	}
 );
 
-const property = PropTypes.shape(
+const propertyShape = PropTypes.shape(
 	{
 		label: PropTypes.string.isRequired,
 		name: PropTypes.string.isRequired,
@@ -244,15 +249,15 @@ const property = PropTypes.shape(
 	}
 );
 
-const propertyGroup = PropTypes.shape(
+const propertyGroupShape = PropTypes.shape(
 	{
 		name: PropTypes.string.isRequired,
-		properties: PropTypes.arrayOf(property),
+		properties: PropTypes.arrayOf(propertyShape),
 		propertyKey: PropTypes.string.isRequired
 	}
 );
 
-const propertyTypes = PropTypes.shape(
+const propertyTypeShape = PropTypes.shape(
 	{
 		boolean: PropTypes.arrayOf(PropTypes.string).isRequired,
 		date: PropTypes.arrayOf(PropTypes.string).isRequired,
@@ -262,11 +267,11 @@ const propertyTypes = PropTypes.shape(
 );
 
 ContributorBuilder.propTypes = {
-	initialContributors: PropTypes.arrayOf(initialContributor),
-	propertyGroups: PropTypes.arrayOf(propertyGroup),
-	supportedConjunctions: PropTypes.arrayOf(conjunctions).isRequired,
-	supportedOperators: PropTypes.arrayOf(operators).isRequired,
-	supportedPropertyTypes: propertyTypes.isRequired
+	initialContributors: PropTypes.arrayOf(initialContributorShape),
+	propertyGroups: PropTypes.arrayOf(propertyGroupShape),
+	supportedConjunctions: PropTypes.arrayOf(conjunctionShape).isRequired,
+	supportedOperators: PropTypes.arrayOf(operatorShape).isRequired,
+	supportedPropertyTypes: propertyTypeShape.isRequired
 };
 
 export default dragDropContext(HTML5Backend)(ContributorBuilder);
