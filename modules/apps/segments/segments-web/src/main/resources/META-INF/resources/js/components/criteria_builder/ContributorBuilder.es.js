@@ -40,7 +40,7 @@ class ContributorBuilder extends React.Component {
 		this.state = {
 			conjunctionName: CONJUNCTIONS.AND,
 			contributors,
-			editing: undefined,
+			editingId: undefined,
 			newPropertyKey: propertyGroups.length && propertyGroups[0].propertyKey
 		};
 	}
@@ -48,7 +48,7 @@ class ContributorBuilder extends React.Component {
 	_onCriteriaEdit = (id, editing) => {
 		this.setState(
 			{
-				editing: editing ? undefined : id
+				editingId: editing ? undefined : id
 			}
 		);
 	}
@@ -68,7 +68,7 @@ class ContributorBuilder extends React.Component {
 			prevState => {
 				let diffState = null;
 
-				if (prevState.editing === index) {
+				if (prevState.editingId === index) {
 					diffState = {
 						contributors: prevState.contributors.map(
 							(contributor, i) => {
@@ -131,9 +131,9 @@ class ContributorBuilder extends React.Component {
 			supportedPropertyTypes
 		} = this.props;
 
-		const {contributors, editing} = this.state;
+		const {contributors, editingId} = this.state;
 
-		const selectedContributor = contributors[editing];
+		const selectedContributor = contributors[editingId];
 
 		const selectedProperty = selectedContributor &&
 			propertyGroups.find(
@@ -169,7 +169,7 @@ class ContributorBuilder extends React.Component {
 
 								<CriteriaBuilder
 									criteria={criteria.criteriaMap}
-									editing={editing === i}
+									editing={editingId === i}
 									id={i}
 									initialQuery={criteria.query}
 									inputId={criteria.inputId}
