@@ -2,15 +2,15 @@ import React from 'react';
 import TypedInput from 'components/criteria_builder/TypedInput.es';
 import {cleanup, render} from 'react-testing-library';
 
-const connectDnd = jest.fn(el => el);
-
-const options = [{
-	label: 'Default Value',
-	value: 'defaultValue'
-}, {
-	label: 'Some Other Option',
-	value: 'someOtherOption'
-}];
+const options = [
+	{
+		label: 'Default Value',
+		value: 'defaultValue'
+	}, {
+		label: 'Some Other Option',
+		value: 'someOtherOption'
+	}
+];
 
 describe(
 	'CriteriaRow',
