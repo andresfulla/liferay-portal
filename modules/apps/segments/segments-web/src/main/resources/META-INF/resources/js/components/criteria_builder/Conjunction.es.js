@@ -11,11 +11,13 @@ class Conjunction extends React.Component {
 
 		return conjunction ? conjunction.label : undefined;
 	}
+
 	render() {
 		const {
 			className,
 			conjunctionName,
 			editing,
+			onClick,
 			supportedConjunctions
 		} = this.props;
 
@@ -35,7 +37,7 @@ class Conjunction extends React.Component {
 						conjunctionName,
 						supportedConjunctions
 					)}
-					onClick={this.props.handleConjunctionClick}
+					onClick={onClick}
 				/> :
 				<div className={classnames}>
 					{this._getConjunctionLabel(
@@ -51,7 +53,7 @@ Conjunction.propTypes = {
 	className: PropTypes.string,
 	conjunctionName: PropTypes.string.isRequired,
 	editing: PropTypes.bool.isRequired,
-	handleConjunctionClick: PropTypes.func,
+	onClick: PropTypes.func,
 	supportedConjunctions: PropTypes.array.isRequired
 };
 

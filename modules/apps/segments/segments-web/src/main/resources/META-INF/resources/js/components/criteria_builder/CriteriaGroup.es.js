@@ -196,12 +196,14 @@ class CriteriaGroup extends Component {
 					onCriterionAdd={this._handleCriterionAdd}
 					onMove={onMove}
 				/>
+
 				<Conjunction
 					conjunctionName={criteria.conjunctionName}
 					editing={editing}
-					handleConjunctionClick={this._handleConjunctionClick}
+					onClick={this._handleConjunctionClick}
 					supportedConjunctions={supportedConjunctions}
 				/>
+
 				<DropZone
 					before
 					dropIndex={index}

@@ -45,25 +45,7 @@ class ContributorBuilder extends React.Component {
 		};
 	}
 
-	_onCriteriaEdit = (id, editing) => {
-		this.setState(
-			{
-				editingId: editing ? undefined : id
-			}
-		);
-	}
-
-	_handleSelectorChange = event => {
-		const newPropertyKey = event.target.value;
-
-		this.setState(
-			{
-				newPropertyKey
-			}
-		);
-	}
-
-	_onCriteriaChange = (criteriaChange, index) => {
+	_handleCriteriaChange = (criteriaChange, index) => {
 		this.setState(
 			prevState => {
 				let diffState = null;
@@ -85,6 +67,24 @@ class ContributorBuilder extends React.Component {
 				}
 
 				return diffState;
+			}
+		);
+	}
+
+	_handleCriteriaEdit = (id, editing) => {
+		this.setState(
+			{
+				editingId: editing ? undefined : id
+			}
+		);
+	}
+
+	_handleSelectorChange = event => {
+		const newPropertyKey = event.target.value;
+
+		this.setState(
+			{
+				newPropertyKey
 			}
 		);
 	}
@@ -153,7 +153,7 @@ class ContributorBuilder extends React.Component {
 												className="ml-0"
 												conjunctionName={criteria.conjunctionId}
 												editing
-												handleConjunctionClick={this._handleRootConjunctionClick}
+												onClick={this._handleRootConjunctionClick}
 												supportedConjunctions={supportedConjunctions}
 											/>
 
@@ -174,8 +174,8 @@ class ContributorBuilder extends React.Component {
 									initialQuery={criteria.query}
 									inputId={criteria.inputId}
 									modelLabel={criteria.modelLabel}
-									onChange={this._onCriteriaChange}
-									onEditToggle={this._onCriteriaEdit}
+									onChange={this._handleCriteriaChange}
+									onEditToggle={this._handleCriteriaEdit}
 									propertyKey={criteria.propertyKey}
 									supportedConjunctions={supportedConjunctions}
 									supportedOperators={supportedOperators}
