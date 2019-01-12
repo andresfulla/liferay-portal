@@ -45,14 +45,16 @@ class SegmentEdit extends Component {
 	};
 
 	static defaultProps = {
+		initialMembersCount: 0,
 		initialSegmentActive: true,
 		initialSegmentName: DEFAULT_SEGMENT_NAME,
 		portletNamespace: ''
 	};
 
 	state = {
-		membersCount: this.props.initialMembersCount || 0
+		membersCount: this.props.initialMembersCount
 	};
+
 	constructor(props) {
 		super(props);
 
@@ -98,6 +100,7 @@ class SegmentEdit extends Component {
 			}
 		);
 	};
+
 	_handleSegmentNameBlur = event => {
 		const {
 			handleBlur,
