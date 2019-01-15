@@ -4,7 +4,7 @@ import ClaySelect from '../shared/ClaySelect.es';
 import getCN from 'classnames';
 
 class TypedInput extends React.Component {
-	_onChange = event => {
+	_handleChange = event => {
 		const {onChange} = this.props;
 		const value = event.target.value;
 
@@ -24,13 +24,15 @@ class TypedInput extends React.Component {
 		return (options.length === 0) ?
 			<input
 				className={classnames}
-				onChange={this._onChange}
+				data-testid="simple-string"
+				onChange={this._handleChange}
 				type="text"
 				value={value}
 			/> :
 			<ClaySelect
 				className={classnames}
-				onChange={this._onChange}
+				data-testid="options-string"
+				onChange={this._handleChange}
 				options={options.map(
 					o => ({
 						label: o.label,

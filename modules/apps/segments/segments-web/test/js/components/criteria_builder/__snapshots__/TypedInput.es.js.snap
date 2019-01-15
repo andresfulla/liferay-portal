@@ -4,6 +4,7 @@ exports[`CriteriaRow should render type string with pseudotype options 1`] = `
 <DocumentFragment>
   <select
     class="form-control criterion-input form-control"
+    data-testid="options-string"
   >
     <option
       value="defaultValue"
@@ -11,9 +12,9 @@ exports[`CriteriaRow should render type string with pseudotype options 1`] = `
       Default Value
     </option>
     <option
-      value="someOtherOption"
+      value="Liferay"
     >
-      Some Other Option
+      LIFERAY
     </option>
   </select>
 </DocumentFragment>
@@ -23,8 +24,9 @@ exports[`CriteriaRow should render type string with value 1`] = `
 <DocumentFragment>
   <input
     class="criterion-input form-control"
+    data-testid="simple-string"
     type="text"
-    value="defautvalue"
+    value="defaultValue"
   />
 </DocumentFragment>
 `;
@@ -33,6 +35,7 @@ exports[`CriteriaRow should render with type string 1`] = `
 <DocumentFragment>
   <input
     class="criterion-input form-control"
+    data-testid="simple-string"
     type="text"
     value=""
   />

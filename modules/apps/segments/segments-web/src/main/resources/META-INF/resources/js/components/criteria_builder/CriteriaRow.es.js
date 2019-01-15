@@ -3,7 +3,7 @@ import {PropTypes} from 'prop-types';
 import ClayButton from '../shared/ClayButton.es';
 import ClayIcon from '../shared/ClayIcon.es';
 import ClaySelect from '../shared/ClaySelect.es';
-import {CONJUNCTIONS} from '../../utils/constants.es';
+import {CONJUNCTIONS, PROPERTY_TYPES} from '../../utils/constants.es';
 import {DragSource as dragSource, DropTarget as dropTarget} from 'react-dnd';
 import {DragTypes} from '../../utils/drag-types.es';
 import getCN from 'classnames';
@@ -156,7 +156,7 @@ class CriteriaRow extends Component {
 	 * idSelected for name and label.
 	 * @param {Array} list The list of objects to search through.
 	 * @param {string} idSelected The name to match in each object in the list.
-	 * @return {object} An object with a `name` and `label` property.
+	 * @return {object} An object with a `name`, `label` and `type` property.
 	 */
 	_getSelectedItem = (list, idSelected) => {
 		const selectedItem = list.find(item => item.name === idSelected);
@@ -165,7 +165,8 @@ class CriteriaRow extends Component {
 			selectedItem :
 			{
 				label: idSelected,
-				name: idSelected
+				name: idSelected,
+				type: PROPERTY_TYPES.STRING
 			};
 	}
 

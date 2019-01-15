@@ -1,16 +1,27 @@
 import React from 'react';
 import TypedInput from 'components/criteria_builder/TypedInput.es';
-import {cleanup, render} from 'react-testing-library';
+import {cleanup, render, fireEvent} from 'react-testing-library';
 
+const defaultValue = "defaultValue";
 const options = [
 	{
 		label: 'Default Value',
 		value: 'defaultValue'
 	}, {
-		label: 'Some Other Option',
-		value: 'someOtherOption'
+		label: 'LIFERAY',
+		value: 'Liferay'
 	}
 ];
+
+function testControlledInput (element, value, mockFunc) {
+	expect(element.value).toBe(value);
+				
+	fireEvent.change(element, { target: { value: 'Liferay' } })
+
+	expect(mockFunc.mock.calls.length).toBe(1);
+	expect(mockFunc.mock.calls[0][0]).toBe('Liferay');
+	expect(element.value).toBe(value); // as the input is controlled
+}
 
 describe(
 	'CriteriaRow',
@@ -32,28 +43,40 @@ describe(
 		it(
 			'should render type string with value',
 			() => {
-				const {asFragment} = render(
+				const mockOnChange = jest.fn();
+				const {asFragment, getByTestId} = render(
 					<TypedInput
 						type="string"
-						value="defautvalue"
+						value={defaultValue}
+						onChange={mockOnChange}
 					/>
 				);
 
 				expect(asFragment()).toMatchSnapshot();
+				
+				const input = getByTestId('simple-string');
+
+				testControlledInput(input, defaultValue, mockOnChange);
 			}
 		);
 		it(
 			'should render type string with pseudotype options',
 			() => {
-				const {asFragment} = render(
+				const mockOnChange = jest.fn();
+				const {asFragment, getByTestId} = render(
 					<TypedInput
 						type="string"
-						value="defautvalue"
+						value={defaultValue}
 						options={options}
+						onChange={mockOnChange}
 					/>
 				);
 
 				expect(asFragment()).toMatchSnapshot();
+
+				const selector = getByTestId('options-string');
+
+				testControlledInput(selector, defaultValue, mockOnChange);
 			}
 		);
 	}
