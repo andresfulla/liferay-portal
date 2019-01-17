@@ -16,6 +16,7 @@ class TypedInput extends React.Component {
 			onChange(value);
 		}
 	}
+
 	_renderStringType = () => {
 		const {options, value} = this.props;
 
@@ -47,6 +48,7 @@ class TypedInput extends React.Component {
 
 		onChange(newValue, PROPERTY_TYPES.DATE);
 	}
+
 	_renderDateType = () => {
 		const {value} = this.props;
 
@@ -62,6 +64,7 @@ class TypedInput extends React.Component {
 			/>
 		</div>);
 	}
+
 	_renderBooleanType = () => {
 		const {value} = this.props;
 
@@ -91,6 +94,7 @@ class TypedInput extends React.Component {
 			onChange(value.toString());
 		}
 	}
+
 	_renderNumberType = () => {
 		const {value} = this.props;
 
@@ -103,27 +107,24 @@ class TypedInput extends React.Component {
 				value={value}
 			/>);
 	}
+
+	_getInputRenderer(type) {
+		const renderers = {
+			[PROPERTY_TYPES.BOOLEAN]: this._renderBooleanType,
+			[PROPERTY_TYPES.DATE]: this._renderDateType,
+			[PROPERTY_TYPES.NUMBER]: this._renderNumberType,
+			[PROPERTY_TYPES.STRING]: this._renderStringType
+		};
+
+		return renderers[type] || renderers[PROPERTY_TYPES.STRING];
+	}
+
 	render() {
 		const {type} = this.props;
 
-		let render;
-		switch (type) {
-		case PROPERTY_TYPES.STRING:
-			render = this._renderStringType();
-			break;
-		case PROPERTY_TYPES.DATE:
-			render = this._renderDateType();
-			break;
-		case PROPERTY_TYPES.BOOLEAN:
-			render = this._renderBooleanType();
-			break;
-		case PROPERTY_TYPES.NUMBER:
-			render = this._renderNumberType();
-			break;
-		default:
-			render = null;
-		}
-		return render;
+		const inputRenderer = this._getInputRenderer(type);
+
+		return inputRenderer();
 	}
 }
 
