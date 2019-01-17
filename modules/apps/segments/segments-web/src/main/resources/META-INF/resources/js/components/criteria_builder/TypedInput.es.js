@@ -44,9 +44,10 @@ class TypedInput extends React.Component {
 	_handleDateChange = event => {
 		const {onChange} = this.props;
 
-		const newValue = dateFns.parse(event.target.value, INPUT_DATE_FORMAT).toISOString();
+		const value = event.target.value || dateFns.format(new Date(), INPUT_DATE_FORMAT);
+		const iSOStringValue = dateFns.parse(value, INPUT_DATE_FORMAT).toISOString();
 
-		onChange(newValue, PROPERTY_TYPES.DATE);
+		onChange(iSOStringValue, PROPERTY_TYPES.DATE);
 	}
 
 	_renderDateType = () => {
