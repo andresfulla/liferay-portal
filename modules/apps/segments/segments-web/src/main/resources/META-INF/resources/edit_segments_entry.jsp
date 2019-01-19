@@ -80,8 +80,8 @@ renderResponse.setTitle(editSegmentsEntryDisplayContext.getTitle(locale));
 				requestMembersCountURL: '<%= getSegmentsEntryClassPKsCountURL %>'
 			},
 			{
-				assetsPath: '<%= PortalUtil.getPathContext(request) %>/assets/',
-				spritemap: '<%= themeDisplay.getPathThemeImages() %>/lexicon/icons.svg'
+				assetsPath: '<%= PortalUtil.getPathContext(request) + "/assets/" %>',
+				spritemap: '<%= themeDisplay.getPathThemeImages() + "/lexicon/icons.svg" %>'
 			}
 		);
 	</aui:script>
