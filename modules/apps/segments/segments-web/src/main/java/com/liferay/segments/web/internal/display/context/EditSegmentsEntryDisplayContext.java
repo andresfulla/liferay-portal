@@ -37,6 +37,7 @@ import com.liferay.portal.kernel.service.UserLocalService;
 import com.liferay.portal.kernel.util.MapUtil;
 import com.liferay.portal.kernel.util.ParamUtil;
 import com.liferay.portal.kernel.util.Validator;
+import com.liferay.segments.constants.SegmentsConstants;
 import com.liferay.segments.criteria.Criteria;
 import com.liferay.segments.criteria.contributor.SegmentsCriteriaContributor;
 import com.liferay.segments.criteria.contributor.SegmentsCriteriaContributorRegistry;
@@ -375,6 +376,17 @@ public class EditSegmentsEntryDisplayContext {
 		_segmentsEntryId = ParamUtil.getLong(_request, "segmentsEntryId");
 
 		return _segmentsEntryId;
+	}
+
+	public String getSource() throws PortalException {
+		SegmentsEntry segmentsEntry = getSegmentsEntry();
+
+		if (segmentsEntry != null) {
+			return segmentsEntry.getSource();
+		}
+
+		return ParamUtil.getString(
+			_request, "source", SegmentsConstants.SOURCE_DEFAULT);
 	}
 
 	public String getTitle(Locale locale) throws PortalException {

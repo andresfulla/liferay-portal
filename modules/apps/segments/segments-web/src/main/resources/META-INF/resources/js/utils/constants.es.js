@@ -116,3 +116,8 @@ export const BOOLEAN_OPTIONS = [
 		value: 'false'
 	}
 ];
+
+export const SEGMENT_SOURCE_TYPES = {
+	ASAH_FARO_BACKEND: 'ASAH_FARO_BACKEND',
+	DEFAULT: 'DEFAULT'
+};

@@ -3,9 +3,11 @@ import PropTypes from 'prop-types';
 import ClayButton from '../shared/ClayButton.es';
 import ClaySpinner from '../shared/ClaySpinner.es';
 import debounce from 'lodash.debounce';
+import ThemeContext from '../../ThemeContext.es';
 import TitleEditor from '../title_editor/TitleEditor.es';
 import {getPluralMessage} from '../../utils/utils.es';
 import {
+	SEGMENT_SOURCE_TYPES,
 	SUPPORTED_CONJUNCTIONS,
 	SUPPORTED_OPERATORS,
 	SUPPORTED_PROPERTY_TYPES
@@ -16,6 +18,8 @@ import ContributorBuilder from '../criteria_builder/ContributorBuilder.es';
 const DEFAULT_SEGMENT_NAME = Liferay.Language.get('unnamed-segment');
 
 class SegmentEdit extends Component {
+	static contextType = ThemeContext;
+
 	static propTypes = {
 		contributors: PropTypes.arrayOf(
 			PropTypes.shape(
@@ -40,6 +44,7 @@ class SegmentEdit extends Component {
 		propertyGroups: PropTypes.array,
 		redirect: PropTypes.string,
 		requestMembersCountURL: PropTypes.string,
+		segmentSource: PropTypes.string,
 		setValues: PropTypes.func,
 		values: PropTypes.object
 	};
@@ -149,10 +154,13 @@ class SegmentEdit extends Component {
 			portletNamespace,
 			previewMembersURL,
 			redirect,
+			segmentSource,
 			values
 		} = this.props;
 
 		const {membersCount, membersCountLoading} = this.state;
+
+		const {assetsPath} = this.context;
 
 		return (
 			<div className="segment-edit-page-root">
@@ -189,6 +197,14 @@ class SegmentEdit extends Component {
 								onChange={handleChange}
 								placeholder={DEFAULT_SEGMENT_NAME}
 								value={values.name}
+							/>
+
+							<img
+								className="type-icon"
+								src={segmentSource === SEGMENT_SOURCE_TYPES.ASAH_FARO_BACKEND ?
+									`${assetsPath}/ac-icon.svg` :
+									`${assetsPath}/dxp-icon.svg`
+								}
 							/>
 						</div>
 
