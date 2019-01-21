@@ -2,7 +2,7 @@ import React, {Component} from 'react';
 import PropTypes from 'prop-types';
 import ClayToggle from '../shared/ClayToggle.es';
 import CriteriaGroup from './CriteriaGroup.es';
-import {insertAtIndex, removeAtIndex, replaceAtIndex} from '../../utils/utils.es';
+import {insertAtIndex, removeAtIndex, replaceAtIndex, sub} from '../../utils/utils.es';
 
 const CRITERIA_GROUP_SHAPE = {
 	conjunctionName: PropTypes.string,
@@ -252,6 +252,12 @@ class CriteriaBuilder extends Component {
 		return (
 			<div className="sheet sheet-lg">
 				<div className="criteria-builder-toolbar">
+					<h4>
+						{sub(
+							Liferay.Language.get('x-criteria'),
+							[modelLabel]
+						)}
+					</h4>
 					<ClayToggle
 						checked={editing}
 						className="ml-auto"
