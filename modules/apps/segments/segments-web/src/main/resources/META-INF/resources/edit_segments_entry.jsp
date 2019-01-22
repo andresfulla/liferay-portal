@@ -81,7 +81,7 @@ renderResponse.setTitle(editSegmentsEntryDisplayContext.getTitle(locale));
 				source: '<%= editSegmentsEntryDisplayContext.getSource() %>'
 			},
 			{
-				assetsPath: '<%= PortalUtil.getPathContext(request) + "/assets/" %>',
+				assetsPath: '<%= PortalUtil.getPathContext(request) + "/assets" %>',
 				spritemap: '<%= themeDisplay.getPathThemeImages() + "/lexicon/icons.svg" %>'
 			}
 		);
