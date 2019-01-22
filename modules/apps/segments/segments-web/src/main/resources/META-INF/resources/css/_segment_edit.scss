@@ -29,6 +29,7 @@
 		.form-header-section-left {
 			display: flex;
 			flex: 1;
+			padding-right: 40px;
 		}
 
 		.form-header-section-right {
@@ -60,6 +61,10 @@
 			.members-preview-button {
 				margin-right: 40px;
 			}
+		}
+
+		.type-icon {
+			margin: 0 8px;
 		}
 	}
 
