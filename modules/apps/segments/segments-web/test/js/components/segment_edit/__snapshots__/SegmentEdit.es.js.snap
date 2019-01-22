@@ -68,6 +68,11 @@ exports[`SegmentEdit should render 1`] = `
               </button>
             </div>
           </div>
+          <img
+            class="type-icon"
+            data-testid="source-icon"
+            src="/dxp-icon.svg"
+          />
         </div>
         <div
           class="form-header-section-right"
