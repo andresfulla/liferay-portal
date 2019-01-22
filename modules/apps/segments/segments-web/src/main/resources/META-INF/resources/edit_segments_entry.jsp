@@ -78,7 +78,7 @@ renderResponse.setTitle(editSegmentsEntryDisplayContext.getTitle(locale));
 				propertyGroups: <%= editSegmentsEntryDisplayContext.getPropertyGroupsJSONArray(locale) %>,
 				redirect: '<%= HtmlUtil.escape(redirect) %>',
 				requestMembersCountURL: '<%= getSegmentsEntryClassPKsCountURL %>',
-				segmentSource: '<%= editSegmentsEntryDisplayContext.getSource() %>'
+				source: '<%= editSegmentsEntryDisplayContext.getSource() %>'
 			},
 			{
 				assetsPath: '<%= PortalUtil.getPathContext(request) + "/assets/" %>',

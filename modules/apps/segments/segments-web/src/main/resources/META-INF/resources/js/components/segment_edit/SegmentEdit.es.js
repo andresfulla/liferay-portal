@@ -7,7 +7,7 @@ import ThemeContext from '../../ThemeContext.es';
 import TitleEditor from '../title_editor/TitleEditor.es';
 import {getPluralMessage} from '../../utils/utils.es';
 import {
-	SEGMENT_SOURCE_TYPES,
+	SOURCES,
 	SUPPORTED_CONJUNCTIONS,
 	SUPPORTED_OPERATORS,
 	SUPPORTED_PROPERTY_TYPES
@@ -44,8 +44,8 @@ class SegmentEdit extends Component {
 		propertyGroups: PropTypes.array,
 		redirect: PropTypes.string,
 		requestMembersCountURL: PropTypes.string,
-		segmentSource: PropTypes.string,
 		setValues: PropTypes.func,
+		source: PropTypes.string,
 		values: PropTypes.object
 	};
 
@@ -154,7 +154,7 @@ class SegmentEdit extends Component {
 			portletNamespace,
 			previewMembersURL,
 			redirect,
-			segmentSource,
+			source,
 			values
 		} = this.props;
 
@@ -201,9 +201,10 @@ class SegmentEdit extends Component {
 
 							<img
 								className="type-icon"
-								src={segmentSource === SEGMENT_SOURCE_TYPES.ASAH_FARO_BACKEND ?
-									`${assetsPath}/ac-icon.svg` :
-									`${assetsPath}/dxp-icon.svg`
+								data-testid="source-icon"
+								src={source === SOURCES.ASAH_FARO_BACKEND.name ?
+									`${assetsPath}${SOURCES.ASAH_FARO_BACKEND.icon}` :
+									`${assetsPath}${SOURCES.DEFAULT.icon}`
 								}
 							/>
 						</div>
