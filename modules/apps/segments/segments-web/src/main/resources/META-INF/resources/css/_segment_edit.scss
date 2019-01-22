@@ -67,4 +67,8 @@
 		flex: 1;
 		overflow: auto;
 	}
+
+	.title-editor-root.editing + .type-icon {
+		display: none;
+	}
 }
