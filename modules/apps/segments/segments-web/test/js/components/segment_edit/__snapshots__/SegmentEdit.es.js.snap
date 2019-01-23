@@ -69,7 +69,7 @@ exports[`SegmentEdit should render 1`] = `
             </div>
           </div>
           <img
-            class="type-icon"
+            class="source-icon"
             data-testid="source-icon"
             src="/dxp-icon.svg"
           />

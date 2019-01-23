@@ -106,6 +106,12 @@ class SegmentEdit extends Component {
 		);
 	};
 
+	_handleQueryChange = () => {
+		this.setState({membersCountLoading: true});
+
+		this._debouncedFetchMembersCount();
+	};
+
 	_handleSegmentNameBlur = event => {
 		const {
 			handleBlur,
@@ -125,10 +131,12 @@ class SegmentEdit extends Component {
 		handleBlur(event);
 	};
 
-	_handleQueryChange = () => {
-		this.setState({membersCountLoading: true});
+	_handleSourceIconMouseOver = event => {
+		const message = this.props.source === SOURCES.ASAH_FARO_BACKEND.name ?
+			SOURCES.ASAH_FARO_BACKEND.label :
+			SOURCES.DEFAULT.label;
 
-		this._debouncedFetchMembersCount();
+		Liferay.Portal.ToolTip.show(event.currentTarget, message);
 	};
 
 	_renderContributors = () => {
@@ -200,8 +208,9 @@ class SegmentEdit extends Component {
 							/>
 
 							<img
-								className="type-icon"
+								className="source-icon"
 								data-testid="source-icon"
+								onMouseOver={this._handleSourceIconMouseOver}
 								src={source === SOURCES.ASAH_FARO_BACKEND.name ?
 									`${assetsPath}${SOURCES.ASAH_FARO_BACKEND.icon}` :
 									`${assetsPath}${SOURCES.DEFAULT.icon}`

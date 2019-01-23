@@ -63,7 +63,7 @@
 			}
 		}
 
-		.type-icon {
+		.source-icon {
 			margin: 0 8px;
 		}
 	}
@@ -73,7 +73,7 @@
 		overflow: auto;
 	}
 
-	.title-editor-root.editing + .type-icon {
+	.title-editor-root.editing + .source-icon {
 		display: none;
 	}
 }
