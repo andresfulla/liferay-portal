@@ -25,10 +25,10 @@ class SegmentEdit extends Component {
 			PropTypes.shape(
 				{
 					conjunctionId: PropTypes.string,
+					conjunctionInputId: PropTypes.string,
 					initialQuery: PropTypes.string,
 					inputId: PropTypes.string,
-					modelLabel: PropTypes.string,
-					properties: PropTypes.array
+					propertyKey: PropTypes.string
 				}
 			)
 		),

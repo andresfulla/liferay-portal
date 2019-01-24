@@ -54,6 +54,7 @@ const propertyTypeShape = PropTypes.shape(
 		boolean: PropTypes.arrayOf(PropTypes.string).isRequired,
 		date: PropTypes.arrayOf(PropTypes.string).isRequired,
 		double: PropTypes.arrayOf(PropTypes.string).isRequired,
+		id: PropTypes.arrayOf(PropTypes.string).isRequired,
 		integer: PropTypes.arrayOf(PropTypes.string).isRequired,
 		string: PropTypes.arrayOf(PropTypes.string).isRequired
 	}
