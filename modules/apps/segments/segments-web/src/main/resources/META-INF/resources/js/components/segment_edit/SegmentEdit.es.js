@@ -50,6 +50,7 @@ class SegmentEdit extends Component {
 	};
 
 	static defaultProps = {
+		contributors: [],
 		initialMembersCount: 0,
 		initialSegmentActive: true,
 		initialSegmentName: DEFAULT_SEGMENT_NAME,
@@ -57,7 +58,8 @@ class SegmentEdit extends Component {
 	};
 
 	state = {
-		membersCount: this.props.initialMembersCount
+		membersCount: this.props.initialMembersCount,
+		membersCountLoading: false
 	};
 
 	constructor(props) {
@@ -138,6 +140,18 @@ class SegmentEdit extends Component {
 
 		Liferay.Portal.ToolTip.show(event.currentTarget, message);
 	};
+
+	/**
+	 * Checks if every query in each contributor has a value.
+	 * @return {boolean} True if none of the contributor's queries have a value.
+	 */
+	_isQueryEmpty = () => this.props.contributors.every(
+		({initialQuery, inputId}) => {
+			const input = document.getElementById(inputId);
+
+			return input ? !input.value : !initialQuery;
+		}
+	);
 
 	_renderContributors = () => {
 		const {contributors, propertyGroups} = this.props;
@@ -298,6 +312,7 @@ class SegmentEdit extends Component {
 
 								<div className="btn-group-item">
 									<ClayButton
+										disabled={this._isQueryEmpty()}
 										label={Liferay.Language.get('save')}
 										size="sm"
 										style="primary"

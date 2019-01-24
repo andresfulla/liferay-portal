@@ -108,6 +108,7 @@ exports[`SegmentEdit should render 1`] = `
             >
               <button
                 class="btn btn-primary btn-sm"
+                disabled=""
                 type="submit"
               >
                 save
