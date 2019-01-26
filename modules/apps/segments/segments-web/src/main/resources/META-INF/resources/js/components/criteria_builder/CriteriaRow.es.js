@@ -224,15 +224,40 @@ class CriteriaRow extends Component {
 	};
 
 	_handleTypedInputChange = (value, type) => {
-		const {criterion, onChange} = this.props;
+		const {criterion, index, onAdd, onChange} = this.props;
 
-		onChange(
-			{
-				...criterion,
-				type,
-				value
-			}
-		);
+		if (Array.isArray(value)) {
+			value.forEach(
+				(item, i) => {
+					if (i === 0) {
+						onChange(
+							{
+								...criterion,
+								value: item
+							}
+						);
+					}
+					else {
+						onAdd(
+							i + index + 1,
+							{
+								...criterion,
+								value: item
+							}
+						);
+					}
+				}
+			);
+		}
+		else {
+			onChange(
+				{
+					...criterion,
+					type,
+					value
+				}
+			);
+		}
 	}
 
 	render() {
