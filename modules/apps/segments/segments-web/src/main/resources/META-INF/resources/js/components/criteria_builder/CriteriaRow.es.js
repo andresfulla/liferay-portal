@@ -3,6 +3,12 @@ import {PropTypes} from 'prop-types';
 import ClayButton from '../shared/ClayButton.es';
 import ClayIcon from '../shared/ClayIcon.es';
 import ClaySelect from '../shared/ClaySelect.es';
+import DecimalInput from '../inputs/DecimalInput.es';
+import DateInput from '../inputs/DateInput.es';
+import BooleanInput from '../inputs/BooleanInput.es';
+import SelectEntityInput from '../inputs/SelectEntityInput.es';
+import IntegerInput from '../inputs/IntegerInput.es';
+import StringInput from '../inputs/StringInput.es';
 import {CONJUNCTIONS, PROPERTY_TYPES} from '../../utils/constants.es';
 import {DragSource as dragSource, DropTarget as dropTarget} from 'react-dnd';
 import {DragTypes} from '../../utils/drag-types.es';
@@ -13,7 +19,6 @@ import {
 	getSupportedOperatorsFromType,
 	sub
 } from '../../utils/utils.es';
-import TypedInput from './TypedInput.es';
 
 const acceptedDragTypes = [
 	DragTypes.CRITERIA_ROW,
@@ -260,6 +265,29 @@ class CriteriaRow extends Component {
 		}
 	}
 
+	_renderValueInput = (selectedProperty, value) => {
+		const inputComponentsMap = {
+			[PROPERTY_TYPES.BOOLEAN]: BooleanInput,
+			[PROPERTY_TYPES.DATE]: DateInput,
+			[PROPERTY_TYPES.DOUBLE]: DecimalInput,
+			[PROPERTY_TYPES.ID]: SelectEntityInput,
+			[PROPERTY_TYPES.INTEGER]: IntegerInput,
+			[PROPERTY_TYPES.STRING]: StringInput
+		};
+
+		const InputComponent = inputComponentsMap[selectedProperty.type] ||
+			inputComponentsMap[PROPERTY_TYPES.STRING];
+
+		return (
+			<InputComponent
+				onChange={this._handleTypedInputChange}
+				options={selectedProperty.options}
+				selectEntity={selectedProperty.selectEntity}
+				value={value}
+			/>
+		);
+	}
+
 	render() {
 		const {
 			canDrop,
@@ -348,13 +376,7 @@ class CriteriaRow extends Component {
 								selected={selectedOperator && selectedOperator.name}
 							/>
 
-							<TypedInput
-								onChange={this._handleTypedInputChange}
-								options={selectedProperty.options}
-								selectEntity={selectedProperty.selectEntity}
-								type={selectedProperty.type}
-								value={value}
-							/>
+							{this._renderValueInput(selectedProperty, value)}
 
 							<ClayButton
 								borderless
