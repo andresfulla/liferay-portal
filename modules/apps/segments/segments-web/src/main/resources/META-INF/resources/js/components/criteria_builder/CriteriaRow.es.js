@@ -9,13 +9,13 @@ import BooleanInput from '../inputs/BooleanInput.es';
 import SelectEntityInput from '../inputs/SelectEntityInput.es';
 import IntegerInput from '../inputs/IntegerInput.es';
 import StringInput from '../inputs/StringInput.es';
-import {CONJUNCTIONS, PROPERTY_TYPES} from '../../utils/constants.es';
 import {DragSource as dragSource, DropTarget as dropTarget} from 'react-dnd';
 import {DragTypes} from '../../utils/drag-types.es';
+import {PROPERTY_TYPES} from '../../utils/constants.es';
 import getCN from 'classnames';
 import {
+	createNewGroup,
 	dateToInternationalHuman,
-	generateGroupId,
 	getSupportedOperatorsFromType,
 	sub
 } from '../../utils/utils.es';
@@ -87,13 +87,9 @@ function drop(props, monitor) {
 		value: droppedCriterionValue
 	};
 
-	const newGroup = {
-		conjunctionName: CONJUNCTIONS.AND,
-		groupId: generateGroupId(),
-		items: [criterion, newCriterion]
-	};
-
 	const itemType = monitor.getItemType();
+
+	const newGroup = createNewGroup([criterion, newCriterion]);
 
 	if (itemType === DragTypes.PROPERTY) {
 		onChange(newGroup);
@@ -229,30 +225,17 @@ class CriteriaRow extends Component {
 	};
 
 	_handleTypedInputChange = (value, type) => {
-		const {criterion, index, onAdd, onChange} = this.props;
+		const {criterion, onChange} = this.props;
 
 		if (Array.isArray(value)) {
-			value.forEach(
-				(item, i) => {
-					if (i === 0) {
-						onChange(
-							{
-								...criterion,
-								value: item
-							}
-						);
-					}
-					else {
-						onAdd(
-							i + index + 1,
-							{
-								...criterion,
-								value: item
-							}
-						);
-					}
-				}
+			const items = value.map(
+				item => ({
+					...criterion,
+					value: item
+				})
 			);
+
+			onChange(createNewGroup(items));
 		}
 		else {
 			onChange(
