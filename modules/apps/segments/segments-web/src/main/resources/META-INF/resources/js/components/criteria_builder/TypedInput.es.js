@@ -5,8 +5,6 @@ import ClaySelect from '../shared/ClaySelect.es';
 import dateFns from 'date-fns';
 import {BOOLEAN_OPTIONS, PROPERTY_TYPES} from '../../utils/constants.es.js';
 
-const ENTITY_ADD_BUTTON_ID = 'addButton';
-
 const INPUT_DATE_FORMAT = 'YYYY-MM-DD';
 
 class TypedInput extends React.Component {
@@ -100,69 +98,39 @@ class TypedInput extends React.Component {
 	_handleSelectEntity = () => {
 		const {
 			onChange,
-			selectEntity: {id, multiple, title, uri},
-			value
+			selectEntity: {id, multiple, title, uri}
 		} = this.props;
 
 		if (multiple) {
-			this._selectedData = [];
+			AUI().use(
+				'liferay-item-selector-dialog',
+				A => {
+					const itemSelectorDialog = new A.LiferayItemSelectorDialog(
+						{
+							eventName: id,
+							on: {
+								selectedItemChange: event => {
+									const newVal = event.newVal;
 
-			Liferay.Util.selectEntity(
-				{
-					dialog: {
-						constrain: true,
-						destroyOnHide: true,
-						modal: true,
-						toolbars: {
-							footer: [
-								{
-									cssClass: 'btn-link close-modal',
-									id: 'cancelButton',
-									label: Liferay.Language.get('cancel'),
-									on: {
-										click: () => {
-											Liferay.Util.getWindow(id).hide();
-										}
-									}
-								},
-								{
-									cssClass: 'btn-primary',
-									disabled: true,
-									id: ENTITY_ADD_BUTTON_ID,
-									label: Liferay.Language.get('select'),
-									on: {
-										click: () => {
-											const selectedValues = this._selectedData.map(
-												input => input.value
-											);
+									if (newVal) {
+										const selectedValues = event.newVal.map(
+											input => input.value
+										);
 
-											onChange(selectedValues);
-
-											Liferay.Util.getWindow(id).hide();
-										}
+										onChange(selectedValues);
 									}
 								}
-							]
+							},
+							strings: {
+								add: Liferay.Language.get('select'),
+								cancel: Liferay.Language.get('cancel')
+							},
+							title,
+							url: uri
 						}
-					},
-					id,
-					selectedData: [value],
-					title,
-					uri
-				},
-				event => {
-					const selectedItems = event.data;
+					);
 
-					const dialog = Liferay.Util.getWindow(id);
-
-					const addButton = dialog
-						.getToolbar('footer')
-						.get('boundingBox')
-						.one(`#${ENTITY_ADD_BUTTON_ID}`);
-
-					Liferay.Util.toggleDisabled(addButton, !selectedItems);
-
-					this._selectedData = selectedItems;
+					itemSelectorDialog.open();
 				}
 			);
 		}
