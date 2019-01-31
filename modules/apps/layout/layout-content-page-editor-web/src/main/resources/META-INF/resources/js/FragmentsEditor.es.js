@@ -100,6 +100,17 @@ FragmentsEditor.STATE = Object.assign(
 		defaultLanguageId: Config.string().required(),
 
 		/**
+		 * Default segment id.
+		 * @default undefined
+		 * @instance
+		 * @memberOf FragmentsEditor
+		 * @review
+		 * @type {!string}
+		 */
+
+		defaultSegmentId: Config.string().required(),
+
+		/**
 		 * URL for updating a distinct fragment entries of the editor.
 		 * @default undefined
 		 * @instance

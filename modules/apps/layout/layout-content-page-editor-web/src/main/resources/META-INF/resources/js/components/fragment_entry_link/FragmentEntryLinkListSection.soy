@@ -152,6 +152,8 @@
 						{param _handleFragmentMove: $_handleFragmentMove /}
 						{param columnId: $column.columnId /}
 						{param defaultEditorConfigurations: $defaultEditorConfigurations /}
+						{param defaultSegmentId: $defaultEditorConfigurations /}
+						{param segmentId: $defaultEditorConfigurations /}
 						{param dropTargetItemTypes: $dropTargetItemTypes /}
 						{param fragmentEntryLinkIds: $column.fragmentEntryLinkIds /}
 						{param fragmentEntryLinks: $fragmentEntryLinks /}
@@ -178,6 +180,8 @@
 {template .column}
 	{@param columnId: string}
 	{@param defaultEditorConfigurations: ?}
+	{@param defaultSegmentId: string}
+	{@param? segmentId: string}
 	{@param fragmentEntryLinkIds: list<string>}
 	{@param fragmentEntryLinks: ?}
 	{@param key: string}
@@ -233,6 +237,8 @@
 					{param defaultEditorConfigurations: $defaultEditorConfigurations /}
 					{param dropTargetItemTypes: $dropTargetItemTypes /}
 					{param editableValues: $fragmentEntryLink.editableValues /}
+					{param defaultSegmentId: $defaultSegmentId /}
+					{param segmentId: $segmentId /}
 					{param fragmentEntryLinkId: $fragmentEntryLink.fragmentEntryLinkId /}
 					{param dropTargetBorder: $dropTargetBorder /}
 					{param dropTargetItemId: $dropTargetItemId /}
@@ -259,6 +265,8 @@
 	{@param editableValues: ?}
 	{@param fragmentEntryLinkId: string}
 	{@param key: string}
+	{@param defaultSegmentId: string}
+	{@param? segmentId: string}
 	{@param dropTargetBorder: ?}
 	{@param dropTargetItemId: ?}
 	{@param dropTargetItemType: ?}
@@ -287,6 +295,8 @@
 		{param content: $content /}
 		{param defaultEditorConfigurations: $defaultEditorConfigurations /}
 		{param editableValues: $editableValues /}
+		{param defaultSegmentId: $defaultSegmentId /}
+		{param segmentId: $segmentId /}
 		{param events: [
 			'moveFragment': $_handleFragmentMove
 		] /}
