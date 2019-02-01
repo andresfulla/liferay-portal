@@ -47,6 +47,16 @@ SelectUsersDisplayContext selectUsersDisplayContext = (SelectUsersDisplayContext
 			modelVar="user2"
 			rowIdProperty="screenName"
 		>
+
+			<%
+				Map<String, Object> data = new HashMap<>();
+
+				data.put("id", user2.getUserId());
+				data.put("name", user2.getFullName());
+
+				row.setData(data);
+			%>
+
 			<liferay-ui:search-container-column-text
 				cssClass="table-cell-expand table-cell-minw-200 table-title"
 				name="name"
@@ -74,19 +84,31 @@ SelectUsersDisplayContext selectUsersDisplayContext = (SelectUsersDisplayContext
 	searchContainer.on(
 		'rowToggled',
 		function(event) {
-			var result = {};
+			var allSelectedElements = event.elements.allSelectedElements;
 
-			var data = event.elements.allSelectedElements.getDOMNodes();
+			var selectedData = [];
 
-			if (data.length) {
-				result = {
-					data: data
-				};
-			}
+			allSelectedElements.each(
+				function() {
+					var row = this.ancestor('tr');
+
+					var data = row.getDOM().dataset;
+
+					selectedData.push(
+						{
+							id: data.id,
+							name: data.name
+						}
+					);
+				}
+			);
 
 			Liferay.Util.getOpener().Liferay.fire(
 				'<%= HtmlUtil.escapeJS(selectUsersDisplayContext.getEventName()) %>',
-				result);
+				{
+					data: selectedData.length ? selectedData : null
+				}
+			);
 		}
 	);
 </aui:script>

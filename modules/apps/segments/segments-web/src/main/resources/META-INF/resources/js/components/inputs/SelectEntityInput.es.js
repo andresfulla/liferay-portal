@@ -40,7 +40,10 @@ class SelectEntityInput extends React.Component {
 
 									if (newVal) {
 										const selectedValues = event.newVal.map(
-											input => input.value
+											item => ({
+												displayValue: item.name,
+												value: item.id
+											})
 										);
 
 										onChange(selectedValues);

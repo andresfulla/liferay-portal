@@ -231,7 +231,7 @@ class CriteriaRow extends Component {
 			const items = value.map(
 				item => ({
 					...criterion,
-					value: item
+					...item
 				})
 			);
 

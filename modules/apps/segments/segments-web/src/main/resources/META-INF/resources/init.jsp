@@ -48,7 +48,9 @@ page import="com.liferay.segments.web.internal.display.context.SegmentsDisplayCo
 page import="com.liferay.segments.web.internal.display.context.SelectOrganizationsDisplayContext" %><%@
 page import="com.liferay.segments.web.internal.display.context.SelectUsersDisplayContext" %>
 
-<%@ page import="java.util.Objects" %>
+<%@ page import="java.util.Objects" %><%@
+page import="java.util.HashMap" %><%@
+page import="java.util.Map" %>
 
 <liferay-frontend:defineObjects />
 

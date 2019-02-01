@@ -46,6 +46,15 @@ SelectOrganizationsDisplayContext selectOrganizationsDisplayContext = (SelectOrg
 			keyProperty="organizationId"
 			modelVar="organization"
 		>
+			<%
+				Map<String, Object> data = new HashMap<>();
+
+				data.put("id", organization.getOrganizationId());
+				data.put("name", organization.getName());
+
+				row.setData(data);
+			%>
+
 			<liferay-ui:search-container-column-text
 				name="name"
 				orderable="<%= true %>"
@@ -77,19 +86,31 @@ SelectOrganizationsDisplayContext selectOrganizationsDisplayContext = (SelectOrg
 	searchContainer.on(
 		'rowToggled',
 		function(event) {
-			var result = {};
+			var allSelectedElements = event.elements.allSelectedElements;
 
-			var data = event.elements.allSelectedElements.getDOMNodes();
+			var selectedData = [];
 
-			if (data.length) {
-				result = {
-					data: data
-				};
-			}
+			allSelectedElements.each(
+				function() {
+					var row = this.ancestor('tr');
+
+					var data = row.getDOM().dataset;
+
+					selectedData.push(
+						{
+							id: data.id,
+							name: data.name
+						}
+					);
+				}
+			);
 
 			Liferay.Util.getOpener().Liferay.fire(
-				'<%= HtmlUtil.escapeJS(selectOrganizationsDisplayContext.getEventName()) %>',
-				result);
+				'<%= HtmlUtil.escapeJS(selectUsersDisplayContext.getEventName()) %>',
+				{
+					data: selectedData.length ? selectedData : null
+				}
+			);
 		}
 	);
 </aui:script>
