@@ -243,8 +243,6 @@ class ContributorBuilder extends React.Component {
 									criteria={criteria.criteriaMap}
 									editing={editingId === i}
 									id={i}
-									initialQuery={criteria.query}
-									inputId={criteria.inputId}
 									modelLabel={criteria.modelLabel}
 									onChange={this._handleCriteriaChange}
 									onEditToggle={this._handleCriteriaEdit}
@@ -252,12 +250,6 @@ class ContributorBuilder extends React.Component {
 									supportedConjunctions={supportedConjunctions}
 									supportedOperators={supportedOperators}
 									supportedProperties={criteria.properties}
-									supportedPropertyGroups={propertyGroups.map(
-										({name, propertyKey}) => ({
-											label: name,
-											value: propertyKey
-										})
-									)}
 									supportedPropertyTypes={supportedPropertyTypes}
 								/>
 

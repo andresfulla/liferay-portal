@@ -66,10 +66,6 @@ class CriteriaBuilder extends Component {
 		supportedPropertyTypes: PropTypes.object
 	};
 
-	static defaultProps = {
-		readOnly: false
-	};
-
 	/**
 	 * Cleans criteria items by performing the following:
 	 * 1. Remove any groups with no items.
