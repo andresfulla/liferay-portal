@@ -43,6 +43,7 @@ const propertyShape = PropTypes.shape(
 
 const propertyGroupShape = PropTypes.shape(
 	{
+		entityName: PropTypes.string.isRequired,
 		name: PropTypes.string.isRequired,
 		properties: PropTypes.arrayOf(propertyShape),
 		propertyKey: PropTypes.string.isRequired
@@ -92,6 +93,7 @@ class ContributorBuilder extends React.Component {
 					criteriaMap: c.initialQuery ?
 						translateQueryToCriteria(c.initialQuery) :
 						null,
+					entityName: propertyGroup && propertyGroup.entityName,
 					inputId: c.inputId,
 					modelLabel: propertyGroup && propertyGroup.name,
 					properties: propertyGroup && propertyGroup.properties,
@@ -242,6 +244,7 @@ class ContributorBuilder extends React.Component {
 								<CriteriaBuilder
 									criteria={criteria.criteriaMap}
 									editing={editingId === i}
+									entityName={criteria.entityName}
 									id={i}
 									modelLabel={criteria.modelLabel}
 									onChange={this._handleCriteriaChange}

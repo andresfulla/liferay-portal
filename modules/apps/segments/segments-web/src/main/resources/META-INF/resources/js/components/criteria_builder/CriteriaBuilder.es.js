@@ -16,9 +16,16 @@ const CRITERIA_GROUP_SHAPE = {
 };
 
 const CRITERION_SHAPE = {
+	displayValue: PropTypes.string,
 	operatorName: PropTypes.string,
 	propertyName: PropTypes.string,
-	value: PropTypes.oneOfType([PropTypes.string, PropTypes.array])
+	value: PropTypes.oneOfType(
+		[
+			PropTypes.array,
+			PropTypes.number,
+			PropTypes.string
+		]
+	)
 };
 
 class CriteriaBuilder extends Component {
@@ -38,6 +45,7 @@ class CriteriaBuilder extends Component {
 			}
 		),
 		editing: PropTypes.bool.isRequired,
+		entityName: PropTypes.string.isRequired,
 		id: PropTypes.number.isRequired,
 		modelLabel: PropTypes.string,
 		onChange: PropTypes.func,
@@ -242,6 +250,7 @@ class CriteriaBuilder extends Component {
 		const {
 			criteria,
 			editing,
+			entityName,
 			modelLabel,
 			propertyKey,
 			supportedConjunctions,
@@ -272,6 +281,7 @@ class CriteriaBuilder extends Component {
 				<CriteriaGroup
 					criteria={criteria}
 					editing={editing}
+					entityName={entityName}
 					groupId={criteria && criteria.groupId}
 					modelLabel={modelLabel}
 					onChange={this._handleCriteriaChange}

@@ -9,6 +9,7 @@ import BooleanInput from '../inputs/BooleanInput.es';
 import SelectEntityInput from '../inputs/SelectEntityInput.es';
 import IntegerInput from '../inputs/IntegerInput.es';
 import StringInput from '../inputs/StringInput.es';
+import ThemeContext from '../../ThemeContext.es';
 import {DragSource as dragSource, DropTarget as dropTarget} from 'react-dnd';
 import {DragTypes} from '../../utils/drag-types.es';
 import {PROPERTY_TYPES} from '../../utils/constants.es';
@@ -117,6 +118,8 @@ function beginDrag({criterion, groupId, index}) {
 }
 
 class CriteriaRow extends Component {
+	static contextType = ThemeContext;
+
 	static propTypes = {
 		canDrop: PropTypes.bool,
 		connectDragPreview: PropTypes.func,
@@ -125,6 +128,7 @@ class CriteriaRow extends Component {
 		criterion: PropTypes.object,
 		dragging: PropTypes.bool,
 		editing: PropTypes.bool,
+		entityName: PropTypes.string,
 		groupId: PropTypes.string.isRequired,
 		hover: PropTypes.bool,
 		index: PropTypes.number.isRequired,
@@ -145,6 +149,61 @@ class CriteriaRow extends Component {
 		supportedProperties: [],
 		supportedPropertyTypes: {}
 	};
+
+	constructor(props, context) {
+		super(props);
+
+		const {criterion, entityName, onChange, supportedProperties} = props;
+
+		const {displayValue, propertyName, value} = criterion;
+
+		this._selectedProperty = this._getSelectedItem(
+			supportedProperties,
+			propertyName
+		);
+
+		if (this._selectedProperty.type === PROPERTY_TYPES.ID &&
+			value &&
+			!displayValue
+		) {
+			console.log('populate displayValue');
+
+			const formData = new FormData();
+
+			const data = Liferay.Util.ns(
+				context.namespace,
+				{
+					entityName,
+					fieldName: propertyName,
+					fieldValue: value
+				}
+			);
+
+			Object.keys(data).forEach(
+				key => {
+					formData.set(key, data[key]);
+				}
+			);
+
+			fetch(
+				context.requestFieldValueNameURL,
+				{
+					body: formData,
+					method: 'POST'
+				}
+			)
+				.then(
+					response => response.text()
+				)
+				.then(
+					displayValue => {
+						console.log('displayValue', displayValue);
+
+						onChange({...criterion, displayValue});
+					}
+				);
+		}
+	}
 
 	_getReadableCriteriaString = (
 		modelLabel,
@@ -263,6 +322,7 @@ class CriteriaRow extends Component {
 
 		return (
 			<InputComponent
+				displayValue={this.props.criterion.displayValue || ''}
 				onChange={this._handleTypedInputChange}
 				options={selectedProperty.options}
 				selectEntity={selectedProperty.selectEntity}
@@ -299,6 +359,7 @@ class CriteriaRow extends Component {
 
 		const operatorLabel = selectedOperator ? selectedOperator.label : '';
 		const propertyLabel = selectedProperty ? selectedProperty.label : '';
+
 		const value = criterion ? criterion.value : '';
 
 		const propertyType = selectedProperty ? selectedProperty.type : '';
@@ -383,7 +444,7 @@ class CriteriaRow extends Component {
 									modelLabel,
 									propertyLabel,
 									operatorLabel,
-									value,
+									criterion.displayValue || value,
 									selectedProperty.type
 								)}
 							</span>

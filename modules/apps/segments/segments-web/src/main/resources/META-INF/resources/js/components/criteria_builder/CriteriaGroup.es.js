@@ -59,6 +59,7 @@ class CriteriaGroup extends Component {
 		criteria: PropTypes.object,
 		dragging: PropTypes.bool,
 		editing: PropTypes.bool,
+		entityName: PropTypes.string,
 		groupId: PropTypes.string,
 		index: PropTypes.number,
 		modelLabel: PropTypes.string,
@@ -240,6 +241,7 @@ class CriteriaGroup extends Component {
 	_renderCriterion = (criterion, index) => {
 		const {
 			editing,
+			entityName,
 			groupId,
 			modelLabel,
 			onMove,
@@ -280,6 +282,7 @@ class CriteriaGroup extends Component {
 					<CriteriaRow
 						criterion={criterion}
 						editing={editing}
+						entityName={entityName}
 						groupId={groupId}
 						index={index}
 						modelLabel={modelLabel}

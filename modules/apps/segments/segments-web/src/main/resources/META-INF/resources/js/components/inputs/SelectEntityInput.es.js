@@ -4,6 +4,12 @@ import ClayButton from '../shared/ClayButton.es';
 
 class SelectEntityInput extends React.Component {
 	static propTypes = {
+		displayValue: propTypes.oneOfType(
+			[
+				propTypes.string,
+				propTypes.number
+			]
+		),
 		onChange: propTypes.func.isRequired,
 		selectEntity: propTypes.shape(
 			{
@@ -83,7 +89,7 @@ class SelectEntityInput extends React.Component {
 	}
 
 	render() {
-		const {value} = this.props;
+		const {displayValue, value} = this.props;
 
 		return (
 			<div className="criterion-input input-group select-entity-input">
@@ -94,7 +100,7 @@ class SelectEntityInput extends React.Component {
 						className="form-control"
 						data-testid="entity-select-input"
 						readOnly
-						value={value}
+						value={displayValue}
 					/>
 				</div>
 
