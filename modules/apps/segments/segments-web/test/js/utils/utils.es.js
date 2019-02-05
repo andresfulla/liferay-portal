@@ -136,6 +136,27 @@ describe(
 		);
 
 		describe(
+			'objectToFormData',
+			() => {
+				it(
+					'should take an object of key value pairs and return a form data object with the same values',
+					() => {
+						const testData = {
+							bar: 'bar',
+							foo: 'foo'
+						};
+
+						const formData = Utils.objectToFormData(testData);
+
+						expect(formData.get('bar')).toEqual('bar');
+						expect(formData.get('foo')).toEqual('foo');
+					}
+				);
+			}
+		);
+
+
+		describe(
 			'removeAtIndex',
 			() => {
 				it(

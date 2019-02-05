@@ -93,6 +93,23 @@ export function insertAtIndex(item, list, index) {
 }
 
 /**
+ * Converts an object of key value pairs to a form data object for passing
+ * into a fetch body.
+ * @param {Object} dataObject The data to be converted.
+ */
+export function objectToFormData(dataObject) {
+	const formData = new FormData();
+
+	Object.keys(dataObject).forEach(
+		key => {
+			formData.set(key, dataObject[key]);
+		}
+	);
+
+	return formData;
+}
+
+/**
  * Removes an item at the specified index.
  * @param {Array} list The list the where an item will be removed.
  * @param {number} index The position where the item will be removed.
