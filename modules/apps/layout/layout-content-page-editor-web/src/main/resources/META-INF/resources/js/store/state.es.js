@@ -646,5 +646,27 @@ const INITIAL_STATE = {
 
 };
 
-export {INITIAL_STATE};
+/**
+ * Initial default state
+ * @review
+ * @type {object}
+ */
+const DEFAULT_INITIAL_STATE = Object.keys(INITIAL_STATE)
+	.reduce(
+		(accumulatedState, key) => {
+			let newAccumulatgedState = accumulatedState;
+			if (INITIAL_STATE[key].config) {
+				newAccumulatgedState = Object.assign(
+					accumulatedState,
+					{
+						[key]: INITIAL_STATE[key].config.value
+					}
+				);
+			}
+			return newAccumulatgedState;
+		},
+		{}
+	);
+
+export {INITIAL_STATE, DEFAULT_INITIAL_STATE};
 export default INITIAL_STATE;
