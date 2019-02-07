@@ -98,6 +98,22 @@ public class ContentPageLayoutEditorDisplayContext
 				segmentsEntry.getKey(), segmentsSoyContext);
 		}
 
+		/* ⬇️ this code should not be here */
+
+		SoyContext defaultSegmentSoyContext =
+			SoyContextFactoryUtil.createSoyContext();
+
+		defaultSegmentSoyContext.put("segmentId", "defaultSegmentId");
+		defaultSegmentSoyContext.put("segmentKey", "defaultSegmentId");
+		defaultSegmentSoyContext.put("segmentLabel", "defaultSegment");
+
+		availableSegmentsEntriesSoyContext.put(
+			"defaultSegmentId",
+			defaultSegmentSoyContext
+		);
+
+		/* ⬆️️️️️️️️️️ ️️this code should not be here */
+
 		return availableSegmentsEntriesSoyContext;
 	}
 

@@ -139,6 +139,7 @@ public class ContentPageEditorDisplayContext {
 		soyContext.put(
 			"defaultEditorConfigurations", _getDefaultConfigurations());
 		soyContext.put("defaultLanguageId", themeDisplay.getLanguageId());
+		soyContext.put("defaultSegmentId", "defaultSegmentId");
 		soyContext.put(
 			"deleteFragmentEntryLinkURL",
 			getFragmentEntryActionURL(
@@ -188,6 +189,7 @@ public class ContentPageEditorDisplayContext {
 			"availableLanguages", _getAvailableLanguagesSoyContext());
 		soyContext.put("classPK", themeDisplay.getPlid());
 		soyContext.put("defaultLanguageId", themeDisplay.getLanguageId());
+		soyContext.put("defaultSegmentId", "defaultSegmentId");
 		soyContext.put("lastSaveDate", StringPool.BLANK);
 		soyContext.put("portletNamespace", _renderResponse.getNamespace());
 		soyContext.put(
