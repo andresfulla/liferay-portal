@@ -18,6 +18,7 @@ import {
 	createNewGroup,
 	dateToInternationalHuman,
 	getSupportedOperatorsFromType,
+	objectToFormData,
 	sub
 } from '../../utils/utils.es';
 
@@ -66,6 +67,7 @@ function drop(props, monitor) {
 
 	const {
 		defaultValue,
+		displayValue,
 		operatorName,
 		propertyName,
 		type,
@@ -81,6 +83,7 @@ function drop(props, monitor) {
 	);
 
 	const newCriterion = {
+		displayValue,
 		operatorName: operatorName ?
 			operatorName :
 			operators[0].name,
@@ -150,12 +153,11 @@ class CriteriaRow extends Component {
 		supportedPropertyTypes: {}
 	};
 
-	constructor(props, context) {
-		super(props);
-
-		const {criterion, entityName, onChange, supportedProperties} = props;
-
-		const {displayValue, propertyName, value} = criterion;
+	componentDidMount() {
+		const {
+			criterion: {displayValue, propertyName, value},
+			supportedProperties
+		} = this.props;
 
 		this._selectedProperty = this._getSelectedItem(
 			supportedProperties,
@@ -166,43 +168,39 @@ class CriteriaRow extends Component {
 			value &&
 			!displayValue
 		) {
-			console.log('populate displayValue');
-
-			const formData = new FormData();
-
-			const data = Liferay.Util.ns(
-				context.namespace,
-				{
-					entityName,
-					fieldName: propertyName,
-					fieldValue: value
-				}
-			);
-
-			Object.keys(data).forEach(
-				key => {
-					formData.set(key, data[key]);
-				}
-			);
-
-			fetch(
-				context.requestFieldValueNameURL,
-				{
-					body: formData,
-					method: 'POST'
-				}
-			)
-				.then(
-					response => response.text()
-				)
-				.then(
-					displayValue => {
-						console.log('displayValue', displayValue);
-
-						onChange({...criterion, displayValue});
-					}
-				);
+			this._fetchEntityName();
 		}
+	}
+
+	_fetchEntityName = () => {
+		const {criterion, entityName, onChange} = this.props;
+
+		const {propertyName, value} = criterion;
+
+		const data = Liferay.Util.ns(
+			this.context.namespace,
+			{
+				entityName,
+				fieldName: propertyName,
+				fieldValue: value
+			}
+		);
+
+		fetch(
+			this.context.requestFieldValueNameURL,
+			{
+				body: objectToFormData(data),
+				method: 'POST'
+			}
+		)
+			.then(
+				response => response.text()
+			)
+			.then(
+				displayValue => {
+					onChange({...criterion, displayValue});
+				}
+			);
 	}
 
 	_getReadableCriteriaString = (

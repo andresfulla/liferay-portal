@@ -76,7 +76,6 @@ renderResponse.setTitle(editSegmentsEntryDisplayContext.getTitle(locale));
 				previewMembersURL: '<%= previewMembersURL %>',
 				propertyGroups: <%= editSegmentsEntryDisplayContext.getPropertyGroupsJSONArray(locale) %>,
 				redirect: '<%= HtmlUtil.escape(redirect) %>',
-				requestFieldValueNameURL: '<%= getSegmentsFieldValueNameURL %>',
 				requestMembersCountURL: '<%= getSegmentsEntryClassPKsCountURL %>',
 				source: '<%= editSegmentsEntryDisplayContext.getSource() %>'
 			},

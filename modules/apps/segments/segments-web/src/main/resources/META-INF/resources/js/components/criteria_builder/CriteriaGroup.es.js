@@ -264,6 +264,7 @@ class CriteriaGroup extends Component {
 					<this.NestedCriteriaGroupWithDrag
 						criteria={criterion}
 						editing={editing}
+						entityName={entityName}
 						groupId={criterion.groupId}
 						index={index}
 						modelLabel={modelLabel}

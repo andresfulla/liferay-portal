@@ -106,7 +106,7 @@ SelectOrganizationsDisplayContext selectOrganizationsDisplayContext = (SelectOrg
 			);
 
 			Liferay.Util.getOpener().Liferay.fire(
-				'<%= HtmlUtil.escapeJS(selectUsersDisplayContext.getEventName()) %>',
+				'<%= HtmlUtil.escapeJS(selectOrganizationsDisplayContext.getEventName()) %>',
 				{
 					data: selectedData.length ? selectedData : null
 				}
