@@ -45,8 +45,22 @@ class CriteriaBuilder extends Component {
 			}
 		),
 		editing: PropTypes.bool.isRequired,
+
+		/**
+		 * Name of the entity that a set of properties belongs to, for example,
+		 * "User". This value it not displayed anywhere. Only used in
+		 * CriteriaRow for requesting a field value's name.
+		 * @default undefined
+		 * @type {?(string|undefined)}
+		 */
 		entityName: PropTypes.string.isRequired,
 		id: PropTypes.number.isRequired,
+
+		/**
+		 * Name displayed to label a contributor and its' properties.
+		 * @default undefined
+		 * @type {?(string|undefined)}
+		 */
 		modelLabel: PropTypes.string,
 		onChange: PropTypes.func,
 		onEditToggle: PropTypes.func,
