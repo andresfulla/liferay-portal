@@ -37,7 +37,7 @@ SelectOrganizationsDisplayContext selectOrganizationsDisplayContext = (SelectOrg
 
 <aui:form cssClass="container-fluid-1280" name="fm">
 	<liferay-ui:search-container
-		id="selectOrganizations"
+		id="selectSegmentsEntryOrganizations"
 		searchContainer="<%= selectOrganizationsDisplayContext.getOrganizationSearchContainer() %>"
 	>
 		<liferay-ui:search-container-row
@@ -46,13 +46,14 @@ SelectOrganizationsDisplayContext selectOrganizationsDisplayContext = (SelectOrg
 			keyProperty="organizationId"
 			modelVar="organization"
 		>
+
 			<%
-				Map<String, Object> data = new HashMap<>();
+			Map<String, Object> data = new HashMap<>();
 
-				data.put("id", organization.getOrganizationId());
-				data.put("name", organization.getName());
+			data.put("id", organization.getOrganizationId());
+			data.put("name", organization.getName());
 
-				row.setData(data);
+			row.setData(data);
 			%>
 
 			<liferay-ui:search-container-column-text
@@ -80,37 +81,7 @@ SelectOrganizationsDisplayContext selectOrganizationsDisplayContext = (SelectOrg
 	</liferay-ui:search-container>
 </aui:form>
 
-<aui:script use="liferay-search-container">
-	var searchContainer = Liferay.SearchContainer.get('<portlet:namespace />selectOrganizations');
-
-	searchContainer.on(
-		'rowToggled',
-		function(event) {
-			var allSelectedElements = event.elements.allSelectedElements;
-
-			var selectedData = [];
-
-			allSelectedElements.each(
-				function() {
-					var row = this.ancestor('tr');
-
-					var data = row.getDOM().dataset;
-
-					selectedData.push(
-						{
-							id: data.id,
-							name: data.name
-						}
-					);
-				}
-			);
-
-			Liferay.Util.getOpener().Liferay.fire(
-				'<%= HtmlUtil.escapeJS(selectOrganizationsDisplayContext.getEventName()) %>',
-				{
-					data: selectedData.length ? selectedData : null
-				}
-			);
-		}
-	);
-</aui:script>
+<liferay-util:include page="/field/select_js.jsp" servletContext="<%= application %>">
+	<liferay-util:param name="searchContainerId" value="selectSegmentsEntryOrganizations" />
+	<liferay-util:param name="selectEventName" value="<%= selectOrganizationsDisplayContext.getEventName() %>" />
+</liferay-util:include>

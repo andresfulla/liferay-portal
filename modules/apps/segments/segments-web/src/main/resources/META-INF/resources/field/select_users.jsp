@@ -37,7 +37,7 @@ SelectUsersDisplayContext selectUsersDisplayContext = (SelectUsersDisplayContext
 
 <aui:form cssClass="container-fluid-1280" name="fm">
 	<liferay-ui:search-container
-		id="selectUsers"
+		id="selectSegmentsEntryUsers"
 		searchContainer="<%= selectUsersDisplayContext.getUserSearchContainer() %>"
 	>
 		<liferay-ui:search-container-row
@@ -49,12 +49,12 @@ SelectUsersDisplayContext selectUsersDisplayContext = (SelectUsersDisplayContext
 		>
 
 			<%
-				Map<String, Object> data = new HashMap<>();
+			Map<String, Object> data = new HashMap<>();
 
-				data.put("id", user2.getUserId());
-				data.put("name", user2.getFullName());
+			data.put("id", user2.getUserId());
+			data.put("name", user2.getFullName());
 
-				row.setData(data);
+			row.setData(data);
 			%>
 
 			<liferay-ui:search-container-column-text
@@ -78,37 +78,7 @@ SelectUsersDisplayContext selectUsersDisplayContext = (SelectUsersDisplayContext
 	</liferay-ui:search-container>
 </aui:form>
 
-<aui:script use="liferay-search-container">
-	var searchContainer = Liferay.SearchContainer.get('<portlet:namespace />selectUsers');
-
-	searchContainer.on(
-		'rowToggled',
-		function(event) {
-			var allSelectedElements = event.elements.allSelectedElements;
-
-			var selectedData = [];
-
-			allSelectedElements.each(
-				function() {
-					var row = this.ancestor('tr');
-
-					var data = row.getDOM().dataset;
-
-					selectedData.push(
-						{
-							id: data.id,
-							name: data.name
-						}
-					);
-				}
-			);
-
-			Liferay.Util.getOpener().Liferay.fire(
-				'<%= HtmlUtil.escapeJS(selectUsersDisplayContext.getEventName()) %>',
-				{
-					data: selectedData.length ? selectedData : null
-				}
-			);
-		}
-	);
-</aui:script>
+<liferay-util:include page="/field/select_js.jsp" servletContext="<%= application %>">
+	<liferay-util:param name="searchContainerId" value="selectSegmentsEntryUsers" />
+	<liferay-util:param name="selectEventName" value="<%= selectUsersDisplayContext.getEventName() %>" />
+</liferay-util:include>
