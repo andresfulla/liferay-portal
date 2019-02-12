@@ -94,11 +94,14 @@ class SelectEntityInput extends React.Component {
 		return (
 			<div className="criterion-input input-group select-entity-input">
 				<div className="input-group-item input-group-prepend">
-					<input type="hidden" value={value} />
+					<input
+						data-testid="entity-select-input"
+						type="hidden"
+						value={value}
+					/>
 
 					<input
 						className="form-control"
-						data-testid="entity-select-input"
 						readOnly
 						value={displayValue}
 					/>

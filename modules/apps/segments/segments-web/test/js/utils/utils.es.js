@@ -155,7 +155,6 @@ describe(
 			}
 		);
 
-
 		describe(
 			'removeAtIndex',
 			() => {
