@@ -206,6 +206,7 @@ class CriteriaGroup extends Component {
 			editing,
 			groupId,
 			onMove,
+			propertyKey,
 			supportedConjunctions
 		} = this.props;
 
@@ -216,6 +217,7 @@ class CriteriaGroup extends Component {
 					groupId={groupId}
 					onCriterionAdd={this._handleCriterionAdd}
 					onMove={onMove}
+					propertyKey={propertyKey}
 				/>
 
 				<Conjunction
@@ -231,6 +233,7 @@ class CriteriaGroup extends Component {
 					groupId={groupId}
 					onCriterionAdd={this._handleCriterionAdd}
 					onMove={onMove}
+					propertyKey={propertyKey}
 				/>
 			</Fragment>
 		);
@@ -289,6 +292,7 @@ class CriteriaGroup extends Component {
 						onChange={this._handleCriterionChange(index)}
 						onDelete={this._handleCriterionDelete}
 						onMove={onMove}
+						propertyKey={propertyKey}
 						root={root}
 						supportedOperators={supportedOperators}
 						supportedProperties={supportedProperties}
@@ -301,6 +305,7 @@ class CriteriaGroup extends Component {
 					groupId={groupId}
 					onCriterionAdd={this._handleCriterionAdd}
 					onMove={onMove}
+					propertyKey={propertyKey}
 				/>
 			</div>
 		);
@@ -335,6 +340,7 @@ class CriteriaGroup extends Component {
 				{this._isCriteriaEmpty() ?
 					<EmptyDropZone
 						onCriterionAdd={this._handleCriterionAdd}
+						propertyKey={propertyKey}
 					/> :
 					<Fragment>
 						<DropZone
@@ -343,6 +349,7 @@ class CriteriaGroup extends Component {
 							groupId={groupId}
 							onCriterionAdd={this._handleCriterionAdd}
 							onMove={onMove}
+							propertyKey={propertyKey}
 						/>
 
 						{editing && !root && connectDragSource(

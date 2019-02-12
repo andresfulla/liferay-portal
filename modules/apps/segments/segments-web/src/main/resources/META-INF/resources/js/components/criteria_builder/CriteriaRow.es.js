@@ -28,17 +28,28 @@ const acceptedDragTypes = [
 ];
 
 /**
- * Prevents rows from dropping onto itself.
+ * Prevents rows from dropping onto itself and adding properties to not matching
+ * contributors.
  * This method must be called `canDrop`.
  * @param {Object} props Component's current props.
  * @param {DropTargetMonitor} monitor
  * @returns {boolean} True if the target should accept the item.
  */
 function canDrop(props, monitor) {
-	const {groupId: destGroupId, index: destIndex} = props;
-	const {groupId: startGroupId, index: startIndex} = monitor.getItem();
+	const {
+		groupId: destGroupId,
+		index: destIndex,
+		propertyKey: contributorPropertyKey
+	} = props;
 
-	return destGroupId !== startGroupId || destIndex !== startIndex;
+	const {
+		groupId: startGroupId,
+		index: startIndex,
+		propertyKey: sidebarItemPropertyKey
+	} = monitor.getItem();
+
+	return (destGroupId !== startGroupId || destIndex !== startIndex) &&
+		contributorPropertyKey === sidebarItemPropertyKey;
 }
 
 /**
@@ -116,8 +127,8 @@ function drop(props, monitor) {
  * @param {Object} props Component's current props
  * @returns {Object} The props to be passed to the drop target.
  */
-function beginDrag({criterion, groupId, index}) {
-	return {criterion, groupId, index};
+function beginDrag({criterion, groupId, index, propertyKey}) {
+	return {criterion, groupId, index, propertyKey};
 }
 
 class CriteriaRow extends Component {
@@ -140,6 +151,7 @@ class CriteriaRow extends Component {
 		onChange: PropTypes.func.isRequired,
 		onDelete: PropTypes.func.isRequired,
 		onMove: PropTypes.func.isRequired,
+		propertyKey: PropTypes.string.isRequired,
 		supportedOperators: PropTypes.array,
 		supportedProperties: PropTypes.array,
 		supportedPropertyTypes: PropTypes.object

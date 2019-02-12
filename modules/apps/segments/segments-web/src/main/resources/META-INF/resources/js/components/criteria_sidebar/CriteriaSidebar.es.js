@@ -106,6 +106,7 @@ class CriteriaSidebar extends Component {
 										key={name}
 										label={label}
 										name={name}
+										propertyKey={propertyKey}
 										type={type}
 									/>
 								);

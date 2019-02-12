@@ -11,13 +11,14 @@ import getCN from 'classnames';
  * @param {Object} props Component's current props
  * @returns {Object} The props to be passed to the drop target.
  */
-function beginDrag({name, defaultValue, type}) {
+function beginDrag({defaultValue, name, propertyKey, type}) {
 	return {
 		criterion: {
 			defaultValue,
 			propertyName: name,
 			type
-		}
+		},
+		propertyKey
 	};
 }
 
@@ -34,6 +35,7 @@ class CriteriaSidebarItem extends Component {
 		dragging: PropTypes.bool,
 		label: PropTypes.string,
 		name: PropTypes.string,
+		propertyKey: PropTypes.string.isRequired,
 		type: PropTypes.string
 	};
 
