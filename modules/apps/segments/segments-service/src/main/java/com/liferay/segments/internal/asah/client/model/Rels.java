@@ -20,8 +20,10 @@ package com.liferay.segments.internal.asah.client.model;
  */
 public interface Rels {
 
-	public static final String INDIVIDUAL_SEGMENTS = "individual-segments";
+	public static final String INDIVIDUAL_SEGMENT_INDIVIDUALS =
+		Rels.INDIVIDUAL_SEGMENTS + "/individual-segments/{id}/individuals";
 
-	public static final String INDIVIDUALS = "individuals";
+	public static final String INDIVIDUAL_SEGMENTS =
+		"api/1.0/individual-segments";
 
 }

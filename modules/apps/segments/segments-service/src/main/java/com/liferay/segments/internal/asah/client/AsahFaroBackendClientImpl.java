@@ -75,13 +75,11 @@ public class AsahFaroBackendClientImpl implements AsahFaroBackendClient {
 			"dataSourceIndividualPKs/" + _dataSourceId,
 			FilterConstants.COMPARISON_OPERATOR_NOT_EQUALS);
 
-		filterBuilder.addFilter(
-			"individualSegmentIds", FilterConstants.COMPARISON_OPERATOR_EQUALS,
-			individualSegmentId);
-
 		try {
 			String response = _jsonWebServiceClient.doGet(
-				Rels.INDIVIDUALS,
+				StringUtil.replace(
+					Rels.INDIVIDUAL_SEGMENT_INDIVIDUALS, "{id}",
+					individualSegmentId),
 				_getParameters(
 					filterBuilder,
 					FilterConstants.FIELD_NAME_CONTEXT_INDIVIDUAL, cur, delta,
