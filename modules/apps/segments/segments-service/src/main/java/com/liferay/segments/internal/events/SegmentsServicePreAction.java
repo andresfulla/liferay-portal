@@ -26,10 +26,13 @@ import com.liferay.portal.kernel.util.GetterUtil;
 import com.liferay.portal.kernel.util.PropsKeys;
 import com.liferay.portal.kernel.util.PropsUtil;
 import com.liferay.portal.kernel.util.WebKeys;
+import com.liferay.segments.constants.SegmentsConstants;
 import com.liferay.segments.constants.SegmentsWebKeys;
 import com.liferay.segments.context.Context;
 import com.liferay.segments.internal.context.RequestContextMapper;
+import com.liferay.segments.model.SegmentsEntry;
 import com.liferay.segments.provider.SegmentsEntryProvider;
+import com.liferay.segments.service.SegmentsEntryLocalService;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -58,16 +61,27 @@ public class SegmentsServicePreAction extends Action {
 	}
 
 	protected void doRun(HttpServletRequest request) {
-		if (!_SEGMENTS_SEGMENTATION_ENABLED) {
-			return;
-		}
-
 		ThemeDisplay themeDisplay = (ThemeDisplay)request.getAttribute(
 			WebKeys.THEME_DISPLAY);
 
-		if (!themeDisplay.isLifecycleRender() ||
-			(themeDisplay.getUserId() == 0)) {
+		if (!themeDisplay.isLifecycleRender()) {
+			return;
+		}
 
+		if (!_SEGMENTS_SEGMENTATION_ENABLED) {
+			SegmentsEntry segmentsEntry =
+				_segmentsEntryLocalService.fetchSegmentsEntry(
+					themeDisplay.getCompanyGroupId(),
+					SegmentsConstants.KEY_DEFAULT, true);
+
+			request.setAttribute(
+				SegmentsWebKeys.SEGMENTS_ENTRY_IDS,
+				new long[] {segmentsEntry.getSegmentsEntryId()});
+
+			return;
+		}
+
+		if (themeDisplay.getUserId() == 0) {
 			return;
 		}
 
@@ -100,5 +114,8 @@ public class SegmentsServicePreAction extends Action {
 
 	@Reference
 	private SegmentsEntryProvider _segmentsEntryProvider;
+
+	@Reference
+	SegmentsEntryLocalService _segmentsEntryLocalService;
 
 }
