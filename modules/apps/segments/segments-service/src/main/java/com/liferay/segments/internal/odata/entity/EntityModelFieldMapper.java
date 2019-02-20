@@ -119,10 +119,11 @@ public class EntityModelFieldMapper {
 		if (entityFieldType == EntityField.Type.BOOLEAN) {
 			return "boolean";
 		}
-		else if ((entityFieldType == EntityField.Type.DATE) ||
-				 (entityFieldType == EntityField.Type.DATE_TIME)) {
-
+		else if (entityFieldType == EntityField.Type.DATE) {
 			return "date";
+		}
+		else if (entityFieldType == EntityField.Type.DATE_TIME) {
+			return "date-time";
 		}
 		else if (entityFieldType == EntityField.Type.DOUBLE) {
 			return "double";
