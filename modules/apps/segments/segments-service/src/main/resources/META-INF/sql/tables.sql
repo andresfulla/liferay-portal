@@ -27,3 +27,18 @@ create table SegmentsEntryRel (
 	classNameId LONG,
 	classPK LONG
 );
+
+create table SegmentsExperience (
+	segmentsExperienceId LONG not null primary key,
+	groupId LONG,
+	companyId LONG,
+	userId LONG,
+	userName VARCHAR(75) null,
+	createDate DATE null,
+	modifiedDate DATE null,
+	name STRING null,
+	layoutUuid VARCHAR(75) null,
+	segmentsEntryId LONG,
+	priority INTEGER,
+	active_ BOOLEAN
+);

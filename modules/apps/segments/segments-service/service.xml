@@ -158,10 +158,16 @@
 			<finder-column name="layoutUuid" />
 			<finder-column name="active" />
 		</finder>
+
+		<!-- References -->
+
+		<reference entity="Group" package-path="com.liferay.portal" />
+		<reference entity="Layout" package-path="com.liferay.portal" />
 	</entity>
 	<exceptions>
 		<exception>SegmentsEntryCriteria</exception>
 		<exception>SegmentsEntryKey</exception>
+		<exception>SegmentsExperienceLayout</exception>
 		<exception>SegmentsExperienceSegmentsEntry</exception>
 	</exceptions>
 </service-builder>

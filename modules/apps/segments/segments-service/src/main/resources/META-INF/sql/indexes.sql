@@ -9,3 +9,6 @@ create index IX_5296FAFD on SegmentsEntry (type_[$COLUMN_LENGTH:75$]);
 create index IX_E1165342 on SegmentsEntryRel (classNameId, classPK);
 create index IX_5FBA8532 on SegmentsEntryRel (groupId, classNameId, classPK);
 create unique index IX_55B38A5 on SegmentsEntryRel (segmentsEntryId, classNameId, classPK);
+
+create index IX_2FC22416 on SegmentsExperience (groupId, layoutUuid[$COLUMN_LENGTH:75$], active_);
+create unique index IX_83453B6A on SegmentsExperience (groupId, layoutUuid[$COLUMN_LENGTH:75$], segmentsEntryId);
