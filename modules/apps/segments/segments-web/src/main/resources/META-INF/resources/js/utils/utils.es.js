@@ -1,5 +1,6 @@
 import uniqueId from 'lodash.uniqueid';
 import {CONJUNCTIONS} from 'utils/constants.es';
+import dateFns from 'date-fns';
 
 const GROUP_ID_NAMESPACE = 'group_';
 
@@ -187,4 +188,17 @@ export function dateToInternationalHuman(
 	const intl = new Intl.DateTimeFormat(localeKey, options);
 
 	return intl.format(date);
+}
+
+/**
+ * Returns a YYYY-MM-DD date
+ * based on a JS Date object
+ *
+ * @export
+ * @param {Date} dateJsObject
+ * @returns {string}
+ */
+export function jsDatetoDate(dateJsObject) {
+	const DATE_FORMAT = 'YYYY-MM-DD';
+	return dateFns.format(dateJsObject, DATE_FORMAT);
 }
