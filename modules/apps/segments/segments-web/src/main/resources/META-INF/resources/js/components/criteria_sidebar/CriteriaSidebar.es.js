@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 import CriteriaSidebarSearchBar from './CriteriaSidebarSearchBar.es';
 import CriteriaSidebarItem from './CriteriaSidebarItem.es';
 import {PROPERTY_TYPES} from '../../utils/constants.es';
+import {jsDatetoDate} from '../../utils/utils.es';
 
 /**
  * Returns a default value for a property provided.
@@ -18,6 +19,9 @@ function getDefaultValue(property) {
 		defaultValue = options[0].value;
 	}
 	else if (type === PROPERTY_TYPES.DATE) {
+		defaultValue = jsDatetoDate((new Date()));
+	}
+	else if (type === PROPERTY_TYPES.DATE_TIME) {
 		defaultValue = (new Date()).toISOString();
 	}
 	else if (type === PROPERTY_TYPES.BOOLEAN) {

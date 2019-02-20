@@ -1,12 +1,12 @@
 import React from 'react';
-import DateInput from 'components/inputs/DateInput.es';
+import DateTimeInput from 'components/inputs/DateTimeInput.es';
 import {cleanup, render} from 'react-testing-library';
 import {testControlledInput} from 'test/utils';
 
 const DATE_INPUT_TESTID = 'date-input';
 
 describe(
-	'DateInput',
+	'DateTimeInput',
 	() => {
 		afterEach(cleanup);
 
@@ -18,7 +18,7 @@ describe(
 				const defaultNumberValue = '2019-01-23';
 
 				const {asFragment, getByTestId} = render(
-					<DateInput
+					<DateTimeInput
 						onChange={mockOnChange}
 						value={defaultNumberValue}
 					/>
@@ -33,7 +33,7 @@ describe(
 						element,
 						mockFunc: mockOnChange,
 						newValue: '2019-01-24',
-						newValueExpected: '2019-01-24',
+						newValueExpected: '2019-01-24T00:00:00.000Z',
 						value: defaultNumberValue
 					}
 				);

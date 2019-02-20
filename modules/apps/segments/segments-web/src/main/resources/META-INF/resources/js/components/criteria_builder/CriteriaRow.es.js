@@ -5,6 +5,7 @@ import ClayIcon from '../shared/ClayIcon.es';
 import ClaySelect from '../shared/ClaySelect.es';
 import DecimalInput from '../inputs/DecimalInput.es';
 import DateInput from '../inputs/DateInput.es';
+import DateTimeInput from '../inputs/DateTimeInput.es';
 import BooleanInput from '../inputs/BooleanInput.es';
 import SelectEntityInput from '../inputs/SelectEntityInput.es';
 import IntegerInput from '../inputs/IntegerInput.es';
@@ -222,7 +223,7 @@ class CriteriaRow extends Component {
 		value,
 		type
 	) => {
-		const parsedValue = (type === PROPERTY_TYPES.DATE) ?
+		const parsedValue = (type === PROPERTY_TYPES.DATE ||  type === PROPERTY_TYPES.DATE_TIME) ?
 			dateToInternationalHuman(value) :
 			value;
 
@@ -321,6 +322,7 @@ class CriteriaRow extends Component {
 		const inputComponentsMap = {
 			[PROPERTY_TYPES.BOOLEAN]: BooleanInput,
 			[PROPERTY_TYPES.DATE]: DateInput,
+			[PROPERTY_TYPES.DATE_TIME]: DateTimeInput,
 			[PROPERTY_TYPES.DOUBLE]: DecimalInput,
 			[PROPERTY_TYPES.ID]: SelectEntityInput,
 			[PROPERTY_TYPES.INTEGER]: IntegerInput,

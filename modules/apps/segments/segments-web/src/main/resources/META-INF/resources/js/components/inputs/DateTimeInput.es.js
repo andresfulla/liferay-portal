@@ -1,9 +1,11 @@
 import React from 'react';
 import propTypes from 'prop-types';
+import dateFns from 'date-fns';
 import {PROPERTY_TYPES} from 'utils/constants.es';
-import {jsDatetoDate} from '../../utils/utils.es';
 
-class DateInput extends React.Component {
+const INPUT_DATE_FORMAT = 'YYYY-MM-DD';
+
+class DateTimeInput extends React.Component {
 	static propTypes = {
 		onChange: propTypes.func.isRequired,
 		value: propTypes.string
@@ -11,15 +13,19 @@ class DateInput extends React.Component {
 
 	_handleDateChange = event => {
 		const value = event.target.value ||
-			jsDatetoDate((new Date()));
+			dateFns.format(new Date(), INPUT_DATE_FORMAT);
 
-		this.props.onChange(value, PROPERTY_TYPES.DATE);
+		const iSOStringValue = dateFns
+			.parse(value, INPUT_DATE_FORMAT)
+			.toISOString();
+
+		this.props.onChange(iSOStringValue, PROPERTY_TYPES.DATE);
 	}
 
 	render() {
 		const date = new Date(this.props.value);
 
-		const domStringDate = jsDatetoDate(date);
+		const domStringDate = dateFns.format(date, INPUT_DATE_FORMAT);
 
 		return (
 			<div className="criterion-input date-input">
@@ -35,4 +41,4 @@ class DateInput extends React.Component {
 	}
 }
 
-export default DateInput;
+export default DateTimeInput;
