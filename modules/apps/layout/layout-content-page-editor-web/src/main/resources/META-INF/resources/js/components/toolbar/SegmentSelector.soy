@@ -13,7 +13,7 @@
 	{@param? portletNamespace: string}
 	{@param? segmentId: string}
 
-	{if $availableSegments and length($availableSegments) > 0}
+	{if $availableSegments and length($availableSegments) > 1}
 		<div class="form-group mb-0">
 			<label class="sr-only" for="{$portletNamespace}SegmentSelector">
 				{msg desc=""}select-segment{/msg}
