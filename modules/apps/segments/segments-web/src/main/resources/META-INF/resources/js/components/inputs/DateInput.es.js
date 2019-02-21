@@ -1,7 +1,7 @@
 import React from 'react';
 import propTypes from 'prop-types';
 import {PROPERTY_TYPES} from 'utils/constants.es';
-import {jsDatetoDate} from '../../utils/utils.es';
+import {jsDatetoYYYYMMDD} from '../../utils/utils.es';
 
 class DateInput extends React.Component {
 	static propTypes = {
@@ -11,7 +11,7 @@ class DateInput extends React.Component {
 
 	_handleDateChange = event => {
 		const value = event.target.value ||
-			jsDatetoDate((new Date()));
+			jsDatetoYYYYMMDD((new Date()));
 
 		this.props.onChange(value, PROPERTY_TYPES.DATE);
 	}
@@ -19,7 +19,7 @@ class DateInput extends React.Component {
 	render() {
 		const date = new Date(this.props.value);
 
-		const domStringDate = jsDatetoDate(date);
+		const domStringDate = jsDatetoYYYYMMDD(date);
 
 		return (
 			<div className="criterion-input date-input">

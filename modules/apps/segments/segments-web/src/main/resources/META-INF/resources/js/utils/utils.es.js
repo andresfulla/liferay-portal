@@ -198,7 +198,7 @@ export function dateToInternationalHuman(
  * @param {Date} dateJsObject
  * @returns {string}
  */
-export function jsDatetoDate(dateJsObject) {
+export function jsDatetoYYYYMMDD(dateJsObject) {
 	const DATE_FORMAT = 'YYYY-MM-DD';
 	return dateFns.format(dateJsObject, DATE_FORMAT);
 }
