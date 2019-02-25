@@ -137,10 +137,13 @@ public class ContentPageLayoutEditorDisplayContext
 
 			experienceSoyContext.put(
 				"experienceId",
-				String.valueOf(segmentsExperience.getSegmentsEntryId()));
+				String.valueOf(segmentsExperience.getSegmentsExperienceId()));
 			experienceSoyContext.put(
 				"experienceLabel",
 				segmentsExperience.getName(themeDisplay.getLocale()));
+			experienceSoyContext.put(
+				"segmentId",
+				String.valueOf(segmentsExperience.getSegmentsEntryId()));
 
 			availableSegmentsEntriesSoyContext.put(
 				String.valueOf(segmentsExperience.getSegmentsExperienceId()),
