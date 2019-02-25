@@ -120,6 +120,14 @@ public class SegmentsExperienceLocalServiceWrapper
 	}
 
 	@Override
+	public void deleteSegmentsExperiences(long groupId, long classNameId,
+		long classPK)
+		throws com.liferay.portal.kernel.exception.PortalException {
+		_segmentsExperienceLocalService.deleteSegmentsExperiences(groupId,
+			classNameId, classPK);
+	}
+
+	@Override
 	public com.liferay.portal.kernel.dao.orm.DynamicQuery dynamicQuery() {
 		return _segmentsExperienceLocalService.dynamicQuery();
 	}
@@ -214,6 +222,14 @@ public class SegmentsExperienceLocalServiceWrapper
 	@Override
 	public com.liferay.portal.kernel.dao.orm.ActionableDynamicQuery getActionableDynamicQuery() {
 		return _segmentsExperienceLocalService.getActionableDynamicQuery();
+	}
+
+	@Override
+	public com.liferay.segments.model.SegmentsExperience getDefaultSegmentsExperience(
+		long groupId, long classNameId, long classPK)
+		throws com.liferay.portal.kernel.exception.PortalException {
+		return _segmentsExperienceLocalService.getDefaultSegmentsExperience(groupId,
+			classNameId, classPK);
 	}
 
 	@Override

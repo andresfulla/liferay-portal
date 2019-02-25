@@ -124,6 +124,9 @@ public interface SegmentsExperienceLocalService extends BaseLocalService,
 	public void deleteSegmentsExperiences(long groupId)
 		throws PortalException;
 
+	public void deleteSegmentsExperiences(long groupId, long classNameId,
+		long classPK) throws PortalException;
+
 	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
 	public DynamicQuery dynamicQuery();
 
@@ -194,6 +197,10 @@ public interface SegmentsExperienceLocalService extends BaseLocalService,
 
 	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
 	public ActionableDynamicQuery getActionableDynamicQuery();
+
+	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
+	public SegmentsExperience getDefaultSegmentsExperience(long groupId,
+		long classNameId, long classPK) throws PortalException;
 
 	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
 	public IndexableActionableDynamicQuery getIndexableActionableDynamicQuery();
