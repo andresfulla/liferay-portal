@@ -75,7 +75,9 @@ import com.liferay.portal.util.PortletCategoryUtil;
 import com.liferay.portal.util.WebAppPool;
 import com.liferay.segments.constants.SegmentsConstants;
 import com.liferay.segments.model.SegmentsEntry;
+import com.liferay.segments.model.SegmentsExperience;
 import com.liferay.segments.service.SegmentsEntryLocalServiceUtil;
+import com.liferay.segments.service.SegmentsExperienceLocalServiceUtil;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -142,6 +144,7 @@ public class ContentPageEditorDisplayContext {
 		soyContext.put("classPK", classPK);
 		soyContext.put(
 			"defaultEditorConfigurations", _getDefaultConfigurations());
+		soyContext.put("defaultExperienceId", _getDefaultExperienceId());
 		soyContext.put("defaultLanguageId", themeDisplay.getLanguageId());
 		soyContext.put("defaultSegmentId", _getDefaultSegmentId());
 		soyContext.put(
@@ -192,6 +195,7 @@ public class ContentPageEditorDisplayContext {
 		soyContext.put(
 			"availableLanguages", _getAvailableLanguagesSoyContext());
 		soyContext.put("classPK", themeDisplay.getPlid());
+		soyContext.put("defaultExperienceId", _getDefaultExperienceId());
 		soyContext.put("defaultLanguageId", themeDisplay.getLanguageId());
 		soyContext.put("defaultSegmentId", _getDefaultSegmentId());
 		soyContext.put("lastSaveDate", StringPool.BLANK);
@@ -350,12 +354,20 @@ public class ContentPageEditorDisplayContext {
 		return _defaultConfigurations;
 	}
 
+	private long _getDefaultExperienceId() throws PortalException {
+		SegmentsExperience segmentsExperience =
+			SegmentsExperienceLocalServiceUtil.getDefaultSegmentsExperience(
+				getGroupId(), classNameId, classPK);
+
+		return segmentsExperience.getSegmentsExperienceId();
+	}
+
 	private String _getDefaultSegmentId() {
 		SegmentsEntry segmentsEntry =
 			SegmentsEntryLocalServiceUtil.fetchSegmentsEntry(
 				getGroupId(), SegmentsConstants.KEY_DEFAULT, true);
 
-		return "segment-id-" + segmentsEntry.getSegmentsEntryId();
+		return String.valueOf(segmentsEntry.getSegmentsEntryId());
 	}
 
 	private List<SoyContext> _getFragmentEntriesSoyContext(
