@@ -354,12 +354,12 @@ public class ContentPageEditorDisplayContext {
 		return _defaultConfigurations;
 	}
 
-	private long _getDefaultExperienceId() throws PortalException {
+	private String _getDefaultExperienceId() throws PortalException {
 		SegmentsExperience segmentsExperience =
 			SegmentsExperienceLocalServiceUtil.getDefaultSegmentsExperience(
 				getGroupId(), classNameId, classPK);
 
-		return segmentsExperience.getSegmentsExperienceId();
+		return String.valueOf(segmentsExperience.getSegmentsExperienceId());
 	}
 
 	private String _getDefaultSegmentId() {
