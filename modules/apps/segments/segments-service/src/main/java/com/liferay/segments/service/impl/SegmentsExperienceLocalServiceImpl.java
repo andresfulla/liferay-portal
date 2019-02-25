@@ -21,6 +21,9 @@ import com.liferay.portal.kernel.model.User;
 import com.liferay.portal.kernel.service.ServiceContext;
 import com.liferay.portal.kernel.systemevent.SystemEvent;
 import com.liferay.portal.kernel.util.OrderByComparator;
+import com.liferay.segments.constants.SegmentsConstants;
+import com.liferay.segments.exception.SegmentsExperienceSegmentsEntryException;
+import com.liferay.segments.model.SegmentsEntry;
 import com.liferay.segments.model.SegmentsExperience;
 import com.liferay.segments.service.base.SegmentsExperienceLocalServiceBaseImpl;
 
@@ -136,11 +139,36 @@ public class SegmentsExperienceLocalServiceImpl
 	}
 
 	@Override
+	public void deleteSegmentsExperiences(
+		long groupId, long classNameId, long classPK) throws PortalException {
+
+		List<SegmentsExperience> segmentsExperiences =
+			segmentsExperiencePersistence.findByG_C_C(
+				groupId, classNameId, classPK);
+
+		for (SegmentsExperience segmentsExperience : segmentsExperiences) {
+			segmentsExperienceLocalService.deleteSegmentsExperience(
+				segmentsExperience.getSegmentsExperienceId());
+		}
+	}
+
+	@Override
 	public SegmentsExperience fetchSegmentsExperience(long segmentsExperienceId)
 	{
 
 		return segmentsExperiencePersistence.fetchByPrimaryKey(
 			segmentsExperienceId);
+	}
+
+	@Override
+	public SegmentsExperience getDefaultSegmentsExperience(
+			long groupId, long classNameId, long classPK)
+		throws PortalException {
+
+		SegmentsEntry segmentsEntry = _getDefaultSegment(groupId);
+
+		return segmentsExperiencePersistence.findByG_S_C_C(
+			groupId, segmentsEntry.getSegmentsEntryId(), classNameId, classPK);
 	}
 
 	@Override
@@ -190,6 +218,21 @@ public class SegmentsExperienceLocalServiceImpl
 		segmentsExperience.setActive(active);
 
 		return segmentsExperiencePersistence.update(segmentsExperience);
+	}
+
+	private SegmentsEntry _getDefaultSegment(long groupId)
+		throws PortalException {
+
+		SegmentsEntry segmentsEntry =
+			segmentsEntryLocalService.fetchSegmentsEntry(
+				groupId, SegmentsConstants.KEY_DEFAULT, true);
+
+		if (segmentsEntry == null) {
+			throw new SegmentsExperienceSegmentsEntryException(
+				"Unable to find default segment");
+		}
+
+		return segmentsEntry;
 	}
 
 }
