@@ -175,7 +175,7 @@ class ExperienceSelector extends Component {
 			{
 				experienceId
 			}
-		);
+		)
 	}
 
 	/**
