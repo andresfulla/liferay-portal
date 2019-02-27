@@ -3,6 +3,7 @@ import {PropTypes} from 'prop-types';
 import ClayButton from '../shared/ClayButton.es';
 import ClayIcon from '../shared/ClayIcon.es';
 import ClaySelect from '../shared/ClaySelect.es';
+import CollectionInput from '../inputs/CollectionInput.es';
 import DecimalInput from '../inputs/DecimalInput.es';
 import DateInput from '../inputs/DateInput.es';
 import DateTimeInput from '../inputs/DateTimeInput.es';
@@ -321,6 +322,7 @@ class CriteriaRow extends Component {
 	_renderValueInput = (selectedProperty, value) => {
 		const inputComponentsMap = {
 			[PROPERTY_TYPES.BOOLEAN]: BooleanInput,
+			[PROPERTY_TYPES.COLLECTION]: CollectionInput,
 			[PROPERTY_TYPES.DATE]: DateInput,
 			[PROPERTY_TYPES.DATE_TIME]: DateTimeInput,
 			[PROPERTY_TYPES.DOUBLE]: DecimalInput,

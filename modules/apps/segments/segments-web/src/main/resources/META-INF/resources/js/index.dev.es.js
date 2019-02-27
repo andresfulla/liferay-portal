@@ -17,7 +17,7 @@ const altProps = {
 		{
 			conjunctionId: '',
 			conjunctionInputId: '_com_liferay_segments_web_internal_portlet_SegmentsPortlet_criterionConjunctionuser-organization',
-			initialQuery: '',
+			initialQuery: '(cookie/any(c:contains(c, \'key1=value1\')))',
 			inputId: '_com_liferay_segments_web_internal_portlet_SegmentsPortlet_criterionFilteruser-organization',
 			propertyKey: 'user-organization'
 		}
@@ -190,6 +190,11 @@ const altProps = {
 					label: 'Name',
 					name: 'name',
 					type: 'string'
+				},
+				{
+					label: 'Cookie',
+					name: 'cookie',
+					type: 'collection'
 				},
 				{
 					label: 'Name Tree Path',
