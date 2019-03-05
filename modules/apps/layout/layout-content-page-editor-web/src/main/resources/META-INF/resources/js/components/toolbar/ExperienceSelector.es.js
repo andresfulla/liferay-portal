@@ -8,6 +8,47 @@ import 'frontend-js-web/liferay/compat/modal/Modal.es';
 import {setIn} from '../../utils/FragmentsEditorUpdateUtils.es';
 
 /**
+ * Tells if a priority an `obj2`
+ * has higher, equal or lower priority
+ * than `obj1`
+ *
+ * @review
+ * @param {object} obj1
+ * @param {object} obj2
+ * @returns {1|0|-1}
+ */
+function comparePriority(obj1, obj2) {
+	let result = 0;
+
+	if (obj1.priority > obj2.priority) {
+		result = -1;
+	}
+
+	if (obj1.priority < obj2.priority) {
+		result = 1;
+	}
+
+	return result;
+}
+
+/**
+ * Searchs for a segment based on its Id
+ * and returns its label
+ *
+ * @review
+ * @param {Array} segments
+ * @param {string} segmentId
+ * @returns {string|undefined}
+ */
+function findSegmentLabelById(segments, segmentId) {
+	const mostWantedSegment = segments.find(
+		segment => segment.segmentId === segmentId
+	);
+
+	return mostWantedSegment && mostWantedSegment.segmentLabel;
+}
+
+/**
  * ExperienceSelector
  */
 class ExperienceSelector extends Component {
@@ -28,11 +69,13 @@ class ExperienceSelector extends Component {
 						Object.values(state.availableSegments),
 						experience.segmentId
 					);
+
 					const updatedExperience = setIn(
 						experience,
 						['segmentLabel'],
 						label
 					);
+
 					return updatedExperience;
 				}
 			);
@@ -91,14 +134,15 @@ class ExperienceSelector extends Component {
 			END_CREATE_EXPERIENCE
 		);
 	}
-	
+
 	/**
 	 * @private
 	 * @review
 	 * @memberof ExperienceSelector
 	 */
 	_handleDropdownBlur() {
-		clearTimeout(this.willToggleDropdownId);
+		cancelAnimationFrame(this.willToggleDropdownId);
+
 		this.willToggleDropdownId = requestAnimationFrame(
 			() => {
 				this._toggleDropdown(false);
@@ -109,10 +153,9 @@ class ExperienceSelector extends Component {
 	/**
 	 * @private
 	 * @review
-	 * @param {Event} event
 	 * @memberof ExperienceSelector
 	 */
-	_handleDropdownButtonClick(event) {
+	_handleDropdownButtonClick() {
 		this._toggleDropdown();
 	}
 
@@ -144,12 +187,11 @@ class ExperienceSelector extends Component {
 	 */
 	_handleFormSubmit(event) {
 		event.preventDefault();
-		const {
-			experienceName: experienceNameElem,
-			experienceSegmentId: experienceSegmentIdElem
-		} = this.refs.modal.refs;
 
-		this._createExperience(experienceNameElem.value, experienceSegmentIdElem.value);
+		this._createExperience(
+			this.refs.modal.refs.experienceName.value,
+			this.refs.modal.refs.experienceSegmentId.value
+		);
 	}
 
 	/**
@@ -187,6 +229,7 @@ class ExperienceSelector extends Component {
 		const modalAction = this.experienceCreation.creatingExperience ?
 			this._closeModal :
 			this._openModal;
+
 		modalAction.call(this);
 	}
 
@@ -221,40 +264,3 @@ Soy.register(ConnectedExperienceSelector, templates);
 
 export {ConnectedExperienceSelector};
 export default ConnectedExperienceSelector;
-
-/**
- * Tells if a priority an `obj2`
- * has higher, equal or lower priority
- * than `obj1`
- *
- * @review
- * @param {object} obj1
- * @param {object} obj2
- * @returns {1|0|-1}
- */
-function comparePriority(obj1, obj2) {
-	let result = 0;
-	if (obj1.priority > obj2.priority) {
-		result = -1;
-	}
-	if (obj1.priority < obj2.priority) {
-		result = 1;
-	}
-	return result;
-}
-
-/**
- * Searchs for a segment based on its Id
- * and returns its label
- *
- * @review
- * @param {Array} segments
- * @param {string} segmentId
- * @returns {string|undefined}
- */
-function findSegmentLabelById(segments, segmentId) {
-	const mostWantedSegment = segments.find(
-		segment => segment.segmentId === segmentId
-	);
-	return mostWantedSegment && mostWantedSegment.segmentLabel;
-}
