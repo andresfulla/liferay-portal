@@ -37,8 +37,8 @@ const disconnect = function(component) {
  * @return {Store}
  * @review
  */
-const createStore = function(initialState, reducers, componentIds = []) {
-	const store = new Store(initialState, reducers);
+const createStore = function(initialState, reducer, componentIds = []) {
+	const store = new Store(initialState, reducer);
 
 	componentIds.forEach(
 		componentId => {
@@ -89,14 +89,14 @@ class Store extends State {
 
 	/**
 	 * @param {object} [initialState={}]
-	 * @param {function[]} [reducers=[]]
+	 * @param {function} [reducers=state => state]
 	 * @review
 	 */
-	constructor(initialState = {}, reducers = []) {
+	constructor(initialState = {}, reducer = state => state) {
 		super();
 
 		this._setInitialState(initialState);
-		this.registerReducers(reducers);
+		this._reducer = reducer;
 	}
 
 	/**
@@ -109,15 +109,16 @@ class Store extends State {
 	 * @review
 	 */
 	dispatchAction(actionType, payload) {
+		console.log(actionType, payload);
 		this._dispatchPromise = this._dispatchPromise.then(
-			() => this._reducers.reduce(
-				(promiseNextState, reducer) => promiseNextState.then(
-					nextState => Promise.resolve(
-						reducer(nextState, actionType, payload)
-					)
-				),
-				Promise.resolve(this._state)
-			)
+			() => Promise.resolve(this._state).then((nextState) => {
+				debugger;
+				return Promise.resolve(this._reducer(
+					this._state,
+					actionType,
+					payload
+				))
+			})
 				.then(
 					nextState => {
 						this._state = this._getFrozenState(nextState);
@@ -127,6 +128,7 @@ class Store extends State {
 						return this;
 					}
 				)
+				.catch(error => console.log(error))
 		);
 
 		return this;
@@ -140,36 +142,6 @@ class Store extends State {
 	 */
 	getState() {
 		return this._state;
-	}
-
-	/**
-	 * Adds a new reducer to the store.
-	 *
-	 * A reducer is a function that receives a state, an actionType and
-	 * an optional payload with information, and returns a new state without
-	 * altering the original one.
-	 *
-	 * @param {!function} reducer
-	 * @review
-	 */
-	registerReducer(reducer) {
-		this._reducers = [
-			...this._reducers,
-			reducer
-		];
-	}
-
-	/**
-	 * Adds a list of reducers to the store.
-	 * @param {!Array<function>} reducers
-	 * @review
-	 * @see {Store.registerReducer}
-	 */
-	registerReducers(reducers) {
-		this._reducers = [
-			...this._reducers,
-			...reducers
-		];
 	}
 
 	/**

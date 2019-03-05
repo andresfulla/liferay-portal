@@ -1,4 +1,3 @@
-import {ADD_FRAGMENT_ENTRY_LINK, CHANGE_LANGUAGE_ID, CREATE_EXPERIENCE, REMOVE_FRAGMENT_ENTRY_LINK, SELECT_EXPERIENCE, UPDATE_TRANSLATION_STATUS} from '../actions/actions.es';
 import {setIn} from '../utils/FragmentsEditorUpdateUtils.es';
 import {prefixExperienceId} from '../utils/prefixExperienceId.es';
 
@@ -7,48 +6,36 @@ const EDITABLE_VALUES_KEY = 'com.liferay.fragment.entry.processor.editable.Edita
 /**
  * Reducer for changing languageId
  * @param {!object} state
- * @param {!string} actionType
  * @param {object} payload
  * @param {string} payload.languageId
  * @return {object}
  * @review
  */
-function languageIdReducer(state, actionType, payload) {
+function languageIdReducer(state, payload) {
 	let nextState = state;
 
-	if (actionType === CHANGE_LANGUAGE_ID) {
-		nextState = setIn(nextState, ['languageId'], payload.languageId);
-	}
+	nextState = setIn(nextState, ['languageId'], payload.languageId);
 
 	return nextState;
 }
 
 /**
  * @param {!object} state
- * @param {!string} actionType
  * @return {object}
  * @review
  */
-function translationStatusReducer(state, actionType) {
+function translationStatusReducer(state) {
 	let nextState = state;
 
-	if (
-		actionType === ADD_FRAGMENT_ENTRY_LINK ||
-		actionType === UPDATE_TRANSLATION_STATUS ||
-		actionType === REMOVE_FRAGMENT_ENTRY_LINK ||
-		actionType === SELECT_EXPERIENCE ||
-		actionType === CREATE_EXPERIENCE
-	) {
-		const experienceId = nextState.experienceId || nextState.defaultExperienceId;
+	const experienceId = nextState.experienceId || nextState.defaultExperienceId;
 
-		const nextTranslationStatus = _getTranslationStatus(
-			_getLanguageKeys(nextState.availableLanguages),
-			_getEditableValues(nextState.fragmentEntryLinks),
-			prefixExperienceId(experienceId)
-		);
+	const nextTranslationStatus = _getTranslationStatus(
+		_getLanguageKeys(nextState.availableLanguages),
+		_getEditableValues(nextState.fragmentEntryLinks),
+		prefixExperienceId(experienceId)
+	);
 
-		nextState = setIn(nextState, ['translationStatus'], nextTranslationStatus);
-	}
+	nextState = setIn(nextState, ['translationStatus'], nextTranslationStatus);
 
 	return nextState;
 }

@@ -53,7 +53,7 @@ JSONSerializer jsonSerializer = JSONFactoryUtil.createJSONSerializer();
 <aui:script require="<%= sb.toString() %>">
 	StoreModule.createStore(
 		<%= jsonSerializer.serializeDeep(contentPageEditorDisplayContext.getEditorContext()) %>,
-		ReducersModule.reducers,
+		ReducersModule.reducer,
 		[
 			'<portlet:namespace />editModeWrapper',
 			'<portlet:namespace />fragmentsEditor',

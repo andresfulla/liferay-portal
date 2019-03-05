@@ -1,4 +1,3 @@
-import {ADD_FRAGMENT_ENTRY_LINK, MOVE_FRAGMENT_ENTRY_LINK, REMOVE_FRAGMENT_ENTRY_LINK, UPDATE_CONFIG_ATTRIBUTES, UPDATE_EDITABLE_VALUE} from '../actions/actions.es';
 import {add, remove, setIn, updateIn, updateLayoutData, updateWidgets} from '../utils/FragmentsEditorUpdateUtils.es';
 import {EDITABLE_FRAGMENT_ENTRY_PROCESSOR} from '../components/fragment_entry_link/FragmentEntryLinkContent.es';
 import {FRAGMENTS_EDITOR_ITEM_BORDERS, FRAGMENTS_EDITOR_ITEM_TYPES} from '../utils/constants';
@@ -82,89 +81,84 @@ function addFragment(
 
 /**
  * @param {!object} state
- * @param {!string} actionType
  * @param {!object} payload
  * @param {!string} payload.fragmentEntryKey
  * @param {!string} payload.fragmentName
  * @return {object}
  * @review
  */
-function addFragmentEntryLinkReducer(state, actionType, payload) {
+function addFragmentEntryLinkReducer(state, payload) {
+	debugger;
 	return new Promise(
 		resolve => {
 			let nextState = state;
 
-			if (actionType === ADD_FRAGMENT_ENTRY_LINK) {
-				let fragmentEntryLink = null;
-				let nextData = null;
+			let fragmentEntryLink = null;
+			let nextData = null;
 
-				_addFragmentEntryLink(
-					nextState.addFragmentEntryLinkURL,
-					payload.fragmentEntryKey,
-					payload.fragmentName,
-					nextState.classNameId,
-					nextState.classPK,
-					nextState.portletNamespace
+			_addFragmentEntryLink(
+				nextState.addFragmentEntryLinkURL,
+				payload.fragmentEntryKey,
+				payload.fragmentName,
+				nextState.classNameId,
+				nextState.classPK,
+				nextState.portletNamespace
+			)
+				.then(
+					response => {
+						fragmentEntryLink = response;
+
+						nextData = addFragment(
+							fragmentEntryLink.fragmentEntryLinkId,
+							nextState.dropTargetBorder,
+							nextState.dropTargetItemId,
+							nextState.dropTargetItemType,
+							nextState.layoutData
+						);
+
+						return updateLayoutData(
+							nextState.updateLayoutPageTemplateDataURL,
+							nextState.portletNamespace,
+							nextState.classNameId,
+							nextState.classPK,
+							nextData
+						);
+					}
 				)
-					.then(
-						response => {
-							fragmentEntryLink = response;
-
-							nextData = addFragment(
-								fragmentEntryLink.fragmentEntryLinkId,
-								nextState.dropTargetBorder,
-								nextState.dropTargetItemId,
-								nextState.dropTargetItemType,
-								nextState.layoutData
-							);
-
-							return updateLayoutData(
-								nextState.updateLayoutPageTemplateDataURL,
-								nextState.portletNamespace,
-								nextState.classNameId,
-								nextState.classPK,
-								nextData
-							);
-						}
+				.then(
+					() => getFragmentEntryLinkContent(
+						nextState.renderFragmentEntryURL,
+						fragmentEntryLink,
+						nextState.portletNamespace
 					)
-					.then(
-						() => getFragmentEntryLinkContent(
-							nextState.renderFragmentEntryURL,
-							fragmentEntryLink,
-							nextState.portletNamespace
-						)
-					)
-					.then(
-						response => {
-							fragmentEntryLink = response;
+				)
+				.then(
+					response => {
+						fragmentEntryLink = response;
 
-							nextState = setIn(
-								nextState,
-								[
-									'fragmentEntryLinks',
-									fragmentEntryLink.fragmentEntryLinkId
-								],
-								fragmentEntryLink
-							);
+						nextState = setIn(
+							nextState,
+							[
+								'fragmentEntryLinks',
+								fragmentEntryLink.fragmentEntryLinkId
+							],
+							fragmentEntryLink
+						);
 
-							nextState = setIn(
-								nextState,
-								['layoutData'],
-								nextData
-							);
+						nextState = setIn(
+							nextState,
+							['layoutData'],
+							nextData
+						);
 
-							resolve(nextState);
-						}
-					)
-					.catch(
-						() => {
-							resolve(nextState);
-						}
-					);
-			}
-			else {
-				resolve(nextState);
-			}
+						resolve(nextState);
+					}
+				)
+				.catch(
+					() => {
+						resolve(nextState);
+					}
+				);
 		}
 	);
 }
@@ -216,7 +210,6 @@ function getFragmentEntryLinkContent(
 
 /**
  * @param {!object} state
- * @param {!string} actionType
  * @param {!object} payload
  * @param {!string} payload.fragmentEntryLinkId
  * @param {!string} payload.targetBorder
@@ -225,58 +218,53 @@ function getFragmentEntryLinkContent(
  * @return {object}
  * @review
  */
-function moveFragmentEntryLinkReducer(state, actionType, payload) {
+function moveFragmentEntryLinkReducer(state, payload) {
 	return new Promise(
 		resolve => {
 			let nextState = state;
 
-			if (actionType === MOVE_FRAGMENT_ENTRY_LINK) {
-				let nextData = null;
+			let nextData = null;
 
-				nextData = _removeFragment(
-					nextState.layoutData,
-					payload.fragmentEntryLinkId
-				);
+			nextData = _removeFragment(
+				nextState.layoutData,
+				payload.fragmentEntryLinkId
+			);
 
-				nextData = addFragment(
-					payload.fragmentEntryLinkId,
-					payload.targetBorder,
-					payload.targetItemId,
-					payload.targetItemType,
-					nextData
-				);
+			nextData = addFragment(
+				payload.fragmentEntryLinkId,
+				payload.targetBorder,
+				payload.targetItemId,
+				payload.targetItemType,
+				nextData
+			);
 
-				_moveFragmentEntryLink(
-					nextState.updateLayoutPageTemplateDataURL,
-					nextState.portletNamespace,
-					nextState.classNameId,
-					nextState.classPK,
-					nextData
+			_moveFragmentEntryLink(
+				nextState.updateLayoutPageTemplateDataURL,
+				nextState.portletNamespace,
+				nextState.classNameId,
+				nextState.classPK,
+				nextData
+			)
+				.then(
+					response => {
+						if (response.error) {
+							throw response.error;
+						}
+
+						nextState = setIn(
+							nextState,
+							['layoutData'],
+							nextData
+						);
+
+						resolve(nextState);
+					}
 				)
-					.then(
-						response => {
-							if (response.error) {
-								throw response.error;
-							}
-
-							nextState = setIn(
-								nextState,
-								['layoutData'],
-								nextData
-							);
-
-							resolve(nextState);
-						}
-					)
-					.catch(
-						() => {
-							resolve(nextState);
-						}
-					);
-			}
-			else {
-				resolve(nextState);
-			}
+				.catch(
+					() => {
+						resolve(nextState);
+					}
+				);
 		}
 	);
 }
@@ -358,69 +346,62 @@ function updateFragmentEntryLinkConfigReducer(state, actionType, payload) {
 
 /**
  * @param {!object} state
- * @param {!string} actionType
  * @param {!object} payload
  * @param {!string} payload.fragmentEntryLinkId
  * @return {object}
  * @review
  */
-function removeFragmentEntryLinkReducer(state, actionType, payload) {
+function removeFragmentEntryLinkReducer(state, payload) {
 	return new Promise(
 		resolve => {
 			let nextState = state;
 
-			if (actionType === REMOVE_FRAGMENT_ENTRY_LINK) {
-				const {fragmentEntryLinkId} = payload;
+			const {fragmentEntryLinkId} = payload;
 
-				let nextData = setIn(
-					nextState.layoutData,
-					['structure'],
-					[...nextState.layoutData.structure]
-				);
+			let nextData = setIn(
+				nextState.layoutData,
+				['structure'],
+				[...nextState.layoutData.structure]
+			);
 
-				nextData = _removeFragment(nextData, fragmentEntryLinkId);
+			nextData = _removeFragment(nextData, fragmentEntryLinkId);
 
-				_removeFragmentEntryLink(
-					nextState.deleteFragmentEntryLinkURL,
-					nextState.portletNamespace,
-					nextState.classNameId,
-					nextState.classPK,
-					fragmentEntryLinkId,
-					nextData
+			_removeFragmentEntryLink(
+				nextState.deleteFragmentEntryLinkURL,
+				nextState.portletNamespace,
+				nextState.classNameId,
+				nextState.classPK,
+				fragmentEntryLinkId,
+				nextData
+			)
+				.then(
+					() => {
+						nextState = setIn(nextState, ['layoutData'], nextData);
+						nextState = updateWidgets(nextState, payload.fragmentEntryLinkId);
+
+						nextState.setIn(
+							nextState,
+							['fragmentEntryLinks'],
+							nextState.fragmentEntryLinks.filter(
+								_fragmentEntryLink => _fragmentEntryLink.fragmentEntryLinkId !==
+									payload.fragmentEntryLinkId
+							)
+						);
+
+						resolve(nextState);
+					}
 				)
-					.then(
-						() => {
-							nextState = setIn(nextState, ['layoutData'], nextData);
-							nextState = updateWidgets(nextState, payload.fragmentEntryLinkId);
-
-							nextState.setIn(
-								nextState,
-								['fragmentEntryLinks'],
-								nextState.fragmentEntryLinks.filter(
-									_fragmentEntryLink => _fragmentEntryLink.fragmentEntryLinkId !==
-										payload.fragmentEntryLinkId
-								)
-							);
-
-							resolve(nextState);
-						}
-					)
-					.catch(
-						() => {
-							resolve(nextState);
-						}
-					);
-			}
-			else {
-				resolve(nextState);
-			}
+				.catch(
+					() => {
+						resolve(nextState);
+					}
+				);
 		}
 	);
 }
 
 /**
  * @param {!object} state
- * @param {!string} actionType
  * @param {object} payload
  * @param {string} payload.fragmentEntryLinkId
  * @param {string} payload.editableId
@@ -429,12 +410,11 @@ function removeFragmentEntryLinkReducer(state, actionType, payload) {
  * @return {object}
  * @review
  */
-function updateEditableValueReducer(state, actionType, payload) {
+function updateEditableValueReducer(state, payload) {
 	let nextState = state;
 
 	return new Promise(
 		resolve => {
-			if (actionType === UPDATE_EDITABLE_VALUE) {
 				const {
 					editableId,
 					editableValue,
@@ -513,13 +493,9 @@ function updateEditableValueReducer(state, actionType, payload) {
 							nextEditableValues
 						);
 
-						resolve(nextState);
-					}
-				);
-			}
-			else {
-				resolve(nextState);
-			}
+					resolve(nextState);
+				}
+			);
 		}
 	);
 }
