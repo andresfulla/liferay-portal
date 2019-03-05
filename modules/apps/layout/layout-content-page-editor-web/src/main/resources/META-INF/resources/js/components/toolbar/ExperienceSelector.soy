@@ -22,10 +22,10 @@
 	{@param? portletNamespace: string}
 	{@param spritemap: string}
 	{@param? experienceCreation: ?}
-	<div>
+
 	{if $availableExperiences and length($availableExperiences) > 0}
 		<div
-				class="experience-selector position-relative"
+			class="experience-selector position-relative"
 			tabindex="0"
 		>
 			<label for="{$portletNamespace}ExperienceSelector" class="text-white mr-2">
@@ -51,28 +51,39 @@
 				<div class="d-flex justify-content-between align-items-start">
 					<h2>{msg desc=""}select-experience{/msg}</h2>
 
-					<button class="btn btn-secondary btn-sm" data-onclick="_openModal">
+					<button class="btn btn-outline-dark btn-sm" data-onclick="_openModal">
 						{msg desc=""}new-experience{/msg}
 					</button>
 				</div>
 
 				<ul class="list-unstyled mt-3">
 					{foreach $experience in $availableExperiences}
-						<li
-							class="dropdown-menu__experience {if $experience.experienceId == $experienceId }dropdown-menu__experience--active{/if}"
-						>
+						{let $experienceClasses kind="text"}
+							dropdown-menu__experience
+
+							{if $experience.experienceId == $experienceId }
+								{sp}dropdown-menu__experience--active
+							{/if}
+						{/let}
+
+						<li class="{$experienceClasses}">
 							<button
-								class="title btn-unstyled p-3 d-flex justify-content-between align-items-baseline w-100"
+								class="title btn-unstyled text-dark p-3 d-flex justify-content-between align-items-baseline w-100"
 								data-onclick="_handleExperienceClick"
 								data-experience-id="{$experience.experienceId}"
 								tabindex="0"
 							>
 								<span class="p-1 truncate-text flex-grow-1">
-								{$experience.experienceLabel}
+									{$experience.experienceLabel}
 								</span>
 
 								<span class="audience d-inline-block truncate-text p-1">
-									<span class="text-secondary">{msg desc=""}audience{/msg} -</span> { $experience.segmentLabel }
+									<span class="text-secondary">
+										{msg desc=""}audience{/msg}
+										-
+									</span>
+
+									{$experience.segmentLabel}
 								</span>
 							</button>
 						</li>
@@ -80,14 +91,24 @@
 				</ul>
 			</div>
 		</div>
+
 		{if $experienceCreation and $experienceCreation.creatingExperience }
 			{call liferay.frontend.Modal.render}
 				{param body kind="html"}
 					<form data-onsubmit="{$_handleFormSubmit}" class="mb-3" autocomplete="off">
 						<div class="form-group my-2">
-							<label for="{$portletNamespace}CreateExperience">{msg desc=""}name{/msg}</label>
+							<label for="{$portletNamespace}CreateExperience">
+								{msg desc=""}name{/msg}
+							</label>
 
-							<input ref="experienceName" name="experienceName" class="form-control" id="{$portletNamespace}CreateExperience" placeholder="Experience Name" type="text" />
+							<input
+								class="form-control"
+								id="{$portletNamespace}CreateExperience"
+								name="experienceName"
+								placeholder="{msg desc=""}experience-name{/msg}"
+								ref="experienceName"
+								type="text"
+							/>
 						</div>
 
 						<div class="form-group my-2">
@@ -97,13 +118,15 @@
 									</label>
 
 									<select
-										name="experienceSegmentId"
 										class="form-control"
 										id="{$portletNamespace}SegmentSelector"
+										name="experienceSegmentId"
 										ref="experienceSegmentId"
 									>
 										{foreach $segment in $availableSegments}
-											<option value="{$segment.segmentId}">{$segment.segmentLabel}</option>
+											<option value="{$segment.segmentId}">
+												{$segment.segmentLabel}
+											</option>
 										{/foreach}
 									</select>
 							{/if}
@@ -112,9 +135,6 @@
 				{/param}
 
 				{param footer kind="html"}
-					<div class="btn-group">
-					</div>
-
 					<div class="btn-group">
 						<div class="btn-group-item">
 							<button
@@ -149,5 +169,4 @@
 			{/call}
 		{/if}
 	{/if}
-	</div>
 {/template}
