@@ -11,11 +11,12 @@ import * as actions from '../actions/actions.es';
 
 function reducer(state, actionType, payload = {}) {
 	let nextState = state;
-	console.log(state, actionType, payload)
+	
 	try {
 		switch(actionType) {
 			case actions.ADD_FRAGMENT_ENTRY_LINK:
 				nextState = addFragmentEntryLinkReducer(nextState, payload);
+				nextState = translationStatusReducer(nextState, payload);
 			break;
 			
 			case actions.ADD_PORTLET:
@@ -60,6 +61,7 @@ function reducer(state, actionType, payload = {}) {
 			
 			case actions.REMOVE_FRAGMENT_ENTRY_LINK:
 				nextState = removeFragmentEntryLinkReducer(nextState, payload);
+				nextState = translationStatusReducer(nextState, payload);
 			break;
 			
 			case actions.REMOVE_SECTION:
@@ -79,10 +81,12 @@ function reducer(state, actionType, payload = {}) {
 			
 			case actions.SELECT_EXPERIENCE:
 				nextState = selectExperienceReducer(nextState, payload);
+				nextState = translationStatusReducer(nextState, payload);
 			break;
 			
 			case actions.CREATE_EXPERIENCE:
 				nextState = createExperienceReducer(nextState, payload);
+				nextState = translationStatusReducer(nextState, payload);
 			break;
 			
 			case actions.END_CREATE_EXPERIENCE:
@@ -97,11 +101,7 @@ function reducer(state, actionType, payload = {}) {
 				nextState = toggleFragmentsEditorSidebarReducer(nextState, payload);
 			break;
 			
-			case actions.ADD_FRAGMENT_ENTRY_LINK:
 			case actions.UPDATE_TRANSLATION_STATUS:
-			case actions.REMOVE_FRAGMENT_ENTRY_LINK:
-			case actions.SELECT_EXPERIENCE:
-			case actions.CREATE_EXPERIENCE:
 				nextState = translationStatusReducer(nextState, payload);
 			break;
 			case actions.CLEAR_ACTIVE_ITEM:

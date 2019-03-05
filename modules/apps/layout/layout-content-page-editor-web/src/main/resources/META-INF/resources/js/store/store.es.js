@@ -109,12 +109,11 @@ class Store extends State {
 	 * @review
 	 */
 	dispatchAction(actionType, payload) {
-		console.log(actionType, payload);
+		
 		this._dispatchPromise = this._dispatchPromise.then(
 			() => Promise.resolve(this._state).then((nextState) => {
-				debugger;
 				return Promise.resolve(this._reducer(
-					this._state,
+					nextState,
 					actionType,
 					payload
 				))
@@ -131,7 +130,7 @@ class Store extends State {
 				.catch(error => console.log(error))
 		);
 
-		return this;
+		return new Promise((resolve) => resolve(this.dispatchAction.bind(this)));
 	}
 
 	/**

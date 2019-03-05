@@ -10,7 +10,7 @@ const CREATE_EXPERIENCE_URL = '/segments.segmentsexperience/add-segments-experie
  * @return {object}
  * @review
  */
-export function createExperienceReducer(state, payload) {
+function createExperienceReducer(state, payload) {
 	return new Promise(
 		resolve => {
 			let nextState = state;
@@ -85,7 +85,7 @@ export function createExperienceReducer(state, payload) {
  * @return {object}
  * @review
  */
-export function startCreateExperience(state, payload) {
+function startCreateExperience(state, payload) {
 	let nextState = state;
 
 	nextState = setIn(
@@ -106,7 +106,7 @@ export function startCreateExperience(state, payload) {
  * @return {object}
  * @review
  */
-export function endCreateExperience(state, payload) {
+function endCreateExperience(state, payload) {
 	let nextState = state;
 
 	nextState = setIn(
@@ -129,7 +129,7 @@ export function endCreateExperience(state, payload) {
  * @param {!string} payload.experienceId
  * @returns
  */
-export function selectExperienceReducer(state, payload) {
+function selectExperienceReducer(state, payload) {
 	let nextState = state;
 	
 	nextState = setIn(

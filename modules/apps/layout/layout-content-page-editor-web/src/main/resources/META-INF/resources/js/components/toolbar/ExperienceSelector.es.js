@@ -139,9 +139,11 @@ class ExperienceSelector extends Component {
 				experienceLabel,
 				segmentId
 			}
-		).dispatchAction(
-			END_CREATE_EXPERIENCE
-		);
+		).then(dispatchAction => {
+			dispatchAction(
+				END_CREATE_EXPERIENCE
+			)
+		});
 	}
 
 	/**
@@ -235,7 +237,16 @@ class ExperienceSelector extends Component {
 			{
 				experienceId
 			}
-		);
+		).then(dispatch => {
+			setTimeout(() => {
+				dispatch(
+					SELECT_EXPERIENCE,
+					{
+						experienceId: "36893"
+					}
+				)
+			}, 2000)
+		});
 	}
 
 	/**
