@@ -1,9 +1,10 @@
 import Component from 'metal-component';
 import Soy, {Config} from 'metal-soy';
+import 'clay-button';
 
 import getConnectedComponent from '../../store/ConnectedComponent.es';
 import templates from './ExperienceSelector.soy';
-import {CREATE_EXPERIENCE, END_CREATE_EXPERIENCE, SELECT_EXPERIENCE, START_CREATE_EXPERIENCE} from '../../actions/actions.es';
+import {CREATE_EXPERIENCE, DELETE_EXPERIENCE, END_CREATE_EXPERIENCE, SELECT_EXPERIENCE, START_CREATE_EXPERIENCE} from '../../actions/actions.es';
 import 'frontend-js-web/liferay/compat/modal/Modal.es';
 import {setIn} from '../../utils/FragmentsEditorUpdateUtils.es';
 
@@ -145,6 +146,41 @@ class ExperienceSelector extends Component {
 	}
 
 	/**
+	 *
+	 *
+	 * @param {!string} experienceId
+	 * @memberof ExperienceSelector
+	 */
+	_deleteExperience(experienceId) {
+		this.store.dispatchAction(
+			DELETE_EXPERIENCE,
+			{
+				experienceId
+			}
+		);
+	}
+
+	/**
+	 *
+	 * @review
+	 * @private
+	 * @param {!Event} event
+	 * @memberof ExperienceSelector
+	 */
+	_handleDeleteButtonClick(event) {
+		const confirmed = confirm(
+			Liferay.Language.get('do-you-want-to-delete-this-experience')
+		);
+		const experienceId = event.currentTarget.getAttribute('data-experienceId');
+
+		if (confirmed) {
+			this._deleteExperience(
+				experienceId
+			);
+		}
+	}
+
+	/**
 	 * @private
 	 * @review
 	 * @memberof ExperienceSelector
@@ -243,12 +279,12 @@ class ExperienceSelector extends Component {
 	 * @review
 	 * @memberof ExperienceSelector
 	 */
-	_toggleModal() {
-		const modalAction = this.experienceCreation.creatingExperience ?
-			this._closeModal :
-			this._openModal;
+	_toggleDropdown() {
+		const dropdownAction = this.openDropdown ?
+			this._closeDropdown :
+			this._openDropdown;
 
-		modalAction.call(this);
+		dropdownAction.call(this);
 	}
 
 	/**
@@ -256,12 +292,12 @@ class ExperienceSelector extends Component {
 	 * @review
 	 * @memberof ExperienceSelector
 	 */
-	_toggleDropdown() {
-		const dropdownAction = this.openDropdown ?
-			this._closeDropdown :
-			this._openDropdown;
+	_toggleModal() {
+		const modalAction = this.experienceCreation.creatingExperience ?
+			this._closeModal :
+			this._openModal;
 
-		dropdownAction.call(this);
+		modalAction.call(this);
 	}
 
 }
