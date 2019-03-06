@@ -15,6 +15,7 @@ export const SELECT_EXPERIENCE = 'selectExperience';
 export const UPDATE_TRANSLATION_STATUS = 'updateTranslationStatus';
 
 export const CREATE_EXPERIENCE = 'createExperience';
+export const DELETE_EXPERIENCE = 'DELETE_EXPERIENCE';
 export const END_CREATE_EXPERIENCE = 'endCreateExperience';
 export const START_CREATE_EXPERIENCE = 'startCreateExperience';
 

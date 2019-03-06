@@ -1,7 +1,11 @@
 /* globals describe, test, jest, expect, beforeAll, afterAll */
 
-import {createExperienceReducer, endCreateExperience, startCreateExperience} from '../../../src/main/resources/META-INF/resources/js/reducers/experiences.es';
-import {CREATE_EXPERIENCE, END_CREATE_EXPERIENCE, START_CREATE_EXPERIENCE} from '../../../src/main/resources/META-INF/resources/js/actions/actions.es';
+import {createExperienceReducer, endCreateExperience, startCreateExperience, deleteExperienceReducer} from '../../../src/main/resources/META-INF/resources/js/reducers/experiences.es';
+import {CREATE_EXPERIENCE, END_CREATE_EXPERIENCE, START_CREATE_EXPERIENCE, DELETE_EXPERIENCE} from '../../../src/main/resources/META-INF/resources/js/actions/actions.es';
+
+const EXPERIENCE_ID = 'EXPERIENCE_ID';
+
+const EXPERIENCE_ID_SECOND = 'EXPERIENCE_ID_SECOND';
 
 describe(
 	'experiences reducers',
@@ -9,10 +13,6 @@ describe(
 		test(
 			'createExperienceReducer communicates with API and updates the state',
 			() => {
-				const EXPERIENCE_ID = 'EXPERIENCE_ID';
-
-				const EXPERIENCE_ID_SECOND = 'EXPERIENCE_ID_SECOND';
-
 				const EXPERIENCES_LIST = [EXPERIENCE_ID, EXPERIENCE_ID_SECOND];
 				let experiencesCount = -1;
 				let prevLiferayGlobal = null;
@@ -176,5 +176,106 @@ describe(
 				);
 			}
 		);
+
+		test(
+			'deleteExperience communicates with API and updates the state',
+			() => {
+				const EXPERIENCE_ID_DEFAULT = 'EXPERIENCE_ID_DEFAULT';
+
+				const availableExperiences = {
+					[EXPERIENCE_ID_DEFAULT]: {
+						experienceId: EXPERIENCE_ID,
+						experienceLabel: 'A default test experience',
+						segmentId: 'notRelevantSegmentId'
+					},
+					[EXPERIENCE_ID]: {
+						experienceId: EXPERIENCE_ID,
+						experienceLabel: 'A test experience',
+						segmentId: 'notRelevantSegmentId'
+					},
+					[EXPERIENCE_ID_SECOND]: {
+						experienceId: EXPERIENCE_ID_SECOND,
+						experienceLabel: 'A second test experience',
+						segmentId: 'notRelevantSegmentId'
+					}
+				}
+
+				const classNameId = 'test-class-name-id';
+				const classPK = 'test-class-p-k';
+
+				const prevState = {
+					availableExperiences,
+					classNameId,
+					classPK,
+					defaultLanguageId: 'en_US',
+					experienceId: EXPERIENCE_ID_SECOND,
+					defaultExperienceId: EXPERIENCE_ID_DEFAULT
+				};
+
+				const nextState = {
+					...prevState,
+					availableExperiences: {
+						[EXPERIENCE_ID_DEFAULT]: prevState.availableExperiences[EXPERIENCE_ID_DEFAULT],
+						[EXPERIENCE_ID_SECOND]: prevState.availableExperiences[EXPERIENCE_ID_SECOND],
+					}
+				};
+
+				const secondNextState = {
+					...nextState,
+					availableExperiences: {
+						[EXPERIENCE_ID_DEFAULT]: prevState.availableExperiences[EXPERIENCE_ID_DEFAULT]
+					},
+					experienceId: EXPERIENCE_ID_DEFAULT
+				}
+
+				global.Liferay = {
+					Service(
+						URL,
+						{
+							segmentsExperienceId,
+						},
+						callbackFunc,
+						errorFunc
+					) {
+						return callbackFunc(
+							{
+								segmentsExperienceId,
+							}
+						);
+					}
+				};
+
+				const spy = jest.spyOn(global.Liferay, 'Service');
+
+				
+				expect.assertions(6);
+
+				deleteExperienceReducer(prevState, DELETE_EXPERIENCE, { experienceId: EXPERIENCE_ID })
+					.then(state => {
+						expect(state).toEqual(nextState);
+					})
+
+				expect(spy).toHaveBeenCalledTimes(1);
+				expect(spy).toHaveBeenLastCalledWith(
+					expect.stringContaining(''),
+					{segmentsExperienceId: EXPERIENCE_ID},
+					expect.objectContaining({}),
+					expect.objectContaining({})
+				);
+				
+				deleteExperienceReducer(nextState, DELETE_EXPERIENCE, { experienceId: EXPERIENCE_ID_SECOND })
+					.then(state => {
+						expect(state).toEqual(secondNextState);
+					});
+
+				expect(spy).toHaveBeenCalledTimes(2);
+				expect(spy).toHaveBeenLastCalledWith(
+					expect.stringContaining(''),
+					{segmentsExperienceId: EXPERIENCE_ID_SECOND},
+					expect.objectContaining({}),
+					expect.objectContaining({})
+				);
+			}
+		)
 	}
 );

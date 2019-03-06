@@ -1,7 +1,9 @@
-import {CREATE_EXPERIENCE, END_CREATE_EXPERIENCE, SELECT_EXPERIENCE, START_CREATE_EXPERIENCE} from '../actions/actions.es';
+import {CREATE_EXPERIENCE, DELETE_EXPERIENCE, END_CREATE_EXPERIENCE, SELECT_EXPERIENCE, START_CREATE_EXPERIENCE} from '../actions/actions.es';
 import {setIn} from '../utils/utils.es';
 
 const CREATE_EXPERIENCE_URL = '/segments.segmentsexperience/add-segments-experience';
+
+const DELETE_EXPERIENCE_URL = '/segments.segmentsexperience/delete-segments-experience';
 
 /**
  * @param {!object} state
@@ -78,6 +80,56 @@ function createExperienceReducer(state, actionType, payload) {
 						resolve(nextState);
 					}
 				);
+			}
+			else {
+				resolve(nextState);
+			}
+		}
+	);
+}
+
+/**
+ *
+ *
+ * @export
+ * @param {!object} state
+ * @param {!string} actionType
+ * @param {object} payload
+ * @param {!string} payload.experienceId
+ * @returns
+ */
+export function deleteExperienceReducer(state, actionType, payload) {
+	return new Promise(
+		resolve => {
+			let nextState = state;
+			if (actionType === DELETE_EXPERIENCE) {
+				const {experienceId} = payload;
+				Liferay.Service(
+					DELETE_EXPERIENCE_URL,
+					{
+						segmentsExperienceId: experienceId
+					},
+					response => {
+						const availableExperiences = Object.assign({}, nextState.availableExperiences);
+						delete availableExperiences[response.segmentsExperienceId];
+						const experienceIdToSelect = (experienceId === nextState.experienceId) ? nextState.defaultExperienceId : nextState.experienceId;
+						nextState = setIn(
+							nextState,
+							['availableExperiences'],
+							availableExperiences
+						);
+						nextState = setIn(
+							nextState,
+							['experienceId'],
+							experienceIdToSelect
+						);
+						resolve(nextState);
+					},
+					error => {
+						resolve(nextState);
+					}
+				);
+
 			}
 			else {
 				resolve(nextState);
