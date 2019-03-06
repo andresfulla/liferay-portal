@@ -1,7 +1,11 @@
 /* globals describe, test, jest, expect, beforeAll, afterAll */
 
-import {createSegmentsExperienceReducer, endCreateSegmentsExperience, startCreateSegmentsExperience} from '../../../src/main/resources/META-INF/resources/js/reducers/segmentsExperiences.es';
-import {CREATE_SEGMENTS_EXPERIENCE, END_CREATE_SEGMENTS_EXPERIENCE, START_CREATE_SEGMENTS_EXPERIENCE} from '../../../src/main/resources/META-INF/resources/js/actions/actions.es';
+import {createSegmentsExperienceReducer, deleteSegmentsExperienceReducer, endCreateSegmentsExperience, startCreateSegmentsExperience} from '../../../src/main/resources/META-INF/resources/js/reducers/segmentsExperiences.es';
+import {CREATE_SEGMENTS_EXPERIENCE, DELETE_SEGMENTS_EXPERIENCE, END_CREATE_SEGMENTS_EXPERIENCE, START_CREATE_SEGMENTS_EXPERIENCE} from '../../../src/main/resources/META-INF/resources/js/actions/actions.es';
+
+const SEGMENTS_EXPERIENCE_ID = 'SEGMENTS_EXPERIENCE_ID';
+
+const SEGMENTS_EXPERIENCE_ID_SECOND = 'SEGMENTS_EXPERIENCE_ID_SECOND';
 
 describe(
 	'segments experiences reducers',
@@ -9,7 +13,7 @@ describe(
 		test(
 			'createSegmentsExperienceReducer communicates with API and updates the state',
 			() => {
-				prevLiferayGlobal = {...global.Liferay};
+				let prevLiferayGlobal = {...global.Liferay};
 				global.Liferay = {
 					Service(
 						URL,
@@ -41,14 +45,9 @@ describe(
 				const classPK = 'test-class-p-k';
 				const spy = jest.spyOn(global.Liferay, 'Service');
 
-				const SEGMENTS_EXPERIENCE_ID = 'SEGMENTS_EXPERIENCE_ID';
-
-				const SEGMENTS_EXPERIENCE_ID_SECOND = 'SEGMENTS_EXPERIENCE_ID_SECOND';
-
 				const SEGMENTS_EXPERIENCES_LIST = [SEGMENTS_EXPERIENCE_ID, SEGMENTS_EXPERIENCE_ID_SECOND];
 
 				let experiencesCount = -1;
-				let prevLiferayGlobal = null;
 
 				const prevState = {
 					availableSegmentsExperiences,
@@ -58,8 +57,8 @@ describe(
 				};
 
 				const payload = {
-					segmentsExperienceLabel: 'test experience label',
-					segmentsEntryId: 'test-segment-id'
+					segmentsEntryId: 'test-segment-id',
+					segmentsExperienceLabel: 'test experience label'
 				};
 
 				const nextState = {
@@ -67,10 +66,10 @@ describe(
 					availableSegmentsExperiences: {
 						[SEGMENTS_EXPERIENCE_ID]: {
 							active: true,
-							segmentsExperienceId: SEGMENTS_EXPERIENCE_ID,
-							segmentsExperienceLabel: payload.segmentsExperienceLabel,
 							priority: 0,
-							segmentsEntryId: payload.segmentsEntryId
+							segmentsEntryId: payload.segmentsEntryId,
+							segmentsExperienceId: SEGMENTS_EXPERIENCE_ID,
+							segmentsExperienceLabel: payload.segmentsExperienceLabel
 						}
 					},
 					segmentsExperienceId: SEGMENTS_EXPERIENCE_ID
@@ -99,11 +98,11 @@ describe(
 					liferayServiceParams,
 					expect.objectContaining({}),
 					expect.objectContaining({})
-				)
+				);
 
 				const secondPayload = {
-					segmentsExperienceLabel: 'second test experience label',
-					segmentsEntryId: 'test-segment-id'
+					segmentsEntryId: 'test-segment-id',
+					segmentsExperienceLabel: 'second test experience label'
 				};
 
 				const secondNextState = {
@@ -112,10 +111,10 @@ describe(
 						...nextState.availableSegmentsExperiences,
 						[SEGMENTS_EXPERIENCE_ID_SECOND]: {
 							active: true,
-							segmentsExperienceId: SEGMENTS_EXPERIENCE_ID_SECOND,
-							segmentsExperienceLabel: secondPayload.segmentsExperienceLabel,
 							priority: 1,
-							segmentsEntryId: secondPayload.segmentsEntryId
+							segmentsEntryId: secondPayload.segmentsEntryId,
+							segmentsExperienceId: SEGMENTS_EXPERIENCE_ID_SECOND,
+							segmentsExperienceLabel: secondPayload.segmentsExperienceLabel
 						}
 					},
 					segmentsExperienceId: SEGMENTS_EXPERIENCE_ID_SECOND
@@ -174,6 +173,120 @@ describe(
 						}
 					}
 				);
+			}
+		);
+
+		test(
+			'deleteExperience communicates with API and updates the state',
+			() => {
+				let prevLiferayGlobal = {...global.Liferay};
+				const SEGMENTS_EXPERIENCE_ID_DEFAULT = 'SEGMENTS_EXPERIENCE_ID_DEFAULT';
+
+				const availableSegmentsExperiences = {
+					[SEGMENTS_EXPERIENCE_ID]: {
+						segmentsEntryId: 'notRelevantSegmentId',
+						segmentsExperienceId: SEGMENTS_EXPERIENCE_ID,
+						segmentsExperienceLabel: 'A test experience'
+					},
+					[SEGMENTS_EXPERIENCE_ID_DEFAULT]: {
+						segmentsEntryId: 'notRelevantSegmentId',
+						segmentsExperienceId: SEGMENTS_EXPERIENCE_ID,
+						segmentsExperienceLabel: 'A default test experience'
+					},
+					[SEGMENTS_EXPERIENCE_ID_SECOND]: {
+						segmentsEntryId: 'notRelevantSegmentId',
+						segmentsExperienceId: SEGMENTS_EXPERIENCE_ID_SECOND,
+						segmentsExperienceLabel: 'A second test experience'
+					}
+				};
+
+				const classNameId = 'test-class-name-id';
+				const classPK = 'test-class-p-k';
+
+				const prevState = {
+					availableSegmentsExperiences,
+					classNameId,
+					classPK,
+					defaultLanguageId: 'en_US',
+					defaultSegmentsExperienceId: SEGMENTS_EXPERIENCE_ID_DEFAULT,
+					segmentsExperienceId: SEGMENTS_EXPERIENCE_ID_SECOND
+				};
+
+				const nextState = {
+					...prevState,
+					availableSegmentsExperiences: {
+						[SEGMENTS_EXPERIENCE_ID_DEFAULT]: prevState.availableSegmentsExperiences[SEGMENTS_EXPERIENCE_ID_DEFAULT],
+						[SEGMENTS_EXPERIENCE_ID_SECOND]: prevState.availableSegmentsExperiences[SEGMENTS_EXPERIENCE_ID_SECOND]
+					}
+				};
+
+				const secondNextState = {
+					...nextState,
+					availableSegmentsExperiences: {
+						[SEGMENTS_EXPERIENCE_ID_DEFAULT]: prevState.availableSegmentsExperiences[SEGMENTS_EXPERIENCE_ID_DEFAULT]
+					},
+					segmentsExperienceId: SEGMENTS_EXPERIENCE_ID_DEFAULT
+				};
+
+				global.Liferay = {
+					Service(
+						URL,
+						{
+							segmentsExperienceId
+						},
+						callbackFunc,
+						errorFunc
+					) {
+						return callbackFunc(
+							{
+								segmentsExperienceId
+							}
+						);
+					}
+				};
+
+				const spy = jest.spyOn(global.Liferay, 'Service');
+
+				deleteSegmentsExperienceReducer(
+					prevState,
+					DELETE_SEGMENTS_EXPERIENCE,
+					{
+						segmentsExperienceId: SEGMENTS_EXPERIENCE_ID
+					}
+				).then(
+					state => {
+						expect(state).toEqual(nextState);
+					}
+				);
+
+				expect(spy).toHaveBeenCalledTimes(1);
+				expect(spy).toHaveBeenLastCalledWith(
+					expect.stringContaining(''),
+					{segmentsExperienceId: SEGMENTS_EXPERIENCE_ID},
+					expect.objectContaining({}),
+					expect.objectContaining({})
+				);
+
+				deleteSegmentsExperienceReducer(
+					nextState,
+					DELETE_SEGMENTS_EXPERIENCE,
+					{
+						segmentsExperienceId: SEGMENTS_EXPERIENCE_ID_SECOND
+					}
+				).then(
+					state => {
+						expect(state).toEqual(secondNextState);
+					}
+				);
+
+				expect(spy).toHaveBeenCalledTimes(2);
+				expect(spy).toHaveBeenLastCalledWith(
+					expect.stringContaining(''),
+					{segmentsExperienceId: SEGMENTS_EXPERIENCE_ID_SECOND},
+					expect.objectContaining({}),
+					expect.objectContaining({})
+				);
+				global.Liferay = prevLiferayGlobal;
 			}
 		);
 	}

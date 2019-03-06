@@ -1,7 +1,9 @@
-import {CREATE_SEGMENTS_EXPERIENCE, END_CREATE_SEGMENTS_EXPERIENCE, SELECT_SEGMENTS_EXPERIENCE, START_CREATE_SEGMENTS_EXPERIENCE} from '../actions/actions.es';
+import {CREATE_SEGMENTS_EXPERIENCE, DELETE_SEGMENTS_EXPERIENCE, END_CREATE_SEGMENTS_EXPERIENCE, SELECT_SEGMENTS_EXPERIENCE, START_CREATE_SEGMENTS_EXPERIENCE} from '../actions/actions.es';
 import {setIn} from '../utils/utils.es';
 
 const CREATE_SEGMENTS_EXPERIENCE_URL = '/segments.segmentsexperience/add-segments-experience';
+
+const DELETE_SEGMENTS_EXPERIENCE_URL = '/segments.segmentsexperience/delete-segments-experience';
 
 /**
  * @param {!object} state
@@ -60,8 +62,8 @@ function createSegmentsExperienceReducer(state, actionType, payload) {
 							{
 								active,
 								priority,
-								segmentsEntryId: segmentsEntryId,
-								segmentsExperienceId: segmentsExperienceId,
+								segmentsEntryId,
+								segmentsExperienceId,
 								segmentsExperienceLabel: nameCurrentValue
 							}
 						);
@@ -78,6 +80,57 @@ function createSegmentsExperienceReducer(state, actionType, payload) {
 						resolve(nextState);
 					}
 				);
+			}
+			else {
+				resolve(nextState);
+			}
+		}
+	);
+}
+
+/**
+ *
+ *
+ * @export
+ * @param {!object} state
+ * @param {!string} actionType
+ * @param {object} payload
+ * @param {!string} payload.experienceId
+ * @returns\
+ */
+function deleteSegmentsExperienceReducer(state, actionType, payload) {
+	return new Promise(
+		resolve => {
+			let nextState = state;
+			if (actionType === DELETE_SEGMENTS_EXPERIENCE) {
+				const {segmentsExperienceId} = payload;
+
+				Liferay.Service(
+					DELETE_SEGMENTS_EXPERIENCE_URL,
+					{
+						segmentsExperienceId
+					},
+					response => {
+						const availableSegmentsExperiences = Object.assign({}, nextState.availableSegmentsExperiences);
+						delete availableSegmentsExperiences[response.segmentsExperienceId];
+						const experienceIdToSelect = (segmentsExperienceId === nextState.segmentsExperienceId) ? nextState.defaultSegmentsExperienceId : nextState.segmentsExperienceId;
+						nextState = setIn(
+							nextState,
+							['availableSegmentsExperiences'],
+							availableSegmentsExperiences
+						);
+						nextState = setIn(
+							nextState,
+							['segmentsExperienceId'],
+							experienceIdToSelect
+						);
+						resolve(nextState);
+					},
+					error => {
+						resolve(nextState);
+					}
+				);
+
 			}
 			else {
 				resolve(nextState);
@@ -156,6 +209,7 @@ function selectSegmentsExperienceReducer(state, actionType, payload) {
 
 export {
 	createSegmentsExperienceReducer,
+	deleteSegmentsExperienceReducer,
 	startCreateSegmentsExperience,
 	endCreateSegmentsExperience,
 	selectSegmentsExperienceReducer

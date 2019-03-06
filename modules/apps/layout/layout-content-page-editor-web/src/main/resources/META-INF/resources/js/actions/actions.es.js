@@ -15,6 +15,7 @@ export const SELECT_SEGMENTS_EXPERIENCE = 'selectSegmentsExperience';
 export const UPDATE_TRANSLATION_STATUS = 'updateTranslationStatus';
 
 export const CREATE_SEGMENTS_EXPERIENCE = 'createSegmentsExperience';
+export const DELETE_SEGMENTS_EXPERIENCE = 'DELETE_SEGMENTS_EXPERIENCE';
 export const END_CREATE_SEGMENTS_EXPERIENCE = 'endCreateSegmentsExperience';
 export const START_CREATE_SEGMENTS_EXPERIENCE = 'startCreateSegmentsExperience';
 

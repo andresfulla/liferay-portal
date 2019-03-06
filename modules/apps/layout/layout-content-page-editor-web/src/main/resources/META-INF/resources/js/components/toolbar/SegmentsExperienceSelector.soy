@@ -10,7 +10,9 @@
 		segmentsExperienceLabel: string,
 		segmentsEntryLabel: string
 	]>}
+	{@param? defaultSegmentsExperienceId: string }
 	{@param? _closeModal: any }
+	{@param? _handleDeleteButtonClick: any }
 	{@param? _handleSegmentsExperienceClick: any}
 	{@param? _handleDropdownBlur: any}
 	{@param? _handleDropdownFocus: any}
@@ -66,7 +68,8 @@
 				<ul class="list-unstyled mt-3">
 					{foreach $experience in $availableSegmentsExperiences}
 						{let $experienceClasses kind="text"}
-							dropdown-menu__experience
+							d-flex
+							{sp}dropdown-menu__experience
 
 							{if $experience.segmentsExperienceId == $segmentsExperienceId }
 								{sp}dropdown-menu__experience--active
@@ -92,6 +95,25 @@
 									{$experience.segmentsEntryLabel}
 								</span>
 							</button>
+
+							{if $defaultSegmentsExperienceId != $experience.segmentsExperienceId }
+								<div class="align-items-center d-flex dropdown-menu__experience--btn-group">
+									{call ClayButton.render}
+										{param ariaLabel: 'delete' /}
+										{param data: [
+											'segmentsExperienceId': $experience.segmentsExperienceId
+										]/}
+										{param elementClasses: 'btn-borderless mx-2 text-dark' /}
+										{param events: [
+											'click': $_handleDeleteButtonClick,
+										] /}
+										{param icon: 'times-circle' /}
+										{param monospaced: true /}
+										{param spritemap: $spritemap /}
+										{param style: 'unstyled' /}
+									{/call}
+								</div>
+							{/if}
 						</li>
 					{/foreach}
 				</ul>

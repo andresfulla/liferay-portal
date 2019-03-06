@@ -3,7 +3,7 @@ import Soy, {Config} from 'metal-soy';
 
 import getConnectedComponent from '../../store/ConnectedComponent.es';
 import templates from './SegmentsExperienceSelector.soy';
-import {CREATE_SEGMENTS_EXPERIENCE, END_CREATE_SEGMENTS_EXPERIENCE, SELECT_SEGMENTS_EXPERIENCE, START_CREATE_SEGMENTS_EXPERIENCE} from '../../actions/actions.es';
+import {CREATE_SEGMENTS_EXPERIENCE, DELETE_SEGMENTS_EXPERIENCE, END_CREATE_SEGMENTS_EXPERIENCE, SELECT_SEGMENTS_EXPERIENCE, START_CREATE_SEGMENTS_EXPERIENCE} from '../../actions/actions.es';
 import 'frontend-js-web/liferay/compat/modal/Modal.es';
 import {setIn} from '../../utils/FragmentsEditorUpdateUtils.es';
 
@@ -126,11 +126,12 @@ class SegmentsExperienceSelector extends Component {
 	}
 
 	/**
-	 * @private
-	 * @review
+	 * Dispatches action to create an experience
+	 * @memberof SegmentsExperienceSelector
 	 * @param {!string} segmentsExperienceLabel
 	 * @param {!string} segmentsEntryId
-	 * @memberof SegmentsExperienceSelector
+	 * @private
+	 * @review
 	 */
 	_createSegmentsExperience(segmentsExperienceLabel, segmentsEntryId) {
 		this.store.dispatchAction(
@@ -145,9 +146,47 @@ class SegmentsExperienceSelector extends Component {
 	}
 
 	/**
+	 * Dispatches action to delete an experience
+	 *
+	 * @memberof SegmentsExperienceSelector
+	 * @param {!string} segmentsExperienceId
 	 * @private
 	 * @review
+	 */
+	_deleteSegmentsExperience(segmentsExperienceId) {
+		this.store.dispatchAction(
+			DELETE_SEGMENTS_EXPERIENCE,
+			{
+				segmentsExperienceId
+			}
+		);
+	}
+
+	/**
+	 * Callback that is executed on delete button click
 	 * @memberof SegmentsExperienceSelector
+	 * @param {!Event} event
+	 * @review
+	 * @private
+	 */
+	_handleDeleteButtonClick(event) {
+		const confirmed = confirm(
+			Liferay.Language.get('do-you-want-to-delete-this-experience')
+		);
+
+		if (confirmed) {
+			const segmentsExperienceId = event.currentTarget.getAttribute('data-segmentsExperienceId');
+			this._deleteSegmentsExperience(
+				segmentsExperienceId
+			);
+		}
+	}
+
+	/**
+	 * Callback that is executed on dropdown blur
+	 * @memberof SegmentsExperienceSelector
+	 * @private
+	 * @review
 	 */
 	_handleDropdownBlur() {
 		cancelAnimationFrame(this.willToggleDropdownId);
@@ -160,28 +199,31 @@ class SegmentsExperienceSelector extends Component {
 	}
 
 	/**
+	 * Callback that is executed on dropdown button click
+	 * @memberof SegmentsExperienceSelector
 	 * @private
 	 * @review
-	 * @memberof SegmentsExperienceSelector
 	 */
 	_handleDropdownButtonClick() {
 		this._toggleDropdown();
 	}
 
 	/**
+	 * Callback that is executed on dropdown focus
+	 * @memberof SegmentsExperienceSelector
 	 * @private
 	 * @review
-	 * @memberof SegmentsExperienceSelector
 	 */
 	_handleDropdownFocus() {
 		cancelAnimationFrame(this.willToggleDropdownId);
 	}
 
 	/**
+	 * Callback that is executed on experience click
+	 * @memberof SegmentsExperienceSelector
+	 * @param {Event} event
 	 * @private
 	 * @review
-	 * @param {Event} event
-	 * @memberof SegmentsExperienceSelector
 	 */
 	_handleSegmentsExperienceClick(event) {
 		const segmentsExperienceId = event.delegateTarget.dataset.segmentsExperienceId;
@@ -204,18 +246,20 @@ class SegmentsExperienceSelector extends Component {
 	}
 
 	/**
+	 * Opens dropdown
+	 * @memberof SegmentsExperienceSelector
 	 * @private
 	 * @review
-	 * @memberof SegmentsExperienceSelector
 	 */
 	_openDropdown() {
 		this.openDropdown = true;
 	}
 
 	/**
+	 * Opens modal
+	 * @memberof SegmentsExperienceSelector
 	 * @private
 	 * @review
-	 * @memberof SegmentsExperienceSelector
 	 */
 	_openModal() {
 		this.store.dispatchAction(
@@ -224,10 +268,11 @@ class SegmentsExperienceSelector extends Component {
 	}
 
 	/**
+	 * Dispatches action to select an experience
+	 * @memberof SegmentsExperienceSelector
+	 * @param {!string} segmentsExperienceId
 	 * @private
 	 * @review
-	 * @param {!string} segmentsExperienceId
-	 * @memberof SegmentsExperienceSelector
 	 */
 	_selectSegmentsExperience(segmentsExperienceId) {
 		this.store.dispatchAction(
@@ -239,9 +284,10 @@ class SegmentsExperienceSelector extends Component {
 	}
 
 	/**
+	 * Toggles the modal
+	 * @memberof SegmentsExperienceSelector
 	 * @private
 	 * @review
-	 * @memberof SegmentsExperienceSelector
 	 */
 	_toggleModal() {
 		const modalAction = this.experienceSegmentsCreation.creatingSegmentsExperience ?
@@ -252,9 +298,10 @@ class SegmentsExperienceSelector extends Component {
 	}
 
 	/**
+	 * Toggles the dropdown
+	 * @memberof SegmentsExperienceSelector
 	 * @private
 	 * @review
-	 * @memberof SegmentsExperienceSelector
 	 */
 	_toggleDropdown() {
 		const dropdownAction = this.openDropdown ?
