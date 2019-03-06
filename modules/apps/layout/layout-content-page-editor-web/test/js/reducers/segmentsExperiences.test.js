@@ -9,10 +9,46 @@ describe(
 		test(
 			'createSegmentsExperienceReducer communicates with API and updates the state',
 			() => {
+				prevLiferayGlobal = {...global.Liferay};
+				global.Liferay = {
+					Service(
+						URL,
+						{
+							classNameId,
+							classPK,
+							segmentsEntryId,
+							nameMap,
+							active,
+							priority
+						},
+						callbackFunc,
+						errorFunc
+					) {
+						return callbackFunc(
+							{
+								active,
+								nameCurrentValue: JSON.parse(nameMap).en_US,
+								priority,
+								segmentsEntryId,
+								segmentsExperienceId: (experiencesCount++, SEGMENTS_EXPERIENCES_LIST[experiencesCount])
+							}
+						);
+					}
+				};
+
 				const availableSegmentsExperiences = {};
 				const classNameId = 'test-class-name-id';
 				const classPK = 'test-class-p-k';
 				const spy = jest.spyOn(global.Liferay, 'Service');
+
+				const SEGMENTS_EXPERIENCE_ID = 'SEGMENTS_EXPERIENCE_ID';
+
+				const SEGMENTS_EXPERIENCE_ID_SECOND = 'SEGMENTS_EXPERIENCE_ID_SECOND';
+
+				const SEGMENTS_EXPERIENCES_LIST = [SEGMENTS_EXPERIENCE_ID, SEGMENTS_EXPERIENCE_ID_SECOND];
+
+				let experiencesCount = -1;
+				let prevLiferayGlobal = null;
 
 				const prevState = {
 					availableSegmentsExperiences,
@@ -110,6 +146,7 @@ describe(
 					expect.objectContaining({}),
 					expect.objectContaining({})
 				);
+				global.Liferay = prevLiferayGlobal;
 			}
 		);
 
@@ -139,50 +176,5 @@ describe(
 				);
 			}
 		);
-
-		beforeAll(
-			() => {
-				prevLiferayGlobal = {...global.Liferay};
-				global.Liferay = {
-					Service(
-						URL,
-						{
-							classNameId,
-							classPK,
-							segmentsEntryId,
-							nameMap,
-							active,
-							priority
-						},
-						callbackFunc,
-						errorFunc
-					) {
-						return callbackFunc(
-							{
-								active,
-								nameCurrentValue: JSON.parse(nameMap).en_US,
-								priority,
-								segmentsEntryId,
-								segmentsExperienceId: (experiencesCount++, SEGMENTS_EXPERIENCES_LIST[experiencesCount])
-							}
-						);
-					}
-				};
-			}
-		);
-
-		afterAll(
-			() => {
-				global.Liferay = prevLiferayGlobal;
-			}
-		);
 	}
 );
-
-const SEGMENTS_EXPERIENCE_ID = 'SEGMENTS_EXPERIENCE_ID';
-
-const SEGMENTS_EXPERIENCE_ID_SECOND = 'SEGMENTS_EXPERIENCE_ID_SECOND';
-
-const SEGMENTS_EXPERIENCES_LIST = [SEGMENTS_EXPERIENCE_ID, SEGMENTS_EXPERIENCE_ID_SECOND];
-let experiencesCount = -1;
-let prevLiferayGlobal = null;
