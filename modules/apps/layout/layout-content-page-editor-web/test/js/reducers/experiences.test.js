@@ -9,6 +9,42 @@ describe(
 		test(
 			'createExperienceReducer communicates with API and updates the state',
 			() => {
+				const EXPERIENCE_ID = 'EXPERIENCE_ID';
+
+				const EXPERIENCE_ID_SECOND = 'EXPERIENCE_ID_SECOND';
+
+				const EXPERIENCES_LIST = [EXPERIENCE_ID, EXPERIENCE_ID_SECOND];
+				let experiencesCount = -1;
+				let prevLiferayGlobal = null;
+
+				prevLiferayGlobal = {...global.Liferay};
+				global.Liferay = {
+					Service(
+						URL,
+						{
+							classNameId,
+							classPK,
+							segmentsEntryId,
+							nameMap,
+							active,
+							priority
+						},
+						callbackFunc,
+						errorFunc
+					) {
+						return callbackFunc(
+							{
+								active,
+								nameCurrentValue: JSON.parse(nameMap).en_US,
+								priority,
+								segmentsEntryId,
+								segmentsExperienceId: (experiencesCount++, EXPERIENCES_LIST[experiencesCount])
+							}
+						);
+					}
+				};
+
+
 				const availableExperiences = {};
 				const classNameId = 'test-class-name-id';
 				const classPK = 'test-class-p-k';
@@ -110,6 +146,7 @@ describe(
 					expect.objectContaining({}),
 					expect.objectContaining({})
 				);
+				global.Liferay = prevLiferayGlobal;
 			}
 		);
 
@@ -139,50 +176,5 @@ describe(
 				);
 			}
 		);
-
-		beforeAll(
-			() => {
-				prevLiferayGlobal = {...global.Liferay};
-				global.Liferay = {
-					Service(
-						URL,
-						{
-							classNameId,
-							classPK,
-							segmentsEntryId,
-							nameMap,
-							active,
-							priority
-						},
-						callbackFunc,
-						errorFunc
-					) {
-						return callbackFunc(
-							{
-								active,
-								nameCurrentValue: JSON.parse(nameMap).en_US,
-								priority,
-								segmentsEntryId,
-								segmentsExperienceId: (experiencesCount++, EXPERIENCES_LIST[experiencesCount])
-							}
-						);
-					}
-				};
-			}
-		);
-
-		afterAll(
-			() => {
-				global.Liferay = prevLiferayGlobal;
-			}
-		);
 	}
 );
-
-const EXPERIENCE_ID = 'EXPERIENCE_ID';
-
-const EXPERIENCE_ID_SECOND = 'EXPERIENCE_ID_SECOND';
-
-const EXPERIENCES_LIST = [EXPERIENCE_ID, EXPERIENCE_ID_SECOND];
-let experiencesCount = -1;
-let prevLiferayGlobal = null;
