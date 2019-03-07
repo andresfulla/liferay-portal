@@ -303,7 +303,7 @@ class CriteriaRow extends Component {
 	 * @param {Array|object} value The properties or list of objects with
 	 * properties to update.
 	 */
-	_handleTypedInputChange = (value, type) => {
+	_handleTypedInputChange = value => {
 		const {criterion, onChange} = this.props;
 
 		if (Array.isArray(value)) {
@@ -320,7 +320,6 @@ class CriteriaRow extends Component {
 			onChange(
 				{
 					...criterion,
-					type,
 					...value
 				}
 			);

@@ -13,7 +13,12 @@ class DateInput extends React.Component {
 		const value = event.target.value ||
 			jsDatetoYYYYMMDD((new Date()));
 
-		this.props.onChange({value}, PROPERTY_TYPES.DATE);
+		this.props.onChange(
+			{
+				type: PROPERTY_TYPES.DATE,
+				value
+			}
+		);
 	}
 
 	render() {
