@@ -60,7 +60,9 @@ describe(
 
 				fireEvent.blur(element);
 
-				expect(mockOnChange.mock.calls[1][0]).toBe('1.01');
+				expect(mockOnChange.mock.calls[1][0]).toMatchObject(
+					{value: '1.01'}
+				);
 			}
 		);
 	}

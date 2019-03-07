@@ -21,7 +21,7 @@ class CollectionInput extends React.Component {
 	_handleKeyChange = event => {
 		const {value} = this._stringToKeyValueObject(this.props.value);
 
-		this.props.onChange(`${event.target.value}=${value}`);
+		this.props.onChange({value: `${event.target.value}=${value}`});
 	}
 
 	/**
@@ -31,7 +31,7 @@ class CollectionInput extends React.Component {
 	_handleValueChange = event => {
 		const {key} = this._stringToKeyValueObject(this.props.value);
 
-		this.props.onChange(`${key}=${event.target.value}`);
+		this.props.onChange({value: `${key}=${event.target.value}`});
 	}
 
 	/**

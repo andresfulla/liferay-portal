@@ -19,7 +19,7 @@ class StringInput extends React.Component {
 	};
 
 	_handleChange = event => {
-		this.props.onChange(event.target.value);
+		this.props.onChange({value: event.target.value});
 	}
 
 	render() {
