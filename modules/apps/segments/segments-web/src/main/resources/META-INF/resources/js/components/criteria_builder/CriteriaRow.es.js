@@ -295,6 +295,14 @@ class CriteriaRow extends Component {
 		);
 	};
 
+	/**
+	 * Updates the criteria with a criterion value change. The param 'value'
+	 * will only be an array when selecting multiple entities (see
+	 * {@link SelectEntityInput.es.js}). And in the case of an array, a new
+	 * group with multiple criterion rows will be created.
+	 * @param {Array|object} value The properties or list of objects with
+	 * properties to update.
+	 */
 	_handleTypedInputChange = (value, type) => {
 		const {criterion, onChange} = this.props;
 
@@ -313,7 +321,7 @@ class CriteriaRow extends Component {
 				{
 					...criterion,
 					type,
-					value
+					...value
 				}
 			);
 		}

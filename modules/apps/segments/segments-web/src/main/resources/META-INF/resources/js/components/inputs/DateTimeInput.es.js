@@ -19,7 +19,10 @@ class DateTimeInput extends React.Component {
 			.parse(value, INPUT_DATE_FORMAT)
 			.toISOString();
 
-		this.props.onChange(iSOStringValue, PROPERTY_TYPES.DATE);
+		this.props.onChange(
+			{value: iSOStringValue},
+			PROPERTY_TYPES.DATE
+		);
 	}
 
 	render() {
