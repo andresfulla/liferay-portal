@@ -20,8 +20,10 @@ class DateTimeInput extends React.Component {
 			.toISOString();
 
 		this.props.onChange(
-			{value: iSOStringValue},
-			PROPERTY_TYPES.DATE
+			{
+				type: PROPERTY_TYPES.DATE,
+				value: iSOStringValue
+			},
 		);
 	}
 
