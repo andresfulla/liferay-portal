@@ -69,8 +69,7 @@
 					{foreach $experience in $availableExperiences}
 						{let $experienceClasses kind="text"}
 							d-flex
-							{sp}
-							dropdown-menu__experience
+							{sp}dropdown-menu__experience
 
 							{if $experience.experienceId == $experienceId }
 								{sp}dropdown-menu__experience--active
@@ -96,21 +95,22 @@
 									{$experience.segmentLabel}
 								</span>
 							</button>
+							
 							{if $defaultExperienceId != $experience.experienceId }
 								<div class="align-items-center d-flex dropdown-menu__experience--btn-group">
 									{call ClayButton.render}
-										{param icon: 'times-circle' /}
 										{param ariaLabel: 'delete' /}
-										{param events: [
-											'click': $_handleDeleteButtonClick,
-										] /}
+										{param icon: 'times-circle' /}
 										{param data: [
 											'experienceId': $experience.experienceId
 										]/}
-										{param monospaced: true /}
-										{param style: 'unstyled' /}
 										{param elementClasses: 'btn-borderless mx-2 text-dark' /}
+										{param events: [
+											'click': $_handleDeleteButtonClick,
+										] /}
+										{param monospaced: true /}
 										{param spritemap: $spritemap /}
+										{param style: 'unstyled' /}
 									{/call}
 								</div>
 							{/if}

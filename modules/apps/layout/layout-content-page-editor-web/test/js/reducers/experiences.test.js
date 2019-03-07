@@ -146,6 +146,7 @@ describe(
 					expect.objectContaining({}),
 					expect.objectContaining({})
 				);
+
 				global.Liferay = prevLiferayGlobal;
 			}
 		);

@@ -107,18 +107,20 @@ class ExperienceSelector extends Component {
 	}
 
 	/**
+	 * Closes dropdown
+	 * @memberof ExperienceSelector
 	 * @private
 	 * @review
-	 * @memberof ExperienceSelector
 	 */
 	_closeDropdown() {
 		this.openDropdown = false;
 	}
 
 	/**
+	 * Closes modal
+	 * @memberof ExperienceSelector
 	 * @private
 	 * @review
-	 * @memberof ExperienceSelector
 	 */
 	_closeModal() {
 		this.store.dispatchAction(
@@ -127,11 +129,12 @@ class ExperienceSelector extends Component {
 	}
 
 	/**
-	 * @private
-	 * @review
+	 * Dispatches action to create an experience
+	 * @memberof ExperienceSelector
 	 * @param {!string} experienceLabel
 	 * @param {!string} segmentId
-	 * @memberof ExperienceSelector
+	 * @private
+	 * @review
 	 */
 	_createExperience(experienceLabel, segmentId) {
 		this.store.dispatchAction(
@@ -146,10 +149,11 @@ class ExperienceSelector extends Component {
 	}
 
 	/**
-	 *
-	 *
-	 * @param {!string} experienceId
+	 * Dispatches action to delete an experience
 	 * @memberof ExperienceSelector
+	 * @param {!string} experienceId
+	 * @private
+	 * @review
 	 */
 	_deleteExperience(experienceId) {
 		this.store.dispatchAction(
@@ -161,11 +165,11 @@ class ExperienceSelector extends Component {
 	}
 
 	/**
-	 *
-	 * @review
-	 * @private
-	 * @param {!Event} event
+	 * Callback that is executed on delete button click
 	 * @memberof ExperienceSelector
+	 * @param {!Event} event
+	 * @private
+	 * @review
 	 */
 	_handleDeleteButtonClick(event) {
 		const confirmed = confirm(
@@ -181,9 +185,10 @@ class ExperienceSelector extends Component {
 	}
 
 	/**
+	 * Callback that is executed on dropdown blur
+	 * @memberof ExperienceSelector
 	 * @private
 	 * @review
-	 * @memberof ExperienceSelector
 	 */
 	_handleDropdownBlur() {
 		cancelAnimationFrame(this.willToggleDropdownId);
@@ -196,28 +201,31 @@ class ExperienceSelector extends Component {
 	}
 
 	/**
+	 * Callback that is executed on dropdown button click
+	 * @memberof ExperienceSelector
 	 * @private
 	 * @review
-	 * @memberof ExperienceSelector
 	 */
 	_handleDropdownButtonClick() {
 		this._toggleDropdown();
 	}
 
 	/**
+	 * Callback that is executed on dropdown focus
+	 * @memberof ExperienceSelector
 	 * @private
 	 * @review
-	 * @memberof ExperienceSelector
 	 */
 	_handleDropdownFocus() {
 		cancelAnimationFrame(this.willToggleDropdownId);
 	}
 
 	/**
-	 * @private
-	 * @review
+	 * Callback that is executed on experience click
 	 * @param {Event} event
 	 * @memberof ExperienceSelector
+	 * @private
+	 * @review
 	 */
 	_handleExperienceClick(event) {
 		const experienceId = event.delegateTarget.dataset.experienceId;
@@ -225,10 +233,11 @@ class ExperienceSelector extends Component {
 	}
 
 	/**
-	 *
-	 * @review
+	 * Submits a form
 	 * @param {Event} event
 	 * @memberof ExperienceSelector
+	 * @private
+	 * @review
 	 */
 	_handleFormSubmit(event) {
 		event.preventDefault();
@@ -240,18 +249,20 @@ class ExperienceSelector extends Component {
 	}
 
 	/**
+	 * Opens dropdown
+	 * @memberof ExperienceSelector
 	 * @private
 	 * @review
-	 * @memberof ExperienceSelector
 	 */
 	_openDropdown() {
 		this.openDropdown = true;
 	}
 
 	/**
+	 * Opens modal
+	 * @memberof ExperienceSelector
 	 * @private
 	 * @review
-	 * @memberof ExperienceSelector
 	 */
 	_openModal() {
 		this.store.dispatchAction(
@@ -260,10 +271,11 @@ class ExperienceSelector extends Component {
 	}
 
 	/**
+	 * Dispatches action to select an experience
+	 * @memberof ExperienceSelector
+	 * @param {!string} experienceId
 	 * @private
 	 * @review
-	 * @param {!string} experienceId
-	 * @memberof ExperienceSelector
 	 */
 	_selectExperience(experienceId) {
 		this.store.dispatchAction(
@@ -275,9 +287,10 @@ class ExperienceSelector extends Component {
 	}
 
 	/**
+	 * Toggles dropdown
+	 * @memberof ExperienceSelector
 	 * @private
 	 * @review
-	 * @memberof ExperienceSelector
 	 */
 	_toggleDropdown() {
 		const dropdownAction = this.openDropdown ?
@@ -288,9 +301,10 @@ class ExperienceSelector extends Component {
 	}
 
 	/**
+	 * Toggles modal
+	 * @memberof ExperienceSelector
 	 * @private
 	 * @review
-	 * @memberof ExperienceSelector
 	 */
 	_toggleModal() {
 		const modalAction = this.experienceCreation.creatingExperience ?
