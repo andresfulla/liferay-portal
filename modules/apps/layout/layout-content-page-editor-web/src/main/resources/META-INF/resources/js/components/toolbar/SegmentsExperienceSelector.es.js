@@ -134,8 +134,8 @@ class SegmentsExperienceSelector extends Component {
 		this.store.dispatchAction(
 			CREATE_SEGMENTS_EXPERIENCE,
 			{
-				segmentsEntryId,
-				name
+				name,
+				segmentsEntryId
 			}
 		).dispatchAction(
 			END_CREATE_SEGMENTS_EXPERIENCE

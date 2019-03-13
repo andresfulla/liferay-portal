@@ -78,8 +78,8 @@ const INITIAL_STATE = {
 		.objectOf(
 			Config.shapeOf(
 				{
-					segmentsEntryId: Config.string().required(),
-					name: Config.string().required()
+					name: Config.string().required(),
+					segmentsEntryId: Config.string().required()
 				}
 			)
 		)
@@ -190,9 +190,9 @@ const INITIAL_STATE = {
 		.objectOf(
 			Config.shapeOf(
 				{
+					name: Config.string(),
 					segmentsEntryId: Config.string(),
-					segmentsExperienceId: Config.string(),
-					name: Config.string()
+					segmentsExperienceId: Config.string()
 				}
 			)
 		)

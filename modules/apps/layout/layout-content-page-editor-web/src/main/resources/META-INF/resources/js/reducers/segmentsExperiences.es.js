@@ -19,7 +19,7 @@ function createSegmentsExperienceReducer(state, actionType, payload) {
 		resolve => {
 			let nextState = state;
 			if (actionType === CREATE_SEGMENTS_EXPERIENCE) {
-				const {segmentsEntryId, name} = payload;
+				const {name, segmentsEntryId} = payload;
 
 				const {
 					classNameId,
@@ -61,10 +61,10 @@ function createSegmentsExperienceReducer(state, actionType, payload) {
 							],
 							{
 								active,
+								name: nameCurrentValue,
 								priority,
 								segmentsEntryId,
-								segmentsExperienceId,
-								name: nameCurrentValue
+								segmentsExperienceId
 							}
 						);
 

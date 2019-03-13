@@ -1,4 +1,5 @@
-import {decodeId, encodeAssetId} from "../../../src/main/resources/META-INF/resources/js/utils/FragmentsEditorIdUtils.es";
+/* globals expect */
+import {decodeId, encodeAssetId} from '../../../src/main/resources/META-INF/resources/js/utils/FragmentsEditorIdUtils.es';
 
 describe(
 	'FragmentsEditorIdUtils',
@@ -9,7 +10,10 @@ describe(
 				it(
 					'should decode a given base64 encoded object',
 					() => {
-						const obj = {a: 'a', b: 2};
+						const obj = {
+							a: 'a',
+							b: 2
+						};
 						const str = btoa(JSON.stringify(obj));
 
 						expect(decodeId(str)).toEqual(obj);
@@ -64,7 +68,10 @@ describe(
 				it(
 					'should throw an error when input is not an asset',
 					() => {
-						const input = {a: 'a', b: 2};
+						const input = {
+							a: 'a',
+							b: 2
+						};
 						expect(() => encodeAssetId(input)).toThrowError();
 					}
 				);
