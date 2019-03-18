@@ -496,19 +496,29 @@ public class ContentPageEditorDisplayContext {
 		_defaultSegmentsExperienceId = StringPool.BLANK;
 
 		try {
-			SegmentsExperience defaultSegmentsExperience =
-				SegmentsExperienceLocalServiceUtil.getDefaultSegmentsExperience(
-					getGroupId(), classNameId, classPK);
+			long liveClassPK = classPK;
 
 			if (classNameId == PortalUtil.getClassNameId(Layout.class)) {
-				Layout draftLayout = LayoutLocalServiceUtil.getLayout(classPK);
+				Layout layout = LayoutLocalServiceUtil.getLayout(classPK);
 
-				defaultSegmentsExperience =
-					SegmentsExperienceLocalServiceUtil.
-						getDefaultSegmentsExperience(
-							getGroupId(), classNameId,
-							draftLayout.getClassPK());
+				boolean draft = false;
+
+				if (layout.isSystem() &&
+					(layout.getClassNameId() == PortalUtil.getClassNameId(
+						Layout.class)) &&
+					(layout.getClassPK() != 0)) {
+
+					draft = true;
+				}
+
+				if (draft) {
+					liveClassPK = layout.getClassPK();
+				}
 			}
+
+			SegmentsExperience defaultSegmentsExperience =
+				SegmentsExperienceLocalServiceUtil.getDefaultSegmentsExperience(
+					getGroupId(), classNameId, liveClassPK);
 
 			_defaultSegmentsExperienceId = String.valueOf(
 				defaultSegmentsExperience.getSegmentsExperienceId());

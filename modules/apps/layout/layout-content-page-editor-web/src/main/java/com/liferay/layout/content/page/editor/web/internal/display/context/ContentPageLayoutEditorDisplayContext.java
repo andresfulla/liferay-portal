@@ -15,6 +15,9 @@
 package com.liferay.layout.content.page.editor.web.internal.display.context;
 
 import com.liferay.portal.kernel.exception.PortalException;
+import com.liferay.portal.kernel.model.Layout;
+import com.liferay.portal.kernel.service.LayoutLocalServiceUtil;
+import com.liferay.portal.kernel.util.PortalUtil;
 import com.liferay.portal.template.soy.util.SoyContext;
 import com.liferay.portal.template.soy.util.SoyContextFactoryUtil;
 import com.liferay.segments.model.SegmentsEntry;
@@ -115,9 +118,29 @@ public class ContentPageLayoutEditorDisplayContext
 		SoyContext availableSegmentsEntriesSoyContext =
 			SoyContextFactoryUtil.createSoyContext();
 
+		long liveClassPK = classPK;
+
+		if (classNameId == PortalUtil.getClassNameId(Layout.class)) {
+			Layout layout = LayoutLocalServiceUtil.getLayout(classPK);
+
+			boolean draft = false;
+
+			if (layout.isSystem() &&
+				(layout.getClassNameId() == PortalUtil.getClassNameId(
+					Layout.class)) &&
+				(layout.getClassPK() != 0)) {
+
+				draft = true;
+			}
+
+			if (draft) {
+				liveClassPK = layout.getClassPK();
+			}
+		}
+
 		List<SegmentsExperience> segmentsExperiences =
 			SegmentsExperienceServiceUtil.getSegmentsExperiences(
-				getGroupId(), classNameId, classPK, true);
+				getGroupId(), classNameId, liveClassPK, true);
 
 		for (SegmentsExperience segmentsExperience : segmentsExperiences) {
 			SoyContext segmentsExperienceSoyContext =
