@@ -17,6 +17,7 @@ package com.liferay.segments.service.impl;
 import com.liferay.petra.string.StringBundler;
 import com.liferay.portal.kernel.exception.PortalException;
 import com.liferay.portal.kernel.model.Group;
+import com.liferay.portal.kernel.model.Layout;
 import com.liferay.portal.kernel.model.ResourceConstants;
 import com.liferay.portal.kernel.model.SystemEventConstants;
 import com.liferay.portal.kernel.model.User;
@@ -68,7 +69,9 @@ public class SegmentsExperienceLocalServiceImpl
 
 		long groupId = serviceContext.getScopeGroupId();
 
-		_validate(segmentsEntryId, groupId, classNameId, classPK);
+		long publishedClassPK = _getPublishedClassPK(classNameId, classPK);
+
+		_validate(segmentsEntryId, groupId, classNameId, publishedClassPK);
 
 		long segmentsExperienceId = counterLocalService.increment();
 
@@ -85,7 +88,7 @@ public class SegmentsExperienceLocalServiceImpl
 			serviceContext.getModifiedDate(new Date()));
 		segmentsExperience.setSegmentsEntryId(segmentsEntryId);
 		segmentsExperience.setClassNameId(classNameId);
-		segmentsExperience.setClassPK(classPK);
+		segmentsExperience.setClassPK(publishedClassPK);
 		segmentsExperience.setNameMap(nameMap);
 		segmentsExperience.setPriority(priority);
 		segmentsExperience.setActive(active);
@@ -179,7 +182,7 @@ public class SegmentsExperienceLocalServiceImpl
 		SegmentsExperience defaultSegmentsExperience =
 			segmentsExperiencePersistence.fetchByG_S_C_C_First(
 				groupId, defaultSegmentsEntry.getSegmentsEntryId(), classNameId,
-				classPK, null);
+				_getPublishedClassPK(classNameId, classPK), null);
 
 		if (defaultSegmentsExperience != null) {
 			return defaultSegmentsExperience;
@@ -201,31 +204,37 @@ public class SegmentsExperienceLocalServiceImpl
 
 	@Override
 	public List<SegmentsExperience> getSegmentsExperiences(
-		long groupId, long classNameId, long classPK, boolean active, int start,
-		int end, OrderByComparator<SegmentsExperience> orderByComparator) {
+			long groupId, long classNameId, long classPK, boolean active,
+			int start, int end,
+			OrderByComparator<SegmentsExperience> orderByComparator)
+		throws PortalException {
 
 		return segmentsExperiencePersistence.findByG_C_C_A(
-			groupId, classNameId, classPK, active, start, end,
-			orderByComparator);
+			groupId, classNameId, _getPublishedClassPK(classNameId, classPK),
+			active, start, end, orderByComparator);
 	}
 
 	@Override
 	public List<SegmentsExperience> getSegmentsExperiences(
-		long groupId, long[] segmentsEntryIds, long classNameId, long classPK,
-		boolean active, int start, int end,
-		OrderByComparator<SegmentsExperience> orderByComparator) {
+			long groupId, long[] segmentsEntryIds, long classNameId,
+			long classPK, boolean active, int start, int end,
+			OrderByComparator<SegmentsExperience> orderByComparator)
+		throws PortalException {
 
 		return segmentsExperiencePersistence.findByG_S_C_C_A(
-			groupId, segmentsEntryIds, classNameId, classPK, active, start, end,
+			groupId, segmentsEntryIds, classNameId,
+			_getPublishedClassPK(classNameId, classPK), active, start, end,
 			orderByComparator);
 	}
 
 	@Override
 	public int getSegmentsExperiencesCount(
-		long groupId, long classNameId, long classPK, boolean active) {
+			long groupId, long classNameId, long classPK, boolean active)
+		throws PortalException {
 
 		return segmentsExperiencePersistence.countByG_C_C_A(
-			groupId, classNameId, classPK, active);
+			groupId, classNameId, _getPublishedClassPK(classNameId, classPK),
+			active);
 	}
 
 	@Override
@@ -269,6 +278,22 @@ public class SegmentsExperienceLocalServiceImpl
 		return segmentsExperienceLocalService.addSegmentsExperience(
 			segmentsEntryId, classNameId, classPK, nameMap, 0, true,
 			serviceContext);
+	}
+
+	private long _getPublishedClassPK(long classNameId, long classPK)
+		throws PortalException {
+
+		long publishedClassPK = classPK;
+
+		if (classNameId == classNameLocalService.getClassNameId(Layout.class)) {
+			Layout draftLayout = layoutLocalService.getLayout(classPK);
+
+			if (draftLayout != null) {
+				publishedClassPK = draftLayout.getClassPK();
+			}
+		}
+
+		return publishedClassPK;
 	}
 
 	private ResourceBundleLoader _getResourceBundleLoader() {
