@@ -41,7 +41,7 @@ public class SegmentsExperienceServiceImpl
 	@Override
 	public SegmentsExperience addSegmentsExperience(
 			long segmentsEntryId, long classNameId, long classPK,
-			Map<Locale, String> nameMap, int priority, boolean active,
+			Map<Locale, String> nameMap, boolean active,
 			ServiceContext serviceContext)
 		throws PortalException {
 
@@ -50,7 +50,7 @@ public class SegmentsExperienceServiceImpl
 			SegmentsActionKeys.MANAGE_SEGMENTS_ENTRIES);
 
 		return segmentsExperienceLocalService.addSegmentsExperience(
-			segmentsEntryId, classNameId, classPK, nameMap, priority, active,
+			segmentsEntryId, classNameId, classPK, nameMap, active,
 			serviceContext);
 	}
 
@@ -59,11 +59,32 @@ public class SegmentsExperienceServiceImpl
 			long segmentsExperienceId)
 		throws PortalException {
 
+		SegmentsExperience segmentsExperience =
+			segmentsExperienceLocalService.getSegmentsExperience(
+				segmentsExperienceId);
+
 		_segmentsExperienceResourcePermission.check(
-			getPermissionChecker(), segmentsExperienceId, ActionKeys.DELETE);
+			getPermissionChecker(), segmentsExperience, ActionKeys.DELETE);
 
 		return segmentsExperienceLocalService.deleteSegmentsExperience(
 			segmentsExperienceId);
+	}
+
+	@Override
+	public SegmentsExperience deleteSegmentsExperience(
+			long groupId, long classNameId, long classPK, int priority)
+		throws PortalException {
+
+		SegmentsExperience segmentsExperience =
+			segmentsExperiencePersistence.findByG_C_C_P(
+				groupId, classNameId, _getPublishedLayoutClassPK(classPK),
+				priority);
+
+		_segmentsExperienceResourcePermission.check(
+			getPermissionChecker(), segmentsExperience, ActionKeys.DELETE);
+
+		return segmentsExperienceLocalService.deleteSegmentsExperience(
+			segmentsExperience);
 	}
 
 	@Override
@@ -107,16 +128,79 @@ public class SegmentsExperienceServiceImpl
 	}
 
 	@Override
-	public SegmentsExperience updateSegmentsExperience(
-			long segmentsExperienceId, long segmentsEntryId,
-			Map<Locale, String> nameMap, int priority, boolean active)
+	public void moveSegmentsExperience(
+			long segmentsExperienceId, int newPriority)
 		throws PortalException {
 
+		SegmentsExperience segmentsExperience =
+			segmentsExperiencePersistence.findByPrimaryKey(
+				segmentsExperienceId);
+
 		_segmentsExperienceResourcePermission.check(
-			getPermissionChecker(), segmentsExperienceId, ActionKeys.UPDATE);
+			getPermissionChecker(), segmentsExperience, ActionKeys.UPDATE);
+
+		SegmentsExperience swapSegmentsExperience =
+			segmentsExperiencePersistence.fetchByG_C_C_P(
+				segmentsExperience.getGroupId(),
+				segmentsExperience.getClassNameId(),
+				segmentsExperience.getClassPK(), newPriority);
+
+		if (swapSegmentsExperience != null) {
+			_segmentsExperienceResourcePermission.check(
+				getPermissionChecker(), swapSegmentsExperience,
+				ActionKeys.UPDATE);
+		}
+
+		segmentsExperienceLocalService.moveSegmentsExperience(
+			segmentsExperience.getGroupId(),
+			segmentsExperience.getClassNameId(),
+			segmentsExperience.getClassPK(), segmentsExperience.getPriority(),
+			newPriority);
+	}
+
+	@Override
+	public void moveSegmentsExperience(
+			long groupId, long classNameId, long classPK, int priority,
+			int newPriority)
+		throws PortalException {
+
+		long publishedLayoutClassPK = _getPublishedLayoutClassPK(classPK);
+
+		SegmentsExperience segmentsExperience =
+			segmentsExperiencePersistence.findByG_C_C_P(
+				groupId, classNameId, publishedLayoutClassPK, priority);
+
+		_segmentsExperienceResourcePermission.check(
+			getPermissionChecker(), segmentsExperience, ActionKeys.UPDATE);
+
+		segmentsExperience = segmentsExperiencePersistence.fetchByG_C_C_P(
+			groupId, classNameId, publishedLayoutClassPK, priority);
+
+		if (segmentsExperience != null) {
+			_segmentsExperienceResourcePermission.check(
+				getPermissionChecker(), segmentsExperience, ActionKeys.UPDATE);
+		}
+
+		segmentsExperienceLocalService.moveSegmentsExperience(
+			groupId, classNameId, publishedLayoutClassPK, priority,
+			newPriority);
+	}
+
+	@Override
+	public SegmentsExperience updateSegmentsExperience(
+			long segmentsExperienceId, long segmentsEntryId,
+			Map<Locale, String> nameMap, boolean active)
+		throws PortalException {
+
+		SegmentsExperience segmentsExperience =
+			segmentsExperienceLocalService.getSegmentsExperience(
+				segmentsExperienceId);
+
+		_segmentsExperienceResourcePermission.check(
+			getPermissionChecker(), segmentsExperience, ActionKeys.UPDATE);
 
 		return segmentsExperienceLocalService.updateSegmentsExperience(
-			segmentsExperienceId, segmentsEntryId, nameMap, priority, active);
+			segmentsExperienceId, segmentsEntryId, nameMap, active);
 	}
 
 	private long _getPublishedLayoutClassPK(long classPK) {
