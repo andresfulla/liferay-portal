@@ -65,12 +65,16 @@ public interface SegmentsExperienceService extends BaseService {
 	 */
 	public SegmentsExperience addSegmentsExperience(
 			long segmentsEntryId, long classNameId, long classPK,
-			Map<Locale, String> nameMap, int priority, boolean active,
+			Map<Locale, String> nameMap, boolean active,
 			ServiceContext serviceContext)
 		throws PortalException;
 
 	public SegmentsExperience deleteSegmentsExperience(
 			long segmentsExperienceId)
+		throws PortalException;
+
+	public SegmentsExperience deleteSegmentsExperience(
+			long groupId, long classNameId, long classPK, int priority)
 		throws PortalException;
 
 	/**
@@ -97,9 +101,18 @@ public interface SegmentsExperienceService extends BaseService {
 	public int getSegmentsExperiencesCount(
 		long groupId, long classNameId, long classPK, boolean active);
 
+	public void moveSegmentsExperience(
+			long segmentsExperienceId, int newPriority)
+		throws PortalException;
+
+	public void moveSegmentsExperience(
+			long groupId, long classNameId, long classPK, int priority,
+			int newPriority)
+		throws PortalException;
+
 	public SegmentsExperience updateSegmentsExperience(
 			long segmentsExperienceId, long segmentsEntryId,
-			Map<Locale, String> nameMap, int priority, boolean active)
+			Map<Locale, String> nameMap, boolean active)
 		throws PortalException;
 
 }
