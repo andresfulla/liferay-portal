@@ -39,13 +39,12 @@ public class SegmentsExperienceServiceWrapper
 	@Override
 	public com.liferay.segments.model.SegmentsExperience addSegmentsExperience(
 			long segmentsEntryId, long classNameId, long classPK,
-			java.util.Map<java.util.Locale, String> nameMap, int priority,
-			boolean active,
+			java.util.Map<java.util.Locale, String> nameMap, boolean active,
 			com.liferay.portal.kernel.service.ServiceContext serviceContext)
 		throws com.liferay.portal.kernel.exception.PortalException {
 
 		return _segmentsExperienceService.addSegmentsExperience(
-			segmentsEntryId, classNameId, classPK, nameMap, priority, active,
+			segmentsEntryId, classNameId, classPK, nameMap, active,
 			serviceContext);
 	}
 
@@ -56,6 +55,16 @@ public class SegmentsExperienceServiceWrapper
 
 		return _segmentsExperienceService.deleteSegmentsExperience(
 			segmentsExperienceId);
+	}
+
+	@Override
+	public com.liferay.segments.model.SegmentsExperience
+			deleteSegmentsExperience(
+				long groupId, long classNameId, long classPK, int priority)
+		throws com.liferay.portal.kernel.exception.PortalException {
+
+		return _segmentsExperienceService.deleteSegmentsExperience(
+			groupId, classNameId, classPK, priority);
 	}
 
 	/**
@@ -109,15 +118,33 @@ public class SegmentsExperienceServiceWrapper
 	}
 
 	@Override
+	public void moveSegmentsExperience(
+			long segmentsExperienceId, int newPriority)
+		throws com.liferay.portal.kernel.exception.PortalException {
+
+		_segmentsExperienceService.moveSegmentsExperience(
+			segmentsExperienceId, newPriority);
+	}
+
+	@Override
+	public void moveSegmentsExperience(
+			long groupId, long classNameId, long classPK, int priority,
+			int newPriority)
+		throws com.liferay.portal.kernel.exception.PortalException {
+
+		_segmentsExperienceService.moveSegmentsExperience(
+			groupId, classNameId, classPK, priority, newPriority);
+	}
+
+	@Override
 	public com.liferay.segments.model.SegmentsExperience
 			updateSegmentsExperience(
 				long segmentsExperienceId, long segmentsEntryId,
-				java.util.Map<java.util.Locale, String> nameMap, int priority,
-				boolean active)
+				java.util.Map<java.util.Locale, String> nameMap, boolean active)
 		throws com.liferay.portal.kernel.exception.PortalException {
 
 		return _segmentsExperienceService.updateSegmentsExperience(
-			segmentsExperienceId, segmentsEntryId, nameMap, priority, active);
+			segmentsExperienceId, segmentsEntryId, nameMap, active);
 	}
 
 	@Override
