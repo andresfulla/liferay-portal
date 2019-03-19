@@ -383,7 +383,7 @@ public class SegmentsExperienceServiceTest {
 				segmentsExperience.getSegmentsExperienceId(),
 				RandomTestUtil.randomLong(),
 				RandomTestUtil.randomLocaleStringMap(),
-				RandomTestUtil.randomInt(), RandomTestUtil.randomBoolean());
+				RandomTestUtil.randomBoolean());
 		}
 	}
 
@@ -411,7 +411,7 @@ public class SegmentsExperienceServiceTest {
 				segmentsExperience.getSegmentsExperienceId(),
 				RandomTestUtil.randomLong(),
 				RandomTestUtil.randomLocaleStringMap(),
-				RandomTestUtil.randomInt(), RandomTestUtil.randomBoolean());
+				RandomTestUtil.randomBoolean());
 		}
 	}
 
