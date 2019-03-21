@@ -10,11 +10,10 @@
 	width: $sidebarWidth;
 
 	.properties-list {
-		height: 100%;
 		list-style: none;
 		margin: 0;
-		overflow: auto;
-		padding: 0;
+		overflow-y: scroll;
+		padding: 0 1.5rem;
 
 		.criteria-sidebar-item-root {
 			align-items: center;
@@ -61,14 +60,67 @@
 	}
 
 	.sidebar-header {
-		border-bottom: 1px solid $mainLighten74;
 		font-size: 16px;
 		font-weight: 600;
 		padding: 16px 24px;
 	}
 
+	.sidebar-collapse-header-root {
+		cursor: pointer;
+		padding: 16px 24px 0;
+	}
+
+	.sidebar-collapse-header {
+		border-color: $mainLighten52;
+		border-style: solid;
+		border-width: 0 0 1px;
+		color: $main;
+		font-size: 0.875rem;
+		font-weight: 600;
+		line-height: 1.2;
+		margin-bottom: 0.3rem;
+		padding-bottom: 0.5rem;
+		padding-top: 0.5rem;
+		text-transform: uppercase;
+		word-wrap: break-word;
+	}
+
+	.sidebar-collapse {
+		height: 100%;
+		position: relative;
+
+		.sidebar-collapse-groups {
+			bottom: 0;
+			display: flex;
+			flex-flow: column;
+			left: 0;
+			position: absolute;
+			right: 0;
+			top: 0;
+
+			> li {
+				display: flex;
+				flex-basis: auto;
+				flex-flow: column;
+				max-height: 100%;
+				overflow-y: hidden;
+				position: relative;
+			}
+		}
+	}
+
+	.collapse-icon {
+		.lexicon-icon {
+			transform: rotate(0);
+			transition: transform 0.2s ease-in-out;
+
+			&.active {
+				transform: rotate(90deg);
+			}
+		}
+	}
+
 	.sidebar-search {
-		border-bottom: 1px solid $mainLighten74;
 		padding: 16px 24px;
 	}
 }
