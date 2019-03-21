@@ -84,7 +84,6 @@ public class LayoutPageTemplateStructureLocalServiceImpl
 		// Layout page template structure rel
 
 		if (!ExportImportThreadLocal.isImportInProcess()) {
-
 			layoutPageTemplateStructureRelLocalService.
 				addLayoutPageTemplateStructureRel(
 					userId, groupId, layoutPageTemplateStructureId,
@@ -200,7 +199,8 @@ public class LayoutPageTemplateStructureLocalServiceImpl
 		throws PortalException {
 
 		return layoutPageTemplateStructureLocalService.
-			updateLayoutPageTemplateStructure(groupId, classNameId, classPK,
+			updateLayoutPageTemplateStructure(
+				groupId, classNameId, classPK,
 				SegmentsConstants.SEGMENTS_EXPERIENCE_ID_DEFAULT, data);
 	}
 
