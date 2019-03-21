@@ -206,13 +206,6 @@ class ContributorBuilder extends React.Component {
 
 		const {contributors, editingId} = this.state;
 
-		const selectedContributor = contributors[editingId];
-
-		const selectedProperty = selectedContributor &&
-			propertyGroups.find(
-				propertyGroup => selectedContributor.propertyKey === propertyGroup.propertyKey
-			);
-
 		const rootClasses = getCN(
 			'contributor-builder-root',
 			{
@@ -224,12 +217,9 @@ class ContributorBuilder extends React.Component {
 			<div className={rootClasses}>
 				<div className="criteria-builder-section-sidebar">
 					<CriteriaSidebar
-						propertyKey={selectedProperty && selectedProperty.propertyKey}
-						supportedProperties={selectedProperty && selectedProperty.properties}
-						title={sub(
-							Liferay.Language.get('x-properties'),
-							[selectedProperty && selectedProperty.name]
-						)}
+						propertyKey={editingId}
+						propertyGroups={propertyGroups}
+						onTitleClicked={this._handleCriteriaEdit}
 					/>
 				</div>
 
@@ -262,9 +252,9 @@ class ContributorBuilder extends React.Component {
 
 											<CriteriaBuilder
 												criteria={criteria.criteriaMap}
-												editing={editingId === i}
+												editing={editingId === criteria.propertyKey}
 												entityName={criteria.entityName}
-												id={i}
+												id={criteria.propertyKey}
 												modelLabel={criteria.modelLabel}
 												onChange={this._handleCriteriaChange}
 												onEditToggle={this._handleCriteriaEdit}
