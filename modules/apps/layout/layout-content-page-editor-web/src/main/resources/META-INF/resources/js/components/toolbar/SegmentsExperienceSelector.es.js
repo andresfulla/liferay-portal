@@ -1,6 +1,5 @@
 import Component from 'metal-component';
 import Soy, {Config} from 'metal-soy';
-import { once } from 'metal-dom';
 import getConnectedComponent from '../../store/ConnectedComponent.es';
 import './segmentsExperiences/modal.es';
 import templates from './SegmentsExperienceSelector.soy';
@@ -449,7 +448,7 @@ class SegmentsExperienceSelector extends Component {
 		const buttonPriorityUp = this.refs[`buttonPriorityUp${segmentsExperienceId}`]
 		const selectExperienceBtnRef = this.refs[`selectExperienceButton${segmentsExperienceId}`];
 
-		this._priorityDispatcher(
+		this._updatePriority(
 			{
 				priorityButton: buttonPriorityUp.element,
 				focusFallbackElement: selectExperienceBtnRef,
@@ -475,7 +474,7 @@ class SegmentsExperienceSelector extends Component {
 		const buttonPriorityDown = this.refs[`buttonPriorityDown${segmentsExperienceId}`]
 		const selectExperienceBtnRef = this.refs[`selectExperienceButton${segmentsExperienceId}`];
 		
-		this._priorityDispatcher(
+		this._updatePriority(
 			{
 				priorityButton: buttonPriorityDown.element,
 				focusFallbackElement: selectExperienceBtnRef,
@@ -500,7 +499,7 @@ class SegmentsExperienceSelector extends Component {
 	 * @param {!string} payload.segmentsExperienceId
 	 * @memberof SegmentsExperienceSelector
 	 */
-	_priorityDispatcher(
+	_updatePriority(
 		{
 			priorityButton,
 			focusFallbackElement,

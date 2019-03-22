@@ -140,11 +140,15 @@
 								<div class="align-items-center d-flex dropdown-menu__experience--btn-group">
 									{let $disbledMoveUp: (isFirst($experience)) /}
 									{let $disbledMoveDown: ($notDefaultExperienceLength == index($experience)) /}
-									{let $upButtonRef: 'buttonPriorityUp' + $experience.segmentsExperienceId /}
-									{let $downButtonRef: 'buttonPriorityDown' + $experience.segmentsExperienceId /}
+									{let $priorityUpButtonRef: 'buttonPriorityUp' + $experience.segmentsExperienceId /}
+									{let $priorityDownButtonRef: 'buttonPriorityDown' + $experience.segmentsExperienceId /}
+									
+									{let $prioritizeLabel kind="text"}
+										{msg desc=""}prioritize-experience{/msg}
+									{/let}
 
 									{call ClayButton.render}
-										{param ariaLabel: 'prioritize' /}
+										{param ariaLabel: $prioritizeLabel /}
 										{param disabled: $disbledMoveUp /}
 										{param data: [
 											'priority': $experience.priority,
@@ -156,14 +160,18 @@
 										] /}
 										{param icon: 'angle-up' /}
 										{param monospaced: true /}
-										{param ref: $upButtonRef /}
+										{param ref: $priorityUpButtonRef /}
 										{param size: 'sm' /}
 										{param spritemap: $spritemap /}
 										{param style: 'unstyled' /}
 									{/call}
 
+									{let $deprioritizeLabel kind="text"}
+										{msg desc=""}deprioritize-experience{/msg}
+									{/let}
+
 									{call ClayButton.render}
-										{param ariaLabel: 'edit' /}
+										{param ariaLabel: $deprioritizeLabel /}
 										{param disabled: $disbledMoveDown /}
 										{param data: [
 											'priority': $experience.priority,
@@ -175,14 +183,18 @@
 										] /}
 										{param icon: 'angle-down' /}
 										{param monospaced: true /}
-										{param ref: $downButtonRef /}
+										{param ref: $priorityDownButtonRef /}
 										{param size: 'sm' /}
 										{param spritemap: $spritemap /}
 										{param style: 'unstyled' /}
 									{/call}
 
+									{let $editLabel kind="text"}
+										{msg desc=""}edit-experience{/msg}
+									{/let}
+
 									{call ClayButton.render}
-										{param ariaLabel: 'edit' /}
+										{param ariaLabel: $editLabel /}
 										{param data: [
 											'segmentsExperienceId': $experience.segmentsExperienceId,
 											'name': $experience.name,
@@ -197,8 +209,13 @@
 										{param spritemap: $spritemap /}
 										{param style: 'unstyled' /}
 									{/call}
+
+									{let $deleteLabel kind="text"}
+										{msg desc=""}delete-experience{/msg}
+									{/let}
+
 									{call ClayButton.render}
-										{param ariaLabel: 'delete' /}
+										{param ariaLabel: $deleteLabel /}
 										{param data: [
 											'segmentsExperienceId': $experience.segmentsExperienceId
 										]/}
