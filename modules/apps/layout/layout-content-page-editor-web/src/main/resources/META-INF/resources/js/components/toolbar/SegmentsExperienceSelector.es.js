@@ -3,7 +3,7 @@ import Soy, {Config} from 'metal-soy';
 import getConnectedComponent from '../../store/ConnectedComponent.es';
 import './segmentsExperiences/modal.es';
 import templates from './SegmentsExperienceSelector.soy';
-import {CREATE_SEGMENTS_EXPERIENCE, DELETE_SEGMENTS_EXPERIENCE, EDIT_SEGMENTS_EXPERIENCE, SELECT_SEGMENTS_EXPERIENCE} from '../../actions/actions.es';
+import {CREATE_SEGMENTS_EXPERIENCE, DELETE_SEGMENTS_EXPERIENCE, EDIT_SEGMENTS_EXPERIENCE, SELECT_SEGMENTS_EXPERIENCE, UPDATE_SEGMENTS_EXPERIENCE_PRIORITY} from '../../actions/actions.es';
 import 'frontend-js-web/liferay/compat/modal/Modal.es';
 import {setIn} from '../../utils/FragmentsEditorUpdateUtils.es';
 
@@ -300,9 +300,11 @@ class SegmentsExperienceSelector extends Component {
 			}
 		).done(
 			() => {
-				this._experiencesModalStateHandler({
-					edition: false
-				});
+				this._experiencesModalStateHandler(
+					{
+						edition: false
+					}
+				);
 
 				Liferay.Util.openToast(
 					{
@@ -434,6 +436,63 @@ class SegmentsExperienceSelector extends Component {
 	}
 
 	/**
+	 * Triggers update priority store action 
+	 * @param {Event} event
+	 * @memberof SegmentsExperienceSelector
+	 * @review
+	 */
+	_handleMoveExperienceUpButtonClick(event) {
+		const priority = event.currentTarget.getAttribute('data-priority');
+		const segmentsExperienceId = event.currentTarget.getAttribute('data-segmentsExperienceId');
+
+		this.store.dispatchAction(
+			UPDATE_SEGMENTS_EXPERIENCE_PRIORITY,
+			{
+
+				direction: 'up',
+				priority,
+				segmentsExperienceId
+			}
+		).done(
+			() => {
+				this.refs[segmentsExperienceId].focus();
+			}
+		).failed(
+			() => {
+				this.refs[segmentsExperienceId].focus();
+			}
+		);
+	}
+	
+	/**
+	 * Triggers update priority store action 
+	 * @param {Event} event
+	 * @memberof SegmentsExperienceSelector
+	 * @review
+	 */
+	_handleMoveExperienceDownButtonClick(event) {
+		const priority = event.currentTarget.getAttribute('data-priority');
+		const segmentsExperienceId = event.currentTarget.getAttribute('data-segmentsExperienceId');
+
+		this.store.dispatchAction(
+			UPDATE_SEGMENTS_EXPERIENCE_PRIORITY,
+			{
+				direction: 'down',
+				priority,
+				segmentsExperienceId
+			}
+		).done(
+			() => {
+				this.refs[segmentsExperienceId].focus();
+			}
+		).failed(
+			() => {
+				this.refs[segmentsExperienceId].focus();
+			}
+		);
+	}
+
+	/**
 	 * Opens dropdown
 	 * @memberof SegmentsExperienceSelector
 	 * @private
@@ -470,13 +529,15 @@ class SegmentsExperienceSelector extends Component {
 			segmentsExperienceId = null
 		}
 	) {
-		this._experiencesModalStateHandler({
-			edition: {
-				name,
-				segmentsEntryId,
-				segmentsExperienceId
+		this._experiencesModalStateHandler(
+			{
+				edition: {
+					name,
+					segmentsEntryId,
+					segmentsExperienceId
+				}
 			}
-		});
+		);
 	}
 
 	/**
@@ -568,9 +629,9 @@ class SegmentsExperienceSelector extends Component {
 }
 
 SegmentsExperienceSelector.STATE = {
+	modalStates: Config.object().value(null),
 	openDropdown: Config.bool().internal().value(false),
-	segmentsEntryId: Config.string().internal(),
-	modalStates: Config.object().value(null)
+	segmentsEntryId: Config.string().internal()
 };
 
 const ConnectedSegmentsExperienceSelector = getConnectedComponent(

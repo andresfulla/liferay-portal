@@ -8,6 +8,7 @@
 	{@param? availableSegmentsExperiences: list<[
 		segmentsExperienceId: string,
 		name: string,
+		priority: int,
 		segmentsEntryName: string,
 		segmentsEntryId: string
 	]>}
@@ -18,6 +19,8 @@
 	{@param? _dismissDeletionError: any }
 	{@param? _dismissEditionError: any }
 	{@param? _handleDeleteButtonClick: any }
+	{@param? _handleMoveExperienceDownButtonClick: any }
+	{@param? _handleMoveExperienceUpButtonClick: any }
 	{@param? _handleEditButtonClick: any }
 	{@param? _handleSegmentsExperienceClick: any}
 	{@param? _handleDropdownBlur: any}
@@ -40,7 +43,7 @@
 		creation: bool,
 		edition: [
 			name: string | null,
-			segmentsExperienceId: string | null
+			segmentsEntryId: string | null
 		]
 	]}
 	{@param spritemap: string}
@@ -98,6 +101,8 @@
 				{/if}
 
 				<ul class="list-unstyled mt-3">
+					{let $notDefaultExperienceLength: (length($availableSegmentsExperiences) - 2) /}
+
 					{foreach $experience in $availableSegmentsExperiences}
 						{let $experienceClasses kind="text"}
 							d-flex
@@ -108,28 +113,70 @@
 							{/if}
 						{/let}
 
-						<li class="{$experienceClasses}">
-							<button
-								class="title btn-unstyled p-3 d-flex justify-content-between align-items-baseline text-dark w-100"
-								data-onclick="{$_handleSegmentsExperienceClick}"
-								data-segments-experience-id="{$experience.segmentsExperienceId}"
-								tabindex="0"
-							>
-								<span class="flex-grow-1 p-1 truncate-text">
-									{$experience.name}
-								</span>
-								<span class="audience d-inline-block p-1 truncate-text">
-									<span class="text-secondary">
-										{msg desc=""}audience{/msg}
-										{sp}-{sp}
-									</span>
+						<li class="{$experienceClasses}" key="{$experience.segmentsExperienceId}">
+							<span class="p-2 w-100">
+								<button
+									class="title p-1 w-100 btn btn-unstyled d-flex justify-content-between align-items-baseline text-dark"
+									data-onclick="{$_handleSegmentsExperienceClick}"
+									data-segments-experience-id="{$experience.segmentsExperienceId}"
+									ref="{$experience.segmentsExperienceId}"
+									tabindex="0"
+								>
+									<span class="d-flex flex-column flex-grow-1 truncate-text">
+										<strong>{$experience.name}</strong>
+										<span class="audience d-block truncate-text">
+											<span class="text-secondary">
+												{msg desc=""}audience{/msg}
+												{sp}-{sp}
+											</span>
 
-									{$experience.segmentsEntryName}
-								</span>
-							</button>
+											{$experience.segmentsEntryName}
+										</span>
+									</span>
+								</button>
+							</span>
 
 							{if $defaultSegmentsExperienceId != $experience.segmentsExperienceId }
 								<div class="align-items-center d-flex dropdown-menu__experience--btn-group">
+									{let $disbledMoveUp: (isFirst($experience)) /}
+									{let $disbledMoveDown: ($notDefaultExperienceLength == index($experience)) /}
+
+									{call ClayButton.render}
+										{param ariaLabel: 'prioritize' /}
+										{param disabled: $disbledMoveUp /}
+										{param data: [
+											'priority': $experience.priority,
+											'segmentsExperienceId': $experience.segmentsExperienceId
+										]/}
+										{param elementClasses: 'btn-borderless ml-2 mr-0 text-dark' /}
+										{param events: [
+											'click': $_handleMoveExperienceUpButtonClick,
+										] /}
+										{param icon: 'angle-up' /}
+										{param monospaced: true /}
+										{param size: 'sm' /}
+										{param spritemap: $spritemap /}
+										{param style: 'unstyled' /}
+									{/call}
+
+									{call ClayButton.render}
+										{param ariaLabel: 'edit' /}
+										{param disabled: $disbledMoveDown /}
+										{param data: [
+											'priority': $experience.priority,
+											'segmentsExperienceId': $experience.segmentsExperienceId
+										]/}
+										{param elementClasses: 'btn-borderless ml-0 mr-2 text-dark' /}
+										{param events: [
+											'click': $_handleMoveExperienceDownButtonClick
+										] /}
+										{param icon: 'angle-down' /}
+										{param monospaced: true /}
+										{param size: 'sm' /}
+										{param spritemap: $spritemap /}
+										{param style: 'unstyled' /}
+									{/call}
+
 									{call ClayButton.render}
 										{param ariaLabel: 'edit' /}
 										{param data: [
@@ -255,7 +302,7 @@
 					'inputId': 'SegmentSelector',
 					'segments': $availableSegmentsEntries,
 					'label': $segmentLabel,
-					'value': ($modalStates and $modalStates.edition) ? $modalStates.edition.segmentsExperienceId : null
+					'value': ($modalStates and $modalStates.edition) ? $modalStates.edition.segmentsEntryId : null
 				]
 			] /}
 

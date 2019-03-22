@@ -19,6 +19,7 @@ export const UPDATE_TRANSLATION_STATUS = 'updateTranslationStatus';
 export const CREATE_SEGMENTS_EXPERIENCE = 'createSegmentsExperience';
 export const DELETE_SEGMENTS_EXPERIENCE = 'DELETE_SEGMENTS_EXPERIENCE';
 export const EDIT_SEGMENTS_EXPERIENCE = 'EDIT_SEGMENTS_EXPERIENCE';
+export const UPDATE_SEGMENTS_EXPERIENCE_PRIORITY = 'UPDATE_SEGMENTS_EXPERIENCE_PRIORITY';
 
 export const ADD_SECTION = 'addSection';
 export const MOVE_SECTION = 'moveSection';

@@ -219,6 +219,7 @@ const INITIAL_STATE = {
 			Config.shapeOf(
 				{
 					name: Config.string(),
+					priority: Config.number(),
 					segmentsEntryId: Config.string(),
 					segmentsExperienceId: Config.string()
 				}
