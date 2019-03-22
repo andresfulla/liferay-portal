@@ -436,7 +436,7 @@ class SegmentsExperienceSelector extends Component {
 	}
 
 	/**
-	 * Triggers update priority store action 
+	 * Triggers update priority store action
 	 * @param {Event} event
 	 * @memberof SegmentsExperienceSelector
 	 * @review
@@ -444,25 +444,25 @@ class SegmentsExperienceSelector extends Component {
 	_handleMoveExperienceUpButtonClick(event) {
 		const priority = event.currentTarget.getAttribute('data-priority');
 		const segmentsExperienceId = event.currentTarget.getAttribute('data-segmentsExperienceId');
-		
-		const buttonPriorityUp = this.refs[`buttonPriorityUp${segmentsExperienceId}`]
+
+		const buttonPriorityUp = this.refs[`buttonPriorityUp${segmentsExperienceId}`];
 		const selectExperienceBtnRef = this.refs[`selectExperienceButton${segmentsExperienceId}`];
 
 		this._updatePriority(
 			{
-				priorityButton: buttonPriorityUp.element,
 				focusFallbackElement: selectExperienceBtnRef,
 				payload: {
 					direction: 'up',
 					priority,
 					segmentsExperienceId
-				}
+				},
+				priorityButton: buttonPriorityUp.element
 			}
-		)
+		);
 	}
-	
+
 	/**
-	 * Triggers update priority store action 
+	 * Triggers update priority store action
 	 * @param {Event} event
 	 * @memberof SegmentsExperienceSelector
 	 * @review
@@ -470,10 +470,10 @@ class SegmentsExperienceSelector extends Component {
 	_handleMoveExperienceDownButtonClick(event) {
 		const priority = event.currentTarget.getAttribute('data-priority');
 		const segmentsExperienceId = event.currentTarget.getAttribute('data-segmentsExperienceId');
-		
-		const buttonPriorityDown = this.refs[`buttonPriorityDown${segmentsExperienceId}`]
+
+		const buttonPriorityDown = this.refs[`buttonPriorityDown${segmentsExperienceId}`];
 		const selectExperienceBtnRef = this.refs[`selectExperienceButton${segmentsExperienceId}`];
-		
+
 		this._updatePriority(
 			{
 				priorityButton: buttonPriorityDown.element,
@@ -484,7 +484,7 @@ class SegmentsExperienceSelector extends Component {
 					segmentsExperienceId
 				}
 			}
-		)
+		);
 	}
 
 	/**
@@ -501,14 +501,14 @@ class SegmentsExperienceSelector extends Component {
 	 */
 	_updatePriority(
 		{
-			priorityButton,
 			focusFallbackElement,
-			payload
+			payload,
+			priorityButton
 		}
 	) {
 		const onBlur = () => {
-			focusFallbackElement.focus()
-			priorityButton.removeEventListener('blur', onBlur)
+			focusFallbackElement.focus();
+			priorityButton.removeEventListener('blur', onBlur);
 		};
 
 		priorityButton.addEventListener('blur', onBlur);
@@ -518,7 +518,7 @@ class SegmentsExperienceSelector extends Component {
 				'blur',
 				onBlur
 			);
-		}
+		};
 
 		this.store.dispatchAction(
 			UPDATE_SEGMENTS_EXPERIENCE_PRIORITY,

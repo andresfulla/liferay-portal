@@ -125,6 +125,7 @@
 								>
 									<span class="d-flex flex-column flex-grow-1 truncate-text">
 										<strong>{$experience.name}</strong>
+
 										<span class="audience d-block truncate-text">
 											<span class="text-secondary">
 												{msg desc=""}audience{/msg}
@@ -143,7 +144,7 @@
 									{let $disbledMoveDown: ($notDefaultExperienceLength == index($experience)) /}
 									{let $priorityUpButtonRef: 'buttonPriorityUp' + $experience.segmentsExperienceId /}
 									{let $priorityDownButtonRef: 'buttonPriorityDown' + $experience.segmentsExperienceId /}
-									
+
 									{let $prioritizeLabel kind="text"}
 										{msg desc=""}prioritize-experience{/msg}
 									{/let}
