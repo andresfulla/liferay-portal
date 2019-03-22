@@ -119,7 +119,7 @@
 									class="title p-1 w-100 btn btn-unstyled d-flex justify-content-between align-items-baseline text-dark"
 									data-onclick="{$_handleSegmentsExperienceClick}"
 									data-segments-experience-id="{$experience.segmentsExperienceId}"
-									ref="{$experience.segmentsExperienceId}"
+									ref="selectExperienceButton{$experience.segmentsExperienceId}"
 									tabindex="0"
 								>
 									<span class="d-flex flex-column flex-grow-1 truncate-text">
@@ -140,6 +140,8 @@
 								<div class="align-items-center d-flex dropdown-menu__experience--btn-group">
 									{let $disbledMoveUp: (isFirst($experience)) /}
 									{let $disbledMoveDown: ($notDefaultExperienceLength == index($experience)) /}
+									{let $upButtonRef: 'buttonPriorityUp' + $experience.segmentsExperienceId /}
+									{let $downButtonRef: 'buttonPriorityDown' + $experience.segmentsExperienceId /}
 
 									{call ClayButton.render}
 										{param ariaLabel: 'prioritize' /}
@@ -154,6 +156,7 @@
 										] /}
 										{param icon: 'angle-up' /}
 										{param monospaced: true /}
+										{param ref: $upButtonRef /}
 										{param size: 'sm' /}
 										{param spritemap: $spritemap /}
 										{param style: 'unstyled' /}
@@ -172,6 +175,7 @@
 										] /}
 										{param icon: 'angle-down' /}
 										{param monospaced: true /}
+										{param ref: $downButtonRef /}
 										{param size: 'sm' /}
 										{param spritemap: $spritemap /}
 										{param style: 'unstyled' /}

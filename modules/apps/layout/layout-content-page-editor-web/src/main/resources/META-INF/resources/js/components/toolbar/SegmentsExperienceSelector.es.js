@@ -1,5 +1,6 @@
 import Component from 'metal-component';
 import Soy, {Config} from 'metal-soy';
+import { once } from 'metal-dom';
 import getConnectedComponent from '../../store/ConnectedComponent.es';
 import './segmentsExperiences/modal.es';
 import templates from './SegmentsExperienceSelector.soy';
@@ -444,24 +445,21 @@ class SegmentsExperienceSelector extends Component {
 	_handleMoveExperienceUpButtonClick(event) {
 		const priority = event.currentTarget.getAttribute('data-priority');
 		const segmentsExperienceId = event.currentTarget.getAttribute('data-segmentsExperienceId');
+		
+		const buttonPriorityUp = this.refs[`buttonPriorityUp${segmentsExperienceId}`]
+		const selectExperienceBtnRef = this.refs[`selectExperienceButton${segmentsExperienceId}`];
 
-		this.store.dispatchAction(
-			UPDATE_SEGMENTS_EXPERIENCE_PRIORITY,
+		this._priorityDispatcher(
 			{
-
-				direction: 'up',
-				priority,
-				segmentsExperienceId
+				priorityButton: buttonPriorityUp.element,
+				focusFallbackElement: selectExperienceBtnRef,
+				payload: {
+					direction: 'up',
+					priority,
+					segmentsExperienceId
+				}
 			}
-		).done(
-			() => {
-				this.refs[segmentsExperienceId].focus();
-			}
-		).failed(
-			() => {
-				this.refs[segmentsExperienceId].focus();
-			}
-		);
+		)
 	}
 	
 	/**
@@ -473,22 +471,63 @@ class SegmentsExperienceSelector extends Component {
 	_handleMoveExperienceDownButtonClick(event) {
 		const priority = event.currentTarget.getAttribute('data-priority');
 		const segmentsExperienceId = event.currentTarget.getAttribute('data-segmentsExperienceId');
+		
+		const buttonPriorityDown = this.refs[`buttonPriorityDown${segmentsExperienceId}`]
+		const selectExperienceBtnRef = this.refs[`selectExperienceButton${segmentsExperienceId}`];
+		
+		this._priorityDispatcher(
+			{
+				priorityButton: buttonPriorityDown.element,
+				focusFallbackElement: selectExperienceBtnRef,
+				payload: {
+					direction: 'down',
+					priority,
+					segmentsExperienceId
+				}
+			}
+		)
+	}
+
+	/**
+	 * Dispatchs priority update actions
+	 * and handles focus change when necessary
+	 *
+	 * @param {HTMLButtonElement} priorityButton
+	 * @param {HTMLElement} focusFallbackElement
+	 * @param {object} payload
+	 * @param {!('down'|'up')} payload.direction
+	 * @param {!number} payload.priority
+	 * @param {!string} payload.segmentsExperienceId
+	 * @memberof SegmentsExperienceSelector
+	 */
+	_priorityDispatcher(
+		{
+			priorityButton,
+			focusFallbackElement,
+			payload
+		}
+	) {
+		const onBlur = () => {
+			focusFallbackElement.focus()
+			priorityButton.removeEventListener('blur', onBlur)
+		};
+
+		priorityButton.addEventListener('blur', onBlur);
+
+		const removeBlurListener = () => {
+			priorityButton.removeEventListener(
+				'blur',
+				onBlur
+			);
+		}
 
 		this.store.dispatchAction(
 			UPDATE_SEGMENTS_EXPERIENCE_PRIORITY,
-			{
-				direction: 'down',
-				priority,
-				segmentsExperienceId
-			}
+			payload
 		).done(
-			() => {
-				this.refs[segmentsExperienceId].focus();
-			}
+			removeBlurListener
 		).failed(
-			() => {
-				this.refs[segmentsExperienceId].focus();
-			}
+			removeBlurListener
 		);
 	}
 
