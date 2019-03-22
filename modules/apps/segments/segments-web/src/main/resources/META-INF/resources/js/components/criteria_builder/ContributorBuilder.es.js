@@ -8,7 +8,6 @@ import React from 'react';
 import {buildQueryString, translateQueryToCriteria} from '../../utils/odata.es';
 import {CONJUNCTIONS} from '../../utils/constants.es';
 import {DragDropContext as dragDropContext} from 'react-dnd';
-import {sub} from '../../utils/utils.es';
 
 const conjunctionShape = PropTypes.shape(
 	{
@@ -217,9 +216,9 @@ class ContributorBuilder extends React.Component {
 			<div className={rootClasses}>
 				<div className="criteria-builder-section-sidebar">
 					<CriteriaSidebar
-						propertyKey={editingId}
-						propertyGroups={propertyGroups}
 						onTitleClicked={this._handleCriteriaEdit}
+						propertyGroups={propertyGroups}
+						propertyKey={editingId}
 					/>
 				</div>
 

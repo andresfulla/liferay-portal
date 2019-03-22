@@ -1,18 +1,18 @@
-import React, {Component} from 'react';
-import PropTypes from 'prop-types';
 import CriteriaSidebarCollapse from './CriteriaSidebarCollapse.es';
 import CriteriaSidebarSearchBar from './CriteriaSidebarSearchBar.es';
+import PropTypes from 'prop-types';
+import React, {Component} from 'react';
 
 class CriteriaSidebar extends Component {
 	static propTypes = {
-		propertyKey: PropTypes.string,
-		propertyGroups: PropTypes.array,
+		editing: PropTypes.bool,
 		onTitleClicked: PropTypes.func,
-		editing: PropTypes.bool
+		propertyGroups: PropTypes.array,
+		propertyKey: PropTypes.string
 	};
 
 	state = {
-		searchValue: '',
+		searchValue: ''
 	};
 
 	_handleOnSearchChange = value => {
@@ -24,10 +24,10 @@ class CriteriaSidebar extends Component {
 	}
 
 	render() {
-		const {propertyKey, propertyGroups} = this.props;
+		const {propertyGroups, propertyKey} = this.props;
 
 		const {searchValue} = this.state;
-				
+
 		return (
 			<div className="criteria-sidebar-root">
 				<div className="sidebar-search">
@@ -39,10 +39,10 @@ class CriteriaSidebar extends Component {
 
 				<div className="sidebar-collapse">
 					<CriteriaSidebarCollapse
-						propertyKey={propertyKey}
-						propertyGroups={propertyGroups}
-						searchValue={searchValue}
 						onCollapseClick={this._handleOnClickCollapse}
+						propertyGroups={propertyGroups}
+						propertyKey={propertyKey}
+						searchValue={searchValue}
 					/>
 				</div>
 			</div>
