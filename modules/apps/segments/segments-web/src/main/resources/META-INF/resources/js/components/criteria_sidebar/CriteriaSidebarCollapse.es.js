@@ -1,9 +1,9 @@
-import React, { Component } from 'react';
-import PropTypes from 'prop-types';
 import ClayIcon from '../shared/ClayIcon.es';
 import CriteriaSidebarItem from './CriteriaSidebarItem.es';
-import { PROPERTY_TYPES } from '../../utils/constants.es';
-import { jsDatetoYYYYMMDD } from '../../utils/utils.es';
+import PropTypes from 'prop-types';
+import React, {Component} from 'react';
+import {jsDatetoYYYYMMDD} from '../../utils/utils.es';
+import {PROPERTY_TYPES} from '../../utils/constants.es';
 
 /**
  * Returns a default value for a property provided.
@@ -11,7 +11,7 @@ import { jsDatetoYYYYMMDD } from '../../utils/utils.es';
  * @returns
  */
 function getDefaultValue(property) {
-	const { options, type } = property;
+	const {options, type} = property;
 
 	let defaultValue = '';
 
@@ -39,10 +39,10 @@ function getDefaultValue(property) {
 
 class CriteriaSidebarCollapse extends Component {
 	static propTypes = {
-		propertyKey: PropTypes.string,
-		propertyGroups: PropTypes.array,
-		searchValue: PropTypes.string,
 		onCollapseClick: PropTypes.func,
+		propertyGroups: PropTypes.array,
+		propertyKey: PropTypes.string,
+		searchValue: PropTypes.string
 	};
 
 	_filterProperties = searchValue => {
@@ -66,31 +66,33 @@ class CriteriaSidebarCollapse extends Component {
 	}
 
 	render() {
-		const { propertyKey, propertyGroups, searchValue } = this.props;
+		const {propertyGroups, propertyKey, searchValue} = this.props;
 
 		const propertyGroup = propertyGroups.find(
 			propertyGroup => propertyKey === propertyGroup.propertyKey
 		);
 
-		const filteredProperties = searchValue ? this._filterProperties(searchValue) :
-			(propertyGroup ? propertyGroup.properties : []);
+		const properties = propertyGroup ? propertyGroup.properties : [];
+
+		const filteredProperties = searchValue ? this._filterProperties(searchValue) : properties;
 
 		return (
 			<div className="sidebar-collapse-groups">
-				{propertyGroups.map(propertyGroup => {
-					return <div key={propertyGroup.propertyKey} className={`sidebar-collapse-${propertyGroup.propertyKey}`}>
-						<div onClick={this._handleClick(propertyGroup.propertyKey, propertyGroup.propertyKey === propertyKey ? true : false)} className="sidebar-header">
-							{propertyGroup.name}
-							<ClayIcon iconName="angle-down" />
-						</div>
-						<ul className="properties-list">
-						{propertyGroup.propertyKey === propertyKey && filteredProperties.length === 0 ?
-								<li className="empty-message">
-									{Liferay.Language.get('no-results-were-found')}
-								</li>
-							: propertyGroup.propertyKey === propertyKey && filteredProperties.length &&
+				{propertyGroups.map(
+					propertyGroup => {
+						return (<div className={`sidebar-collapse-${propertyGroup.propertyKey}`} key={propertyGroup.propertyKey}>
+							<div className="sidebar-header" onClick={this._handleClick(propertyGroup.propertyKey, propertyGroup.propertyKey === propertyKey)}>
+								{propertyGroup.name}
+								<ClayIcon iconName="angle-down" />
+							</div>
+							<ul className="properties-list">
+								{propertyGroup.propertyKey === propertyKey && filteredProperties.length === 0 ?
+									<li className="empty-message">
+										{Liferay.Language.get('no-results-were-found')}
+									</li> :
+									propertyGroup.propertyKey === propertyKey && filteredProperties.length &&
 								filteredProperties.map(
-									({ label, name, options, type }) => {
+									({label, name, options, type}) => {
 										const defaultValue = getDefaultValue(
 											{
 												label,
@@ -113,10 +115,10 @@ class CriteriaSidebarCollapse extends Component {
 										);
 									}
 								)
-							}
-						</ul>
-					</div>
-				})}
+								}
+							</ul>
+						</div>);
+					})}
 			</div>
 		);
 	}
