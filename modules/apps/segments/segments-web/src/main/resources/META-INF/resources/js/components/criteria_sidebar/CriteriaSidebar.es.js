@@ -30,6 +30,11 @@ class CriteriaSidebar extends Component {
 
 		return (
 			<div className="criteria-sidebar-root">
+
+				<div className="sidebar-header">
+					{Liferay.Language.get('properties')}
+				</div>
+
 				<div className="sidebar-search">
 					<CriteriaSidebarSearchBar
 						onChange={this._handleOnSearchChange}
