@@ -89,7 +89,8 @@ class CriteriaSidebarCollapse extends Component {
 									</span>
 								</a>
 							</div>
-							<ul className="properties-list">
+							
+							<ul className={`properties-list ${propertyGroup.propertyKey === propertyKey ? 'active' : ''}`}>
 								{propertyGroup.propertyKey === propertyKey && filteredProperties.length === 0 ?
 									<li className="empty-message">
 										{Liferay.Language.get('no-results-were-found')}
