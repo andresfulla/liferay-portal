@@ -85,7 +85,7 @@ class CriteriaSidebarCollapse extends Component {
 								<a className="sidebar-collapse-header d-flex justify-content-between">
 									{propertyGroup.name}
 									<span className="collapse-icon">
-										<ClayIcon iconName={`angle-${propertyGroup.propertyKey === propertyKey ? 'down' : 'right'}`} />
+										<ClayIcon iconName="angle-right" className={propertyGroup.propertyKey === propertyKey ? 'active' : ''} />
 									</span>
 								</a>
 							</div>
