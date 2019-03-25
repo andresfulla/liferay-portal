@@ -109,6 +109,17 @@
 		}
 	}
 
+	.collapse-icon {
+		.lexicon-icon {
+			transform: rotate(0);
+			transition: transform .2s ease-in-out;
+
+			&.active {
+				transform: rotate(90deg);
+			}
+		}
+	}
+
 	.sidebar-search {
 		padding: 16px 24px;
 	}
