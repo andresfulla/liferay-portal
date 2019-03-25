@@ -120,10 +120,10 @@ class ContributorBuilder extends React.Component {
 
 				diffState = {
 					contributors: prevState.contributors.map(
-						(contributor, i) => {
+						contributor => {
 							const {conjunctionId, properties} = contributor;
 
-							return index === i ?
+							return index === contributor.propertyKey ?
 								{
 									...contributor,
 									criteriaMap: criteriaChange,
