@@ -77,13 +77,17 @@ class CriteriaSidebarCollapse extends Component {
 		const filteredProperties = searchValue ? this._filterProperties(searchValue) : properties;
 
 		return (
-			<div className="sidebar-collapse-groups">
+			<ul className="sidebar-collapse-groups list-unstyled">
 				{propertyGroups.map(
 					propertyGroup => {
-						return (<div className={`sidebar-collapse-${propertyGroup.propertyKey}`} key={propertyGroup.propertyKey}>
-							<div className="sidebar-header" onClick={this._handleClick(propertyGroup.propertyKey, propertyGroup.propertyKey === propertyKey)}>
-								{propertyGroup.name}
-								<ClayIcon iconName="angle-down" />
+						return (<li className={`sidebar-collapse-${propertyGroup.propertyKey}`} key={propertyGroup.propertyKey}>
+							<div className="sidebar-collapse-header-root" onClick={this._handleClick(propertyGroup.propertyKey, propertyGroup.propertyKey === propertyKey)}>
+								<a className="sidebar-collapse-header d-flex justify-content-between">
+									{propertyGroup.name}
+									<span className="collapse-icon">
+										<ClayIcon iconName={`angle-${propertyGroup.propertyKey === propertyKey ? 'down' : 'right'}`} />
+									</span>
+								</a>
 							</div>
 							<ul className="properties-list">
 								{propertyGroup.propertyKey === propertyKey && filteredProperties.length === 0 ?
@@ -117,9 +121,9 @@ class CriteriaSidebarCollapse extends Component {
 								)
 								}
 							</ul>
-						</div>);
+						</li>);
 					})}
-			</div>
+			</ul>
 		);
 	}
 }
