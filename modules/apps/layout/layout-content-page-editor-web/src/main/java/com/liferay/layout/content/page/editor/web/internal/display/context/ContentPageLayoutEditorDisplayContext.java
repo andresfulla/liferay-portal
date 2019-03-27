@@ -14,8 +14,11 @@
 
 package com.liferay.layout.content.page.editor.web.internal.display.context;
 
+import com.liferay.layout.page.template.model.LayoutPageTemplateStructure;
+import com.liferay.layout.page.template.service.LayoutPageTemplateStructureLocalServiceUtil;
 import com.liferay.petra.string.StringPool;
 import com.liferay.portal.kernel.exception.PortalException;
+import com.liferay.portal.kernel.json.JSONFactoryUtil;
 import com.liferay.portal.kernel.log.Log;
 import com.liferay.portal.kernel.log.LogFactoryUtil;
 import com.liferay.portal.kernel.util.GetterUtil;
@@ -28,6 +31,7 @@ import com.liferay.segments.service.SegmentsEntryServiceUtil;
 import com.liferay.segments.service.SegmentsExperienceLocalServiceUtil;
 import com.liferay.segments.service.SegmentsExperienceServiceUtil;
 
+import java.util.Collections;
 import java.util.List;
 
 import javax.portlet.RenderResponse;
@@ -64,6 +68,9 @@ public class ContentPageLayoutEditorDisplayContext
 		soyContext.put("defaultSegmentsEntryId", _getDefaultSegmentsEntryId());
 		soyContext.put(
 			"defaultSegmentsExperienceId", _getDefaultSegmentsExperienceId());
+		soyContext.put(
+			"layoutDataPersonalization",
+			_getLayoutDataPersonalizationSoyContext());
 		soyContext.put("sidebarPanels", getSidebarPanelSoyContexts(false));
 
 		_editorSoyContext = soyContext;
@@ -90,6 +97,9 @@ public class ContentPageLayoutEditorDisplayContext
 		soyContext.put("defaultSegmentsEntryId", _getDefaultSegmentsEntryId());
 		soyContext.put(
 			"defaultSegmentsExperienceId", _getDefaultSegmentsExperienceId());
+		soyContext.put(
+			"layoutDataPersonalization",
+			_getLayoutDataPersonalizationSoyContext());
 
 		_fragmentsEditorToolbarSoyContext = soyContext;
 
@@ -201,6 +211,25 @@ public class ContentPageLayoutEditorDisplayContext
 		}
 
 		return _defaultSegmentsExperienceId;
+	}
+
+	private List<SoyContext> _getLayoutDataPersonalizationSoyContext()
+		throws PortalException {
+
+		LayoutPageTemplateStructure layoutPageTemplateStructure =
+			LayoutPageTemplateStructureLocalServiceUtil.
+				fetchLayoutPageTemplateStructure(
+					themeDisplay.getScopeGroupId(), classNameId, classPK, true);
+
+		SoyContext soyContext = SoyContextFactoryUtil.createSoyContext();
+
+		soyContext.put(
+			"layoutData",
+			JSONFactoryUtil.createJSONObject(
+				layoutPageTemplateStructure.getData()));
+		soyContext.put("segmentsExperienceId", _defaultSegmentsExperienceId);
+
+		return Collections.singletonList(soyContext);
 	}
 
 	private static final Log _log = LogFactoryUtil.getLog(
