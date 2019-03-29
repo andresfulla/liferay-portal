@@ -119,22 +119,6 @@ public class LayoutModelListener extends BaseModelListener<Layout> {
 		}
 	}
 
-
-	private Void _copyStructureMASTER(
-		LayoutPageTemplateEntry layoutPageTemplateEntry, Layout layout)
-		throws Exception {
-
-		Layout draftLayout = _layoutLocalService.fetchLayout(
-			_portal.getClassNameId(Layout.class), layout.getPlid());
-
-		Layout pagetTemplateLayout = _layoutLocalService.getLayout(
-			layoutPageTemplateEntry.getPlid());
-
-		_layoutCopyHelper.copyLayout(pagetTemplateLayout, draftLayout);
-
-		return null;
-	}
-
 	private Void _copyStructure(
 			LayoutPageTemplateEntry layoutPageTemplateEntry, Layout layout)
 		throws Exception {
@@ -155,8 +139,17 @@ public class LayoutModelListener extends BaseModelListener<Layout> {
 		Layout draftLayout = _layoutLocalService.fetchLayout(
 			_portal.getClassNameId(Layout.class), layout.getPlid());
 
+		if (draftLayout == null) {
+			return null;
+		}
+
 		ServiceContext serviceContext =
 			ServiceContextThreadLocal.getServiceContext();
+
+		_layoutPageTemplateStructureLocalService.addLayoutPageTemplateStructure(
+			layout.getUserId(), layout.getGroupId(),
+			_portal.getClassNameId(Layout.class), draftLayout.getPlid(), null,
+			serviceContext);
 
 		List<SegmentsExperience> segmentsExperiences =
 			_segmentsExperienceLocalService.getSegmentsExperiences(
@@ -252,8 +245,6 @@ public class LayoutModelListener extends BaseModelListener<Layout> {
 				layout.getGroupId(), _portal.getClassNameId(Layout.class),
 				draftLayout.getPlid(), segmentsExperienceId,
 				dataJSONObject.toString());
-
-		return null;
 	}
 
 	private LayoutPageTemplateEntry _getLayoutPageTemplateEntry(Layout layout) {
