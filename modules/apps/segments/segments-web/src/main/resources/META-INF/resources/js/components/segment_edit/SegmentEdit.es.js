@@ -1,7 +1,7 @@
 import ClayButton from '../shared/ClayButton.es';
 import ClaySpinner from '../shared/ClaySpinner.es';
 import ContributorBuilder from '../criteria_builder/ContributorBuilder.es';
-import debounce from 'lodash.debounce';
+import {debounce} from 'metal-debounce';
 import PropTypes from 'prop-types';
 import React, {Component} from 'react';
 import ThemeContext from '../../ThemeContext.es';
