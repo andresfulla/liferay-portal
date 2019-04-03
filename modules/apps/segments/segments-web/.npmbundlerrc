@@ -1,9 +1,16 @@
 {
 	"exclude": {
+		"babel-runtime": true,
+		"iconv-lite": true,
+		"isomorphic-fetch": true,
 		"lodash": [
 			"fp/**/*",
 			"lodash*"
 		],
+		"lodash-es": true,
+		"loose-envify": true,
+		"node-fetch": true,
+		"promise": true,
 		"react": [
 			"umd/**/*"
 		],
@@ -14,6 +21,13 @@
 			"dist/**/*"
 		],
 		"react-dom": [
+			"**/*profiling*",
+			"**/*server*",
+			"**/*test*",
+			"**/*unstable*",
+			"umd/**/*"
+		],
+		"react-is": [
 			"umd/**/*"
 		],
 		"recompose": [
@@ -21,12 +35,19 @@
 			"dist/Recompose.min.js",
 			"dist/Recompose.umd.js"
 		],
+		"redux": [
+			"lib/**/*",
+			"es/**/*",
+			"src/**/*"
+		],
+		"regenerator-runtime": true,
 		"scheduler": [
 			"umd/**/*"
 		],
 		"tiny-warning": [
 			"src/**/*"
-		]
+		],
+		"whatwg-fetch": true
 	},
 	"preset": "liferay-npm-bundler-preset-liferay-dev"
 }
