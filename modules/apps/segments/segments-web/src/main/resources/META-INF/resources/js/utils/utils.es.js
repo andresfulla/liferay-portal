@@ -1,5 +1,5 @@
 import dateFns from 'date-fns';
-import uniqueId from 'lodash.uniqueid';
+import {getUid} from 'metal';
 import {CONJUNCTIONS} from 'utils/constants.es';
 
 const GROUP_ID_NAMESPACE = 'group_';
@@ -22,7 +22,7 @@ export const createNewGroup = items => ({
  * @return {string} The unique id.
  */
 export function generateGroupId() {
-	return uniqueId(GROUP_ID_NAMESPACE);
+	return `${GROUP_ID_NAMESPACE}${getUid()}`;
 }
 
 /**
