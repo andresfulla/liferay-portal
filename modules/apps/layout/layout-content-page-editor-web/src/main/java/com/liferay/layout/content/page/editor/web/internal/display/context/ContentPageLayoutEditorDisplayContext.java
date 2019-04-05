@@ -69,6 +69,10 @@ public class ContentPageLayoutEditorDisplayContext
 			"defaultSegmentsExperienceId",
 			String.valueOf(SegmentsConstants.SEGMENTS_EXPERIENCE_ID_DEFAULT)
 		).put(
+			"deleteSegmentsExperienceURL",
+			getFragmentEntryActionURL(
+				"/content_layout/delete_segments_experience")
+		).put(
 			"sidebarPanels", getSidebarPanelSoyContexts(false)
 		).put(
 			"layoutDataList", _getLayoutDataListSoyContext()
@@ -100,6 +104,10 @@ public class ContentPageLayoutEditorDisplayContext
 		).put(
 			"defaultSegmentsExperienceId",
 			String.valueOf(SegmentsConstants.SEGMENTS_EXPERIENCE_ID_DEFAULT)
+		).put(
+			"deleteSegmentsExperienceURL",
+			getFragmentEntryActionURL(
+				"/content_layout/delete_segments_experience")
 		).put(
 			"layoutDataList", _getLayoutDataListSoyContext()
 		);
