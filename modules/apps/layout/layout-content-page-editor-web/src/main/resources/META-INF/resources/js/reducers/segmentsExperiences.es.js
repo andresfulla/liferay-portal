@@ -1,10 +1,10 @@
 import {CREATE_SEGMENTS_EXPERIENCE, DELETE_SEGMENTS_EXPERIENCE, EDIT_SEGMENTS_EXPERIENCE, SELECT_SEGMENTS_EXPERIENCE, UPDATE_SEGMENTS_EXPERIENCE_PRIORITY} from '../actions/actions.es';
 import {setIn, updateLayoutData} from '../utils/FragmentsEditorUpdateUtils.es';
 import {deepClone} from '../utils/FragmentsEditorGetUtils.es';
+import {getRowFragmentEntryLinkIds} from '../utils/FragmentsEditorGetUtils.es';
+import {containsFragmentEntryLinkId} from '../utils/LayoutDataList.es';
 
 const CREATE_SEGMENTS_EXPERIENCE_URL = '/segments.segmentsexperience/add-segments-experience';
-
-const DELETE_SEGMENTS_EXPERIENCE_URL = '/segments.segmentsexperience/delete-segments-experience';
 
 const EDIT_SEGMENTS_EXPERIENCE_URL = '/segments.segmentsexperience/update-segments-experience';
 
@@ -140,6 +140,45 @@ function _switchLayoutDataList(state, segmentsExperienceId) {
 		}
 
 	});
+}
+
+/**
+ *
+ *
+ * @param {object} config
+ * @param {Array<string>} config.fragmentEntryLinkIds
+ * @param {string} config.portletNamespace
+ * @param {string} config.segmentsExperienceId
+ * @param {string} config.deleteSegmentsExperienceURL
+ * @returns {Promise}
+ */
+function _removeExperience(
+	{
+		fragmentEntryLinkIds,
+		portletNamespace,
+		segmentsExperienceId,
+		deleteSegmentsExperienceURL
+	}
+) {
+	const formData = new FormData();
+
+	formData.append(`${portletNamespace}segmentsExperienceId`, segmentsExperienceId);
+
+	if (fragmentEntryLinkIds) {
+		formData.append(
+			`${portletNamespace}fragmentEntryLinkIds`,
+			JSON.stringify(fragmentEntryLinkIds)
+		);
+	}
+
+	return fetch(
+		deleteSegmentsExperienceURL,
+		{
+			body: formData,
+			credentials: 'include',
+			method: 'POST'
+		}
+	);
 }
 
 /**
@@ -307,21 +346,45 @@ function deleteSegmentsExperienceReducer(state, actionType, payload) {
 				if (actionType === DELETE_SEGMENTS_EXPERIENCE) {
 					const {segmentsExperienceId} = payload;
 
-					Liferay.Service(
-						DELETE_SEGMENTS_EXPERIENCE_URL,
-						{
-							segmentsExperienceId
-						},
-						response => {
-							const priority = response.priority;
+					const priority = nextState.availableSegmentsExperiences[segmentsExperienceId].priority;
 
+					let fragmentEntryLinkIdsInCurrentLayout = [];
+
+					for (let row in nextState.layoutData.structure) {
+						Array.prototype.push.apply(
+							fragmentEntryLinkIdsInCurrentLayout,
+							getRowFragmentEntryLinkIds(row)
+						);
+					}
+
+					const fragmentEntryLinkIds = fragmentEntryLinkIdsInCurrentLayout.filter(
+						fragmentId => !containsFragmentEntryLinkId(
+							nextState.layoutDataList,
+							fragmentId,
+							segmentsExperienceId
+						)
+					);
+
+					_removeExperience(
+						{
+							classNameId: nextState.classNameId,
+							classPK: nextState.classPK,
+							deleteSegmentsExperienceURL: nextState.deleteSegmentsExperienceURL,
+							fragmentEntryLinkIds: fragmentEntryLinkIds,
+							portletNamespace: nextState.portletNamespace,
+							segmentsExperienceId
+						}
+					).then(
+						() => {
 							let availableSegmentsExperiences = Object.assign(
 								{},
 								nextState.availableSegmentsExperiences
 							);
 
-							delete availableSegmentsExperiences[response.segmentsExperienceId];
-							const experienceIdToSelect = (segmentsExperienceId === nextState.segmentsExperienceId) ? nextState.defaultSegmentsExperienceId : nextState.segmentsExperienceId;
+							delete availableSegmentsExperiences[segmentsExperienceId];
+							const experienceIdToSelect = segmentsExperienceId === nextState.segmentsExperienceId ?
+								nextState.defaultSegmentsExperienceId :
+								nextState.segmentsExperienceId;
 
 							Object.entries(availableSegmentsExperiences).forEach(
 								([key, experience]) => {
@@ -332,8 +395,9 @@ function deleteSegmentsExperienceReducer(state, actionType, payload) {
 									}
 								}
 							);
-							nextState = _switchLayoutDataToDefault(nextState);
 							nextState = _removeLayoutDataItem(nextState, segmentsExperienceId);
+							nextState = _switchLayoutDataToDefault(nextState);
+
 							nextState = setIn(
 								nextState,
 								['availableSegmentsExperiences'],
@@ -345,10 +409,6 @@ function deleteSegmentsExperienceReducer(state, actionType, payload) {
 								experienceIdToSelect
 							);
 							resolve(nextState);
-						},
-						(error, {exception}) => {
-
-							reject(exception);
 						}
 					);
 
