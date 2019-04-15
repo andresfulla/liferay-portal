@@ -33,6 +33,7 @@ class SegmentEdit extends Component {
 				}
 			)
 		),
+		editing: PropTypes.bool.isRequired,
 		errors: PropTypes.object,
 		formId: PropTypes.string,
 		handleBlur: PropTypes.func,
@@ -61,7 +62,7 @@ class SegmentEdit extends Component {
 
 	state = {
 		changesUnsaved: false,
-		editing: false,
+		editing: this.props.editing,
 		membersCount: this.props.initialMembersCount,
 		membersCountLoading: false
 	};

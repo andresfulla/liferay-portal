@@ -71,6 +71,7 @@ renderResponse.setTitle(editSegmentsEntryDisplayContext.getTitle(locale));
 			'<%= segmentEditRootElementId %>',
 			{
 				contributors: <%= editSegmentsEntryDisplayContext.getContributorsJSONArray() %>,
+				editing: <%= (segmentsEntry == null) ? true : false %>,
 				formId: '<portlet:namespace />editSegmentFm',
 				initialMembersCount: <%= editSegmentsEntryDisplayContext.getSegmentsEntryClassPKsCount() %>,
 				initialSegmentActive: <%= (segmentsEntry == null) ? false : segmentsEntry.isActive() %>,
