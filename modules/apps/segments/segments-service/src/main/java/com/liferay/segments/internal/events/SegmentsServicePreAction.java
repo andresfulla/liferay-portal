@@ -35,6 +35,7 @@ import com.liferay.segments.model.SegmentsExperience;
 import com.liferay.segments.model.SegmentsExperienceModel;
 import com.liferay.segments.provider.SegmentsEntryProvider;
 import com.liferay.segments.service.SegmentsExperienceLocalService;
+import com.liferay.segments.simulator.SegmentsEntrySimulator;
 
 import java.util.List;
 import java.util.Map;
@@ -91,17 +92,9 @@ public class SegmentsServicePreAction extends Action {
 		if (_segmentsServiceConfiguration.segmentationEnabled() &&
 			!layout.isTypeControlPanel()) {
 
-			try {
-				segmentsEntryIds = _segmentsEntryProvider.getSegmentsEntryIds(
-					themeDisplay.getScopeGroupId(), User.class.getName(),
-					themeDisplay.getUserId(),
-					_requestContextMapper.map(request));
-			}
-			catch (PortalException pe) {
-				if (_log.isWarnEnabled()) {
-					_log.warn(pe.getMessage());
-				}
-			}
+			segmentsEntryIds = _getSegmentsEntryIds(
+				request, themeDisplay.getScopeGroupId(),
+				themeDisplay.getUserId());
 		}
 
 		request.setAttribute(
@@ -113,6 +106,27 @@ public class SegmentsServicePreAction extends Action {
 				layout.getGroupId(), segmentsEntryIds,
 				_portal.getClassNameId(Layout.class.getName()),
 				layout.getPlid()));
+	}
+
+	private long[] _getSegmentsEntryIds(
+		HttpServletRequest request, long groupId, long userId) {
+
+		if (_segmentsEntrySimulator.isSimulationActive(userId)) {
+			return _segmentsEntrySimulator.getSimulatedSegmentsEntryIds(userId);
+		}
+
+		try {
+			return _segmentsEntryProvider.getSegmentsEntryIds(
+				groupId, User.class.getName(), userId,
+				_requestContextMapper.map(request));
+		}
+		catch (PortalException pe) {
+			if (_log.isWarnEnabled()) {
+				_log.warn(pe.getMessage());
+			}
+
+			return new long[0];
+		}
 	}
 
 	private long[] _getSegmentsExperienceIds(
@@ -144,6 +158,11 @@ public class SegmentsServicePreAction extends Action {
 
 	@Reference
 	private SegmentsEntryProvider _segmentsEntryProvider;
+
+	@Reference(
+		target = "(model.class.name=com.liferay.portal.kernel.model.User)"
+	)
+	private SegmentsEntrySimulator _segmentsEntrySimulator;
 
 	@Reference
 	private SegmentsExperienceLocalService _segmentsExperienceLocalService;
