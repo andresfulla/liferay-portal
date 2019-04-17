@@ -1,6 +1,7 @@
 import com.liferay.gradle.util.copy.StripPathSegmentsAction
 
 configurations {
+	arrayBufferSlice
 	arrayFill
 	arrayFind
 	arrayFindIndex
@@ -17,6 +18,7 @@ configurations {
 	urlSearchParams
 }
 
+task buildArrayBufferSlice(type: Copy)
 task buildArrayFill(type: Copy)
 task buildArrayFind(type: Copy)
 task buildArrayFindIndex(type: Copy)
@@ -31,6 +33,22 @@ task buildObjectValues(type: Copy)
 task buildPromise(type: Copy)
 task buildStringEndsWith(type: Copy)
 task buildUrlSearchParams(type: Copy)
+
+buildArrayBufferSlice {
+	eachFile new StripPathSegmentsAction(5)
+
+	from {
+		zipTree(configurations.arrayBufferSlice.singleFile)
+	}
+
+	include "META-INF/resources/webjars/arraybuffer-slice/0.1.2/index.js"
+	includeEmptyDirs = false
+	into "classes/META-INF/resources"
+
+	rename {
+		it.replace "index", "array.buffer.slice"
+	}
+}
 
 buildArrayFill {
 	eachFile new StripPathSegmentsAction(5)
@@ -253,6 +271,7 @@ buildUrlSearchParams {
 }
 
 classes {
+	dependsOn buildArrayBufferSlice
 	dependsOn buildArrayFill
 	dependsOn buildArrayFind
 	dependsOn buildArrayFindIndex
@@ -270,6 +289,8 @@ classes {
 }
 
 dependencies {
+	arrayBufferSlice group: "org.webjars.npm", name: "arraybuffer-slice", transitive: false, version: "0.1.2"
+
 	arrayFill group: "org.webjars.npm", name: "array.prototype.fill", transitive: false, version: "1.0.2"
 
 	arrayFind group: "org.webjars.bower", name: "Array.prototype.find", transitive: false, version: "1.0.0"
