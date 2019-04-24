@@ -24,7 +24,11 @@ const altProps = {
 	],
 	initialMembersCount: 0,
 	initialSegmentActive: false,
-	initialSegmentName: '',
+	initialSegmentName: {
+		'es_ES': 'cosas',
+		'en_US': 'things'
+	},
+	showInEditMode: false,
 	locale: 'en_US',
 	portletNamespace: '_com_liferay_segments_web_internal_portlet_SegmentsPortlet_',
 	propertyGroups: [
@@ -222,6 +226,11 @@ const altProps = {
 					type: 'id'
 				},
 				{
+					label: 'Tree Path',
+					name: 'treePath',
+					type: 'string'
+				},
+				{
 					label: 'Type',
 					name: 'type',
 					type: 'string'
@@ -239,6 +248,14 @@ const context = {
 	spritemap: '/o/admin-theme/images/lexicon/icons.svg'
 };
 
+window.Liferay = {
+	Language: {
+		available: {
+			'en_US': 'aosidopaisd',
+			'es_ES': 'aosidopaisd'
+		}
+	}
+};
 ReactDOM.render(
 	<ThemeContext.Provider value={context}>
 		<div className="segments-root">

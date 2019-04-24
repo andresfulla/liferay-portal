@@ -1,10 +1,10 @@
 import ClayButton from '../shared/ClayButton.es';
 import ClayToggle from '../shared/ClayToggle.es';
 import ContributorBuilder from '../criteria_builder/ContributorBuilder.es';
+import LocalizedInput from '../title_editor/LocalizedInput.es';
 import PropTypes from 'prop-types';
 import React, {Component} from 'react';
 import ThemeContext from '../../ThemeContext.es';
-import TitleEditor from '../title_editor/TitleEditor.es';
 import {FieldArray, withFormik} from 'formik';
 import {
 	SOURCES,
@@ -19,6 +19,7 @@ class SegmentEdit extends Component {
 	static contextType = ThemeContext;
 
 	static propTypes = {
+		availableLocales: PropTypes.object,
 		contributors: PropTypes.arrayOf(
 			PropTypes.shape(
 				{
@@ -31,12 +32,13 @@ class SegmentEdit extends Component {
 			)
 		),
 		errors: PropTypes.object,
+		defaultLanguageId: PropTypes.string,
 		formId: PropTypes.string,
 		handleBlur: PropTypes.func,
 		handleChange: PropTypes.func,
 		initialMembersCount: PropTypes.number,
 		initialSegmentActive: PropTypes.bool,
-		initialSegmentName: PropTypes.string,
+		initialSegmentName: PropTypes.object,
 		locale: PropTypes.string.isRequired,
 		portletNamespace: PropTypes.string,
 		previewMembersURL: PropTypes.string,
@@ -178,6 +180,8 @@ class SegmentEdit extends Component {
 
 	render() {
 		const {
+			availableLocales,
+			defaultLanguageId,
 			handleChange,
 			locale,
 			portletNamespace,
@@ -193,24 +197,6 @@ class SegmentEdit extends Component {
 		return (
 			<div className="segment-edit-page-root">
 				<input
-					name={`${portletNamespace}name`}
-					type="hidden"
-					value={values.name}
-				/>
-
-				<input
-					name={`${portletNamespace}name_${locale}`}
-					type="hidden"
-					value={values.name}
-				/>
-
-				<input
-					name={`${portletNamespace}key`}
-					type="hidden"
-					value={values.name}
-				/>
-
-				<input
 					name={`${portletNamespace}active`}
 					type="hidden"
 					value={values.active}
@@ -219,12 +205,64 @@ class SegmentEdit extends Component {
 				<div className="form-header">
 					<div className="container-fluid container-fluid-max-xl form-header-container">
 						<div className="form-header-section-left">
-							<TitleEditor
-								inputName="name"
-								onBlur={this._handleSegmentNameBlur}
-								onChange={handleChange}
-								placeholder={DEFAULT_SEGMENT_NAME}
-								value={values.name}
+							<FieldArray
+								name="values.name"
+								render={
+									() => {
+										const langs = Object.entries(values.name);
+										return (
+											langs.map(([key, value]) => {
+												if (key === locale) {
+													return (
+														<React.Fragment key={key}>
+															<input
+																name={`${portletNamespace}name_${key}`}
+																readOnly
+																type="hidden"
+																value={value}
+															/>
+															<input
+																name={`${portletNamespace}key`}
+																readOnly
+																type="hidden"
+																value={values.name}
+															/>
+															<input
+																name={`${portletNamespace}name`}
+																readOnly
+																type="hidden"
+																value={value}
+															/>
+														</React.Fragment>
+													);
+												}
+												return (
+													<React.Fragment key={key}>
+														<input
+															name={`${portletNamespace}name_${key}`}
+															readOnly
+															type="hidden"
+															value={value}
+														/>
+													</React.Fragment>
+												);
+											})
+										);
+									}
+								}
+							/>
+
+							<LocalizedInput
+								availableLanguages={availableLocales}
+								defaultLang={defaultLanguageId}
+								initialLang={defaultLanguageId}
+								initialOpen={false}
+								initialValues={values.name}
+								onChange={(event, newValues) => {
+									this.props.setFieldValue('name', newValues);
+								}}
+								portletNamespace={portletNamespace}
+								readOnly={!editing}
 							/>
 
 							<img
@@ -254,6 +292,7 @@ class SegmentEdit extends Component {
 							<div className="btn-group">
 								<div className="btn-group-item">
 									<ClayButton
+										className="text-capitalize"
 										href={redirect}
 										label={Liferay.Language.get('cancel')}
 										size="sm"
@@ -262,6 +301,7 @@ class SegmentEdit extends Component {
 
 								<div className="btn-group-item">
 									<ClayButton
+										className="text-capitalize"
 										disabled={disabledSave}
 										label={Liferay.Language.get('save')}
 										onClick={this._handleValidate}
@@ -292,7 +332,7 @@ export default withFormik(
 			{
 				active: props.initialSegmentActive || true,
 				contributors: props.contributors || [],
-				name: props.initialSegmentName
+				name: props.initialSegmentName || {}
 			}
 		),
 		validate: values => {
