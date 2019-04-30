@@ -72,16 +72,17 @@ JSONSerializer jsonSerializer = JSONFactoryUtil.createJSONSerializer();
 			'<%= segmentEditRootElementId %>',
 			{
 				contributors: <%= editSegmentsEntryDisplayContext.getContributorsJSONArray() %>,
+				defaultLanguageId: '<%= editSegmentsEntryDisplayContext.getDefaultLanguageId() %>',
 				formId: '<portlet:namespace />editSegmentFm',
 				initialMembersCount: <%= editSegmentsEntryDisplayContext.getSegmentsEntryClassPKsCount() %>,
 				initialSegmentActive: <%= (segmentsEntry == null) ? false : segmentsEntry.isActive() %>,
-				initialSegmentName: '<%= (segmentsEntry != null) ? 
+				initialSegmentName: <%= (segmentsEntry != null) ?
 					JSONFactoryUtil.createJSONObject(
 						jsonSerializer.serializeDeep(
 							segmentsEntry.getNameMap()
 						)
-					)
-				 : null %>',
+					).toString()
+				 : null %>,
 				locale: '<%= locale %>',
 				portletNamespace: '<portlet:namespace />',
 				previewMembersURL: '<%= previewMembersURL %>',
