@@ -35,6 +35,7 @@ class SegmentEdit extends Component {
 			)
 		),
 		errors: PropTypes.object,
+		defaultLanguageId: PropTypes.string,
 		formId: PropTypes.string,
 		handleBlur: PropTypes.func,
 		handleChange: PropTypes.func,
@@ -240,6 +241,7 @@ class SegmentEdit extends Component {
 
 	render() {
 		const {
+			defaultLanguageId,
 			handleChange,
 			locale,
 			portletNamespace,
@@ -348,8 +350,8 @@ class SegmentEdit extends Component {
 
 							<LocalizedInput
 								availableLanguages={this.availableLanguages}
-								defaultLang={locale}
-								initialLang={locale}
+								defaultLang={defaultLanguageId}
+								initialLang={defaultLanguageId}
 								initialOpen={false}
 								initialValues={values.name}
 								onChange={(event, newValues) => {

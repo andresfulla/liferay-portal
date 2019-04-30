@@ -15,16 +15,24 @@
 package com.liferay.segments.web.internal.display.context;
 
 import com.liferay.petra.string.StringPool;
+import com.liferay.portal.kernel.bean.BeanParamUtil;
 import com.liferay.portal.kernel.exception.PortalException;
 import com.liferay.portal.kernel.json.JSONArray;
 import com.liferay.portal.kernel.json.JSONFactoryUtil;
 import com.liferay.portal.kernel.json.JSONObject;
 import com.liferay.portal.kernel.json.JSONUtil;
 import com.liferay.portal.kernel.language.LanguageUtil;
+import com.liferay.portal.kernel.log.Log;
+import com.liferay.portal.kernel.log.LogFactoryUtil;
 import com.liferay.portal.kernel.model.User;
 import com.liferay.portal.kernel.security.permission.ResourceActionsUtil;
+import com.liferay.portal.kernel.theme.ThemeDisplay;
+import com.liferay.portal.kernel.util.LocaleUtil;
+import com.liferay.portal.kernel.util.LocalizationUtil;
 import com.liferay.portal.kernel.util.ParamUtil;
+import com.liferay.portal.kernel.util.PortalUtil;
 import com.liferay.portal.kernel.util.Validator;
+import com.liferay.portal.kernel.util.WebKeys;
 import com.liferay.segments.constants.SegmentsConstants;
 import com.liferay.segments.criteria.Criteria;
 import com.liferay.segments.criteria.contributor.SegmentsCriteriaContributor;
@@ -35,6 +43,7 @@ import com.liferay.segments.service.SegmentsEntryService;
 
 import java.util.List;
 import java.util.Locale;
+import java.util.Set;
 
 import javax.portlet.PortletURL;
 import javax.portlet.RenderRequest;
@@ -61,6 +70,8 @@ public class EditSegmentsEntryDisplayContext {
 			segmentsCriteriaContributorRegistry;
 		_segmentsEntryProvider = segmentsEntryProvider;
 		_segmentsEntryService = segmentsEntryService;
+		_themeDisplay = (ThemeDisplay)_request.getAttribute(
+			WebKeys.THEME_DISPLAY);
 	}
 
 	public JSONArray getContributorsJSONArray() throws PortalException {
@@ -108,6 +119,51 @@ public class EditSegmentsEntryDisplayContext {
 
 		return segmentsEntry.getCriteriaObj();
 	}
+
+	public String getDefaultLanguageId() throws PortalException {
+		Locale siteDefaultLocale = null;
+
+		try {
+			siteDefaultLocale = PortalUtil.getSiteDefaultLocale(getGroupId());
+		}
+		catch (PortalException pe) {
+			_log.error(pe, pe);
+
+			siteDefaultLocale = LocaleUtil.getSiteDefault();
+		}
+
+		SegmentsEntry segmentsEntry = getSegmentsEntry();
+
+		if (segmentsEntry == null) {
+			return LocaleUtil.toLanguageId(siteDefaultLocale);
+		}
+
+		return LocalizationUtil.getDefaultLanguageId(
+			segmentsEntry.getName(), siteDefaultLocale);
+	}
+
+	public long getGroupId() throws PortalException {
+		if (_groupId != null) {
+			return _groupId;
+		}
+
+		_groupId = BeanParamUtil.getLong(
+			getSegmentsEntry(), _request, "groupId",
+			_themeDisplay.getScopeGroupId());
+
+		return _groupId;
+	}
+
+	public Set<Locale> getAvailableLocales() throws PortalException {
+		if (_availableLocales != null) {
+			return _availableLocales;
+		}
+
+		_availableLocales = LanguageUtil.getAvailableLocales(getGroupId());
+
+		return _availableLocales;
+	}
+
 
 	public JSONArray getPropertyGroupsJSONArray(Locale locale)
 		throws PortalException {
@@ -291,6 +347,11 @@ public class EditSegmentsEntryDisplayContext {
 		return criterion.getFilterString();
 	}
 
+	private static final Log _log = LogFactoryUtil.getLog(
+		EditSegmentsEntryDisplayContext.class);
+
+	private Set<Locale> _availableLocales;
+	private Long _groupId;
 	private String _redirect;
 	private final RenderRequest _renderRequest;
 	private final RenderResponse _renderResponse;
@@ -304,6 +365,7 @@ public class EditSegmentsEntryDisplayContext {
 	private final SegmentsEntryProvider _segmentsEntryProvider;
 	private final SegmentsEntryService _segmentsEntryService;
 	private Boolean _showInEditMode;
+	private final ThemeDisplay _themeDisplay;
 	private String _title;
 
 }

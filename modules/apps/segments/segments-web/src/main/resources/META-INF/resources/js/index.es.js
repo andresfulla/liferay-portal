@@ -4,14 +4,11 @@ import SegmentEdit from './components/segment_edit/SegmentEdit.es';
 import ThemeContext from './ThemeContext.es';
 
 export default function(id, props, context) {
-	const preps = {
-		...props,
-		initialSegmentName: JSON.parse(props.initialSegmentName)
-	}
+	debugger;
 	ReactDOM.render(
 		<ThemeContext.Provider value={context}>
 			<div className="segments-root">
-				<SegmentEdit {...preps} />
+				<SegmentEdit {...props} />
 			</div>
 		</ThemeContext.Provider>,
 		document.getElementById(id)
