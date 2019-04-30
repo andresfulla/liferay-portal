@@ -74,6 +74,16 @@ public class EditSegmentsEntryDisplayContext {
 			WebKeys.THEME_DISPLAY);
 	}
 
+	public Set<Locale> getAvailableLocales() throws PortalException {
+		if (_availableLocales != null) {
+			return _availableLocales;
+		}
+
+		_availableLocales = LanguageUtil.getAvailableLocales(getGroupId());
+
+		return _availableLocales;
+	}
+
 	public JSONArray getContributorsJSONArray() throws PortalException {
 		List<SegmentsCriteriaContributor> segmentsCriteriaContributors =
 			getSegmentsCriteriaContributors();
@@ -153,17 +163,6 @@ public class EditSegmentsEntryDisplayContext {
 
 		return _groupId;
 	}
-
-	public Set<Locale> getAvailableLocales() throws PortalException {
-		if (_availableLocales != null) {
-			return _availableLocales;
-		}
-
-		_availableLocales = LanguageUtil.getAvailableLocales(getGroupId());
-
-		return _availableLocales;
-	}
-
 
 	public JSONArray getPropertyGroupsJSONArray(Locale locale)
 		throws PortalException {
