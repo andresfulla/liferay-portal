@@ -15,8 +15,8 @@
 	@import "empty_drop_zone";
 	@import "segment_edit";
 	@import "title_editor";
-
-	:not(.has-error) > .form-control {
+	
+	.input-localized :not(.has-error) > .form-control {
 		background-color: transparent;
 		border-color: transparent;
 		font-size: 1.125rem;
