@@ -19,7 +19,7 @@ class SegmentEdit extends Component {
 	static contextType = ThemeContext;
 
 	static propTypes = {
-		availableLocales: PropTypes.object,
+		availableLocales: PropTypes.object.isRequired,
 		contributors: PropTypes.arrayOf(
 			PropTypes.shape(
 				{
@@ -32,7 +32,7 @@ class SegmentEdit extends Component {
 			)
 		),
 		errors: PropTypes.object,
-		defaultLanguageId: PropTypes.string,
+		defaultLanguageId: PropTypes.string.isRequired,
 		formId: PropTypes.string,
 		handleBlur: PropTypes.func,
 		handleChange: PropTypes.func,
@@ -55,6 +55,7 @@ class SegmentEdit extends Component {
 	static defaultProps = {
 		contributors: [],
 		initialSegmentActive: true,
+		initialSegmentName: {},
 		portletNamespace: ''
 	};
 
@@ -63,7 +64,8 @@ class SegmentEdit extends Component {
 
 		this.state = {
 			disabledSave: this._isQueryEmpty(),
-			editing: this.props.showInEditMode
+			editing: this.props.showInEditMode,
+			validTitle: !!props.initialSegmentName[props.defaultLanguageId]
 		};
 	}
 
@@ -214,7 +216,7 @@ class SegmentEdit extends Component {
 										const langs = Object.entries(values.name);
 										return (
 											langs.map(([key, value]) => {
-												if (key === locale) {
+												if (key === defaultLanguageId) {
 													return (
 														<React.Fragment key={key}>
 															<input
