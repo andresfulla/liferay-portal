@@ -190,9 +190,11 @@ class SegmentEdit extends Component {
 			values
 		} = this.props;
 
-		const {disabledSave, editing} = this.state;
+		const {disabledSave, editing, validTitle} = this.state;
 
 		const {assetsPath} = this.context;
+
+		const disabledSaveButton = disabledSave || !validTitle;
 
 		return (
 			<div className="segment-edit-page-root">
@@ -258,8 +260,11 @@ class SegmentEdit extends Component {
 								initialLang={defaultLanguageId}
 								initialOpen={false}
 								initialValues={values.name}
-								onChange={(event, newValues) => {
+								onChange={(event, newValues, invalid) => {
 									this.props.setFieldValue('name', newValues);
+									this.setState({
+										validTitle: !invalid,
+									});
 								}}
 								portletNamespace={portletNamespace}
 								readOnly={!editing}
@@ -302,7 +307,7 @@ class SegmentEdit extends Component {
 								<div className="btn-group-item">
 									<ClayButton
 										className="text-capitalize"
-										disabled={disabledSave}
+										disabled={disabledSaveButton}
 										label={Liferay.Language.get('save')}
 										onClick={this._handleValidate}
 										size="sm"

@@ -1,4 +1,5 @@
 import LocalizedDropdown from './LocalizedDropdown.es';
+import getCN from 'classnames';
 import PropTypes from 'prop-types';
 import React from 'react';
 
@@ -44,21 +45,25 @@ export default class LocalizedInput extends React.Component {
 		);
 	}
 
-	_onChange = event => {
+	_onChange = (event, hasError) => {
 		this.props.onChange(
 			event,
-			this.state.values
+			this.state.values,
+			hasError
 		);
 	}
 
 	_handleInputChange = event => {
 		event.persist();
+		let hasError = false;
 		this.setState(
 			prevState => {
 				const newValues = {
 					...prevState.values,
 					[prevState.currentLang]: event.target.value
 				};
+
+				hasError = !this._validateValues(newValues);
 
 				return {
 					availableLanguages: prevState.availableLanguages.map(
@@ -74,11 +79,17 @@ export default class LocalizedInput extends React.Component {
 						}
 					),
 					currentValue: event.target.value,
+					hasError: hasError,
 					values: newValues
 				};
 			},
-			() => this._onChange(event)
+			() => this._onChange(event, hasError)
 		);
+	}
+
+	_validateValues(values) {
+		const { defaultLang } = this.props;
+		return !!values[defaultLang];
 	}
 
 	render() {
@@ -89,24 +100,37 @@ export default class LocalizedInput extends React.Component {
 			readOnly
 		} = this.props;
 
+		const {
+			availableLanguages,
+			currentValue,
+			hasError
+		} = this.state;
+
+		const inputGroupItemClasses = getCN(
+			'input-group-item ml-3',
+			{
+				'has-error': hasError
+			}
+		)
+
 		return (
 			<div className="input-group input-localized input-localized-input">
 				<LocalizedDropdown
-					availableLanguages={this.state.availableLanguages}
+					availableLanguages={availableLanguages}
 					defaultLang={defaultLang}
 					initialLang={initialLang}
 					initialOpen={initialOpen}
 					onLanguageChange={this._handleLanguageChange}
 				/>
-				<div className="form-group has-error">
+				<div className={inputGroupItemClasses}>
 					<input
-						className="ml-3 rounded form-control language-value field form-control-inline form-control"
+						className="rounded form-control language-value field form-control-inline form-control"
 						onChange={
 							this._handleInputChange
 						}
 						readOnly={readOnly}
 						type="text"
-						value={this.state.currentValue}
+						value={currentValue}
 					/>
 
 				</div>
