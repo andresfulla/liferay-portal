@@ -4,18 +4,18 @@ import React from 'react';
 
 class LocalizedDropdown extends React.Component {
 	static defaultProps = {
+		availableLanguages: PropTypes.object,
 		initialLang: PropTypes.string,
-		initialOpen: PropTypes.bool,
-		availableLanguages: PropTypes.object
+		initialOpen: PropTypes.bool
 	}
 
 	constructor(props) {
 		super(props);
-		const {initialOpen, initialLang} = props;
+		const {initialLang, initialOpen} = props;
 		this.state = {
-			open: initialOpen,
 			currentLangKey: keyLangToLanguageTag(initialLang),
-			currentLangTag: keyLangToLanguageTag(initialLang, false)
+			currentLangTag: keyLangToLanguageTag(initialLang, false),
+			open: initialOpen
 		};
 	}
 	_handleButtonClick = () => {
@@ -26,19 +26,18 @@ class LocalizedDropdown extends React.Component {
 		);
 	}
 
-	_handleButtonBlur = e => {
-		if (e.nativeEvent.explicitOriginalTarget &&
-			e.nativeEvent.explicitOriginalTarget === e.nativeEvent.originalTarget) {
-			return;
-		}
-
+	_handleButtonBlur = () => {
 		if (this.state.open) {
-			this.timer = setTimeout(() => {
-				this.setState(() => ({
-					open: false
-				})
-				);
-			}, 200);
+			this.timer = setTimeout(
+				() => {
+					this.setState(
+						() => ({
+							open: false
+						})
+					);
+				},
+				200
+			);
 		}
 	}
 
@@ -67,9 +66,9 @@ class LocalizedDropdown extends React.Component {
 
 	render() {
 		const {
-			open,
 			currentLangKey,
-			currentLangTag
+			currentLangTag,
+			open
 		} = this.state;
 		const {
 			availableLanguages,
@@ -99,56 +98,60 @@ class LocalizedDropdown extends React.Component {
 					role="menu"
 				>
 					{
-						availableLanguages.map(entry => {
-							const {key, hasValue} = entry;
+						availableLanguages.map(
+							entry => {
+								const {hasValue, key} = entry;
 
-							return (<li
-								key={key}
-								onBlur={this._handleButtonBlur}
-								onClick={this._handleLanguageClick(key)}
-								onFocus={this._handleItemFocus}
-								onKeyDown={this._handleLanguageKeyboard(key)}
-								role="presentation"
-							>
-								<a
-									className="dropdown-item palette-item lfr-icon-item taglib-icon"
-									role="menuitem"
-									tabIndex="0"
-									target="_self"
-								>
-									<span className="inline-item inline-item-before">
-										<ClayIcon iconName={keyLangToLanguageTag(key)} />
-									</span>
-									<span
-										className="taglib-text-icon"
+								return (
+									<li
+										key={key}
+										onBlur={this._handleButtonBlur}
+										onClick={this._handleLanguageClick(key)}
+										onFocus={this._handleItemFocus}
+										onKeyDown={this._handleLanguageKeyboard(key)}
+										role="presentation"
 									>
-										{
-											keyLangToLanguageTag(
-												key,
-												false
-											)
-										}
-										{
-											defaultLang === key &&
-											<span className="ml-1 label label-info">
-												{Liferay.Language.get('default-value')}
+										<a
+											className="dropdown-item palette-item lfr-icon-item taglib-icon"
+											role="menuitem"
+											tabIndex="0"
+											target="_self"
+										>
+											<span className="inline-item inline-item-before">
+												<ClayIcon iconName={keyLangToLanguageTag(key)} />
 											</span>
-										}
-										{
-											defaultLang !== key && (
-												hasValue ?
-													<span className="ml-1 label label-success">
-														{Liferay.Language.get('translated')}
-													</span> :
-													<span className="ml-1 label label-warning">
-														{Liferay.Language.get('untranslated')}
+											<span
+												className="taglib-text-icon"
+											>
+												{
+													keyLangToLanguageTag(
+														key,
+														false
+													)
+												}
+												{
+													defaultLang === key &&
+													<span className="ml-1 label label-info">
+														{Liferay.Language.get('default-value')}
 													</span>
-											)
-										}
-									</span>
-								</a>
-							</li>);
-						})
+												}
+												{
+													defaultLang !== key && (
+														hasValue ?
+															<span className="ml-1 label label-success">
+																{Liferay.Language.get('translated')}
+															</span> :
+															<span className="ml-1 label label-warning">
+																{Liferay.Language.get('untranslated')}
+															</span>
+													)
+												}
+											</span>
+										</a>
+									</li>
+								);
+							}
+						)
 					}
 
 				</ul>}
@@ -166,8 +169,10 @@ class LocalizedDropdown extends React.Component {
  */
 function keyLangToLanguageTag(keyLang = '', lowercase = true) {
 	let langTag = keyLang.replace(/_/g, '-');
-	if (lowercase) {langTag = langTag.toLowerCase();}
+	if (lowercase) {
+		langTag = langTag.toLowerCase();
+	}
 	return langTag;
-};
+}
 
 export default LocalizedDropdown;
