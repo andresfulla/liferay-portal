@@ -25,10 +25,9 @@ const altProps = {
 	initialMembersCount: 0,
 	initialSegmentActive: false,
 	initialSegmentName: {
-		'es_ES': 'cosas',
-		'en_US': 'things'
+		'en_US': 'things',
+		'es_ES': 'cosas'
 	},
-	showInEditMode: false,
 	locale: 'en_US',
 	portletNamespace: '_com_liferay_segments_web_internal_portlet_SegmentsPortlet_',
 	propertyGroups: [

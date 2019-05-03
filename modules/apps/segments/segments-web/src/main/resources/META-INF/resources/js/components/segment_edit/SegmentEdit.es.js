@@ -13,8 +13,6 @@ import {
 	SUPPORTED_PROPERTY_TYPES
 } from '../../utils/constants.es';
 
-const DEFAULT_SEGMENT_NAME = Liferay.Language.get('unnamed-segment');
-
 class SegmentEdit extends Component {
 	static contextType = ThemeContext;
 
@@ -31,8 +29,8 @@ class SegmentEdit extends Component {
 				}
 			)
 		),
-		errors: PropTypes.object,
 		defaultLanguageId: PropTypes.string.isRequired,
+		errors: PropTypes.object,
 		formId: PropTypes.string,
 		handleBlur: PropTypes.func,
 		handleChange: PropTypes.func,
@@ -45,6 +43,7 @@ class SegmentEdit extends Component {
 		propertyGroups: PropTypes.array,
 		redirect: PropTypes.string.isRequired,
 		requestMembersCountURL: PropTypes.string,
+		setFieldValue: PropTypes.func,
 		setValues: PropTypes.func,
 		showInEditMode: PropTypes.bool,
 		source: PropTypes.string,
@@ -73,6 +72,15 @@ class SegmentEdit extends Component {
 		this.setState(
 			{
 				editing: !this.state.editing
+			}
+		);
+	}
+
+	_handleLocalizedInputChange = (event, newValues, invalid) => {
+		this.props.setFieldValue('name', newValues);
+		this.setState(
+			{
+				validTitle: !invalid
 			}
 		);
 	}
@@ -180,12 +188,61 @@ class SegmentEdit extends Component {
 		);
 	};
 
+	_renderLocalizedInputs = () => {
+		const {
+			defaultLanguageId,
+			portletNamespace,
+			values
+		} = this.props;
+
+		const langs = Object.entries(values.name);
+
+		return (
+			langs.map(
+				([key, value]) => {
+					let render;
+					if (key === defaultLanguageId) {
+						render = (<React.Fragment key={key}>
+							<input
+								name={`${portletNamespace}name_${key}`}
+								readOnly
+								type="hidden"
+								value={value}
+							/>
+							<input
+								name={`${portletNamespace}key`}
+								readOnly
+								type="hidden"
+								value={values.name}
+							/>
+							<input
+								name={`${portletNamespace}name`}
+								readOnly
+								type="hidden"
+								value={value}
+							/>
+						</React.Fragment>);
+					}
+					else {
+						render = (<React.Fragment key={key}>
+							<input
+								name={`${portletNamespace}name_${key}`}
+								readOnly
+								type="hidden"
+								value={value}
+							/>
+						</React.Fragment>);
+					}
+					return render;
+				}
+			)
+		);
+	}
+
 	render() {
 		const {
 			availableLocales,
 			defaultLanguageId,
-			handleChange,
-			locale,
 			portletNamespace,
 			redirect,
 			source,
@@ -211,49 +268,7 @@ class SegmentEdit extends Component {
 						<div className="form-header-section-left">
 							<FieldArray
 								name="values.name"
-								render={
-									() => {
-										const langs = Object.entries(values.name);
-										return (
-											langs.map(([key, value]) => {
-												if (key === defaultLanguageId) {
-													return (
-														<React.Fragment key={key}>
-															<input
-																name={`${portletNamespace}name_${key}`}
-																readOnly
-																type="hidden"
-																value={value}
-															/>
-															<input
-																name={`${portletNamespace}key`}
-																readOnly
-																type="hidden"
-																value={values.name}
-															/>
-															<input
-																name={`${portletNamespace}name`}
-																readOnly
-																type="hidden"
-																value={value}
-															/>
-														</React.Fragment>
-													);
-												}
-												return (
-													<React.Fragment key={key}>
-														<input
-															name={`${portletNamespace}name_${key}`}
-															readOnly
-															type="hidden"
-															value={value}
-														/>
-													</React.Fragment>
-												);
-											})
-										);
-									}
-								}
+								render={this._renderLocalizedInputs}
 							/>
 
 							<LocalizedInput
@@ -262,12 +277,7 @@ class SegmentEdit extends Component {
 								initialLang={defaultLanguageId}
 								initialOpen={false}
 								initialValues={values.name}
-								onChange={(event, newValues, invalid) => {
-									this.props.setFieldValue('name', newValues);
-									this.setState({
-										validTitle: !invalid,
-									});
-								}}
+								onChange={this._handleLocalizedInputChange}
 								portletNamespace={portletNamespace}
 								readOnly={!editing}
 							/>

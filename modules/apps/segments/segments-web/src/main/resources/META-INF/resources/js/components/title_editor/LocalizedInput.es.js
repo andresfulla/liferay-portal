@@ -1,5 +1,5 @@
-import LocalizedDropdown from './LocalizedDropdown.es';
 import getCN from 'classnames';
+import LocalizedDropdown from './LocalizedDropdown.es';
 import PropTypes from 'prop-types';
 import React from 'react';
 
@@ -55,7 +55,9 @@ export default class LocalizedInput extends React.Component {
 
 	_handleInputChange = event => {
 		event.persist();
+
 		let hasError = false;
+		
 		this.setState(
 			prevState => {
 				const newValues = {
@@ -79,7 +81,7 @@ export default class LocalizedInput extends React.Component {
 						}
 					),
 					currentValue: event.target.value,
-					hasError: hasError,
+					hasError,
 					values: newValues
 				};
 			},
@@ -88,7 +90,7 @@ export default class LocalizedInput extends React.Component {
 	}
 
 	_validateValues(values) {
-		const { defaultLang } = this.props;
+		const {defaultLang} = this.props;
 		return !!values[defaultLang];
 	}
 
@@ -111,7 +113,7 @@ export default class LocalizedInput extends React.Component {
 			{
 				'has-error': hasError
 			}
-		)
+		);
 
 		return (
 			<div className="input-group input-localized input-localized-input">
