@@ -14,35 +14,5 @@
 	@import "drop_zone";
 	@import "empty_drop_zone";
 	@import "segment_edit";
-	@import "title_editor";
-	
-	.input-localized :not(.has-error) > .form-control {
-		background-color: transparent;
-		border-color: transparent;
-		font-size: 1.125rem;
-		font-weight: 700;
-
-		&:hover {
-			border-color: $mainLighten74;
-		}
-
-		&:focus {
-			background-color: $primaryLight;
-			border-color: $primaryL1;
-		}
-
-		&:read-only {
-			background-color: transparent;
-
-			&:focus {
-				background-color: inherit;
-				border-color: transparent;
-				box-shadow: none;
-			}
-
-			&:hover {
-				border-color: transparent;
-			}
-		}
-	}
+	@import "localized_title";
 }
