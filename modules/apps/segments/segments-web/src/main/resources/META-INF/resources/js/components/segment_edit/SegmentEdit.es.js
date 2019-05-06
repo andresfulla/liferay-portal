@@ -64,7 +64,7 @@ class SegmentEdit extends Component {
 		this.state = {
 			disabledSave: this._isQueryEmpty(),
 			editing: this.props.showInEditMode,
-			validTitle: !!props.initialSegmentName[props.defaultLanguageId]
+			validTitle: !!props.values.name[props.defaultLanguageId]
 		};
 	}
 
@@ -274,7 +274,7 @@ class SegmentEdit extends Component {
 							<LocalizedInput
 								availableLanguages={availableLocales}
 								defaultLang={defaultLanguageId}
-								initialLang={defaultLanguageId}
+								initialLanguageId={defaultLanguageId}
 								initialOpen={false}
 								initialValues={values.name}
 								onChange={this._handleLocalizedInputChange}

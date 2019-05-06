@@ -6,7 +6,7 @@ import React from 'react';
 export default class LocalizedInput extends React.Component {
 	static propTypes = {
 		availableLanguages: PropTypes.object.isRequired,
-		initialLang: PropTypes.string.isRequired,
+		initialLanguageId: PropTypes.string.isRequired,
 		initialOpen: PropTypes.bool,
 		initialValues: PropTypes.object,
 		onChange: PropTypes.func,
@@ -31,7 +31,7 @@ export default class LocalizedInput extends React.Component {
 			}
 		),
 		currentLang: this.props.initialLanguageId,
-		currentValue: this.props.initialValues[this.props.initialLang] || '',
+		currentValue: this.props.initialValues[this.props.initialLanguageId] || '',
 		values: this.props.initialValues
 	}
 
@@ -98,7 +98,7 @@ export default class LocalizedInput extends React.Component {
 	render() {
 		const {
 			defaultLang,
-			initialLang,
+			initialLanguageId,
 			initialOpen,
 			readOnly
 		} = this.props;
@@ -121,7 +121,7 @@ export default class LocalizedInput extends React.Component {
 				<LocalizedDropdown
 					availableLanguages={availableLanguages}
 					defaultLang={defaultLang}
-					initialLang={initialLang}
+					initialLang={initialLanguageId}
 					initialOpen={initialOpen}
 					onLanguageChange={this._handleLanguageChange}
 				/>
