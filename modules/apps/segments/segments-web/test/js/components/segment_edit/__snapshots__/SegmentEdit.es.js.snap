@@ -47,6 +47,7 @@ exports[`SegmentEdit should render 1`] = `
                 aria-expanded="false"
                 aria-haspopup="true"
                 class="btn btn-monospaced btn-secondary dropdown-toggle"
+                data-testid="localized-dropdown-button"
                 role="button"
                 title=""
                 type="button"
@@ -76,6 +77,7 @@ exports[`SegmentEdit should render 1`] = `
             >
               <input
                 class="rounded form-control language-value field form-control-inline form-control"
+                data-testid="localized-main-input"
                 readonly=""
                 type="text"
                 value="Segment title"
