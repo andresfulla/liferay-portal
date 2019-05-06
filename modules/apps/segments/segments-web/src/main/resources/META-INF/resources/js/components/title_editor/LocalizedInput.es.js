@@ -4,17 +4,17 @@ import PropTypes from 'prop-types';
 import React from 'react';
 
 export default class LocalizedInput extends React.Component {
-	static propsTypes = {
-		availableLanguages: PropTypes.object,
-		initialLang: PropTypes.string,
+	static propTypes = {
+		availableLanguages: PropTypes.object.isRequired,
+		initialLang: PropTypes.string.isRequired,
 		initialOpen: PropTypes.bool,
 		initialValues: PropTypes.object,
 		onChange: PropTypes.func,
 		readOnly: PropTypes.bool
 	}
 	static defaultProps = {
-		availableLanguages: {},
 		initialOpen: false,
+		initialValues: {},
 		onChange: () => {},
 		readOnly: false
 	}
@@ -22,14 +22,15 @@ export default class LocalizedInput extends React.Component {
 	state = {
 		availableLanguages: Object.entries(this.props.availableLanguages).map(
 			([key, value]) => {
+				const initialValues = this.props.initialValues;
 				return {
-					hasValue: !!this.props.initialValues[key],
+					hasValue: !!initialValues[key],
 					key,
 					value
 				};
 			}
 		),
-		currentLang: this.props.initialLang,
+		currentLang: this.props.initialLanguageId,
 		currentValue: this.props.initialValues[this.props.initialLang] || '',
 		values: this.props.initialValues
 	}
@@ -57,7 +58,7 @@ export default class LocalizedInput extends React.Component {
 		event.persist();
 
 		let hasError = false;
-		
+
 		this.setState(
 			prevState => {
 				const newValues = {
@@ -127,6 +128,7 @@ export default class LocalizedInput extends React.Component {
 				<div className={inputGroupItemClasses}>
 					<input
 						className="rounded form-control language-value field form-control-inline form-control"
+						data-testid="localized-main-input"
 						onChange={
 							this._handleInputChange
 						}

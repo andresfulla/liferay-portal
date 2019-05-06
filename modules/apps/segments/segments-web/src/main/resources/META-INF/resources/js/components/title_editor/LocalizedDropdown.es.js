@@ -4,7 +4,11 @@ import React from 'react';
 
 class LocalizedDropdown extends React.Component {
 	static defaultProps = {
-		availableLanguages: PropTypes.object,
+		availableLanguages: []
+	}
+
+	static propTypes = {
+		availableLanguages: PropTypes.array,
 		initialLang: PropTypes.string,
 		initialOpen: PropTypes.bool
 	}
@@ -18,6 +22,7 @@ class LocalizedDropdown extends React.Component {
 			open: initialOpen
 		};
 	}
+
 	_handleButtonClick = () => {
 		this.setState(
 			prevState => ({
@@ -80,6 +85,7 @@ class LocalizedDropdown extends React.Component {
 				aria-expanded="false"
 				aria-haspopup="true"
 				className="btn btn-monospaced btn-secondary dropdown-toggle"
+				data-testid="localized-dropdown-button"
 				onBlur={this._handleButtonBlur}
 				onClick={this._handleButtonClick}
 				role="button"
