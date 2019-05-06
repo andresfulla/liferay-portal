@@ -66,11 +66,25 @@ JSONSerializer jsonSerializer = JSONFactoryUtil.createJSONSerializer();
 
 	<liferay-portlet:resourceURL copyCurrentRenderParameters="<%= false %>" id="getSegmentsEntryClassPKsCount" var="getSegmentsEntryClassPKsCountURL" />
 	<liferay-portlet:resourceURL copyCurrentRenderParameters="<%= false %>" id="getSegmentsFieldValueName" var="getSegmentsFieldValueNameURL" />
-	
+
 	<aui:script require='<%= npmResolvedPackageName + "/js/index.es as SegmentEdit" %>'>
+		var availableLocales = {};
+
+		<%
+		for (Locale availableLocale : editSegmentsEntryDisplayContext.getAvailableLocales()) {
+			String availableLanguageId = LocaleUtil.toLanguageId(availableLocale);
+		%>
+
+			availableLocales['<%= availableLanguageId %>'] = '<%= availableLocale.getDisplayName(locale) %>';
+
+		<%
+		}
+		%>
+
 		SegmentEdit.default(
 			'<%= segmentEditRootElementId %>',
 			{
+				availableLocales: availableLocales,
 				contributors: <%= editSegmentsEntryDisplayContext.getContributorsJSONArray() %>,
 				defaultLanguageId: '<%= editSegmentsEntryDisplayContext.getDefaultLanguageId() %>',
 				formId: '<portlet:namespace />editSegmentFm',
@@ -82,7 +96,7 @@ JSONSerializer jsonSerializer = JSONFactoryUtil.createJSONSerializer();
 							segmentsEntry.getNameMap()
 						)
 					).toString()
-				 : null %>,
+				: null %>,
 				locale: '<%= locale %>',
 				portletNamespace: '<portlet:namespace />',
 				previewMembersURL: '<%= previewMembersURL %>',
