@@ -19,7 +19,7 @@ class DateTimeInput extends React.Component {
 		const value = event.target.value ||
 			dateFns.format(new Date(), INPUT_DATE_FORMAT);
 
-		if(value !== "Invalid Date") {
+		if (value !== 'Invalid Date') {
 			this.setState(
 				{
 					value
@@ -33,7 +33,7 @@ class DateTimeInput extends React.Component {
 
 		const domStringDate = dateFns.format(date, INPUT_DATE_FORMAT);
 
-		if(domStringDate !== "Invalid Date") {
+		if (domStringDate !== 'Invalid Date') {
 			this.setState(
 				{
 					value: domStringDate
@@ -43,10 +43,10 @@ class DateTimeInput extends React.Component {
 							type: PROPERTY_TYPES.DATE,
 							value: dateFns.parse(domStringDate, INPUT_DATE_FORMAT).toISOString()
 						}
-					)
+					);
 				}
 			);
-		} 
+		}
 		else {
 			this.setState(
 				{
@@ -57,7 +57,7 @@ class DateTimeInput extends React.Component {
 							type: PROPERTY_TYPES.DATE,
 							value: dateFns.parse(new Date(), INPUT_DATE_FORMAT).toISOString()
 						}
-					)
+					);
 				}
 			);
 		}
