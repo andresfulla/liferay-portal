@@ -298,7 +298,9 @@ public class SegmentsEntryProviderImpl implements SegmentsEntryProvider {
 				}
 			}
 			catch (PortalException pe) {
-				_log.error(pe, pe);
+				if (_log.isWarnEnabled()) {
+					_log.warn("Unable to obtain the segment user count", pe);
+				}
 			}
 
 			if (matchesModel &&
