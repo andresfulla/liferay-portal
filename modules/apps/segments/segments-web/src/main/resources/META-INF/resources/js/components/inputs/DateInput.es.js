@@ -9,31 +9,70 @@ class DateInput extends React.Component {
 		value: propTypes.string
 	};
 
+	state = {
+		value: this.props.value
+	}
+
 	_handleDateChange = event => {
 		const value = event.target.value ||
-			jsDatetoYYYYMMDD((new Date()));
+			jsDatetoYYYYMMDD(new Date());
 
-		this.props.onChange(
-			{
-				type: PROPERTY_TYPES.DATE,
-				value
-			}
-		);
+		if(value !== "Invalid Date") {
+			this.setState(
+				{
+					value
+				}
+			);
+		}
+	}
+
+	_handleDateBlur = event => {
+		const date = new Date(event.target.value);
+
+		const domStringDate = jsDatetoYYYYMMDD(date);
+
+		if(domStringDate !== "Invalid Date") {
+			this.setState(
+				{
+					value: domStringDate
+				}, () => {
+					this.props.onChange(
+						{
+							type: PROPERTY_TYPES.DATE,
+							value: domStringDate
+						}
+					)
+				}
+			);
+		} 
+		else {
+			this.setState(
+				{
+					value: jsDatetoYYYYMMDD(new Date())
+				}, () => {
+					this.props.onChange(
+						{
+							type: PROPERTY_TYPES.DATE,
+							value: jsDatetoYYYYMMDD(new Date())
+						}
+					)
+				}
+			);
+		}
 	}
 
 	render() {
-		const date = new Date(this.props.value);
-
-		const domStringDate = jsDatetoYYYYMMDD(date);
+		const {value} = this.state;
 
 		return (
 			<div className="criterion-input date-input">
 				<input
 					className="form-control"
 					data-testid="date-input"
+					onBlur={this._handleDateBlur}
 					onChange={this._handleDateChange}
 					type="date"
-					value={domStringDate}
+					value={value}
 				/>
 			</div>
 		);

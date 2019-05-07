@@ -20,6 +20,13 @@ const altProps = {
 			initialQuery: '(cookie/any(c:contains(c, \'key1=value1\')))',
 			inputId: '_com_liferay_segments_web_internal_portlet_SegmentsPortlet_criterionFilteruser-organization',
 			propertyKey: 'user-organization'
+		},
+		{
+			conjunctionId: '',
+			conjunctionInputId: '_com_liferay_segments_web_internal_portlet_SegmentsPortlet_criterionConjunctioncontext',
+			initialQuery: '',
+			inputId: '_com_liferay_segments_web_internal_portlet_SegmentsPortlet_criterionFiltercontext',
+			propertyKey: 'context'
 		}
 	],
 	initialMembersCount: 0,
@@ -92,7 +99,7 @@ const altProps = {
 				{
 					label: 'Date Modified',
 					name: 'dateModified',
-					type: 'date'
+					type: 'date-time'
 				},
 				{
 					label: 'Email Address',
@@ -184,7 +191,7 @@ const altProps = {
 				{
 					label: 'Date Modified',
 					name: 'dateModified',
-					type: 'date'
+					type: 'date-time'
 				},
 				{
 					label: 'Name',
@@ -228,6 +235,18 @@ const altProps = {
 				}
 			],
 			propertyKey: 'user-organization'
+		},
+		{
+			entityName: 'Session',
+			name: 'Context',
+			properties: [
+				{
+					label: 'Local Date',
+					name: 'localDate',
+					type: 'date'
+				},
+			],
+			propertyKey: 'context'
 		}
 	],
 	redirect: 'http://localhost:8080/group/guest/~/control_panel/manage/-/segments/entries?p_p_auth=1EwOzg1e',
