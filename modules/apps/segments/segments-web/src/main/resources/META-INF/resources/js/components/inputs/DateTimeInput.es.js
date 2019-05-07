@@ -11,37 +11,50 @@ class DateTimeInput extends React.Component {
 		value: propTypes.string
 	};
 
-	state = {
-		value: dateFns.format(this.props.value, INPUT_DATE_FORMAT)
+	constructor(props){
+		super(props);
+
+		const date = new Date(props.value);
+
+		this.state = {
+			value: dateFns.format(date, INPUT_DATE_FORMAT)
+		}
 	}
 
 	_handleDateChange = event => {
 		const value = event.target.value ||
 			dateFns.format(new Date(), INPUT_DATE_FORMAT);
 
-		if (value !== 'Invalid Date') {
-			this.setState(
-				{
-					value
+		this.setState(
+			{
+				value
+			}, () => {
+				const date = dateFns.format(value, INPUT_DATE_FORMAT);
+
+				if (date !== 'Invalid Date') {
+					this.props.onChange(
+						{
+							type: PROPERTY_TYPES.DATE,
+							value: dateFns.parse(date, INPUT_DATE_FORMAT).toISOString()
+						}
+					);
 				}
-			);
-		}
+			}
+		);
 	}
 
 	_handleDateBlur = event => {
-		const date = new Date(event.target.value);
+		const date = dateFns.format(event.target.value, INPUT_DATE_FORMAT);
 
-		const domStringDate = dateFns.format(date, INPUT_DATE_FORMAT);
-
-		if (domStringDate !== 'Invalid Date') {
+		if (date !== 'Invalid Date') {
 			this.setState(
 				{
-					value: domStringDate
+					value: date
 				}, () => {
 					this.props.onChange(
 						{
 							type: PROPERTY_TYPES.DATE,
-							value: dateFns.parse(domStringDate, INPUT_DATE_FORMAT).toISOString()
+							value: dateFns.parse(date, INPUT_DATE_FORMAT).toISOString()
 						}
 					);
 				}
