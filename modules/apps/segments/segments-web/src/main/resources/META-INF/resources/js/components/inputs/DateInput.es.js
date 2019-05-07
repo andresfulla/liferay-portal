@@ -17,7 +17,7 @@ class DateInput extends React.Component {
 		const value = event.target.value ||
 			jsDatetoYYYYMMDD(new Date());
 
-		if(value !== "Invalid Date") {
+		if (value !== 'Invalid Date') {
 			this.setState(
 				{
 					value
@@ -31,7 +31,7 @@ class DateInput extends React.Component {
 
 		const domStringDate = jsDatetoYYYYMMDD(date);
 
-		if(domStringDate !== "Invalid Date") {
+		if (domStringDate !== 'Invalid Date') {
 			this.setState(
 				{
 					value: domStringDate
@@ -41,10 +41,10 @@ class DateInput extends React.Component {
 							type: PROPERTY_TYPES.DATE,
 							value: domStringDate
 						}
-					)
+					);
 				}
 			);
-		} 
+		}
 		else {
 			this.setState(
 				{
@@ -55,7 +55,7 @@ class DateInput extends React.Component {
 							type: PROPERTY_TYPES.DATE,
 							value: jsDatetoYYYYMMDD(new Date())
 						}
-					)
+					);
 				}
 			);
 		}

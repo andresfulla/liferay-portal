@@ -244,7 +244,7 @@ const altProps = {
 					label: 'Local Date',
 					name: 'localDate',
 					type: 'date'
-				},
+				}
 			],
 			propertyKey: 'context'
 		}
