@@ -43,7 +43,7 @@ exports[`LocalizedInput should render with pre-existing value should have dropdo
         <li
           role="presentation"
         >
-          <a
+          <span
             class="dropdown-item palette-item lfr-icon-item taglib-icon"
             role="menuitem"
             tabindex="0"
@@ -72,12 +72,12 @@ exports[`LocalizedInput should render with pre-existing value should have dropdo
                 translated
               </span>
             </span>
-          </a>
+          </span>
         </li>
         <li
           role="presentation"
         >
-          <a
+          <span
             class="dropdown-item palette-item lfr-icon-item taglib-icon"
             role="menuitem"
             tabindex="0"
@@ -106,7 +106,7 @@ exports[`LocalizedInput should render with pre-existing value should have dropdo
                 translated
               </span>
             </span>
-          </a>
+          </span>
         </li>
       </ul>
     </div>
