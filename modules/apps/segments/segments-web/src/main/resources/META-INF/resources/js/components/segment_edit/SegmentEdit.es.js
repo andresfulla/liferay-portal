@@ -200,31 +200,33 @@ class SegmentEdit extends Component {
 		return (
 			langs.map(
 				([key, value]) => {
-					let render;
+					let returnVal;
 					if (key === defaultLanguageId) {
-						render = (<React.Fragment key={key}>
-							<input
-								name={`${portletNamespace}name_${key}`}
-								readOnly
-								type="hidden"
-								value={value}
-							/>
-							<input
-								name={`${portletNamespace}key`}
-								readOnly
-								type="hidden"
-								value={values.name}
-							/>
-							<input
-								name={`${portletNamespace}name`}
-								readOnly
-								type="hidden"
-								value={value}
-							/>
-						</React.Fragment>);
+						returnVal = (
+							<React.Fragment key={key}>
+								<input
+									name={`${portletNamespace}name_${key}`}
+									readOnly
+									type="hidden"
+									value={value}
+								/>
+								<input
+									name={`${portletNamespace}key`}
+									readOnly
+									type="hidden"
+									value={values.name}
+								/>
+								<input
+									name={`${portletNamespace}name`}
+									readOnly
+									type="hidden"
+									value={value}
+								/>
+							</React.Fragment>
+						);
 					}
 					else {
-						render = (<React.Fragment key={key}>
+						returnVal = (<React.Fragment key={key}>
 							<input
 								name={`${portletNamespace}name_${key}`}
 								readOnly
@@ -233,7 +235,7 @@ class SegmentEdit extends Component {
 							/>
 						</React.Fragment>);
 					}
-					return render;
+					return returnVal;
 				}
 			)
 		);

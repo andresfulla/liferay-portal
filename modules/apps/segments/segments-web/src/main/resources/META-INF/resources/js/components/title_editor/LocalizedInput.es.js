@@ -37,12 +37,10 @@ export default class LocalizedInput extends React.Component {
 
 	_handleLanguageChange = langKey => {
 		this.setState(
-			prevState => {
-				return {
-					currentLang: langKey,
-					currentValue: prevState.values[langKey] || ''
-				};
-			}
+			prevState => ({
+				currentLang: langKey,
+				currentValue: prevState.values[langKey] || ''
+			})
 		);
 	}
 
