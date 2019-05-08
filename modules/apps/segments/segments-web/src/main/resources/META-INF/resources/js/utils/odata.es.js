@@ -9,11 +9,6 @@ import {
 import {generateGroupId} from './utils.es';
 import {filter as oDataFilterFn} from '../libs/odata-parser';
 
-const OPERATORS = {
-	...FUNCTIONAL_OPERATORS,
-	...RELATIONAL_OPERATORS
-};
-
 const EXPRESSION_TYPES = {
 	AND: 'AndExpression',
 	BOOL_PAREN: 'BoolParenExpression',
@@ -30,6 +25,11 @@ const EXPRESSION_TYPES = {
 	OR: 'OrExpression',
 	PAREN: 'ParenExpression',
 	PROPERTY_PATH: 'PropertyPathExpression'
+};
+
+const OPERATORS = {
+	...FUNCTIONAL_OPERATORS,
+	...RELATIONAL_OPERATORS
 };
 
 /**

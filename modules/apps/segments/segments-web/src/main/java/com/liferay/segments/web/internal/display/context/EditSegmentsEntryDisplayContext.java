@@ -356,13 +356,13 @@ public class EditSegmentsEntryDisplayContext {
 		return criterion.getFilterString();
 	}
 
-	private final HttpServletRequest _httpServletRequest;
 	private static final Log _log = LogFactoryUtil.getLog(
 		EditSegmentsEntryDisplayContext.class);
 
 	private Set<Locale> _availableLocales;
 	private String _defaultLanguageId;
 	private Long _groupId;
+	private final HttpServletRequest _httpServletRequest;
 	private String _redirect;
 	private final RenderRequest _renderRequest;
 	private final RenderResponse _renderResponse;
