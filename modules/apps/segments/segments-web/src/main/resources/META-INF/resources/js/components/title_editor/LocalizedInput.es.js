@@ -19,20 +19,28 @@ export default class LocalizedInput extends React.Component {
 		readOnly: false
 	}
 
-	state = {
-		availableLanguages: Object.entries(this.props.availableLanguages).map(
-			([key, value]) => {
-				const initialValues = this.props.initialValues;
-				return {
-					hasValue: !!initialValues[key],
-					key,
-					value
-				};
-			}
-		),
-		currentLang: this.props.initialLanguageId,
-		currentValue: this.props.initialValues[this.props.initialLanguageId] || '',
-		values: this.props.initialValues
+	constructor(props) {
+		super(props);
+
+		const {
+			availableLanguages,
+			initialLanguageId,
+			initialValues
+		} = props;
+		this.state = {
+			availableLanguages: Object.entries(availableLanguages).map(
+				([key, value]) => {
+					return {
+						hasValue: !!initialValues[key],
+						key,
+						value
+					};
+				}
+			),
+			currentLang: initialLanguageId,
+			currentValue: initialValues[initialLanguageId] || '',
+			values: initialValues
+		};
 	}
 
 	_handleLanguageChange = langKey => {
