@@ -23,27 +23,18 @@ class DateTimeInput extends React.Component {
 
 	shouldComponentUpdate(nextProps, nextState) {
 		if (this.props.value != nextProps.value) {
-			this.setState(
-				{
-					value: dateFns.format(nextProps.value, INPUT_DATE_FORMAT)
-				}
-			);
-
-			return false;
+			const date = dateFns.format(nextProps.value, INPUT_DATE_FORMAT);
+			this.setState({value: date});
 		}
 
-		return true;
+		return this.props.value == nextProps.value;
 	}
 
 	_handleDateChange = event => {
 		const value = event.target.value ||
 			dateFns.format(new Date(), INPUT_DATE_FORMAT);
 
-		this.setState(
-			{
-				value
-			}
-		);
+		this.setState({value});
 	}
 
 	_handleDateBlur = event => {
@@ -51,9 +42,8 @@ class DateTimeInput extends React.Component {
 
 		if (date !== 'Invalid Date') {
 			this.setState(
-				{
-					value: date
-				}, () => {
+				{value: date},
+				() => {
 					this.props.onChange(
 						{
 							type: PROPERTY_TYPES.DATE,
@@ -65,9 +55,8 @@ class DateTimeInput extends React.Component {
 		}
 		else {
 			this.setState(
-				{
-					value: dateFns.format(new Date(), INPUT_DATE_FORMAT)
-				}, () => {
+				{value: dateFns.format(new Date(), INPUT_DATE_FORMAT)},
+				() => {
 					this.props.onChange(
 						{
 							type: PROPERTY_TYPES.DATE,
