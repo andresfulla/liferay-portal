@@ -9,14 +9,28 @@ class DateInput extends React.Component {
 		value: propTypes.string
 	};
 
-	constructor(props){
+	constructor(props) {
 		super(props);
 
 		const date = new Date(props.value);
 
 		this.state = {
 			value: jsDatetoYYYYMMDD(date)
+		};
+	}
+
+	shouldComponentUpdate(nextProps, nextState) {
+		if (this.props.value != nextProps.value) {
+			this.setState(
+				{
+					value: nextProps.value
+				}
+			);
+
+			return false;
 		}
+
+		return true;
 	}
 
 	_handleDateChange = event => {
@@ -26,17 +40,6 @@ class DateInput extends React.Component {
 		this.setState(
 			{
 				value
-			}, () => {
-				const date = jsDatetoYYYYMMDD(value);
-				
-				if (date !== 'Invalid Date') {
-					this.props.onChange(
-						{
-							type: PROPERTY_TYPES.DATE,
-							value: date
-						}
-					);
-				}
 			}
 		);
 	}
