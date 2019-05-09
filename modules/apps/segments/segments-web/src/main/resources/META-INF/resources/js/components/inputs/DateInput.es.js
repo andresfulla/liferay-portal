@@ -19,7 +19,7 @@ class DateInput extends React.Component {
 		};
 	}
 
-	shouldComponentUpdate(nextProps, nextState) {
+	shouldComponentUpdate(nextProps) {
 		if (this.props.value != nextProps.value) {
 			this.setState({value: nextProps.value});
 		}

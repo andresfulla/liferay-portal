@@ -21,7 +21,7 @@ class DateTimeInput extends React.Component {
 		};
 	}
 
-	shouldComponentUpdate(nextProps, nextState) {
+	shouldComponentUpdate(nextProps) {
 		if (this.props.value != nextProps.value) {
 			const date = dateFns.format(nextProps.value, INPUT_DATE_FORMAT);
 			this.setState({value: date});
