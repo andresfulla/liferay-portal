@@ -195,12 +195,14 @@ class SegmentEdit extends Component {
 			values
 		} = this.props;
 
-		const langs = Object.entries(values.name);
+		const langs = Object.keys(values.name);
 
 		return (
 			langs.map(
-				([key, value]) => {
+				key => {
 					let returnVal;
+					const value = values.name[key];
+
 					if (key === defaultLanguageId) {
 						returnVal = (
 							<React.Fragment key={key}>

@@ -28,8 +28,10 @@ export default class LocalizedInput extends React.Component {
 			initialValues
 		} = props;
 		this.state = {
-			availableLanguages: Object.entries(availableLanguages).map(
-				([key, value]) => {
+			availableLanguages: Object.keys(availableLanguages).map(
+				key => {
+					const value = availableLanguages[key];
+
 					return {
 						hasValue: !!initialValues[key],
 						key,
