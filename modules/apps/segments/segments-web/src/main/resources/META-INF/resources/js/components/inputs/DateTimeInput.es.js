@@ -31,8 +31,7 @@ class DateTimeInput extends React.Component {
 	}
 
 	_handleDateChange = event => {
-		const value = event.target.value ||
-			dateFns.format(new Date(), INPUT_DATE_FORMAT);
+		const value = event.target.value;
 
 		this.setState({value});
 	}
@@ -54,13 +53,15 @@ class DateTimeInput extends React.Component {
 			);
 		}
 		else {
+			const resetDate = dateFns.format(new Date(), INPUT_DATE_FORMAT);
+
 			this.setState(
-				{value: dateFns.format(new Date(), INPUT_DATE_FORMAT)},
+				{value: resetDate},
 				() => {
 					this.props.onChange(
 						{
 							type: PROPERTY_TYPES.DATE,
-							value: dateFns.parse(new Date(), INPUT_DATE_FORMAT).toISOString()
+							value: dateFns.parse(resetDate, INPUT_DATE_FORMAT).toISOString()
 						}
 					);
 				}

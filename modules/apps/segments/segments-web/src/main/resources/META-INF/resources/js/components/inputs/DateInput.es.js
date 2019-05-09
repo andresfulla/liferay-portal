@@ -28,8 +28,7 @@ class DateInput extends React.Component {
 	}
 
 	_handleDateChange = event => {
-		const value = event.target.value ||
-			jsDatetoYYYYMMDD(new Date());
+		const value = event.target.value;
 
 		this.setState({value});
 	}
