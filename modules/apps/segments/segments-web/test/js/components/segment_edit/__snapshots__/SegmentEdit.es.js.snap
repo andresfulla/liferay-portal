@@ -29,7 +29,7 @@ exports[`SegmentEdit should render 1`] = `
             name="key"
             readonly=""
             type="hidden"
-            value="[object Object]"
+            value="Segment title"
           />
           <input
             name="name"

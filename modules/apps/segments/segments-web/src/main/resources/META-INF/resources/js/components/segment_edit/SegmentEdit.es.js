@@ -216,7 +216,7 @@ class SegmentEdit extends Component {
 									name={`${portletNamespace}key`}
 									readOnly
 									type="hidden"
-									value={values.name}
+									value={value}
 								/>
 								<input
 									name={`${portletNamespace}name`}
