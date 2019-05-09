@@ -71,7 +71,7 @@ public class EditSegmentsEntryDisplayContext {
 		_segmentsEntryProvider = segmentsEntryProvider;
 		_segmentsEntryService = segmentsEntryService;
 
-		_themeDisplay = (ThemeDisplay)_request.getAttribute(
+		_themeDisplay = (ThemeDisplay)_httpServletRequest.getAttribute(
 			WebKeys.THEME_DISPLAY);
 	}
 
@@ -166,7 +166,7 @@ public class EditSegmentsEntryDisplayContext {
 		}
 
 		_groupId = BeanParamUtil.getLong(
-			getSegmentsEntry(), _request, "groupId",
+			getSegmentsEntry(), _httpServletRequest, "groupId",
 			_themeDisplay.getScopeGroupId());
 
 		return _groupId;
