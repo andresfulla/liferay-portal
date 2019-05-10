@@ -42,7 +42,7 @@ class DateTimeInput extends React.Component {
 				() => {
 					this.props.onChange(
 						{
-							type: PROPERTY_TYPES.DATE,
+							type: PROPERTY_TYPES.DATE_TIME,
 							value: dateFns.parse(date, INPUT_DATE_FORMAT).toISOString()
 						}
 					);
@@ -59,7 +59,7 @@ class DateTimeInput extends React.Component {
 				() => {
 					this.props.onChange(
 						{
-							type: PROPERTY_TYPES.DATE,
+							type: PROPERTY_TYPES.DATE_TIME,
 							value: dateFns.parse(resetDate, INPUT_DATE_FORMAT).toISOString()
 						}
 					);
