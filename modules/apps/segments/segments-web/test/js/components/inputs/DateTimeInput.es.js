@@ -16,12 +16,13 @@ describe(
 			() => {
 				const mockOnChange = jest.fn();
 
-				const defaultNumberValue = '2019-01-23';
+				const defaultValue = '2019-01-23';
+				const isoDefaultDate = '2019-01-23T00:00:00.000Z';
 
 				const {asFragment, getByTestId} = render(
 					<DateTimeInput
 						onChange={mockOnChange}
-						value={defaultNumberValue}
+						value={isoDefaultDate}
 					/>
 				);
 
@@ -36,7 +37,7 @@ describe(
 						newValue: '2019-01-24',
 						newValueExpected: '2019-01-24',
 						newValueOnChange: '2019-01-24T00:00:00.000Z',
-						value: defaultNumberValue
+						value: defaultValue
 					}
 				);
 			}
@@ -47,12 +48,13 @@ describe(
 			() => {
 				const mockOnChange = jest.fn();
 
-				const defaultNumberValue = '2019-01-23';
+				const defaultValue = '2019-01-23';
+				const isoDefaultDate = '2019-01-23T00:00:00.000Z';
 
 				const {asFragment, getByTestId} = render(
 					<DateTimeInput
 						onChange={mockOnChange}
-						value={defaultNumberValue}
+						value={isoDefaultDate}
 					/>
 				);
 
@@ -69,7 +71,7 @@ describe(
 						newValue: '2019-01-XX',
 						newValueExpected: date,
 						newValueOnChange: dateFns.parse(date, 'YYYY-MM-DD').toISOString(),
-						value: defaultNumberValue
+						value: defaultValue
 					}
 				);
 			}
