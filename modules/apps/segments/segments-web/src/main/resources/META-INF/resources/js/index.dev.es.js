@@ -6,6 +6,21 @@ import SegmentEdit from './components/segment_edit/SegmentEdit.es';
 import ThemeContext from './ThemeContext.es';
 
 const altProps = {
+	availableLocales: {
+		ar_SA: 'Arabic (Saudi Arabia)',
+		ca_ES: 'Catalan (Spain)',
+		de_DE: 'German (Germany)',
+		en_US: 'English (United States)',
+		es_ES: 'Spanish (Spain)',
+		fi_FI: 'Finnish (Finland)',
+		fr_FR: 'French (France)',
+		hu_HU: 'Hungarian (Hungary)',
+		ja_JP: 'Japanese (Japan)',
+		nl_NL: 'Dutch (Netherlands)',
+		pt_BR: 'Portuguese (Brazil)',
+		sv_SE: 'Swedish (Sweden)',
+		zh_CN: 'Chinese (China)'
+	},
 	contributors: [
 		{
 			conjunctionId: '',
@@ -29,11 +44,12 @@ const altProps = {
 			propertyKey: 'context'
 		}
 	],
+	defaultLanguageId: 'en_US',
 	initialMembersCount: 0,
 	initialSegmentActive: false,
 	initialSegmentName: {
-		'en_US': 'things',
-		'es_ES': 'cosas'
+		'en_US': 'Segment title',
+		'es_ES': 'Título del segmento'
 	},
 	locale: 'en_US',
 	portletNamespace: '_com_liferay_segments_web_internal_portlet_SegmentsPortlet_',
