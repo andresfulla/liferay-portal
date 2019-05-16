@@ -78,10 +78,10 @@ class ContributorBuilder extends React.Component {
 		previewMembersURL: PropTypes.string,
 		propertyGroups: PropTypes.arrayOf(propertyGroupShape),
 		requestMembersCountURL: PropTypes.string,
+		segmentName: PropTypes.string,
 		supportedConjunctions: PropTypes.arrayOf(conjunctionShape).isRequired,
 		supportedOperators: PropTypes.arrayOf(operatorShape).isRequired,
-		supportedPropertyTypes: propertyTypeShape.isRequired,
-		values: PropTypes.object
+		supportedPropertyTypes: propertyTypeShape.isRequired
 	};
 
 	static defaultProps = {
@@ -216,7 +216,7 @@ class ContributorBuilder extends React.Component {
 					destroyOnHide: true
 				},
 				id: 'segment-members-dialog',
-				title: sub(Liferay.Language.get('x-members'), [this.props.values.name]),
+				title: sub(Liferay.Language.get('x-members'), [this.props.segmentName]),
 				uri: url
 			}
 		);

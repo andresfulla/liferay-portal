@@ -123,11 +123,13 @@ class SegmentEdit extends Component {
 	);
 
 	_renderContributors = () => {
-		const {contributors, formId, initialMembersCount, previewMembersURL, propertyGroups, requestMembersCountURL, values} = this.props;
+		const {contributors, formId, initialMembersCount, locale, previewMembersURL, propertyGroups, requestMembersCountURL, values} = this.props;
 
 		const {editing} = this.state;
 
 		const emptyContributors = this._isQueryEmpty();
+
+		const segmentName = values.name[locale];
 
 		return (
 			(propertyGroups && contributors) ?
@@ -141,10 +143,10 @@ class SegmentEdit extends Component {
 					previewMembersURL={previewMembersURL}
 					propertyGroups={propertyGroups}
 					requestMembersCountURL={requestMembersCountURL}
+					segmentName={segmentName}
 					supportedConjunctions={SUPPORTED_CONJUNCTIONS}
 					supportedOperators={SUPPORTED_OPERATORS}
 					supportedPropertyTypes={SUPPORTED_PROPERTY_TYPES}
-					values={values}
 				/> :
 				null
 		);
