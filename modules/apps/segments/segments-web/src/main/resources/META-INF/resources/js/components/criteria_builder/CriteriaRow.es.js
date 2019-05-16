@@ -17,7 +17,9 @@ import {
 	createNewGroup,
 	dateToInternationalHuman,
 	getSupportedOperatorsFromType,
-	objectToFormData
+	objectToFormData,
+	oDataEscape,
+	oDataUnescape
 } from '../../utils/utils.es';
 import {DragSource as dragSource, DropTarget as dropTarget} from 'react-dnd';
 import {DragTypes} from '../../utils/drag-types.es';
@@ -315,10 +317,12 @@ class CriteriaRow extends Component {
 			onChange(createNewGroup(items));
 		}
 		else {
+			const parsedValue = {value: oDataEscape(value.value)};
+
 			onChange(
 				{
 					...criterion,
-					...value
+					...parsedValue
 				}
 			);
 		}
@@ -470,7 +474,7 @@ class CriteriaRow extends Component {
 		const operatorLabel = selectedOperator ? selectedOperator.label : '';
 		const propertyLabel = selectedProperty ? selectedProperty.label : '';
 
-		const value = criterion ? criterion.value : '';
+		const value = criterion ? oDataUnescape(criterion.value) : '';
 
 		const classes = getCN(
 			'criterion-row-root',
