@@ -202,3 +202,33 @@ export function jsDatetoYYYYMMDD(dateJsObject) {
 	const DATE_FORMAT = 'YYYY-MM-DD';
 	return dateFns.format(dateJsObject, DATE_FORMAT);
 }
+
+/**
+ * Returns a decoded string.
+ *
+ * Examples:
+ * oDataUnescape('%25'))
+ * => '%'
+ *
+ * @export
+ * @param {string} value
+ * @return {string}
+ */
+export function oDataUnescape(value) {
+	return decodeURIComponent(value);
+}
+
+/**
+ * Returns an encoded string.
+ *
+ * Examples:
+ * oDataEscape('%'))
+ * => '%25'
+ *
+ * @export
+ * @param {string} value
+ * @return {string}
+ */
+export function oDataEscape(value) {
+	return encodeURIComponent(value);
+}
