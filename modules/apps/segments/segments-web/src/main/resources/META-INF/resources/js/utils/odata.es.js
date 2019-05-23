@@ -356,7 +356,7 @@ function isRedundantGroup({lastNodeWasGroup, oDataASTNode, prevConjunction}) {
  * @returns {string} The string without quotes.
  */
 function removeQuotes(text) {
-	return text.replace(/['"]+/g, '');
+	return text.replace(/("|'|%27|%22)+/g, '');
 }
 
 /**
