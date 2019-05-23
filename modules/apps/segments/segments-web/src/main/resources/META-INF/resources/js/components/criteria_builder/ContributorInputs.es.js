@@ -12,7 +12,7 @@ function ContributorInputs({contributors}) {
 						id={criteria.inputId}
 						name={criteria.inputId}
 						readOnly
-						type="hidden"
+						type=""
 						value={criteria.query}
 					/>
 					<input

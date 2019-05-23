@@ -25,21 +25,21 @@ const altProps = {
 		{
 			conjunctionId: '',
 			conjunctionInputId: '_com_liferay_segments_web_internal_portlet_SegmentsPortlet_criterionConjunctionuser',
-			initialQuery: '(segmentationTeamMembers eq \'kevin\' and segmentationTeamMembers eq \'kevin\' and dateModified eq 2019-01-16T11:17:56.000Z)',
+			initialQuery: '%28jobTitle%20eq%20%27%5C%27%29',
 			inputId: '_com_liferay_segments_web_internal_portlet_SegmentsPortlet_criterionFilteruser',
 			propertyKey: 'user'
 		},
 		{
 			conjunctionId: '',
 			conjunctionInputId: '_com_liferay_segments_web_internal_portlet_SegmentsPortlet_criterionConjunctionuser-organization',
-			initialQuery: '(cookie/any(c:contains(c, \'key1=value1\')))',
+			initialQuery: '',
 			inputId: '_com_liferay_segments_web_internal_portlet_SegmentsPortlet_criterionFilteruser-organization',
 			propertyKey: 'user-organization'
 		},
 		{
 			conjunctionId: '',
 			conjunctionInputId: '_com_liferay_segments_web_internal_portlet_SegmentsPortlet_criterionConjunctioncontext',
-			initialQuery: '',
+			initialQuery: '%28cookies%2Fany%28c%3Ac%20eq%20\'ye%2Fah%3Dtrue\'%29%29',
 			inputId: '_com_liferay_segments_web_internal_portlet_SegmentsPortlet_criterionFiltercontext',
 			propertyKey: 'context'
 		}
@@ -269,6 +269,11 @@ const altProps = {
 					label: 'Local Date',
 					name: 'localDate',
 					type: 'date'
+				},
+				{
+					label: 'Cookies',
+					name: 'cookies',
+					type: 'collection'
 				}
 			],
 			propertyKey: 'context'
