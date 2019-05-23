@@ -41,6 +41,7 @@ import com.liferay.segments.criteria.contributor.SegmentsCriteriaContributorRegi
 import com.liferay.segments.model.SegmentsEntry;
 import com.liferay.segments.provider.SegmentsEntryProvider;
 import com.liferay.segments.service.SegmentsEntryService;
+import com.liferay.segments.web.internal.portlet.action.ActionUtil;
 import com.liferay.segments.web.internal.security.permission.resource.SegmentsEntryPermission;
 
 import java.util.List;
@@ -386,7 +387,8 @@ public class EditSegmentsEntryDisplayContext {
 			return StringPool.BLANK;
 		}
 
-		return criterion.getFilterString();
+		return ActionUtil.getEncodeFilterString(
+			criterion.getFilterString(), StringPool.UTF8, true);
 	}
 
 	private static final Log _log = LogFactoryUtil.getLog(

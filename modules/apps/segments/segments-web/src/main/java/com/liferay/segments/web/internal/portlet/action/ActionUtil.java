@@ -14,7 +14,9 @@
 
 package com.liferay.segments.web.internal.portlet.action;
 
+import com.liferay.petra.string.StringPool;
 import com.liferay.portal.kernel.util.ParamUtil;
+import com.liferay.portal.kernel.util.URLCodec;
 import com.liferay.portal.kernel.util.Validator;
 import com.liferay.segments.criteria.Criteria;
 import com.liferay.segments.criteria.contributor.SegmentsCriteriaContributor;
@@ -50,12 +52,26 @@ public class ActionUtil {
 				"criterionConjunction" + segmentsCriteriaContributor.getKey(),
 				Criteria.Conjunction.AND.getValue());
 
+			filterString = getDecodeFilterString(filterString, StringPool.UTF8);
+
 			segmentsCriteriaContributor.contribute(
 				criteria, filterString,
 				Criteria.Conjunction.parse(conjunctionString));
 		}
 
 		return criteria;
+	}
+
+	public static String getDecodeFilterString(
+		String filterString, String charsetName) {
+
+		return URLCodec.decodeURL(filterString, charsetName);
+	}
+
+	public static String getEncodeFilterString(
+		String filterString, String charsetName, boolean escapeSpaces) {
+
+		return URLCodec.encodeURL(filterString, charsetName, escapeSpaces);
 	}
 
 }
