@@ -12,7 +12,7 @@
 		segmentsEntryName: string,
 		segmentsEntryId: string
 	]>}
-	{@param? hasEditSegmentsEntryPermissions: bool }
+	{@param? hasEditSegmentsEntryPermission: bool }
 	{@param? defaultSegmentsExperienceId: string }
 	{@param? editSegmentsEntryURL: string }
 	{@param? _closeEditModal: any }
@@ -55,7 +55,7 @@
 	{@param spritemap: string}
 
 	{let $canCreateExperiences: (
-			($hasEditSegmentsEntryPermissions == true or
+			($hasEditSegmentsEntryPermission == true or
 			($availableSegmentsEntries and length($availableSegmentsEntries) > 0))
 		)
 	/}
@@ -350,7 +350,7 @@
 			{param onClose: $_toggleCreateModal /}
 			{param spritemap: $spritemap /}
 			{param onDismiss: $_closeCreateModal /}
-			{param hasSegmentsEntryPermissions: $hasEditSegmentsEntryPermissions /}
+			{param hasSegmentsEntryPermissions: $hasEditSegmentsEntryPermission /}
 			{param onNewSegmentClick: $_handleNewSegmentButtonClick /}
 			{param type: 'creation' /}
 		{/call}
@@ -396,7 +396,7 @@
 			{param onClose: $_toggleEditModal /}
 			{param spritemap: $spritemap /}
 			{param onDismiss: $_closeEditModal /}
-			{param hasSegmentsEntryPermissions: $hasEditSegmentsEntryPermissions /}
+			{param hasSegmentsEntryPermissions: $hasEditSegmentsEntryPermission /}
 			{param onNewSegmentClick: $_handleNewSegmentButtonClick /}
 			{param type: 'edition' /}
 		{/call}
