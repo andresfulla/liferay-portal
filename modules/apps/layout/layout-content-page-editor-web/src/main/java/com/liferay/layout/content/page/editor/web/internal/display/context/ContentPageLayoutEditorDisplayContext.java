@@ -278,6 +278,8 @@ public class ContentPageLayoutEditorDisplayContext
 		).put(
 			"editSegmentsEntryURL", _getEditSegmentsEntryURL()
 		).put(
+			"hasEditSegmentsEntryPermissions", true
+		).put(
 			"layoutDataList", _getLayoutDataListSoyContext()
 		);
 	}
