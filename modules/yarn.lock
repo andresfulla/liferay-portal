@@ -696,6 +696,43 @@
     lodash "^4.17.11"
     to-fast-properties "^2.0.0"
 
+"@clayui/alert@^3.0.0-milestone.1":
+  version "3.0.0-milestone.1"
+  resolved "https://registry.yarnpkg.com/@clayui/alert/-/alert-3.0.0-milestone.1.tgz#51337805d34a5020ada5878d6a833bf716fd4f40"
+  integrity sha512-QL7RReKk0mWuxX3Y9qfM/Tp2N37uBFBe9aaIe7UU2hbTDgnw4WuR4+e1BycsLJgepo9vC3Y4iTFHRah+2n9G+w==
+  dependencies:
+    "@clayui/icon" "^3.0.0-milestone.1"
+    classnames "^2.2.6"
+
+"@clayui/button@^3.0.0-milestone.1":
+  version "3.0.0-milestone.1"
+  resolved "https://registry.yarnpkg.com/@clayui/button/-/button-3.0.0-milestone.1.tgz#7a752d37ac38ed06025cea70c072160145d919ef"
+  integrity sha512-sh3DDfD1In4e3OsyAwvBDtRcPEplpOeunwOoTnDVUmxflSroffgaNpZakF3Oq+p5HXA9IFWc/daVmeDHBzOzdw==
+  dependencies:
+    classnames "^2.2.6"
+
+"@clayui/icon@^3.0.0-milestone.1":
+  version "3.0.0-milestone.1"
+  resolved "https://registry.yarnpkg.com/@clayui/icon/-/icon-3.0.0-milestone.1.tgz#2c31c4e11ae737d28af0be464fd1275dc863687e"
+  integrity sha512-JBvWQnuYmt2jiD4w4T5KjuT77W4tTe40Nd+Ajv2DuNF2OIQH7lSzN0PJgHp0UbfZ1/rBZN0dbQzbgRIrYnv5nQ==
+  dependencies:
+    classnames "^2.2.6"
+    warning "^4.0.3"
+
+"@clayui/loading-indicator@^3.0.0-milestone.1":
+  version "3.0.0-milestone.1"
+  resolved "https://registry.yarnpkg.com/@clayui/loading-indicator/-/loading-indicator-3.0.0-milestone.1.tgz#cc3bd0f317880408d7b5670b3ffee8f6be843e91"
+  integrity sha512-9+Hhe3dhtniBRBvirac8IScNdJ6sOIGb5ywMNdcuImoWIo1QyNQD9YeJXAzSLS9lAUhajOG3K8H9WPX9+rtJaA==
+  dependencies:
+    classnames "^2.2.6"
+
+"@clayui/select@^3.0.0-milestone.1":
+  version "3.0.0-milestone.1"
+  resolved "https://registry.yarnpkg.com/@clayui/select/-/select-3.0.0-milestone.1.tgz#37448d1cc77f87f39ca5f217d8352e26fff6a012"
+  integrity sha512-/Z8FvMtAFI+3ahafWi0b8i7fS5DugbvwComubW1F5cjPY+YeXY7/GFJ3cBTArhbyv6jvU3wN8p5pY6XhyIu88w==
+  dependencies:
+    classnames "^2.2.6"
+
 "@cnakazawa/watch@^1.0.3":
   version "1.0.3"
   resolved "https://registry.yarnpkg.com/@cnakazawa/watch/-/watch-1.0.3.tgz#099139eaec7ebf07a27c1786a3ff64f39464d2ef"
@@ -14915,6 +14952,13 @@ walker@~1.0.5:
   integrity sha1-L3+bj9ENZ3JisYqITijRlhjgKPs=
   dependencies:
     makeerror "1.0.x"
+
+warning@^4.0.3:
+  version "4.0.3"
+  resolved "https://registry.yarnpkg.com/warning/-/warning-4.0.3.tgz#16e9e077eb8a86d6af7d64aa1e05fd85b4678ca3"
+  integrity sha512-rpJyN222KWIvHJ/F53XSZv0Zl/accqHR8et1kpaMTD/fLCRxtV8iX8czMzY7sVZupTI3zcUTg8eycS2kNF9l6w==
+  dependencies:
+    loose-envify "^1.0.0"
 
 watchpack@^1.5.0:
   version "1.6.0"
