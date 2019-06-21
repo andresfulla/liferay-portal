@@ -719,6 +719,13 @@
     classnames "^2.2.6"
     warning "^4.0.3"
 
+"@clayui/link@^3.0.0-milestone.1":
+  version "3.0.0-milestone.1"
+  resolved "https://registry.yarnpkg.com/@clayui/link/-/link-3.0.0-milestone.1.tgz#b5592701715260f20a7ff2c05bdb51bbcc4004d7"
+  integrity sha512-d8d/abob3Ar3ZvaAJo75HMef1I5XRqojWqkvO0sBRijRIi2OQZBltuh/ENbCO2vaY+EUQBpWLHJgfmv43yBVQA==
+  dependencies:
+    classnames "^2.2.6"
+
 "@clayui/loading-indicator@^3.0.0-milestone.1":
   version "3.0.0-milestone.1"
   resolved "https://registry.yarnpkg.com/@clayui/loading-indicator/-/loading-indicator-3.0.0-milestone.1.tgz#cc3bd0f317880408d7b5670b3ffee8f6be843e91"
