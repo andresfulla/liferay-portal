@@ -16,7 +16,7 @@ import BooleanInput from '../inputs/BooleanInput.es';
 import ClayAlert from '@clayui/alert';
 import ClayButton from '../shared/ClayButton.es';
 import ClayIcon from '@clayui/icon';
-import ClaySelect from '../shared/ClaySelect.es';
+import {ClaySelectWithOption} from '@clayui/select';
 import CollectionInput from '../inputs/CollectionInput.es';
 import DateInput from '../inputs/DateInput.es';
 import DateTimeInput from '../inputs/DateTimeInput.es';
@@ -391,7 +391,7 @@ class CriteriaRow extends Component {
 					<b>{propertyLabel}</b>
 				</span>
 
-				<ClaySelect
+				<ClaySelectWithOption
 					className='criterion-input operator-input form-control'
 					disabled={disabledInput}
 					onChange={this._handleInputChange('operatorName')}
@@ -401,7 +401,7 @@ class CriteriaRow extends Component {
 							value: name
 						})
 					)}
-					selected={selectedOperator && selectedOperator.name}
+					value={selectedOperator && selectedOperator.name}
 				/>
 
 				{this._renderValueInput(selectedProperty, value, disabledInput)}
