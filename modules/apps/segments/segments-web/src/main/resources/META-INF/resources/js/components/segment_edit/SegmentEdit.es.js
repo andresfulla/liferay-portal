@@ -13,6 +13,7 @@
  */
 
 import ClayButton from '@clayui/button';
+import ClayLink from '@clayui/link';
 import ClayToggle from '../shared/ClayToggle.es';
 import ContributorInputs from '../criteria_builder/ContributorInputs.es';
 import ContributorsBuilder from '../criteria_builder/ContributorsBuilder.es';
@@ -418,14 +419,15 @@ class SegmentEdit extends Component {
 
 								<div className='btn-group'>
 									<div className='btn-group-item'>
-										<ClayButton
+										<ClayLink
 											className='text-capitalize'
 											displayType='secondary'
 											href={redirect}
+											outline
 											small
 										>
 											{Liferay.Language.get('cancel')}
-										</ClayButton>
+										</ClayLink>
 									</div>
 
 									<div className='btn-group-item'>
