@@ -69,7 +69,9 @@
 		<field name="name" type="String" />
 		<field name="description" type="String" />
 		<field name="status" type="int" />
-		<field name="typeSettings" type="String" />
+		<field name="typeSettings" type="String">
+			<hint-collection name="CLOB" />
+		</field>
 	</model>
 	<model name="com.liferay.segments.model.SegmentsExperimentRel">
 		<field name="segmentsExperimentRelId" type="long" />
