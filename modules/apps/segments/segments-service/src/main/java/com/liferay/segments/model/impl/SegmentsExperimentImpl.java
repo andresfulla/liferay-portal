@@ -36,4 +36,11 @@ public class SegmentsExperimentImpl extends SegmentsExperimentBaseImpl {
 	public SegmentsExperimentImpl() {
 	}
 
+	@Override
+	public String getStatusName() {
+		//TODO use proper name
+
+		return "DRAFT";
+	}
+
 }

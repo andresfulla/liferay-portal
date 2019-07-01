@@ -60,4 +60,6 @@ public interface SegmentsExperiment
 
 			};
 
+	public String getStatusName();
+
 }

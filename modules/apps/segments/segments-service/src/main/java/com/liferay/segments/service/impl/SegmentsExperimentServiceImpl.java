@@ -14,7 +14,20 @@
 
 package com.liferay.segments.service.impl;
 
+import com.liferay.portal.kernel.exception.PortalException;
+import com.liferay.portal.kernel.security.permission.resource.ModelResourcePermission;
+import com.liferay.portal.kernel.security.permission.resource.ModelResourcePermissionFactory;
+import com.liferay.portal.kernel.security.permission.resource.PortletResourcePermission;
+import com.liferay.portal.kernel.security.permission.resource.PortletResourcePermissionFactory;
+import com.liferay.portal.kernel.service.ServiceContext;
+import com.liferay.segments.constants.SegmentsActionKeys;
+import com.liferay.segments.constants.SegmentsConstants;
+import com.liferay.segments.model.SegmentsExperience;
+import com.liferay.segments.model.SegmentsExperiment;
 import com.liferay.segments.service.base.SegmentsExperimentServiceBaseImpl;
+
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * The implementation of the segments experiment remote service.
@@ -32,10 +45,53 @@ import com.liferay.segments.service.base.SegmentsExperimentServiceBaseImpl;
 public class SegmentsExperimentServiceImpl
 	extends SegmentsExperimentServiceBaseImpl {
 
-	/**
-	 * NOTE FOR DEVELOPERS:
-	 *
-	 * Never reference this class directly. Always use <code>com.liferay.segments.service.SegmentsExperimentServiceUtil</code> to access the segments experiment remote service.
-	 */
+	@Override
+	public SegmentsExperiment addSegmentsExperience(
+			long segmentsExperienceId, String name, String description,
+			ServiceContext serviceContext)
+		throws PortalException {
+
+		_portletResourcePermission.check(
+			getPermissionChecker(), serviceContext.getScopeGroupId(),
+			SegmentsActionKeys.MANAGE_SEGMENTS_ENTRIES);
+
+		return segmentsExperimentLocalService.addSegmentsExperiment(
+			segmentsExperienceId, name, description, serviceContext);
+	}
+
+	@Override
+	public List<SegmentsExperiment> getSegmentsExperiments(
+			long groupId, long classNameId, long classPK)
+		throws PortalException {
+
+		List<SegmentsExperience> segmentsExperiences =
+			segmentsExperienceService.getSegmentsExperiences(
+				groupId, classNameId, classPK, true);
+
+		List<SegmentsExperiment> segmentsExperiments = new ArrayList<>();
+
+		for (SegmentsExperience segmentsExperience : segmentsExperiences) {
+			segmentsExperiments.addAll(
+
+				//TODO use filter instead of findBy
+
+				segmentsExperimentPersistence.findBySegmentsExperienceId(
+					segmentsExperience.getSegmentsExperienceId()));
+		}
+
+		return segmentsExperiments;
+	}
+
+	private static volatile PortletResourcePermission
+		_portletResourcePermission =
+			PortletResourcePermissionFactory.getInstance(
+				SegmentsExperimentServiceImpl.class,
+				"_portletResourcePermission", SegmentsConstants.RESOURCE_NAME);
+	private static volatile ModelResourcePermission<SegmentsExperiment>
+		_segmentsExperimentResourcePermission =
+			ModelResourcePermissionFactory.getInstance(
+				SegmentsExperimentServiceImpl.class,
+				"_segmentsExperimentResourcePermission",
+				SegmentsExperiment.class);
 
 }

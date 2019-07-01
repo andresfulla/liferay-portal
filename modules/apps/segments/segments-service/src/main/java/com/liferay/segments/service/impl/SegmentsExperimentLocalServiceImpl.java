@@ -14,7 +14,16 @@
 
 package com.liferay.segments.service.impl;
 
+import com.liferay.portal.kernel.exception.PortalException;
+import com.liferay.portal.kernel.model.User;
+import com.liferay.portal.kernel.service.ServiceContext;
+import com.liferay.segments.model.SegmentsExperience;
+import com.liferay.segments.model.SegmentsExperiment;
 import com.liferay.segments.service.base.SegmentsExperimentLocalServiceBaseImpl;
+
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.List;
 
 /**
  * The implementation of the segments experiment local service.
@@ -32,10 +41,67 @@ import com.liferay.segments.service.base.SegmentsExperimentLocalServiceBaseImpl;
 public class SegmentsExperimentLocalServiceImpl
 	extends SegmentsExperimentLocalServiceBaseImpl {
 
-	/**
-	 * NOTE FOR DEVELOPERS:
-	 *
-	 * Never reference this class directly. Use <code>com.liferay.segments.service.SegmentsExperimentLocalService</code> via injection or a <code>org.osgi.util.tracker.ServiceTracker</code> or use <code>com.liferay.segments.service.SegmentsExperimentLocalServiceUtil</code>.
-	 */
+	@Override
+	public SegmentsExperiment addSegmentsExperiment(
+			long segmentsExperienceId, String name, String description,
+			ServiceContext serviceContext)
+		throws PortalException {
+
+		// Segments experiment
+
+		User user = userLocalService.getUser(serviceContext.getUserId());
+
+		long groupId = serviceContext.getScopeGroupId();
+
+		long segmentsExperimentId = counterLocalService.increment();
+
+		SegmentsExperiment segmentsExperiment =
+			segmentsExperimentPersistence.create(segmentsExperimentId);
+
+		segmentsExperiment.setUuid(serviceContext.getUuid());
+		segmentsExperiment.setGroupId(groupId);
+		segmentsExperiment.setCompanyId(user.getCompanyId());
+		segmentsExperiment.setUserId(user.getUserId());
+		segmentsExperiment.setUserName(user.getFullName());
+		segmentsExperiment.setCreateDate(
+			serviceContext.getCreateDate(new Date()));
+		segmentsExperiment.setModifiedDate(
+			serviceContext.getModifiedDate(new Date()));
+		segmentsExperiment.setSegmentsExperimentKey(
+			String.valueOf(counterLocalService.increment()));
+		segmentsExperiment.setSegmentsExperienceId(segmentsExperienceId);
+		segmentsExperiment.setName(name);
+		segmentsExperiment.setDescription(description);
+		segmentsExperiment.setStatus(0);
+
+		segmentsExperimentPersistence.update(segmentsExperiment);
+
+		// Resources
+
+		resourceLocalService.addModelResources(
+			segmentsExperiment, serviceContext);
+
+		return segmentsExperiment;
+	}
+
+	@Override
+	public List<SegmentsExperiment> getSegmentsExperiments(
+			long groupId, long classNameId, long classPK)
+		throws PortalException {
+
+		List<SegmentsExperience> segmentsExperiences =
+			segmentsExperienceLocalService.getSegmentsExperiences(
+				groupId, classNameId, classPK, true);
+
+		List<SegmentsExperiment> segmentsExperiments = new ArrayList<>();
+
+		for (SegmentsExperience segmentsExperience : segmentsExperiences) {
+			segmentsExperiments.addAll(
+				segmentsExperimentPersistence.findBySegmentsExperienceId(
+					segmentsExperience.getSegmentsExperienceId()));
+		}
+
+		return segmentsExperiments;
+	}
 
 }
