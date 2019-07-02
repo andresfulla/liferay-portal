@@ -60,7 +60,7 @@ public interface SegmentsExperimentService extends BaseService {
 	 *
 	 * Never modify or reference this interface directly. Always use {@link SegmentsExperimentServiceUtil} to access the segments experiment remote service. Add custom service methods to <code>com.liferay.segments.service.impl.SegmentsExperimentServiceImpl</code> and rerun ServiceBuilder to automatically copy the method declarations to this interface.
 	 */
-	public SegmentsExperiment addSegmentsExperience(
+	public SegmentsExperiment addSegmentsExperiment(
 			long segmentsExperienceId, String name, String description,
 			ServiceContext serviceContext)
 		throws PortalException;

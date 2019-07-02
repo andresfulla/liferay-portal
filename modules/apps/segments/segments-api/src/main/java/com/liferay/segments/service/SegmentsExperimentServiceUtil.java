@@ -40,12 +40,12 @@ public class SegmentsExperimentServiceUtil {
 	 * Never modify this class directly. Add custom service methods to <code>com.liferay.segments.service.impl.SegmentsExperimentServiceImpl</code> and rerun ServiceBuilder to regenerate this class.
 	 */
 	public static com.liferay.segments.model.SegmentsExperiment
-			addSegmentsExperience(
+			addSegmentsExperiment(
 				long segmentsExperienceId, String name, String description,
 				com.liferay.portal.kernel.service.ServiceContext serviceContext)
 		throws com.liferay.portal.kernel.exception.PortalException {
 
-		return getService().addSegmentsExperience(
+		return getService().addSegmentsExperiment(
 			segmentsExperienceId, name, description, serviceContext);
 	}
 
