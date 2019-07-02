@@ -29,7 +29,7 @@ export function createSegmentsExperimentsReducer(state, action) {
 function _createExperiment({name, description, segmentsExperienceId}) {
 	return new Promise(function(resolve, reject) {
 		Liferay.Service(
-			'/segments.segmentsexperiment/add-segments-experience',
+			'/segments.segmentsexperiment/add-segments-experiment',
 			{
 				segmentsExperienceId,
 				name,
