@@ -136,10 +136,9 @@ public class SegmentsExperimentServiceHttp {
 	}
 
 	public static java.util.List<com.liferay.segments.model.SegmentsExperiment>
-			getSegmentsExperiments(
-				HttpPrincipal httpPrincipal, long groupId, long classNameId,
-				long classPK)
-		throws com.liferay.portal.kernel.exception.PortalException {
+		getSegmentsExperiments(
+			HttpPrincipal httpPrincipal, long groupId, long classNameId,
+			long classPK) {
 
 		try {
 			MethodKey methodKey = new MethodKey(
@@ -155,13 +154,6 @@ public class SegmentsExperimentServiceHttp {
 				returnObj = TunnelUtil.invoke(httpPrincipal, methodHandler);
 			}
 			catch (Exception e) {
-				if (e instanceof
-						com.liferay.portal.kernel.exception.PortalException) {
-
-					throw (com.liferay.portal.kernel.exception.PortalException)
-						e;
-				}
-
 				throw new com.liferay.portal.kernel.exception.SystemException(
 					e);
 			}

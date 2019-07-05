@@ -68,8 +68,7 @@ public class SegmentsExperimentServiceUtil {
 	}
 
 	public static java.util.List<com.liferay.segments.model.SegmentsExperiment>
-			getSegmentsExperiments(long groupId, long classNameId, long classPK)
-		throws com.liferay.portal.kernel.exception.PortalException {
+		getSegmentsExperiments(long groupId, long classNameId, long classPK) {
 
 		return getService().getSegmentsExperiments(
 			groupId, classNameId, classPK);

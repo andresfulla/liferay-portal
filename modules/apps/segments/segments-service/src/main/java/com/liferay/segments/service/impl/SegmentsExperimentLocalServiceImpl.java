@@ -125,7 +125,8 @@ public class SegmentsExperimentLocalServiceImpl
 
 		List<SegmentsExperiment> segmentsExperiments =
 			segmentsExperimentPersistence.findByS_C_C(
-				segmentsExperienceId, classNameId, classPK);
+				segmentsExperienceId, classNameId,
+				_getPublishedLayoutClassPK(classPK));
 
 		for (SegmentsExperiment segmentsExperiment : segmentsExperiments) {
 			segmentsExperimentLocalService.deleteSegmentsExperiment(
@@ -139,7 +140,7 @@ public class SegmentsExperimentLocalServiceImpl
 		throws PortalException {
 
 		return segmentsExperimentPersistence.findByG_C_C(
-			groupId, classNameId, classPK);
+			groupId, classNameId, _getPublishedLayoutClassPK(classPK));
 	}
 
 	@Override
@@ -147,7 +148,8 @@ public class SegmentsExperimentLocalServiceImpl
 		long segmentsExperienceId, long classNameId, long classPK) {
 
 		return segmentsExperimentPersistence.findByS_C_C(
-			segmentsExperienceId, classNameId, classPK);
+			segmentsExperienceId, classNameId,
+			_getPublishedLayoutClassPK(classPK));
 	}
 
 	private long _getPublishedLayoutClassPK(long classPK) {
