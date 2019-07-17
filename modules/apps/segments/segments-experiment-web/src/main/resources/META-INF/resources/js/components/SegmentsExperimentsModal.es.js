@@ -1,0 +1,152 @@
+/**
+ * Copyright (c) 2000-present Liferay, Inc. All rights reserved.
+ *
+ * This library is free software; you can redistribute it and/or modify it under
+ * the terms of the GNU Lesser General Public License as published by the Free
+ * Software Foundation; either version 2.1 of the License, or (at your option)
+ * any later version.
+ *
+ * This library is distributed in the hope that it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS
+ * FOR A PARTICULAR PURPOSE. See the GNU Lesser General Public License for more
+ * details.
+ */
+
+import React, {useRef, useEffect, useState} from 'react';
+import PropTypes from 'prop-types';
+import ClayModal from '@clayui/modal';
+import ClayButton from '@clayui/button';
+import getCN from 'classnames';
+
+function SegmentsExperimentsModal({
+	onClose,
+	active,
+	onSave,
+	name = '',
+	description = '',
+	segmentsExperienceId,
+	segmentsExperimentId
+}) {
+	const [inputDescription, setInputDescription] = useState(description);
+	const [inputName, setInputName] = useState(name);
+	const [nameError, setNameError] = useState(false);
+	const inputRef = useRef();
+
+	useEffect(() => {
+		if (active && inputRef.current) inputRef.current.focus();
+	}, [active]);
+
+	useEffect(() => {
+		setInputName(name);
+	}, [name]);
+
+	useEffect(() => {
+		setInputDescription(description);
+	}, [description]);
+
+	const nameInputClasses = getCN('form-control', {
+		'is-invalid': nameError
+	});
+
+	return active ? (
+		<ClayModal onClose={_handleModalClose}>
+			{onClose => {
+				return (
+					<React.Fragment>
+						<ClayModal.Header>Create New Test</ClayModal.Header>
+						<ClayModal.Body>
+							<div className="form-group">
+								<label>Test Name*</label>
+								<input
+									className={nameInputClasses}
+									onBlur={_handleNameInputBlur}
+									onChange={_handleNameChange}
+									onFocus={_handleNameInputFocus}
+									ref={inputRef}
+									value={inputName}
+								/>
+							</div>
+							<div className="form-group">
+								<label>Description</label>
+								<textarea
+									className="form-control"
+									onChange={_handleDescriptionChange}
+									placeholder="Write your Hypothesis here"
+									value={inputDescription}
+								/>
+							</div>
+						</ClayModal.Body>
+						<ClayModal.Footer
+							last={
+								<ClayButton.Group spaced>
+									<ClayButton
+										displayType="secondary"
+										onClick={onClose}
+									>
+										Cancel
+									</ClayButton>
+									<ClayButton
+										displayType="primary"
+										onClick={_handleSave}
+									>
+										Save
+									</ClayButton>
+								</ClayButton.Group>
+							}
+						/>
+					</React.Fragment>
+				);
+			}}
+		</ClayModal>
+	) : null;
+
+	function _handleNameChange(event) {
+		setInputName(event.target.value);
+	}
+
+	function _handleDescriptionChange(event) {
+		setInputDescription(event.target.value);
+	}
+
+	function _handleNameInputBlur() {
+		if (!inputName) setNameError(true);
+	}
+
+	function _handleNameInputFocus() {
+		setNameError(false);
+	}
+
+	/**
+	 * Triggers `onTestCreation` and closes the modal
+	 */
+	function _handleSave() {
+		onSave({
+			name: inputName,
+			description: inputDescription,
+			segmentsExperienceId,
+			segmentsExperimentId
+		});
+		_handleModalClose();
+	}
+
+	/**
+	 * Resets modal values and triggers `onClose`
+	 */
+	function _handleModalClose() {
+		setInputDescription('');
+		setInputName('');
+		onClose();
+	}
+}
+
+SegmentsExperimentsModal.propTypes = {
+	active: PropTypes.bool.isRequired,
+	description: PropTypes.string,
+	segmentsExperienceId: PropTypes.string,
+	segmentsExperimentId: PropTypes.string,
+	name: PropTypes.string,
+	onClose: PropTypes.func.isRequired,
+	onSave: PropTypes.func.isRequired
+};
+
+export default SegmentsExperimentsModal;
