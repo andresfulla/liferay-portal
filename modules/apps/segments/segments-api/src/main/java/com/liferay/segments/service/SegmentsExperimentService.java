@@ -73,6 +73,12 @@ public interface SegmentsExperimentService extends BaseService {
 	public String getOSGiServiceIdentifier();
 
 	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
+	public List<SegmentsExperiment> getSegmentsExperienceSegmentsExperiments(
+			long segmentsExperienceId, long classNameId, long classPK,
+			int status)
+		throws PortalException;
+
+	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
 	public SegmentsExperiment getSegmentsExperiment(long segmentsExperimentId)
 		throws PortalException;
 

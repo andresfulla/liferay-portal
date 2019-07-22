@@ -233,6 +233,10 @@ public interface SegmentsExperimentLocalService
 	public List<SegmentsExperiment> getSegmentsExperienceSegmentsExperiments(
 		long segmentsExperienceId, long classNameId, long classPK);
 
+	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
+	public List<SegmentsExperiment> getSegmentsExperienceSegmentsExperiments(
+		long segmentsExperienceId, long classNameId, long classPK, int status);
+
 	/**
 	 * Returns the segments experiment with the primary key.
 	 *
