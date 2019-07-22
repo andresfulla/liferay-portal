@@ -298,6 +298,17 @@ public class SegmentsExperimentLocalServiceWrapper
 				segmentsExperienceId, classNameId, classPK);
 	}
 
+	@Override
+	public java.util.List<com.liferay.segments.model.SegmentsExperiment>
+		getSegmentsExperienceSegmentsExperiments(
+			long segmentsExperienceId, long classNameId, long classPK,
+			int status) {
+
+		return _segmentsExperimentLocalService.
+			getSegmentsExperienceSegmentsExperiments(
+				segmentsExperienceId, classNameId, classPK, status);
+	}
+
 	/**
 	 * Returns the segments experiment with the primary key.
 	 *
