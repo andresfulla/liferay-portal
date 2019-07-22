@@ -24,6 +24,7 @@ import com.liferay.portal.kernel.security.permission.resource.PortletResourcePer
 import com.liferay.portal.kernel.service.ServiceContext;
 import com.liferay.segments.constants.SegmentsActionKeys;
 import com.liferay.segments.constants.SegmentsConstants;
+import com.liferay.segments.model.SegmentsExperience;
 import com.liferay.segments.model.SegmentsExperiment;
 import com.liferay.segments.service.base.SegmentsExperimentServiceBaseImpl;
 
@@ -48,6 +49,24 @@ public class SegmentsExperimentServiceImpl
 		return segmentsExperimentLocalService.addSegmentsExperiment(
 			segmentsExperienceId, classNameId, classPK, name, description,
 			serviceContext);
+	}
+
+	@Override
+	public List<SegmentsExperiment> getSegmentsExperienceSegmentsExperiments(
+			long segmentsExperienceId, long classNameId, long classPK,
+			int status)
+		throws PortalException {
+
+		SegmentsExperience segmentsExperience =
+			segmentsExperienceLocalService.getSegmentsExperience(
+				segmentsExperienceId);
+
+		_segmentsExperienceResourcePermission.check(
+			getPermissionChecker(), segmentsExperience, ActionKeys.VIEW);
+
+		return segmentsExperimentLocalService.
+			getSegmentsExperienceSegmentsExperiments(
+				segmentsExperienceId, classNameId, classPK, status);
 	}
 
 	@Override
@@ -91,6 +110,12 @@ public class SegmentsExperimentServiceImpl
 			PortletResourcePermissionFactory.getInstance(
 				SegmentsExperimentServiceImpl.class,
 				"_portletResourcePermission", SegmentsConstants.RESOURCE_NAME);
+	private static volatile ModelResourcePermission<SegmentsExperience>
+		_segmentsExperienceResourcePermission =
+			ModelResourcePermissionFactory.getInstance(
+				SegmentsExperienceServiceImpl.class,
+				"_segmentsExperienceResourcePermission",
+				SegmentsExperience.class);
 	private static volatile ModelResourcePermission<SegmentsExperiment>
 		_segmentsExperimentResourcePermission =
 			ModelResourcePermissionFactory.getInstance(
