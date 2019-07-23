@@ -88,6 +88,16 @@ public class SegmentsExperimentServiceWrapper
 	}
 
 	@Override
+	public com.liferay.segments.model.SegmentsExperiment
+			updateSegmentsExperiment(
+				long segmentsExperimentId, String name, String description)
+		throws com.liferay.portal.kernel.exception.PortalException {
+
+		return _segmentsExperimentService.updateSegmentsExperiment(
+			segmentsExperimentId, name, description);
+	}
+
+	@Override
 	public SegmentsExperimentService getWrappedService() {
 		return _segmentsExperimentService;
 	}
