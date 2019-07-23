@@ -84,6 +84,15 @@ public class SegmentsExperimentServiceUtil {
 			groupId, classNameId, classPK);
 	}
 
+	public static com.liferay.segments.model.SegmentsExperiment
+			updateSegmentsExperiment(
+				long segmentsExperimentId, String name, String description)
+		throws com.liferay.portal.kernel.exception.PortalException {
+
+		return getService().updateSegmentsExperiment(
+			segmentsExperimentId, name, description);
+	}
+
 	public static SegmentsExperimentService getService() {
 		return _serviceTracker.getService();
 	}

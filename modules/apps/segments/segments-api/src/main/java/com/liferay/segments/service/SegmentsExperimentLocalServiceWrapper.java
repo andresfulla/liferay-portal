@@ -417,6 +417,16 @@ public class SegmentsExperimentLocalServiceWrapper
 		return _segmentsExperimentLocalService.getSegmentsExperimentsCount();
 	}
 
+	@Override
+	public com.liferay.segments.model.SegmentsExperiment
+			updateSegmentsExperiment(
+				long segmentsExperimentId, String name, String description)
+		throws com.liferay.portal.kernel.exception.PortalException {
+
+		return _segmentsExperimentLocalService.updateSegmentsExperiment(
+			segmentsExperimentId, name, description);
+	}
+
 	/**
 	 * Updates the segments experiment in the database or adds it if it does not yet exist. Also notifies the appropriate model listeners.
 	 *

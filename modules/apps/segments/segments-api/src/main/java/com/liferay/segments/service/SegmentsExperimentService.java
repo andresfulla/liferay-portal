@@ -86,4 +86,8 @@ public interface SegmentsExperimentService extends BaseService {
 	public List<SegmentsExperiment> getSegmentsExperiments(
 		long groupId, long classNameId, long classPK);
 
+	public SegmentsExperiment updateSegmentsExperiment(
+			long segmentsExperimentId, String name, String description)
+		throws PortalException;
+
 }
