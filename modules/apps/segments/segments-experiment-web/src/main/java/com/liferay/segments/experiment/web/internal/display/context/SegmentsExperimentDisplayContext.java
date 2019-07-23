@@ -76,7 +76,7 @@ public class SegmentsExperimentDisplayContext {
 			segmentsExperiencesJSONArray.put(
 				JSONUtil.put(
 					"segmentsExperienceId",
-					segmentsExperience.getSegmentsExperienceId()
+					String.valueOf(segmentsExperience.getSegmentsExperienceId())
 				).put(
 					"name", segmentsExperience.getName(locale)
 				).put(
@@ -92,7 +92,7 @@ public class SegmentsExperimentDisplayContext {
 		segmentsExperiencesJSONArray.put(
 			JSONUtil.put(
 				"segmentsExperienceId",
-				SegmentsConstants.SEGMENTS_EXPERIENCE_ID_DEFAULT
+				String.valueOf(SegmentsConstants.SEGMENTS_EXPERIENCE_ID_DEFAULT)
 			).put(
 				"name",
 				SegmentsConstants.getDefaultSegmentsExperienceName(locale)
@@ -151,13 +151,15 @@ public class SegmentsExperimentDisplayContext {
 			segmentsExperimentOptional.get();
 
 		return JSONUtil.put(
-			"segmentsExperimentId", segmentsExperiment.getSegmentsExperimentId()
+			"segmentsExperimentId",
+			String.valueOf(segmentsExperiment.getSegmentsExperimentId())
 		).put(
 			"name", segmentsExperiment.getName()
 		).put(
 			"description", segmentsExperiment.getDescription()
 		).put(
-			"segmentsExperienceId", segmentsExperiment.getSegmentsExperienceId()
+			"segmentsExperienceId",
+			String.valueOf(segmentsExperiment.getSegmentsExperienceId())
 		);
 	}
 
