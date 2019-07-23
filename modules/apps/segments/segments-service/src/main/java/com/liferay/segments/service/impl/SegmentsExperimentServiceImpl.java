@@ -29,6 +29,8 @@ import com.liferay.segments.model.SegmentsExperiment;
 import com.liferay.segments.service.base.SegmentsExperimentServiceBaseImpl;
 
 import java.util.List;
+import java.util.Locale;
+import java.util.Map;
 
 /**
  * @author Eduardo García
@@ -85,6 +87,21 @@ public class SegmentsExperimentServiceImpl
 
 		return segmentsExperimentPersistence.filterFindByG_C_C(
 			groupId, classNameId, _getPublishedLayoutClassPK(classPK));
+	}
+
+	@Override
+	public SegmentsExperiment updateSegmentsExperiment(
+		long segmentsExperimentId, String name, String description)
+		throws PortalException {
+
+		_segmentsExperimentResourcePermission.check(
+			getPermissionChecker(),
+			segmentsExperimentLocalService.getSegmentsExperiment(
+				segmentsExperimentId),
+			ActionKeys.UPDATE);
+
+		return segmentsExperimentLocalService.updateSegmentsExperiment(
+			segmentsExperimentId, name, description);
 	}
 
 	private long _getPublishedLayoutClassPK(long classPK) {
