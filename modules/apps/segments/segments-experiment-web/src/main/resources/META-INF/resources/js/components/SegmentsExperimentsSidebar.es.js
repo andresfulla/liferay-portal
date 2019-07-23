@@ -18,6 +18,7 @@ import SegmentsExperiments from './SegmentsExperiments.es';
 import SegmentsExperimentsModal from './SegmentsExperimentsModal.es';
 import {SegmentsExperienceType, SegmentsExperimentType} from '../types.es';
 import SegmentsExperimentsContext from '../context.es';
+import Flask from './Flask';
 
 function SegmentsExperimentsSidebar({
 	initialSegmentsExperiences,
@@ -38,7 +39,7 @@ function SegmentsExperimentsSidebar({
 		initialSegmentsExperiment
 	);
 
-	return (
+	return page.type === 'content' ? (
 		<div className="p-3">
 			<SegmentsExperiments
 				activeExperience={activeSegmentsExperienceId}
@@ -67,6 +68,19 @@ function SegmentsExperimentsSidebar({
 				segmentsExperienceId={editModal.segmentsExperienceId}
 				segmentsExperimentId={editModal.segmentsExperiementId}
 			/>
+		</div>
+	) : (
+		<div className="p-3">
+			<h4 className="text-dark">
+				Only Content Pages have Tests available
+			</h4>
+			<p>
+				It is possible to turn a Widget Page into a Content Page. Go to
+				settings
+			</p>
+			<div className="text-center mt-3">
+				<Flask />
+			</div>
 		</div>
 	);
 
