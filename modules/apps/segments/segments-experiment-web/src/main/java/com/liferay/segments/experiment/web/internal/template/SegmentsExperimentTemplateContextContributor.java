@@ -22,9 +22,7 @@ import com.liferay.portal.kernel.theme.ThemeDisplay;
 import com.liferay.portal.kernel.util.Constants;
 import com.liferay.portal.kernel.util.GetterUtil;
 import com.liferay.portal.kernel.util.ParamUtil;
-import com.liferay.portal.kernel.util.PrefsPropsUtil;
 import com.liferay.portal.kernel.util.SessionClicks;
-import com.liferay.portal.kernel.util.Validator;
 import com.liferay.portal.kernel.util.WebKeys;
 
 import java.util.Map;
@@ -79,6 +77,8 @@ public class SegmentsExperimentTemplateContextContributor
 			return false;
 		}
 
+		/*
+
 		if (Validator.isNull(
 				PrefsPropsUtil.getString(
 					themeDisplay.getCompanyId(),
@@ -94,6 +94,7 @@ public class SegmentsExperimentTemplateContextContributor
 
 			return false;
 		}
+		*/
 
 		Layout layout = themeDisplay.getLayout();
 
