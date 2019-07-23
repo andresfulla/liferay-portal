@@ -27,11 +27,9 @@ import com.liferay.portal.kernel.util.Constants;
 import com.liferay.portal.kernel.util.Html;
 import com.liferay.portal.kernel.util.ParamUtil;
 import com.liferay.portal.kernel.util.Portal;
-import com.liferay.portal.kernel.util.PrefsPropsUtil;
 import com.liferay.portal.kernel.util.ResourceBundleUtil;
 import com.liferay.portal.kernel.util.SessionClicks;
 import com.liferay.portal.kernel.util.StringUtil;
-import com.liferay.portal.kernel.util.Validator;
 import com.liferay.portal.kernel.util.WebKeys;
 import com.liferay.product.navigation.control.menu.BaseProductNavigationControlMenuEntry;
 import com.liferay.product.navigation.control.menu.ProductNavigationControlMenuEntry;
@@ -179,6 +177,8 @@ public class SegmentsExperimentProductNavigationControlMenuEntry
 			return false;
 		}
 
+		/*
+
 		if (Validator.isNull(
 				PrefsPropsUtil.getString(
 					themeDisplay.getCompanyId(),
@@ -194,6 +194,7 @@ public class SegmentsExperimentProductNavigationControlMenuEntry
 
 			return false;
 		}
+		*/
 
 		Layout layout = themeDisplay.getLayout();
 
