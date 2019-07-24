@@ -23,7 +23,6 @@
 	{@param? selectedSidebarPanelId: string}
 	{@param? spritemap: string}
 	{@param? store: ?}
-	{@param? availableSegmentsExperiments: any}
 
 	{let $toolbarClasses kind="text"}
 		fragments-editor-toolbar
@@ -57,16 +56,6 @@
 						{param store: $store /}
 					{/call}
 				</li>
-
-				{if $defaultSegmentsExperienceId and $availableSegmentsExperiments }
-					<li class="nav-item">
-						{call com.liferay.layout.content.page.editor.web.Experiments.render}
-							{param portletNamespace: $portletNamespace ?: '' /}
-							{param spritemap: $spritemap ?: '' /}
-							{param store: $store /}
-						{/call}
-					</li>
-				{/if}
 			</ul>
 
 			<ul class="navbar-nav">
