@@ -359,7 +359,7 @@ public class ContentPageLayoutEditorDisplayContext
 
 	private void _populateSegmentsExperimentsSoyContext(SoyContext soyContext)
 		throws PortalException {
-
+		// TODO remove from this to where it leads
 		soyContext.put(
 			"availableSegmentsExperiments",
 			_getAvailableSegmentsExperimentsSoyContext());
