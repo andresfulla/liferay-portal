@@ -25,8 +25,7 @@ function SegmentsExperiments({
 	onCreateExperiment,
 	segmentsExperiment,
 	onEditExperiment,
-	activeExperience,
-	onSelectExperimentChange
+	activeExperience
 }) {
 	const [dropdown, setDropdown] = useState(false);
 
@@ -114,7 +113,17 @@ function SegmentsExperiments({
 
 	function _handleExperienceSelection(event) {
 		const segmentsExperienceId = event.target.value;
-		onSelectExperimentChange(segmentsExperienceId);
+
+		const currentUrl = new URL(window.location.href);
+		const urlQueryString = currentUrl.search;
+		const urlSearchParams = new URLSearchParams(urlQueryString);
+
+		urlSearchParams.set('segmentsExperienceId', segmentsExperienceId);
+		currentUrl.search = urlSearchParams.toString();
+
+		const newUrl = currentUrl.toString();
+
+		Liferay.Util.navigate(newUrl);
 	}
 
 	function _handleEditExperiment() {
