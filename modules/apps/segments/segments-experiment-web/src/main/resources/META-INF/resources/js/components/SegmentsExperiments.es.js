@@ -118,16 +118,12 @@ function SegmentsExperiments({
 	function _handleExperienceSelection(event) {
 		const segmentsExperienceId = event.target.value;
 
-		const currentUrl = new URL(window.location.href);
-		const urlQueryString = currentUrl.search;
-		const urlSearchParams = new URLSearchParams(urlQueryString);
-
-		urlSearchParams.set('segmentsExperienceId', segmentsExperienceId);
-		currentUrl.search = urlSearchParams.toString();
-
-		const newUrl = currentUrl.toString();
-
-		Liferay.Util.navigate(newUrl);
+		Liferay.Util.navigate(
+			Liferay.Util.addParams(
+				'segmentsExperienceId=' + segmentsExperienceId,
+				Liferay.currentURL
+			)
+		);
 	}
 
 	function _handleEditExperiment() {
