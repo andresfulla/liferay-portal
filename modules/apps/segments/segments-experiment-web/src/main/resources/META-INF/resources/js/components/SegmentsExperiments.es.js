@@ -22,10 +22,10 @@ import {SegmentsExperienceType, SegmentsExperimentType} from '../types.es';
 
 function SegmentsExperiments({
 	segmentsExperiences = [],
-	onCreateExperiment,
+	onCreateSegmentsExperiment,
 	segmentsExperiment,
-	onEditExperiment,
-	activeExperience
+	onEditSegmentsExperiment,
+	selectedSegmentsExperienceId
 }) {
 	const [dropdown, setDropdown] = useState(false);
 
@@ -35,7 +35,7 @@ function SegmentsExperiments({
 				<div className="form-group">
 					<label>{Liferay.Language.get('select-experience')}</label>
 					<ClaySelect
-						defaultValue={activeExperience}
+						defaultValue={selectedSegmentsExperienceId}
 						onChange={_handleExperienceSelection}
 					>
 						{segmentsExperiences.map(segmentsExperience => {
@@ -102,7 +102,11 @@ function SegmentsExperiments({
 					<ClayButton
 						className="w-100"
 						displayType="primary"
-						onClick={() => onCreateExperiment(activeExperience)}
+						onClick={() =>
+							onCreateSegmentsExperiment(
+								selectedSegmentsExperienceId
+							)
+						}
 					>
 						{Liferay.Language.get('create-test')}
 					</ClayButton>
@@ -127,14 +131,14 @@ function SegmentsExperiments({
 	}
 
 	function _handleEditExperiment() {
-		onEditExperiment();
+		onEditSegmentsExperiment();
 	}
 }
 
 SegmentsExperiments.propTypes = {
-	activeExperience: PropTypes.string.isRequired,
-	onCreateExperiment: PropTypes.func.isRequired,
-	onEditExperiment: PropTypes.func.isRequired,
+	selectedSegmentsExperienceId: PropTypes.string.isRequired,
+	onCreateSegmentsExperiment: PropTypes.func.isRequired,
+	onEditSegmentsExperiment: PropTypes.func.isRequired,
 	onSelectExperimentChange: PropTypes.func.isRequired,
 	segmentsExperiment: SegmentsExperimentType,
 	segmentsExperiences: PropTypes.arrayOf(SegmentsExperienceType)
