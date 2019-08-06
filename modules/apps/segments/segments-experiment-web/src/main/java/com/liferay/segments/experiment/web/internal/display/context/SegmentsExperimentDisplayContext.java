@@ -21,6 +21,8 @@ import com.liferay.portal.kernel.json.JSONObject;
 import com.liferay.portal.kernel.json.JSONUtil;
 import com.liferay.portal.kernel.model.Layout;
 import com.liferay.portal.kernel.theme.ThemeDisplay;
+import com.liferay.portal.kernel.util.Constants;
+import com.liferay.portal.kernel.util.HttpUtil;
 import com.liferay.portal.kernel.util.ParamUtil;
 import com.liferay.portal.kernel.util.PortalUtil;
 import com.liferay.portal.kernel.util.Validator;
@@ -37,6 +39,10 @@ import java.util.Locale;
 import java.util.Optional;
 import java.util.stream.Stream;
 
+import javax.portlet.ActionRequest;
+import javax.portlet.PortletURL;
+import javax.portlet.RenderResponse;
+
 import javax.servlet.http.HttpServletRequest;
 
 /**
@@ -45,16 +51,22 @@ import javax.servlet.http.HttpServletRequest;
 public class SegmentsExperimentDisplayContext {
 
 	public SegmentsExperimentDisplayContext(
-		HttpServletRequest httpServletRequest,
+		HttpServletRequest httpServletRequest, RenderResponse renderResponse,
 		SegmentsExperienceService segmentsExperienceService,
 		SegmentsExperimentService segmentsExperimentService) {
 
 		_httpServletRequest = httpServletRequest;
+		_renderResponse = renderResponse;
 		_segmentsExperienceService = segmentsExperienceService;
 		_segmentsExperimentService = segmentsExperimentService;
 
 		_themeDisplay = (ThemeDisplay)_httpServletRequest.getAttribute(
 			WebKeys.THEME_DISPLAY);
+	}
+
+	public String getCreateSegmentsVariantURL() {
+		return getFragmentEntryActionURL(
+			"/content_layout/add_segments_experience");
 	}
 
 	public JSONArray getSegmentsExperiencesJSONArray(Locale locale)
@@ -129,6 +141,18 @@ public class SegmentsExperimentDisplayContext {
 		return _segmentsExperienceId;
 	}
 
+	/**
+	 * @see com.liferay.layout.content.page.editor.web.internal.display.context.ContentPageEditorDisplayContext#getFragmentEntryActionURL(String)
+	 */
+	protected String getFragmentEntryActionURL(String action) {
+		PortletURL actionURL = _renderResponse.createActionURL();
+
+		actionURL.setParameter(ActionRequest.ACTION_NAME, action);
+
+		return HttpUtil.addParameter(
+			actionURL.toString(), "p_l_mode", Constants.EDIT);
+	}
+
 	private Optional<SegmentsExperiment> _getDraftSegmentsExperimentOptional(
 			long segmentsExperienceId)
 		throws PortalException {
@@ -169,6 +193,7 @@ public class SegmentsExperimentDisplayContext {
 	}
 
 	private final HttpServletRequest _httpServletRequest;
+	private final RenderResponse _renderResponse;
 	private Long _segmentsExperienceId;
 	private final SegmentsExperienceService _segmentsExperienceService;
 	private final SegmentsExperimentService _segmentsExperimentService;
