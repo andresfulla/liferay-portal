@@ -39,6 +39,7 @@ String segmentsExperimentRootId = renderResponse.getNamespace() + "-segments-exp
 				createSegmentsVariantURL: '<%= segmentsExperimentDisplayContext.getCreateSegmentsVariantURL() %>'
 			},
 			namespace: '<portlet:namespace />',
+			contentPageEditorNamespace: '<%= segmentsExperimentDisplayContext.getContentPageEditorPortletNamespace() %>',
 			page: {
 				classPK: '<%= themeDisplay.getPlid() %>',
 				classNameId: '<%= PortalUtil.getClassNameId(Layout.class.getName()) %>',

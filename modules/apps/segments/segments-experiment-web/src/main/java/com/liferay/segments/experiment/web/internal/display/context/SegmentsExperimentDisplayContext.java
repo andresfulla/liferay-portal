@@ -26,7 +26,7 @@ import com.liferay.portal.kernel.theme.ThemeDisplay;
 import com.liferay.portal.kernel.util.Constants;
 import com.liferay.portal.kernel.util.HttpUtil;
 import com.liferay.portal.kernel.util.ParamUtil;
-import com.liferay.portal.kernel.util.PortalUtil;
+import com.liferay.portal.kernel.util.Portal;
 import com.liferay.portal.kernel.util.Validator;
 import com.liferay.portal.kernel.util.WebKeys;
 import com.liferay.segments.constants.SegmentsExperienceConstants;
@@ -52,18 +52,27 @@ import javax.servlet.http.HttpServletRequest;
  */
 public class SegmentsExperimentDisplayContext {
 
+	private final Portal _portal;
+
 	public SegmentsExperimentDisplayContext(
 		HttpServletRequest httpServletRequest, RenderResponse renderResponse,
+		Portal portal,
 		SegmentsExperienceService segmentsExperienceService,
 		SegmentsExperimentService segmentsExperimentService) {
 
 		_httpServletRequest = httpServletRequest;
 		_renderResponse = renderResponse;
+		_portal = portal;
 		_segmentsExperienceService = segmentsExperienceService;
 		_segmentsExperimentService = segmentsExperimentService;
 
 		_themeDisplay = (ThemeDisplay)_httpServletRequest.getAttribute(
 			WebKeys.THEME_DISPLAY);
+	}
+
+	public String getContentPageEditorPortletNamespace(){
+		return _portal.getPortletNamespace(
+			ContentPageEditorPortletKeys.CONTENT_PAGE_EDITOR_PORTLET);
 	}
 
 	public String getCreateSegmentsVariantURL() {
@@ -77,7 +86,7 @@ public class SegmentsExperimentDisplayContext {
 		List<SegmentsExperience> segmentsExperiences =
 			_segmentsExperienceService.getSegmentsExperiences(
 				_themeDisplay.getScopeGroupId(),
-				PortalUtil.getClassNameId(Layout.class),
+				_portal.getClassNameId(Layout.class),
 				_themeDisplay.getPlid(), true);
 
 		JSONArray segmentsExperiencesJSONArray =
@@ -134,7 +143,7 @@ public class SegmentsExperimentDisplayContext {
 		}
 
 		HttpServletRequest originalHttpServletRequest =
-			PortalUtil.getOriginalServletRequest(_httpServletRequest);
+			_portal.getOriginalServletRequest(_httpServletRequest);
 
 		_segmentsExperienceId = ParamUtil.getLong(
 			originalHttpServletRequest, "segmentsExperienceId",
@@ -145,7 +154,7 @@ public class SegmentsExperimentDisplayContext {
 
 	private String _getContentPageEditorActionURL(String action) {
 		LiferayPortletResponse liferayPortletResponse =
-			PortalUtil.getLiferayPortletResponse(_renderResponse);
+			_portal.getLiferayPortletResponse(_renderResponse);
 
 		PortletURL actionURL = liferayPortletResponse.createActionURL(
 			ContentPageEditorPortletKeys.CONTENT_PAGE_EDITOR_PORTLET);
@@ -162,7 +171,7 @@ public class SegmentsExperimentDisplayContext {
 
 		List<SegmentsExperiment> segmentsExperienceSegmentsExperiments =
 			_segmentsExperimentService.getSegmentsExperienceSegmentsExperiments(
-				segmentsExperienceId, PortalUtil.getClassNameId(Layout.class),
+				segmentsExperienceId, _portal.getClassNameId(Layout.class),
 				_themeDisplay.getPlid(),
 				SegmentsExperimentConstants.STATUS_DRAFT);
 
