@@ -58,6 +58,15 @@ public class SegmentsExperimentRelServiceWrapper
 	}
 
 	@Override
+	public java.util.List<com.liferay.segments.model.SegmentsExperimentRel>
+			getSegmentsExperimentRels(long segmentsExperimentId)
+		throws com.liferay.portal.kernel.exception.PortalException {
+
+		return _segmentsExperimentRelService.getSegmentsExperimentRels(
+			segmentsExperimentId);
+	}
+
+	@Override
 	public SegmentsExperimentRelService getWrappedService() {
 		return _segmentsExperimentRelService;
 	}

@@ -26,14 +26,16 @@ import com.liferay.portal.kernel.theme.ThemeDisplay;
 import com.liferay.portal.kernel.util.Constants;
 import com.liferay.portal.kernel.util.HttpUtil;
 import com.liferay.portal.kernel.util.ParamUtil;
-import com.liferay.portal.kernel.util.PortalUtil;
+import com.liferay.portal.kernel.util.Portal;
 import com.liferay.portal.kernel.util.Validator;
 import com.liferay.portal.kernel.util.WebKeys;
 import com.liferay.segments.constants.SegmentsExperienceConstants;
 import com.liferay.segments.constants.SegmentsExperimentConstants;
 import com.liferay.segments.model.SegmentsExperience;
 import com.liferay.segments.model.SegmentsExperiment;
+import com.liferay.segments.model.SegmentsExperimentRel;
 import com.liferay.segments.service.SegmentsExperienceService;
+import com.liferay.segments.service.SegmentsExperimentRelService;
 import com.liferay.segments.service.SegmentsExperimentService;
 
 import java.util.List;
@@ -52,18 +54,29 @@ import javax.servlet.http.HttpServletRequest;
  */
 public class SegmentsExperimentDisplayContext {
 
+	private final Portal _portal;
+
 	public SegmentsExperimentDisplayContext(
 		HttpServletRequest httpServletRequest, RenderResponse renderResponse,
+		Portal portal,
 		SegmentsExperienceService segmentsExperienceService,
-		SegmentsExperimentService segmentsExperimentService) {
+		SegmentsExperimentService segmentsExperimentService,
+		SegmentsExperimentRelService segmentsExperimentRelService) {
 
 		_httpServletRequest = httpServletRequest;
 		_renderResponse = renderResponse;
+		_portal = portal;
 		_segmentsExperienceService = segmentsExperienceService;
 		_segmentsExperimentService = segmentsExperimentService;
+		_segmentsExperimentRelService = segmentsExperimentRelService;
 
 		_themeDisplay = (ThemeDisplay)_httpServletRequest.getAttribute(
 			WebKeys.THEME_DISPLAY);
+	}
+
+	public String getContentPageEditorPortletNamespace(){
+		return _portal.getPortletNamespace(
+			ContentPageEditorPortletKeys.CONTENT_PAGE_EDITOR_PORTLET);
 	}
 
 	public String getCreateSegmentsVariantURL() {
@@ -77,7 +90,7 @@ public class SegmentsExperimentDisplayContext {
 		List<SegmentsExperience> segmentsExperiences =
 			_segmentsExperienceService.getSegmentsExperiences(
 				_themeDisplay.getScopeGroupId(),
-				PortalUtil.getClassNameId(Layout.class),
+				_portal.getClassNameId(Layout.class),
 				_themeDisplay.getPlid(), true);
 
 		JSONArray segmentsExperiencesJSONArray =
@@ -120,6 +133,68 @@ public class SegmentsExperimentDisplayContext {
 		return segmentsExperiencesJSONArray;
 	}
 
+
+	public JSONArray getSegmentsExperimentRelsJSONArray(Locale locale)
+		throws PortalException {
+
+		Optional<SegmentsExperiment> segmentsExperimentOptional =
+			_getDraftSegmentsExperimentOptional(
+				getSelectedSegmentsExperienceId());
+
+		JSONArray segmentsExperimentRelsJSONArray =
+			JSONFactoryUtil.createJSONArray();
+
+		if(!segmentsExperimentOptional.isPresent()){
+			return segmentsExperimentRelsJSONArray;
+		}
+
+		SegmentsExperiment segmentsExperiment =
+			segmentsExperimentOptional.get();
+
+		List<SegmentsExperimentRel> segmentsExperimentRels =
+			_segmentsExperimentRelService.getSegmentsExperimentRels(
+				segmentsExperiment.getSegmentsExperimentId());
+
+		for (SegmentsExperimentRel segmentsExperimentRel : segmentsExperimentRels){
+
+			segmentsExperimentRelsJSONArray.put(
+				JSONUtil.put(
+					"name", _getSegmentsExperienceName(
+						locale, segmentsExperimentRel.getSegmentsExperienceId())
+				).put(
+					"segmentsExperienceId",
+					String.valueOf(
+						segmentsExperimentRel.getSegmentsExperienceId())
+				).put(
+					"segmentsExperimentId",
+					String.valueOf(
+						segmentsExperimentRel.getSegmentsExperimentId())
+				).put(
+					"segmentsExperimentRelId",
+					String.valueOf(
+						segmentsExperimentRel.getSegmentsExperimentRelId())
+
+				));
+		}
+
+		return segmentsExperimentRelsJSONArray;
+	}
+
+	private String _getSegmentsExperienceName(
+		Locale locale, long segmentsExperienceId) throws PortalException {
+
+		if(segmentsExperienceId == SegmentsExperienceConstants.ID_DEFAULT){
+			return SegmentsExperienceConstants.getDefaultSegmentsExperienceName(
+				locale);
+		}
+
+		SegmentsExperience segmentsExperience =
+			_segmentsExperienceService.getSegmentsExperience(
+				segmentsExperienceId);
+
+		return segmentsExperience.getName(locale);
+	}
+
 	public JSONObject getSegmentsExperimentJSONObject() throws PortalException {
 		Optional<SegmentsExperiment> segmentsExperimentOptional =
 			_getDraftSegmentsExperimentOptional(
@@ -134,7 +209,7 @@ public class SegmentsExperimentDisplayContext {
 		}
 
 		HttpServletRequest originalHttpServletRequest =
-			PortalUtil.getOriginalServletRequest(_httpServletRequest);
+			_portal.getOriginalServletRequest(_httpServletRequest);
 
 		_segmentsExperienceId = ParamUtil.getLong(
 			originalHttpServletRequest, "segmentsExperienceId",
@@ -145,7 +220,7 @@ public class SegmentsExperimentDisplayContext {
 
 	private String _getContentPageEditorActionURL(String action) {
 		LiferayPortletResponse liferayPortletResponse =
-			PortalUtil.getLiferayPortletResponse(_renderResponse);
+			_portal.getLiferayPortletResponse(_renderResponse);
 
 		PortletURL actionURL = liferayPortletResponse.createActionURL(
 			ContentPageEditorPortletKeys.CONTENT_PAGE_EDITOR_PORTLET);
@@ -162,7 +237,7 @@ public class SegmentsExperimentDisplayContext {
 
 		List<SegmentsExperiment> segmentsExperienceSegmentsExperiments =
 			_segmentsExperimentService.getSegmentsExperienceSegmentsExperiments(
-				segmentsExperienceId, PortalUtil.getClassNameId(Layout.class),
+				segmentsExperienceId, _portal.getClassNameId(Layout.class),
 				_themeDisplay.getPlid(),
 				SegmentsExperimentConstants.STATUS_DRAFT);
 
@@ -200,6 +275,7 @@ public class SegmentsExperimentDisplayContext {
 	private Long _segmentsExperienceId;
 	private final SegmentsExperienceService _segmentsExperienceService;
 	private final SegmentsExperimentService _segmentsExperimentService;
+	private final SegmentsExperimentRelService _segmentsExperimentRelService;
 	private final ThemeDisplay _themeDisplay;
 
 }

@@ -97,6 +97,48 @@ public class SegmentsExperimentRelServiceHttp {
 		}
 	}
 
+	public static java.util.List
+		<com.liferay.segments.model.SegmentsExperimentRel>
+				getSegmentsExperimentRels(
+					HttpPrincipal httpPrincipal, long segmentsExperimentId)
+			throws com.liferay.portal.kernel.exception.PortalException {
+
+		try {
+			MethodKey methodKey = new MethodKey(
+				SegmentsExperimentRelServiceUtil.class,
+				"getSegmentsExperimentRels",
+				_getSegmentsExperimentRelsParameterTypes1);
+
+			MethodHandler methodHandler = new MethodHandler(
+				methodKey, segmentsExperimentId);
+
+			Object returnObj = null;
+
+			try {
+				returnObj = TunnelUtil.invoke(httpPrincipal, methodHandler);
+			}
+			catch (Exception e) {
+				if (e instanceof
+						com.liferay.portal.kernel.exception.PortalException) {
+
+					throw (com.liferay.portal.kernel.exception.PortalException)
+						e;
+				}
+
+				throw new com.liferay.portal.kernel.exception.SystemException(
+					e);
+			}
+
+			return (java.util.List
+				<com.liferay.segments.model.SegmentsExperimentRel>)returnObj;
+		}
+		catch (com.liferay.portal.kernel.exception.SystemException se) {
+			_log.error(se, se);
+
+			throw se;
+		}
+	}
+
 	private static Log _log = LogFactoryUtil.getLog(
 		SegmentsExperimentRelServiceHttp.class);
 
@@ -105,5 +147,7 @@ public class SegmentsExperimentRelServiceHttp {
 			long.class, long.class,
 			com.liferay.portal.kernel.service.ServiceContext.class
 		};
+	private static final Class<?>[] _getSegmentsExperimentRelsParameterTypes1 =
+		new Class[] {long.class};
 
 }

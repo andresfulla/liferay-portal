@@ -290,6 +290,14 @@ public class SegmentsExperimentRelLocalServiceWrapper
 			start, end);
 	}
 
+	@Override
+	public java.util.List<com.liferay.segments.model.SegmentsExperimentRel>
+		getSegmentsExperimentRels(long segmentsExperimentId) {
+
+		return _segmentsExperimentRelLocalService.getSegmentsExperimentRels(
+			segmentsExperimentId);
+	}
+
 	/**
 	 * Returns the number of segments experiment rels.
 	 *

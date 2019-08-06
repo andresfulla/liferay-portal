@@ -230,6 +230,10 @@ public interface SegmentsExperimentRelLocalService
 	public List<SegmentsExperimentRel> getSegmentsExperimentRels(
 		int start, int end);
 
+	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
+	public List<SegmentsExperimentRel> getSegmentsExperimentRels(
+		long segmentsExperimentId);
+
 	/**
 	 * Returns the number of segments experiment rels.
 	 *

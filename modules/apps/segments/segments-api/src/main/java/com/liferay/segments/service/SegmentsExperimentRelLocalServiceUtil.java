@@ -268,6 +268,13 @@ public class SegmentsExperimentRelLocalServiceUtil {
 		return getService().getSegmentsExperimentRels(start, end);
 	}
 
+	public static java.util.List
+		<com.liferay.segments.model.SegmentsExperimentRel>
+			getSegmentsExperimentRels(long segmentsExperimentId) {
+
+		return getService().getSegmentsExperimentRels(segmentsExperimentId);
+	}
+
 	/**
 	 * Returns the number of segments experiment rels.
 	 *

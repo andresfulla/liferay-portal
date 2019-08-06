@@ -18,10 +18,16 @@ import com.liferay.portal.kernel.exception.PortalException;
 import com.liferay.portal.kernel.security.permission.ActionKeys;
 import com.liferay.portal.kernel.security.permission.resource.ModelResourcePermission;
 import com.liferay.portal.kernel.security.permission.resource.ModelResourcePermissionFactory;
+import com.liferay.portal.kernel.security.permission.resource.PortletResourcePermission;
+import com.liferay.portal.kernel.security.permission.resource.PortletResourcePermissionFactory;
 import com.liferay.portal.kernel.service.ServiceContext;
+import com.liferay.segments.constants.SegmentsActionKeys;
+import com.liferay.segments.constants.SegmentsConstants;
 import com.liferay.segments.model.SegmentsExperiment;
 import com.liferay.segments.model.SegmentsExperimentRel;
 import com.liferay.segments.service.base.SegmentsExperimentRelServiceBaseImpl;
+
+import java.util.List;
 
 /**
  * The implementation of the segments experiment rel remote service.
@@ -52,11 +58,22 @@ public class SegmentsExperimentRelServiceImpl
 			segmentsExperimentId, segmentsExperienceId, serviceContext);
 	}
 
+	@Override
+	public List<SegmentsExperimentRel> getSegmentsExperimentRels(
+		long segmentsExperimentId)
+		throws PortalException {
+
+		_segmentsExperimentResourcePermission.check(
+			getPermissionChecker(), segmentsExperimentId, ActionKeys.VIEW);
+
+		return segmentsExperimentRelLocalService.getSegmentsExperimentRels(
+			segmentsExperimentId);
+	}
 	private static volatile ModelResourcePermission<SegmentsExperiment>
 		_segmentsExperimentResourcePermission =
-			ModelResourcePermissionFactory.getInstance(
-				SegmentsExperimentServiceImpl.class,
-				"_segmentsExperimentResourcePermission",
-				SegmentsExperiment.class);
+		ModelResourcePermissionFactory.getInstance(
+			SegmentsExperimentServiceImpl.class,
+			"_segmentsExperimentResourcePermission",
+			SegmentsExperiment.class);
 
 }

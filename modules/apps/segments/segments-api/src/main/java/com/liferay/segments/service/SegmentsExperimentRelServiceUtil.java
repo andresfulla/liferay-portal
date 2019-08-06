@@ -58,6 +58,14 @@ public class SegmentsExperimentRelServiceUtil {
 		return getService().getOSGiServiceIdentifier();
 	}
 
+	public static java.util.List
+		<com.liferay.segments.model.SegmentsExperimentRel>
+				getSegmentsExperimentRels(long segmentsExperimentId)
+			throws com.liferay.portal.kernel.exception.PortalException {
+
+		return getService().getSegmentsExperimentRels(segmentsExperimentId);
+	}
+
 	public static SegmentsExperimentRelService getService() {
 		return _serviceTracker.getService();
 	}

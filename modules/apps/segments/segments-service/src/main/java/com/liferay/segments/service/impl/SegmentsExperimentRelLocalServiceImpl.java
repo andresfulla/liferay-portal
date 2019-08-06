@@ -21,6 +21,7 @@ import com.liferay.segments.model.SegmentsExperimentRel;
 import com.liferay.segments.service.base.SegmentsExperimentRelLocalServiceBaseImpl;
 
 import java.util.Date;
+import java.util.List;
 
 /**
  * The implementation of the segments experiment rel local service.
@@ -65,6 +66,14 @@ public class SegmentsExperimentRelLocalServiceImpl
 		segmentsExperimentRelPersistence.update(segmentsExperimentRel);
 
 		return segmentsExperimentRel;
+	}
+
+
+	@Override
+	public List<SegmentsExperimentRel> getSegmentsExperimentRels(
+		long segmentsExperimentId) {
+		return segmentsExperimentRelPersistence.findBySegmentsExperimentId(
+			segmentsExperimentId);
 	}
 
 }

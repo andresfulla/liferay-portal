@@ -85,6 +85,26 @@ public class SegmentsExperimentRelServiceSoap {
 		}
 	}
 
+	public static com.liferay.segments.model.SegmentsExperimentRelSoap[]
+			getSegmentsExperimentRels(long segmentsExperimentId)
+		throws RemoteException {
+
+		try {
+			java.util.List<com.liferay.segments.model.SegmentsExperimentRel>
+				returnValue =
+					SegmentsExperimentRelServiceUtil.getSegmentsExperimentRels(
+						segmentsExperimentId);
+
+			return com.liferay.segments.model.SegmentsExperimentRelSoap.
+				toSoapModels(returnValue);
+		}
+		catch (Exception e) {
+			_log.error(e, e);
+
+			throw new RemoteException(e.getMessage());
+		}
+	}
+
 	private static Log _log = LogFactoryUtil.getLog(
 		SegmentsExperimentRelServiceSoap.class);
 
