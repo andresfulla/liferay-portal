@@ -16,12 +16,17 @@ import React, {useState, useContext} from 'react';
 import PropTypes from 'prop-types';
 import SegmentsExperiments from './SegmentsExperiments.es';
 import SegmentsExperimentsModal from './SegmentsExperimentsModal.es';
-import {SegmentsExperienceType, SegmentsExperimentType} from '../types.es';
+import {
+	SegmentsExperienceType,
+	SegmentsExperimentType,
+	SegmentsVariantType
+} from '../types.es';
 import SegmentsExperimentsContext from '../context.es';
 import UnsupportedSegmentsExperiments from './UnsupportedSegmentsExperiments.es';
 
 function SegmentsExperimentsSidebar({
 	initialSegmentsExperiences,
+	initialSegmentsVariants,
 	initialSegmentsExperiment,
 	initialSelectedSegmentsExperienceId = '0'
 }) {
@@ -31,6 +36,7 @@ function SegmentsExperimentsSidebar({
 	const [segmentsExperiment, setSegmentsExperiment] = useState(
 		initialSegmentsExperiment
 	);
+	const [variants, setVariants] = useState(initialSegmentsVariants);
 
 	return page.type === 'content' ? (
 		<div className="p-3">
@@ -40,11 +46,13 @@ function SegmentsExperimentsSidebar({
 				onSelectSegmentsExperienceChange={
 					_handleSelectSegmentsExperience
 				}
+				onVariantCreation={_handleVariantCreation}
 				segmentsExperiences={initialSegmentsExperiences}
 				segmentsExperiment={segmentsExperiment}
 				selectedSegmentsExperienceId={
 					initialSelectedSegmentsExperienceId
 				}
+				variants={variants}
 			/>
 			{creationModal.active && (
 				<SegmentsExperimentsModal
@@ -185,12 +193,58 @@ function SegmentsExperimentsSidebar({
 
 		Liferay.Util.navigate(newUrl);
 	}
+
+	function _handleVariantCreation(name) {
+		return new Promise((resolve, reject) => {
+			const body = {
+				name,
+				classPK: page.classPK,
+				classNameId: page.classNameId,
+				segmentsExperimentId: segmentsExperiment.segmentsExperimentId
+			};
+			fetch(endpoints.createSegmentsVariantURL, {
+				body: getFormData(body),
+				credentials: 'include',
+				method: 'POST'
+			})
+				.then(response => response.json())
+				.then(objectResponse => {
+					if (objectResponse.error) throw objectResponse.error;
+					return objectResponse;
+				})
+				.then(response => {
+					console.log(response);
+					/* TODO add the variant to the list */
+					setVariants([
+						...variants,
+						{
+							name,
+							segmentsExperienceId: JSON.stringify(Math.random()),
+							segmentsExperimentRelId: JSON.stringify(
+								Math.random()
+							)
+						}
+					]);
+					resolve();
+				})
+				.catch(error => reject(error));
+		});
+	}
 }
 
 SegmentsExperimentsSidebar.propTypes = {
 	initialSelectedSegmentsExperienceId: PropTypes.string,
 	initialSegmentsExperiment: SegmentsExperimentType,
-	initialSegmentsExperiences: PropTypes.arrayOf(SegmentsExperienceType)
+	initialSegmentsExperiences: PropTypes.arrayOf(SegmentsExperienceType),
+	initialSegmentsVariants: PropTypes.arrayOf(SegmentsVariantType).isRequired
 };
 
 export default SegmentsExperimentsSidebar;
+
+function getFormData(body, _formData = new FormData()) {
+	Object.entries(body).forEach(([key, value]) => {
+		_formData.append(key, value);
+	});
+
+	return _formData;
+}

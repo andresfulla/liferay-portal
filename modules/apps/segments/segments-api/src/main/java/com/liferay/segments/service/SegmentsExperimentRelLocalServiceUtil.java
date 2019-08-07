@@ -39,6 +39,15 @@ public class SegmentsExperimentRelLocalServiceUtil {
 	 *
 	 * Never modify this class directly. Add custom service methods to <code>com.liferay.segments.service.impl.SegmentsExperimentRelLocalServiceImpl</code> and rerun ServiceBuilder to regenerate this class.
 	 */
+	public static com.liferay.segments.model.SegmentsExperimentRel
+			addSegmentsExperimentRel(
+				long segmentsExperimentId, long segmentsExperienceId,
+				com.liferay.portal.kernel.service.ServiceContext serviceContext)
+		throws com.liferay.portal.kernel.exception.PortalException {
+
+		return getService().addSegmentsExperimentRel(
+			segmentsExperimentId, segmentsExperienceId, serviceContext);
+	}
 
 	/**
 	 * Adds the segments experiment rel to the database. Also notifies the appropriate model listeners.
@@ -257,6 +266,13 @@ public class SegmentsExperimentRelLocalServiceUtil {
 			getSegmentsExperimentRels(int start, int end) {
 
 		return getService().getSegmentsExperimentRels(start, end);
+	}
+
+	public static java.util.List
+		<com.liferay.segments.model.SegmentsExperimentRel>
+			getSegmentsExperimentRels(long segmentsExperimentId) {
+
+		return getService().getSegmentsExperimentRels(segmentsExperimentId);
 	}
 
 	/**
