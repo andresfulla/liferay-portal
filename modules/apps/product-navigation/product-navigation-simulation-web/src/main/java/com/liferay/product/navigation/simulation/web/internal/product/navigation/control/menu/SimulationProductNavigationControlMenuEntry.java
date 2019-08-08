@@ -109,8 +109,8 @@ public class SimulationProductNavigationControlMenuEntry
 				httpServletRequest, httpServletResponse,
 				this::_processBodyBottomTagBody);
 		}
-		catch (JspException jspe) {
-			throw new IOException(jspe);
+		catch (JspException je) {
+			throw new IOException(je);
 		}
 
 		return true;
@@ -148,8 +148,8 @@ public class SimulationProductNavigationControlMenuEntry
 				"iconTag",
 				iconTag.doTagAsString(httpServletRequest, httpServletResponse));
 		}
-		catch (JspException jspe) {
-			ReflectionUtil.throwException(jspe);
+		catch (JspException je) {
+			ReflectionUtil.throwException(je);
 		}
 
 		values.put("portletNamespace", _portletNamespace);
