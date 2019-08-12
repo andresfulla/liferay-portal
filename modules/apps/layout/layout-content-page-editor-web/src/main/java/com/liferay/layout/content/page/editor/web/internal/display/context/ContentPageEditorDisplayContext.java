@@ -141,7 +141,7 @@ import org.jsoup.select.Elements;
 /**
  * @author Eudaldo Alonso
  */
-public class ContentPageEditorDisplayContext {
+public abstract class ContentPageEditorDisplayContext {
 
 	public ContentPageEditorDisplayContext(
 		HttpServletRequest httpServletRequest, RenderResponse renderResponse,
@@ -399,6 +399,10 @@ public class ContentPageEditorDisplayContext {
 
 		return _groupId;
 	}
+
+	protected long getSegmentsExperienceId() {
+		return SegmentsExperienceConstants.ID_DEFAULT;
+	};
 
 	protected List<SoyContext> getSidebarPanelSoyContexts(boolean showMapping)
 		throws PortalException {
@@ -970,7 +974,7 @@ public class ContentPageEditorDisplayContext {
 
 		themeDisplay.setIsolated(true);
 
-		long[] segmentsExperienceIds = {SegmentsExperienceConstants.ID_DEFAULT};
+		long[] segmentsExperienceIds = {getSegmentsExperienceId()};
 
 		try {
 			for (FragmentEntryLink fragmentEntryLink : fragmentEntryLinks) {
@@ -1183,7 +1187,7 @@ public class ContentPageEditorDisplayContext {
 					themeDisplay.getScopeGroupId(), classNameId, classPK, true);
 
 		_layoutData = layoutPageTemplateStructure.getData(
-			SegmentsExperienceConstants.ID_DEFAULT);
+			getSegmentsExperienceId());
 
 		return _layoutData;
 	}
