@@ -26,10 +26,12 @@ import {
 	SegmentsExperimentType
 } from '../types.es';
 import SegmentsExperimentsDetails from './SegmentsExperimentsDetails.es';
+import SegmentsExperimentsActions from './SegmentsExperimentsActions.es';
 
 function SegmentsExperiments({
 	onCreateSegmentsExperiment,
 	onEditSegmentsExperiment,
+	onEditSegmentsExperimentStatus,
 	onSelectSegmentsExperienceChange,
 	onVariantCreation,
 	onVariantDeletion,
@@ -130,11 +132,16 @@ function SegmentsExperiments({
 						variants={variants}
 					/>
 
-					<ClayButton className="w-100" disabled>
-						{Liferay.Language.get('review-and-run-test')}
-					</ClayButton>
+					<SegmentsExperimentsActions
+						onEditSegmentsExperimentStatus={
+							onEditSegmentsExperimentStatus
+						}
+						segmentsExperiment={segmentsExperiment}
+						variants={variants}
+					/>
 				</>
 			)}
+
 			{!segmentsExperiment && (
 				<div className="text-center">
 					<h4 className="text-dark">
@@ -187,6 +194,7 @@ const STATUS_TO_TYPE = {
 SegmentsExperiments.propTypes = {
 	onCreateSegmentsExperiment: PropTypes.func.isRequired,
 	onEditSegmentsExperiment: PropTypes.func.isRequired,
+	onEditSegmentsExperimentStatus: PropTypes.func.isRequired,
 	onSelectSegmentsExperienceChange: PropTypes.func.isRequired,
 	onVariantCreation: PropTypes.func.isRequired,
 	onVariantDeletion: PropTypes.func.isRequired,
