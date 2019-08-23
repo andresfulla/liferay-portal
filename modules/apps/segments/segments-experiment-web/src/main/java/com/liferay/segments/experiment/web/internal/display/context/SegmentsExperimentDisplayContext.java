@@ -98,12 +98,13 @@ public class SegmentsExperimentDisplayContext {
 			"/delete_segments_experiment_rel");
 	}
 
-	public String getEditSegmentsExperimentURL() {
-		return _getSegmentsExperimentActionURL("/edit_segments_experiment");
+	public String getEditSegmentsExperimentStatusURL() {
+		return _getSegmentsExperimentActionURL(
+			"/edit_segments_experiment_status");
 	}
 
-	public String getEditSegmentsExperimentStatusURL() {
-		return _getSegmentsExperimentActionURL("/edit_segments_experiment_status");
+	public String getEditSegmentsExperimentURL() {
+		return _getSegmentsExperimentActionURL("/edit_segments_experiment");
 	}
 
 	public String getEditSegmentsVariantLayoutURL() throws PortalException {
