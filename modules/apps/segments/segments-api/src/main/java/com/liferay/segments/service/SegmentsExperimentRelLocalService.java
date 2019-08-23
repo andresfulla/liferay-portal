@@ -115,9 +115,14 @@ public interface SegmentsExperimentRelLocalService
 	 * @throws PortalException
 	 */
 	@Indexable(type = IndexableType.DELETE)
-	@SystemEvent(type = SystemEventConstants.TYPE_DELETE)
 	public SegmentsExperimentRel deleteSegmentsExperimentRel(
 			SegmentsExperimentRel segmentsExperimentRel)
+		throws PortalException;
+
+	@SystemEvent(type = SystemEventConstants.TYPE_DELETE)
+	public SegmentsExperimentRel deleteSegmentsExperimentRel(
+			SegmentsExperimentRel segmentsExperimentRel,
+			boolean skipSegmentsExperimentStatusValidation)
 		throws PortalException;
 
 	public void deleteSegmentsExperimentRels(long segmentsExperimentId)
