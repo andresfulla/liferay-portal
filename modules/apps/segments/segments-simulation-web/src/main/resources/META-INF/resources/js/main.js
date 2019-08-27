@@ -85,44 +85,56 @@ AUI.add(
 
 					var form = instance.get('form');
 
-					A.io.request(instance.get('deactivateSimulationUrl'), {
-						form: form,
-						method: 'post',
-						after: {
-							success: function(event, id, obj) {
-								A.all('#' + form.id + ' input').set(
-									'checked',
-									false
-								);
-							}
+					const body = new URLSearchParams(new FormData(form));
+
+					Liferay.Util.fetch(
+						instance.get('deactivateSimulationUrl'),
+						{
+							body,
+							method: 'POST'
 						}
-					});
+					)
+						.then(response => {
+							return response.text();
+						})
+						.then(() => {
+							A.all('#' + form.id + ' input').set(
+								'checked',
+								false
+							);
+						});
 				},
 
 				_simulateSegmentsEntries: function() {
 					var instance = this;
 
-					A.io.request(instance.get('simulateSegmentsEntriesUrl'), {
-						form: {
-							id: instance.get('form')
-						},
-						method: 'POST',
-						after: {
-							success: function(event, id, obj) {
-								var iframe = A.one('#simulationDeviceIframe');
+					const body = new URLSearchParams(
+						new FormData(instance.get('form'))
+					);
 
-								if (iframe) {
-									var iframeWindow = A.Node.getDOMNode(
-										iframe.get('contentWindow')
-									);
+					Liferay.Util.fetch(
+						instance.get('simulateSegmentsEntriesUrl'),
+						{
+							body,
+							method: 'POST'
+						}
+					)
+						.then(response => {
+							return response.text();
+						})
+						.then(() => {
+							const iframe = A.one('#simulationDeviceIframe');
 
-									if (iframeWindow) {
-										iframeWindow.location.reload();
-									}
+							if (iframe) {
+								const iframeWindow = A.Node.getDOMNode(
+									iframe.get('contentWindow')
+								);
+
+								if (iframeWindow) {
+									iframeWindow.location.reload();
 								}
 							}
-						}
-					});
+						});
 				}
 			}
 		});
