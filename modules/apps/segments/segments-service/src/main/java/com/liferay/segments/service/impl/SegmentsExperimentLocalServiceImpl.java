@@ -31,6 +31,7 @@ import com.liferay.portal.kernel.util.Validator;
 import com.liferay.segments.constants.SegmentsExperimentConstants;
 import com.liferay.segments.exception.LockedSegmentsExperimentException;
 import com.liferay.segments.exception.NoSuchExperimentException;
+import com.liferay.segments.exception.SegmentsExperimentConfidenceLevelException;
 import com.liferay.segments.exception.SegmentsExperimentGoalException;
 import com.liferay.segments.exception.SegmentsExperimentNameException;
 import com.liferay.segments.exception.SegmentsExperimentStatusException;
@@ -267,6 +268,8 @@ public class SegmentsExperimentLocalServiceImpl
 			long segmentsExperimentId, int status, double confidenceLevel)
 		throws PortalException {
 
+		_validateSegmentsExperimentConfidenceLevel(confidenceLevel);
+
 		return _updateSegmentsExperimentStatus(
 			segmentsExperimentPersistence.findByPrimaryKey(
 				segmentsExperimentId),
@@ -388,6 +391,17 @@ public class SegmentsExperimentLocalServiceImpl
 	private void _validateName(String name) throws PortalException {
 		if (Validator.isNull(name)) {
 			throw new SegmentsExperimentNameException();
+		}
+	}
+
+	private void _validateSegmentsExperimentConfidenceLevel(
+			double confidenceLevel)
+		throws PortalException {
+
+		if ((confidenceLevel > 1) || (confidenceLevel < 0)) {
+			throw new SegmentsExperimentConfidenceLevelException(
+				"Confidence level " + confidenceLevel +
+					" is not a value between 0 and 1");
 		}
 	}
 
