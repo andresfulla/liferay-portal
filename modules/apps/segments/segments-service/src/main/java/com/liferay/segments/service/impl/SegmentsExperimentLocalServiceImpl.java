@@ -258,7 +258,19 @@ public class SegmentsExperimentLocalServiceImpl
 
 		return _updateSegmentsExperimentStatus(
 			segmentsExperimentPersistence.findByPrimaryKey(
-				segmentsExperimentId), status, 0);
+				segmentsExperimentId),
+			status, 0);
+	}
+
+	@Override
+	public SegmentsExperiment updateSegmentsExperiment(
+			long segmentsExperimentId, int status, double confidenceLevel)
+		throws PortalException {
+
+		return _updateSegmentsExperimentStatus(
+			segmentsExperimentPersistence.findByPrimaryKey(
+				segmentsExperimentId),
+			status, confidenceLevel);
 	}
 
 	@Override
@@ -304,17 +316,8 @@ public class SegmentsExperimentLocalServiceImpl
 
 		return _updateSegmentsExperimentStatus(
 			segmentsExperimentPersistence.findBySegmentsExperimentKey_First(
-				segmentsExperimentKey, null), status, 0);
-	}
-
-	@Override
-	public SegmentsExperiment updateSegmentsExperiment(
-		long segmentsExperimentId, int status, double confidenceLevel)
-		throws PortalException {
-
-		return _updateSegmentsExperimentStatus(
-			segmentsExperimentPersistence.findByPrimaryKey(
-				segmentsExperimentId), status, confidenceLevel);
+				segmentsExperimentKey, null),
+			status, 0);
 	}
 
 	private DynamicQuery _getSegmentsExperienceIdsDynamicQuery(
@@ -335,7 +338,8 @@ public class SegmentsExperimentLocalServiceImpl
 	}
 
 	private SegmentsExperiment _updateSegmentsExperimentStatus(
-			SegmentsExperiment segmentsExperiment, int status, double confidenceLevel)
+			SegmentsExperiment segmentsExperiment, int status,
+			double confidenceLevel)
 		throws SegmentsExperimentStatusException {
 
 		_validateStatus(
@@ -348,14 +352,15 @@ public class SegmentsExperimentLocalServiceImpl
 		segmentsExperiment.setModifiedDate(new Date());
 		segmentsExperiment.setStatus(status);
 
-		if(confidenceLevel != 0) {
+		if (confidenceLevel != 0) {
 			UnicodeProperties typeSettingsProperties =
 				segmentsExperiment.getTypeSettingsProperties();
 
 			typeSettingsProperties.setProperty(
 				"confidenceLevel", String.valueOf(confidenceLevel));
 
-			segmentsExperiment.setTypeSettings(typeSettingsProperties.toString());
+			segmentsExperiment.setTypeSettings(
+				typeSettingsProperties.toString());
 		}
 
 		return segmentsExperimentPersistence.update(segmentsExperiment);
