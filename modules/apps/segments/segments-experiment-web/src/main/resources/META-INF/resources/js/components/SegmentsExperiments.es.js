@@ -27,6 +27,7 @@ import {
 } from '../types.es';
 import SegmentsExperimentsActions from './SegmentsExperimentsActions.es';
 import SegmentsExperimentsDetails from './SegmentsExperimentsDetails.es';
+import SegmentsExperimentsClickGoal from './SegmentsExperimentsClickGoal.es';
 
 const _statusToType = status => STATUS_TO_TYPE[status];
 
@@ -140,6 +141,14 @@ function SegmentsExperiments({
 					</ClayLabel>
 
 					<SegmentsExperimentsDetails
+						segmentsExperiment={segmentsExperiment}
+					/>
+
+					<SegmentsExperimentsClickGoal
+						onSelectClickGoalTarget={selector => {
+							// eslint-disable-next-line no-console
+							console.log(`target: ${selector}`);
+						}}
 						segmentsExperiment={segmentsExperiment}
 					/>
 
