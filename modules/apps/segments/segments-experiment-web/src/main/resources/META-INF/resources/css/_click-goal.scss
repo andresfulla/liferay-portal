@@ -24,6 +24,7 @@ $target-z-index: 900;
 	display: flex;
 	flex-direction: column;
 	justify-content: space-between;
+	pointer-events: none;
 	position: absolute;
 }
 
@@ -35,18 +36,21 @@ $target-z-index: 900;
 	background-color: $target-overlay-background-color;
 	border: 1px solid $target-overlay-border-color;
 	cursor: pointer;
+	pointer-events: auto;
 }
 
 .lfr-segments-experiment-click-goal-target-popover {
 	background-color: $white;
 	border-radius: 4px;
 	cursor: initial;
+	pointer-events: auto;
 }
 
 .lfr-segments-experiment-click-goal-target-topper {
 	background-color: $gray-800;
 	border-radius: 2px 2px 0px 0px;
 	cursor: initial;
+	pointer-events: auto;
 	position: absolute;
 }
 
