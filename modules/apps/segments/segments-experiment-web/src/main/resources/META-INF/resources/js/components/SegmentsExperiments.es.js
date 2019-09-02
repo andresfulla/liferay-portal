@@ -52,6 +52,7 @@ function SegmentsExperiments({
 	onVariantCreation,
 	onVariantDeletion,
 	onVariantEdition,
+	onTargetChange,
 	segmentsExperiences = [],
 	segmentsExperiment,
 	selectedSegmentsExperienceId,
@@ -144,13 +145,14 @@ function SegmentsExperiments({
 						segmentsExperiment={segmentsExperiment}
 					/>
 
-					<SegmentsExperimentsClickGoal
-						onSelectClickGoalTarget={selector => {
-							// eslint-disable-next-line no-console
-							console.log(`target: ${selector}`);
-						}}
-						target={segmentsExperiment.goal.target}
-					/>
+					{segmentsExperiment.goal.value === 'click' && (
+						<SegmentsExperimentsClickGoal
+							onSelectClickGoalTarget={selector => {
+								onTargetChange(selector);
+							}}
+							target={segmentsExperiment.goal.target}
+						/>
+					)}
 
 					<Variants
 						editable={segmentsExperiment.editable}
@@ -225,6 +227,7 @@ SegmentsExperiments.propTypes = {
 	onEditSegmentsExperimentStatus: PropTypes.func.isRequired,
 	onRunExperiment: PropTypes.func.isRequired,
 	onSelectSegmentsExperienceChange: PropTypes.func.isRequired,
+	onTargetChange: PropTypes.func.isRequired,
 	onVariantCreation: PropTypes.func.isRequired,
 	onVariantDeletion: PropTypes.func.isRequired,
 	onVariantEdition: PropTypes.func.isRequired,
