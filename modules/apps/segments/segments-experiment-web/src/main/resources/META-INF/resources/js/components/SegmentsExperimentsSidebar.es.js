@@ -129,15 +129,23 @@ function SegmentsExperimentsSidebar({
 		});
 	}
 
-	function _handleExperimentCreation(segmentsExperiment) {
+	function _handleExperimentCreation(experimentData) {
+		const {
+			description,
+			goal,
+			goalTarget,
+			name,
+			segmentsExperienceId
+		} = experimentData;
+
 		const body = {
 			classNameId: page.classNameId,
 			classPK: page.classPK,
-			description: segmentsExperiment.description,
-			goal: segmentsExperiment.goal,
-			goalTarget: segmentsExperiment.goalTarget,
-			name: segmentsExperiment.name,
-			segmentsExperienceId: segmentsExperiment.segmentsExperienceId
+			description,
+			goal,
+			goalTarget,
+			name,
+			segmentsExperienceId
 		};
 
 		segmentsExperimentsUtil
@@ -181,13 +189,12 @@ function SegmentsExperimentsSidebar({
 			.catch(function _errorCallback() {
 				setCreationModal({
 					active: true,
-					description: segmentsExperiment.description,
-					editable: segmentsExperiment.editable,
+					description: experimentData.description,
+					editable: experimentData.editable,
 					error: Liferay.Language.get('create-test-error'),
-					name: segmentsExperiment.name,
-					segmentsEntryName: segmentsExperiment.segmentsEntryName,
-					segmentsExperienceId:
-						segmentsExperiment.segmentsExperienceId
+					name: experimentData.name,
+					segmentsEntryName: experimentData.segmentsEntryName,
+					segmentsExperienceId: experimentData.segmentsExperienceId
 				});
 			});
 	}
@@ -204,12 +211,10 @@ function SegmentsExperimentsSidebar({
 			.runExperiment(body)
 			.then(function(response) {
 				const {segmentsExperiment} = response;
-				const updatedVariants = initialSegmentsVariants.map(
-					variant => ({
-						...variant,
-						split: splitVariantsMap[variant.segmentsExperimentRelId]
-					})
-				);
+				const updatedVariants = variants.map(variant => ({
+					...variant,
+					split: splitVariantsMap[variant.segmentsExperimentRelId]
+				}));
 
 				setSegmentsExperiment(segmentsExperiment);
 				setVariants(updatedVariants);
@@ -274,13 +279,21 @@ function SegmentsExperimentsSidebar({
 		});
 	}
 
-	function _handleExperimentEdition(segmentsExperiment) {
+	function _handleExperimentEdition(experimentData) {
+		const {
+			description,
+			goal,
+			goalTarget,
+			name,
+			segmentsExperimentId
+		} = experimentData;
+
 		const body = {
-			description: segmentsExperiment.description,
-			goal: segmentsExperiment.goal,
-			goalTarget: segmentsExperiment.goalTarget,
-			name: segmentsExperiment.name,
-			segmentsExperimentId: segmentsExperiment.segmentsExperimentId
+			description,
+			goal,
+			goalTarget,
+			name,
+			segmentsExperimentId
 		};
 
 		segmentsExperimentsUtil
@@ -317,16 +330,14 @@ function SegmentsExperimentsSidebar({
 			.catch(function _errorCallback() {
 				setEditionModal({
 					active: true,
-					description: segmentsExperiment.description,
-					editable: segmentsExperiment.editable,
+					description: experimentData.description,
+					editable: experimentData.editable,
 					error: Liferay.Language.get('edit-test-error'),
-					name: segmentsExperiment.name,
-					segmentsEntryName: segmentsExperiment.segmentsEntryName,
-					segmentsExperienceId:
-						segmentsExperiment.segmentsExperienceId,
-					segmentsExperimentId:
-						segmentsExperiment.segmentsExperimentId,
-					status: segmentsExperiment.status
+					name: experimentData.name,
+					segmentsEntryName: experimentData.segmentsEntryName,
+					segmentsExperienceId: experimentData.segmentsExperienceId,
+					segmentsExperimentId: experimentData.segmentsExperimentId,
+					status: experimentData.status
 				});
 			});
 	}
