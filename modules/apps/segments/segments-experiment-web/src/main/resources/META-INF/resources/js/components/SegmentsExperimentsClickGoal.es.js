@@ -98,16 +98,13 @@ function SegmentsExperimentsClickGoal({onSelectClickGoalTarget, target}) {
 
 	const {selectedTarget} = state;
 
-	const ref = useRef('');
-
-	useEffect(() => {
-		ref.current = state.selectedTarget;
-	});
+	const ref = useRef(state.selectedTarget);
 
 	const previousTarget = ref.current;
 
 	if (selectedTarget != previousTarget) {
 		if (onSelectClickGoalTarget) {
+			ref.current = selectedTarget;
 			onSelectClickGoalTarget(selectedTarget);
 		}
 	}
