@@ -57,6 +57,7 @@ function SegmentsExperimentsSidebar({
 				onSelectSegmentsExperienceChange={
 					_handleSelectSegmentsExperience
 				}
+				onTargetChange={_handleTargetChange}
 				onVariantCreation={_handleVariantCreation}
 				onVariantDeletion={_handleVariantDeletion}
 				onVariantEdition={_handleVariantEdition}
@@ -344,6 +345,23 @@ function SegmentsExperimentsSidebar({
 
 	function _handleSelectSegmentsExperience(segmentsExperienceId) {
 		navigateToExperience(segmentsExperienceId);
+	}
+
+	function _handleTargetChange(selector) {
+		const body = {
+			description: segmentsExperiment.description,
+			goal: segmentsExperiment.goal.value,
+			goalTarget: selector,
+			name: segmentsExperiment.name,
+			segmentsExperimentId: segmentsExperiment.segmentsExperimentId
+		};
+
+		segmentsExperimentsUtil.editExperiment(body).then(() => {
+			setSegmentsExperiment({
+				...segmentsExperiment,
+				goal: {...segmentsExperiment.goal, target: selector}
+			});
+		});
 	}
 
 	function _handleVariantCreation(name) {

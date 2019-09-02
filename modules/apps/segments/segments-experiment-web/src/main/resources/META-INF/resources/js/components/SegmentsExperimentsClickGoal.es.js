@@ -203,6 +203,7 @@ function SegmentsExperimentsClickGoal({onSelectClickGoalTarget, target}) {
 }
 
 SegmentsExperimentsClickGoal.propTypes = {
+	onSelectClickGoalTarget: PropTypes.func,
 	target: PropTypes.string
 };
 
