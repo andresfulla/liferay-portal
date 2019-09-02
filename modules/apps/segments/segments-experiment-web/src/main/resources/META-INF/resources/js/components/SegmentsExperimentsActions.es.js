@@ -24,6 +24,13 @@ import {
 	STATUS_TERMINATED
 } from '../util/statuses.es';
 
+function _experimentReady(experiment, variants) {
+	if (variants.length <= 1) return false;
+	if (experiment.goal.value === 'click' && !experiment.goal.target)
+		return false;
+	return true;
+}
+
 function SegmentsExperimentsActions({
 	onEditSegmentsExperimentStatus,
 	onRunExperiment,
@@ -32,12 +39,14 @@ function SegmentsExperimentsActions({
 }) {
 	const [reviewModalVisible, setReviewModalVisible] = useState(false);
 
+	const readyToRun = _experimentReady(segmentsExperiment, variants);
+
 	return (
 		<>
 			{segmentsExperiment.status.value === STATUS_DRAFT && (
 				<ClayButton
 					className="w-100"
-					disabled={variants.length <= 1}
+					disabled={!readyToRun}
 					onClick={() => setReviewModalVisible(true)}
 				>
 					{Liferay.Language.get('review-and-run-test')}
