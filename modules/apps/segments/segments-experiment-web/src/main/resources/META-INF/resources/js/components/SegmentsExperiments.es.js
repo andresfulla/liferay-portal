@@ -67,30 +67,33 @@ function SegmentsExperiments({
 	return (
 		<>
 			{segmentsExperiences.length > 1 && (
-				<div className="form-group">
-					<label>{Liferay.Language.get('select-experience')}</label>
-					<ClaySelect
-						defaultValue={_selectedSegmentsExperienceId}
-						onChange={_handleExperienceSelection}
-					>
-						{segmentsExperiences.map(segmentsExperience => {
-							return (
-								<ClaySelect.Option
-									key={
-										segmentsExperience.segmentsExperienceId
-									}
-									label={segmentsExperience.name}
-									value={
-										segmentsExperience.segmentsExperienceId
-									}
-								/>
-							);
-						})}
-					</ClaySelect>
-				</div>
+				<>
+					<div className="form-group">
+						<label>
+							{Liferay.Language.get('select-experience')}
+						</label>
+						<ClaySelect
+							defaultValue={_selectedSegmentsExperienceId}
+							onChange={_handleExperienceSelection}
+						>
+							{segmentsExperiences.map(segmentsExperience => {
+								return (
+									<ClaySelect.Option
+										key={
+											segmentsExperience.segmentsExperienceId
+										}
+										label={segmentsExperience.name}
+										value={
+											segmentsExperience.segmentsExperienceId
+										}
+									/>
+								);
+							})}
+						</ClaySelect>
+					</div>
+					<hr />
+				</>
 			)}
-
-			<hr />
 
 			{segmentsExperiment && (
 				<>
