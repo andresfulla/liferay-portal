@@ -12,12 +12,11 @@
  * details.
  */
 
-import {render} from 'frontend-js-react-web';
 import React from 'react';
 import SegmentEdit from './components/segment_edit/SegmentEdit.es';
 import ThemeContext from './ThemeContext.es';
 
-function renderComponent({props, context}) {
+export default function({props, context}) {
 	return (
 		<ThemeContext.Provider value={context}>
 			<div className="segments-root">
@@ -25,8 +24,4 @@ function renderComponent({props, context}) {
 			</div>
 		</ThemeContext.Provider>
 	);
-}
-
-export default function(containerId, data) {
-	render(renderComponent, data, document.getElementById(containerId));
 }
