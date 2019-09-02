@@ -20,7 +20,6 @@ import {throttle} from 'frontend-js-web';
 import PropTypes from 'prop-types';
 import React from 'react';
 import ReactDOM from 'react-dom';
-import {SegmentsExperimentType} from '../types.es';
 
 const {
 	useCallback,
@@ -94,15 +93,8 @@ const StateContext = React.createContext(INITIAL_STATE);
  * Top-level entry point for displaying, selecting, editing and removing click
  * goal targets.
  */
-function SegmentsExperimentsClickGoal({
-	onSelectClickGoalTarget,
-	segmentsExperiment
-}) {
-	const [state, dispatch] = useReducer(
-		reducer,
-		segmentsExperiment,
-		getInitialState
-	);
+function SegmentsExperimentsClickGoal({onSelectClickGoalTarget, target}) {
+	const [state, dispatch] = useReducer(reducer, target, getInitialState);
 
 	const {selectedTarget} = state;
 
@@ -211,7 +203,7 @@ function SegmentsExperimentsClickGoal({
 }
 
 SegmentsExperimentsClickGoal.propTypes = {
-	segmentsExperiment: SegmentsExperimentType
+	target: PropTypes.string
 };
 
 /**
@@ -596,10 +588,10 @@ function getGeometry(element) {
 	};
 }
 
-function getInitialState(segmentsExperiment) {
+function getInitialState(target) {
 	return {
 		...INITIAL_STATE,
-		selectedTarget: segmentsExperiment.goal.target
+		selectedTarget: target
 	};
 }
 

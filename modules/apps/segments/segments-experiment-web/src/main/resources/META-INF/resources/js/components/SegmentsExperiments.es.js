@@ -149,7 +149,7 @@ function SegmentsExperiments({
 							// eslint-disable-next-line no-console
 							console.log(`target: ${selector}`);
 						}}
-						segmentsExperiment={segmentsExperiment}
+						target={segmentsExperiment.goal.target}
 					/>
 
 					<Variants
