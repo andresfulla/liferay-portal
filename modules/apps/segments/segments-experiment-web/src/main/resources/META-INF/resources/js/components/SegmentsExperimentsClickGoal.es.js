@@ -75,6 +75,8 @@ const INITIAL_STATE = {
 
 const POPOVER_PADDING = 16;
 
+const TARGET_OFFSET = 10;
+
 const THROTTLE_INTERVAL_MS = 100;
 
 const DispatchContext = React.createContext();
@@ -394,6 +396,9 @@ function Target({allowEdit, element, geometry, mode, selector}) {
 		top
 	} = element.getBoundingClientRect();
 
+	const overlayWidth = width + TARGET_OFFSET;
+	const overlayHeight = height + TARGET_OFFSET;
+
 	if (!bottom && !top && !right && !left) {
 		return null;
 	}
@@ -416,6 +421,7 @@ function Target({allowEdit, element, geometry, mode, selector}) {
 	// flip based on that.
 	const spaceOnLeft = left - geometry.left;
 	const spaceOnRight = geometry.right - right;
+	const spaceOnTop = top - geometry.top;
 	const align = spaceOnRight > spaceOnLeft ? 'left' : 'right';
 
 	return (
@@ -425,15 +431,17 @@ function Target({allowEdit, element, geometry, mode, selector}) {
 			className="lfr-segments-experiment-click-goal-target"
 			style={{
 				alignItems: align === 'left' ? 'flex-start' : 'flex-end',
-				left: align === 'left' ? left - geometry.left : null,
-				right: align === 'right' ? geometry.right - right : null,
-				top: top - geometry.top
+				left: align === 'left' ? spaceOnLeft : null,
+				right: align === 'right' ? spaceOnRight : null,
+				top: spaceOnTop
 			}}
 		>
 			<div
 				className={classNames({
 					'lfr-portal-tooltip': mode === 'inactive',
-					'lfr-segments-experiment-click-goal-target-overlay': true
+					'lfr-segments-experiment-click-goal-target-overlay': true,
+					'lfr-segments-experiment-click-goal-target-overlay-selected':
+						mode === 'selected'
 				})}
 				data-target-selector={selector}
 				data-title={
@@ -444,7 +452,7 @@ function Target({allowEdit, element, geometry, mode, selector}) {
 						: ''
 				}
 				onClick={handleClick}
-				style={{height, width}}
+				style={{height: overlayHeight, width: overlayWidth}}
 			></div>
 			{mode !== 'inactive' && (
 				<SegmentsExperimentsClickGoal.TargetTopper
@@ -606,11 +614,11 @@ function getGeometry(element) {
 	const {height, left, right, top, width} = element.getBoundingClientRect();
 
 	return {
-		height,
-		left,
-		right,
-		top,
-		width
+		height: height + TARGET_OFFSET,
+		left: left + TARGET_OFFSET / 2,
+		right: right - TARGET_OFFSET / 2,
+		top: top + TARGET_OFFSET / 2,
+		width: width + TARGET_OFFSET
 	};
 }
 
