@@ -440,6 +440,8 @@ function Target({allowEdit, element, geometry, mode, selector}) {
 				className={classNames({
 					'lfr-portal-tooltip': mode === 'inactive',
 					'lfr-segments-experiment-click-goal-target-overlay': true,
+					'lfr-segments-experiment-click-goal-target-overlay-editing':
+						mode === 'editing',
 					'lfr-segments-experiment-click-goal-target-overlay-selected':
 						mode === 'selected'
 				})}
