@@ -188,7 +188,6 @@ function SegmentsExperimentsClickGoal({
 
 				{allowEdit && (
 					<ClayButton
-						className="mb-3"
 						disabled={state.mode === 'active'}
 						displayType="secondary"
 						onClick={() => dispatch({type: 'activate'})}
