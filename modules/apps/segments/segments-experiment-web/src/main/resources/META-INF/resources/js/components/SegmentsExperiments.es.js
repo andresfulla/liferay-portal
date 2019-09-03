@@ -28,6 +28,7 @@ import {
 import SegmentsExperimentsActions from './SegmentsExperimentsActions.es';
 import SegmentsExperimentsDetails from './SegmentsExperimentsDetails.es';
 import SegmentsExperimentsClickGoal from './SegmentsExperimentsClickGoal.es';
+import {STATUS_DRAFT} from '../util/statuses.es';
 
 const _statusToType = status => STATUS_TO_TYPE[status];
 
@@ -150,6 +151,9 @@ function SegmentsExperiments({
 
 					{segmentsExperiment.goal.value === 'click' && (
 						<SegmentsExperimentsClickGoal
+							allowEdit={
+								segmentsExperiment.status.value === STATUS_DRAFT
+							}
 							onSelectClickGoalTarget={selector => {
 								onTargetChange(selector);
 							}}
