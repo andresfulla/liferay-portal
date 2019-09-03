@@ -41,6 +41,10 @@ $target-z-index: 900;
 	&.lfr-segments-experiment-click-goal-target-overlay-selected {
 		border-color: $gray-800;
 	}
+
+	&.lfr-segments-experiment-click-goal-target-overlay-editing {
+		border-color: $blue;
+	}
 }
 
 .lfr-segments-experiment-click-goal-target-popover {
