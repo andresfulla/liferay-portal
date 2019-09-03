@@ -112,7 +112,7 @@ renderResponse.setTitle(editSegmentsEntryDisplayContext.getTitle(locale));
 
 		<react:component
 			data="<%= data %>"
-			module="js/index.es"
+			module="js/SegmentsApp.es"
 		/>
 	</div>
 </aui:form>
