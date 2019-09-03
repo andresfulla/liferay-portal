@@ -168,10 +168,9 @@ function SegmentsExperimentsClickGoal({
 				<dl className="mb-2">
 					<div className="d-flex">
 						<dt>{Liferay.Language.get('target')}:</dt>
-						<dd className="ml-2">
+						<dd className="ml-2 text-truncate">
 							{state.selectedTarget ? (
 								<ClayLink
-									className="text-truncate d-inline-block"
 									href={state.selectedTarget}
 									onClick={scrollIntoView}
 									title={state.selectedTarget}
