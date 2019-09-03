@@ -581,7 +581,7 @@ function TargetPopover({selector}) {
 
 	return (
 		<div
-			className="lfr-segments-experiment-click-goal-target-popover p-3 shadow-sm"
+			className="lfr-segments-experiment-click-goal-target-popover p-3"
 			onClick={stopImmediatePropagation}
 			style={{maxWidth}}
 		>

@@ -41,8 +41,12 @@ $target-z-index: 900;
 
 .lfr-segments-experiment-click-goal-target-popover {
 	background-color: $white;
+	border-color: $dropdown-border-color;
 	border-radius: 4px;
+	border-width: $dropdown-border-width;
+	box-shadow: $dropdown-box-shadow;
 	cursor: initial;
+	font-size: $dropdown-font-size;
 	pointer-events: auto;
 }
 
