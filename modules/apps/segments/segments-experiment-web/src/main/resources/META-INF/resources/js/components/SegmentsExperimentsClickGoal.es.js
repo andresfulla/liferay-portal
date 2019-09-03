@@ -233,6 +233,13 @@ function OverlayContainer({root, allowEdit}) {
 	if (!targetableElements.current) {
 		// Apply CSS overrides.
 		const css = `
+			#banner {
+				cursor: not-allowed;
+			}
+			#banner a, #banner button {
+				cursor: not-allowed;
+				pointer-events: none;
+			}
 			#content {
 				position: relative;
 				cursor: not-allowed;
