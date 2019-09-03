@@ -19,7 +19,7 @@ import ClayDropDown from '@clayui/drop-down';
 import ClayIcon from '@clayui/icon';
 import ClayLabel from '@clayui/label';
 import ClaySelect from '@clayui/select';
-import Variants from './Variants/Variants.es';
+import ClickGoalPicker from './ClickGoalPicker/ClickGoalPicker.es';
 import {
 	SegmentsExperienceType,
 	SegmentsExperimentType,
@@ -27,7 +27,7 @@ import {
 } from '../types.es';
 import SegmentsExperimentsActions from './SegmentsExperimentsActions.es';
 import SegmentsExperimentsDetails from './SegmentsExperimentsDetails.es';
-import SegmentsExperimentsClickGoal from './SegmentsExperimentsClickGoal.es';
+import Variants from './Variants/Variants.es';
 import {STATUS_DRAFT} from '../util/statuses.es';
 
 const _statusToType = status => STATUS_TO_TYPE[status];
@@ -150,7 +150,7 @@ function SegmentsExperiments({
 					/>
 
 					{segmentsExperiment.goal.value === 'click' && (
-						<SegmentsExperimentsClickGoal
+						<ClickGoalPicker
 							allowEdit={
 								segmentsExperiment.status.value === STATUS_DRAFT
 							}
