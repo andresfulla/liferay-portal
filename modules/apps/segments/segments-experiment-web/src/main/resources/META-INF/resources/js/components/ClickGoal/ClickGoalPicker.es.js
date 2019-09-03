@@ -20,6 +20,15 @@ import {throttle} from 'frontend-js-web';
 import PropTypes from 'prop-types';
 import React from 'react';
 import ReactDOM from 'react-dom';
+import {getInitialState, reducer, StateContext} from './reducer.es';
+import {
+	GeometryType,
+	getTargetableElements,
+	stopImmediatePropagation,
+	getRootElementGeometry,
+	useEventListener,
+	getElementGeometry
+} from './utils.es';
 
 const {
 	useCallback,
@@ -36,70 +45,17 @@ const ESCAPE_KEYS = [
 	'Esc' // IE and Edge.
 ];
 
-const INITIAL_STATE = {
-	/**
-	 * The click goal target that is currently being edited.
-	 *
-	 * A popover is shown with information about the target and a "Set Element
-	 * as Click Target" button.
-	 *
-	 * Note that it is possible to have one target selected (see below), while
-	 * simultaneously editing another; on hitting "Set Element as Click Target",
-	 * the `editingTarget` becomes the new `selectedTarget`.
-	 */
-	editingTarget: '',
-
-	/**
-	 * The mode of the component, which will be one of:
-	 *
-	 * - "inactive": the user is not interacting with the component; or
-	 * - "active": the user is selecting or editing a component.
-	 *
-	 * In "active" mode, the component effectively takes over the screen,
-	 * capturing all clicks until the user finishes their selection by
-	 * selecting or deleting a target, or by pressing "Escape".
-	 */
-	mode: 'inactive',
-
-	/**
-	 * The click goal target that is currently selected.
-	 *
-	 * A topper is shown above the target containing a "times" (x) icon that can
-	 * be used to unset the target.
-	 *
-	 * As noted above, it is possible to have one target selected and another
-	 * being edited at the same time.
-	 */
-	selectedTarget: ''
-};
-
 const POPOVER_PADDING = 16;
-
-const TARGET_OFFSET = 10;
 
 const THROTTLE_INTERVAL_MS = 100;
 
 const DispatchContext = React.createContext();
 
-const GeometryType = PropTypes.shape({
-	height: PropTypes.number.isRequired,
-	left: PropTypes.number.isRequired,
-	right: PropTypes.number.isRequired,
-	top: PropTypes.number.isRequired,
-	width: PropTypes.number.isRequired
-});
-
-const StateContext = React.createContext(INITIAL_STATE);
-
 /**
  * Top-level entry point for displaying, selecting, editing and removing click
  * goal targets.
  */
-function SegmentsExperimentsClickGoal({
-	allowEdit = true,
-	onSelectClickGoalTarget,
-	target
-}) {
+function ClickGoalPicker({allowEdit = true, onSelectClickGoalTarget, target}) {
 	const [state, dispatch] = useReducer(reducer, target, getInitialState);
 
 	const {selectedTarget} = state;
@@ -202,7 +158,7 @@ function SegmentsExperimentsClickGoal({
 				)}
 
 				{state.mode === 'active' ? (
-					<SegmentsExperimentsClickGoal.OverlayContainer
+					<ClickGoalPicker.OverlayContainer
 						allowEdit={allowEdit}
 						root={root}
 					/>
@@ -212,7 +168,7 @@ function SegmentsExperimentsClickGoal({
 	);
 }
 
-SegmentsExperimentsClickGoal.propTypes = {
+ClickGoalPicker.propTypes = {
 	allowEdit: PropTypes.bool,
 	onSelectClickGoalTarget: PropTypes.func,
 	target: PropTypes.string
@@ -304,7 +260,7 @@ function OverlayContainer({root, allowEdit}) {
 	useEventListener('click', handleClick, false, document);
 
 	return ReactDOM.createPortal(
-		<SegmentsExperimentsClickGoal.Overlay
+		<ClickGoalPicker.Overlay
 			allowEdit={allowEdit}
 			root={root}
 			targetableElements={targetableElements.current}
@@ -325,11 +281,11 @@ OverlayContainer.propTypes = {
 function Overlay({allowEdit, root, targetableElements}) {
 	const {editingTarget, selectedTarget} = useContext(StateContext);
 
-	const [geometry, setGeometry] = useState(getGeometry(root));
+	const [geometry, setGeometry] = useState(getRootElementGeometry(root));
 
 	const handleResize = useCallback(
 		throttle(() => {
-			setGeometry(getGeometry(root));
+			setGeometry(getRootElementGeometry(root));
 		}, THROTTLE_INTERVAL_MS),
 		[root]
 	);
@@ -361,7 +317,7 @@ function Overlay({allowEdit, root, targetableElements}) {
 							: 'inactive';
 
 					return (
-						<SegmentsExperimentsClickGoal.Target
+						<ClickGoalPicker.Target
 							allowEdit={allowEdit}
 							element={element}
 							geometry={geometry}
@@ -394,17 +350,9 @@ Overlay.propTypes = {
 function Target({allowEdit, element, geometry, mode, selector}) {
 	const dispatch = useContext(DispatchContext);
 
-	const {
-		bottom,
-		height,
-		left,
-		right,
-		width,
-		top
-	} = element.getBoundingClientRect();
-
-	const overlayWidth = width + TARGET_OFFSET;
-	const overlayHeight = height + TARGET_OFFSET;
+	const {bottom, height, left, right, width, top} = getElementGeometry(
+		element
+	);
 
 	if (!bottom && !top && !right && !left) {
 		return null;
@@ -461,10 +409,10 @@ function Target({allowEdit, element, geometry, mode, selector}) {
 						: ''
 				}
 				onClick={handleClick}
-				style={{height: overlayHeight, width: overlayWidth}}
+				style={{height, width}}
 			></div>
 			{mode !== 'inactive' && (
-				<SegmentsExperimentsClickGoal.TargetTopper
+				<ClickGoalPicker.TargetTopper
 					allowEdit={allowEdit}
 					element={element}
 					geometry={geometry}
@@ -473,9 +421,7 @@ function Target({allowEdit, element, geometry, mode, selector}) {
 				/>
 			)}
 			{mode === 'editing' && (
-				<SegmentsExperimentsClickGoal.TargetPopover
-					selector={selector}
-				/>
+				<ClickGoalPicker.TargetPopover selector={selector} />
 			)}
 		</div>
 	);
@@ -614,126 +560,10 @@ TargetPopover.propTypes = {
 	selector: PropTypes.string.isRequired
 };
 
-/**
- * Get dimensional information about `element`.
- *
- * Used here to get measurements for the "root" ("#content") element.
- */
-function getGeometry(element) {
-	const {height, left, right, top, width} = element.getBoundingClientRect();
+ClickGoalPicker.Overlay = Overlay;
+ClickGoalPicker.OverlayContainer = OverlayContainer;
+ClickGoalPicker.Target = Target;
+ClickGoalPicker.TargetPopover = TargetPopover;
+ClickGoalPicker.TargetTopper = TargetTopper;
 
-	return {
-		height: height + TARGET_OFFSET,
-		left: left + TARGET_OFFSET / 2,
-		right: right - TARGET_OFFSET / 2,
-		top: top + TARGET_OFFSET / 2,
-		width: width + TARGET_OFFSET
-	};
-}
-
-function getInitialState(target) {
-	return {
-		...INITIAL_STATE,
-		selectedTarget: target
-	};
-}
-
-/**
- * Returns all targetable elements within `element`
- *
- * Currently, that means all visible "a" and "button" elements which
- * have an "id".
- */
-function getTargetableElements(element) {
-	const elements = element.querySelectorAll('a, button');
-
-	// As first cut, only deal with items that have an id.
-	return Array.from(elements).filter(element => {
-		return element.id && isVisible(element);
-	});
-}
-
-/**
- * Checks `element` for visibility
- *
- * Useful, for example, to exclude elements that are concealed inside dropdowns.
- */
-function isVisible(element) {
-	const {display, opacity, visibility} = getComputedStyle(element);
-
-	const hidden =
-		display === 'none' || opacity === 0 || visibility !== 'visible';
-
-	return !hidden;
-}
-
-function reducer(state, action) {
-	switch (action.type) {
-		case 'activate':
-		case 'deactivate':
-			{
-				const mode = {activate: 'active', deactivate: 'inactive'}[
-					action.type
-				];
-
-				if (state.mode !== mode) {
-					return {
-						...state,
-						mode
-					};
-				}
-			}
-			break;
-
-		case 'editTarget':
-			return {
-				...state,
-				editingTarget: action.selector
-			};
-
-		case 'selectTarget':
-			return {
-				...state,
-				editingTarget: null,
-				mode: 'inactive',
-				selectedTarget: action.selector
-			};
-
-		default:
-	}
-	return state;
-}
-
-/**
- * Given a DOM Event object or a React synthetic event, stops all propagation.
- */
-function stopImmediatePropagation(event) {
-	if (event.nativeEvent) {
-		// This is a React synthetic event; must access nativeEvent instead.
-		event.nativeEvent.stopImmediatePropagation();
-	} else {
-		event.stopImmediatePropagation();
-	}
-}
-
-/**
- * Convenience hook for adding an event listener on mount and removing it on
- * unmount.
- */
-function useEventListener(eventName, handler, phase, target) {
-	useEffect(() => {
-		target.addEventListener(eventName, handler, phase);
-
-		return () => {
-			target.removeEventListener(eventName, handler, phase);
-		};
-	}, [eventName, handler, phase, target]);
-}
-
-SegmentsExperimentsClickGoal.Overlay = Overlay;
-SegmentsExperimentsClickGoal.OverlayContainer = OverlayContainer;
-SegmentsExperimentsClickGoal.Target = Target;
-SegmentsExperimentsClickGoal.TargetPopover = TargetPopover;
-SegmentsExperimentsClickGoal.TargetTopper = TargetTopper;
-
-export default SegmentsExperimentsClickGoal;
+export default ClickGoalPicker;
