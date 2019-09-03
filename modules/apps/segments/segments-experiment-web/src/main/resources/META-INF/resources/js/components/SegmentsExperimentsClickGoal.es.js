@@ -114,20 +114,20 @@ function SegmentsExperimentsClickGoal({
 	}
 
 	if (process.env.NODE_ENV === 'test') {
-		if (!document.getElementById('wrapper')) {
-			const wrapper = document.createElement('div');
+		if (!document.getElementById('content')) {
+			const content = document.createElement('div');
 
-			wrapper.id = 'wrapper';
+			content.id = 'content';
 
-			document.body.appendChild(wrapper);
+			document.body.appendChild(content);
 		}
 	}
 
-	const root = document.getElementById('wrapper');
+	const root = document.getElementById('content');
 
 	if (!root) {
 		console.error(
-			'Cannot render <SegmentsExperimentsClickGoal /> without #wrapper element',
+			'Cannot render <SegmentsExperimentsClickGoal /> without #content element',
 			document.querySelectorAll('section').length
 		);
 		return null;
@@ -138,7 +138,7 @@ function SegmentsExperimentsClickGoal({
 
 		if (style.position === 'static') {
 			console.warn(
-				'<SegmentsExperimentsClickGoal /> requires that #wrapper be a positioned element (ie. not position: "static")'
+				'<SegmentsExperimentsClickGoal /> requires that #content be a positioned element (ie. not position: "static")'
 			);
 		}
 	}
@@ -233,7 +233,8 @@ function OverlayContainer({root, allowEdit}) {
 	if (!targetableElements.current) {
 		// Apply CSS overrides.
 		const css = `
-			#wrapper {
+			#content {
+				position: relative;
 				cursor: not-allowed;
 			}
 
@@ -311,7 +312,7 @@ OverlayContainer.propTypes = {
 };
 
 /**
- * Covers the main content surface of the page (the "#wrapper" element)
+ * Covers the main content surface of the page (the "#content" element)
  * and draws UI over each targetable element.
  */
 function Overlay({allowEdit, root, targetableElements}) {
@@ -601,7 +602,7 @@ TargetPopover.propTypes = {
 /**
  * Get dimensional information about `element`.
  *
- * Used here to get measurements for the "root" ("#wrapper") element.
+ * Used here to get measurements for the "root" ("#content") element.
  */
 function getGeometry(element) {
 	const {height, left, right, top, width} = element.getBoundingClientRect();
