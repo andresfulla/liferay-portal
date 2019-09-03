@@ -93,7 +93,11 @@ const StateContext = React.createContext(INITIAL_STATE);
  * Top-level entry point for displaying, selecting, editing and removing click
  * goal targets.
  */
-function SegmentsExperimentsClickGoal({onSelectClickGoalTarget, target}) {
+function SegmentsExperimentsClickGoal({
+	allowEdit = true,
+	onSelectClickGoalTarget,
+	target
+}) {
 	const [state, dispatch] = useReducer(reducer, target, getInitialState);
 
 	const {selectedTarget} = state;
@@ -161,36 +165,45 @@ function SegmentsExperimentsClickGoal({onSelectClickGoalTarget, target}) {
 					{Liferay.Language.get('click-goal')}
 				</h4>
 
-				<div className="d-flex mb-2">
-					<b className="mr-1">{Liferay.Language.get('target')}:</b>
-					{state.selectedTarget ? (
-						<ClayLink
-							className="text-truncate d-inline-block"
-							href={state.selectedTarget}
-							onClick={scrollIntoView}
-							title={state.selectedTarget}
-						>
-							{state.selectedTarget}
-						</ClayLink>
-					) : (
-						Liferay.Language.get('select-element-to-be-measured')
-					)}
-				</div>
+				<dl className="mb-2">
+					<div className="d-flex">
+						<dt>{Liferay.Language.get('target')}:</dt>
+						<dd className="ml-2">
+							{state.selectedTarget ? (
+								<ClayLink
+									className="text-truncate d-inline-block"
+									href={state.selectedTarget}
+									onClick={scrollIntoView}
+									title={state.selectedTarget}
+								>
+									{state.selectedTarget}
+								</ClayLink>
+							) : (
+								Liferay.Language.get(
+									'select-element-to-be-measured'
+								)
+							)}
+						</dd>
+					</div>
+				</dl>
 
-				<ClayButton
-					className="mb-3"
-					disabled={state.mode === 'active'}
-					displayType="secondary"
-					onClick={() => dispatch({type: 'activate'})}
-					small
-				>
-					{state.selectedTarget
-						? Liferay.Language.get('edit-target')
-						: Liferay.Language.get('set-target')}
-				</ClayButton>
+				{allowEdit && (
+					<ClayButton
+						className="mb-3"
+						disabled={state.mode === 'active'}
+						displayType="secondary"
+						onClick={() => dispatch({type: 'activate'})}
+						small
+					>
+						{state.selectedTarget
+							? Liferay.Language.get('edit-target')
+							: Liferay.Language.get('set-target')}
+					</ClayButton>
+				)}
 
 				{state.mode === 'active' ? (
 					<SegmentsExperimentsClickGoal.OverlayContainer
+						allowEdit={allowEdit}
 						root={root}
 					/>
 				) : null}
@@ -200,6 +213,7 @@ function SegmentsExperimentsClickGoal({onSelectClickGoalTarget, target}) {
 }
 
 SegmentsExperimentsClickGoal.propTypes = {
+	allowEdit: PropTypes.bool,
 	onSelectClickGoalTarget: PropTypes.func,
 	target: PropTypes.string
 };
@@ -208,7 +222,7 @@ SegmentsExperimentsClickGoal.propTypes = {
  * Responsible for performing the "full-screen takeover" and mounting the
  * <Overlay /> component when active.
  */
-function OverlayContainer({root}) {
+function OverlayContainer({root, allowEdit}) {
 	const cssId = 'segments-experiments-click-goal-css-overrides';
 
 	const dispatch = useContext(DispatchContext);
@@ -283,6 +297,7 @@ function OverlayContainer({root}) {
 
 	return ReactDOM.createPortal(
 		<SegmentsExperimentsClickGoal.Overlay
+			allowEdit={allowEdit}
 			root={root}
 			targetableElements={targetableElements.current}
 		/>,
@@ -291,6 +306,7 @@ function OverlayContainer({root}) {
 }
 
 OverlayContainer.propTypes = {
+	allowEdit: PropTypes.boolean,
 	root: PropTypes.instanceOf(Element).isRequired
 };
 
@@ -298,7 +314,7 @@ OverlayContainer.propTypes = {
  * Covers the main content surface of the page (the "#wrapper" element)
  * and draws UI over each targetable element.
  */
-function Overlay({root, targetableElements}) {
+function Overlay({allowEdit, root, targetableElements}) {
 	const {editingTarget, selectedTarget} = useContext(StateContext);
 
 	const [geometry, setGeometry] = useState(getGeometry(root));
@@ -320,31 +336,39 @@ function Overlay({root, targetableElements}) {
 
 	return (
 		<div className="lfr-segments-experiment-click-goal-root">
-			{targetableElements.map(element => {
-				const selector = `#${element.id}`;
+			{targetableElements
+				.filter(element => {
+					if (allowEdit === true) return true;
+					if ('#' + element.id === selectedTarget) return true;
+					return false;
+				})
+				.map(element => {
+					const selector = `#${element.id}`;
 
-				const mode =
-					editingTarget === selector
-						? 'editing'
-						: selectedTarget === selector
-						? 'selected'
-						: 'inactive';
+					const mode =
+						editingTarget === selector && allowEdit
+							? 'editing'
+							: selectedTarget === selector
+							? 'selected'
+							: 'inactive';
 
-				return (
-					<SegmentsExperimentsClickGoal.Target
-						element={element}
-						geometry={geometry}
-						key={selector}
-						mode={mode}
-						selector={selector}
-					/>
-				);
-			})}
+					return (
+						<SegmentsExperimentsClickGoal.Target
+							allowEdit={allowEdit}
+							element={element}
+							geometry={geometry}
+							key={selector}
+							mode={mode}
+							selector={selector}
+						/>
+					);
+				})}
 		</div>
 	);
 }
 
 Overlay.propTypes = {
+	allowEdit: PropTypes.boolean,
 	root: PropTypes.instanceOf(Element).isRequired,
 	targetableElements: PropTypes.arrayOf(PropTypes.instanceOf(Element))
 		.isRequired
@@ -359,7 +383,7 @@ Overlay.propTypes = {
  * - A <TargetPopover />, below the target, that provides contextual information
  *   and a button to confirm the selection of that target.
  */
-function Target({element, geometry, mode, selector}) {
+function Target({allowEdit, element, geometry, mode, selector}) {
 	const dispatch = useContext(DispatchContext);
 
 	const {
@@ -425,6 +449,7 @@ function Target({element, geometry, mode, selector}) {
 			></div>
 			{mode !== 'inactive' && (
 				<SegmentsExperimentsClickGoal.TargetTopper
+					allowEdit={allowEdit}
 					element={element}
 					geometry={geometry}
 					isEditing={mode === 'editing'}
@@ -441,6 +466,7 @@ function Target({element, geometry, mode, selector}) {
 }
 
 Target.propTypes = {
+	allowEdit: PropTypes.bool,
 	element: PropTypes.instanceOf(Element).isRequired,
 	geometry: GeometryType.isRequired,
 	mode: PropTypes.oneOf(['inactive', 'selected', 'editing']).isRequired,
@@ -451,7 +477,7 @@ Target.propTypes = {
  * Drawn above a click target, and includes a button to undo the selection of
  * that target.
  */
-function TargetTopper({geometry, isEditing, selector}) {
+function TargetTopper({allowEdit, geometry, isEditing, selector}) {
 	const dispatch = useContext(DispatchContext);
 
 	const topperRef = useRef();
@@ -503,18 +529,21 @@ function TargetTopper({geometry, isEditing, selector}) {
 			<span className="mr-2 text-truncate">
 				{isEditing ? selector : Liferay.Language.get('target')}
 			</span>
-			<ClayButton
-				className="lfr-segments-experiment-click-goal-target-delete small text-white"
-				displayType="unstyled"
-				onClick={handleClick}
-			>
-				<ClayIcon symbol="times-circle" />
-			</ClayButton>
+			{allowEdit && (
+				<ClayButton
+					className="lfr-segments-experiment-click-goal-target-delete small text-white"
+					displayType="unstyled"
+					onClick={handleClick}
+				>
+					<ClayIcon symbol="times-circle" />
+				</ClayButton>
+			)}
 		</div>
 	);
 }
 
 TargetTopper.propTypes = {
+	allowEdit: PropTypes.bool,
 	geometry: GeometryType.isRequired,
 	isEditing: PropTypes.bool.isRequired,
 	selector: PropTypes.string.isRequired
