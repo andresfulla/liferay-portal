@@ -62,11 +62,14 @@ function ClickGoalPicker({allowEdit = true, onSelectClickGoalTarget, target}) {
 
 	const ref = useRef(state.selectedTarget);
 
+	useEffect(() => {
+		ref.current = selectedTarget;
+	}, [selectedTarget]);
+
 	const previousTarget = ref.current;
 
 	if (selectedTarget != previousTarget) {
 		if (onSelectClickGoalTarget) {
-			ref.current = selectedTarget;
 			onSelectClickGoalTarget(selectedTarget);
 		}
 	}
