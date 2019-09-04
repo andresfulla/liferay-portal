@@ -31,6 +31,7 @@ import {
 	segmentsGoals,
 	segmentsVariants
 } from '../fixtures.es';
+import {INITIAL_CONFIDENCE_LEVEL} from '../../../src/main/resources/META-INF/resources/js/util/percentages.es';
 
 function _renderSegmentsExperimentsSidebarComponent({
 	classNameId = '',
@@ -340,8 +341,13 @@ describe('Run and review test', () => {
 		userEvent.click(createTestHelpMessage);
 
 		waitForElement(() => getByText('review-and-run-test')).then(() => {
-			const inputs = getAllByDisplayValue('50');
-			expect(inputs.length).toBe(3);
+			const confidenceSlider = getAllByDisplayValue(
+				INITIAL_CONFIDENCE_LEVEL.toString()
+			);
+			const splitSliders = getAllByDisplayValue('50');
+
+			expect(confidenceSlider.length).toBe(1);
+			expect(splitSliders.length).toBe(2);
 			done();
 		});
 	});
