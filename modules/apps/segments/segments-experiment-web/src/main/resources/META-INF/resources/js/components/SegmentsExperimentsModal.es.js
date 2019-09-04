@@ -144,14 +144,23 @@ function SegmentsExperimentsModal({
 	}
 
 	/**
-	 * Triggers `onTestCreation` and closes the modal
+	 * Triggers `onSave` prop
+	 *
+	 * Resets `goalTarget` if goal is not 'click'
 	 */
 	function _handleSave() {
 		if (!invalidForm) {
+			const goalTarget =
+				inputGoal === 'click'
+					? goal && goal.target
+						? goal.target
+						: ''
+					: '';
+
 			onSave({
 				description: inputDescription,
 				goal: inputGoal,
-				goalTarget: '',
+				goalTarget,
 				name: inputName,
 				segmentsExperienceId,
 				segmentsExperimentId
