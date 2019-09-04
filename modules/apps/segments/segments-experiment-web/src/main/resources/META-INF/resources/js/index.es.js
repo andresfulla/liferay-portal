@@ -62,6 +62,7 @@ function renderComponent({props, context}) {
 				initialSelectedSegmentsExperienceId={
 					props.selectedSegmentsExperienceId
 				}
+				winnerSegmentsVariantId={props.winnerSegmentsVariantId}
 			/>
 		</SegmentsExperimentsContext.Provider>
 	);

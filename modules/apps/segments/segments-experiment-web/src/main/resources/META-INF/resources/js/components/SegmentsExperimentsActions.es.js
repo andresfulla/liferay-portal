@@ -21,7 +21,8 @@ import {
 	STATUS_DRAFT,
 	STATUS_PAUSED,
 	STATUS_RUNNING,
-	STATUS_TERMINATED
+	STATUS_TERMINATED,
+	STATUS_FINISHED_WINNER
 } from '../util/statuses.es';
 
 function _experimentReady(experiment, variants) {
@@ -33,6 +34,8 @@ function _experimentReady(experiment, variants) {
 
 function SegmentsExperimentsActions({
 	onEditSegmentsExperimentStatus,
+	onExperimentDiscard,
+	onWinnerExperiencePublishing,
 	onRunExperiment,
 	segmentsExperiment,
 	variants
@@ -107,6 +110,26 @@ function SegmentsExperimentsActions({
 					</ClayButton>
 				</>
 			)}
+
+			{segmentsExperiment.status.value === STATUS_FINISHED_WINNER && (
+				<>
+					<ClayButton
+						className="w-100 mb-3"
+						onClick={onWinnerExperiencePublishing}
+					>
+						{Liferay.Language.get('publish-winner-as-experience')}
+					</ClayButton>
+
+					<ClayButton
+						className="w-100 mb-3"
+						displayType="secondary"
+						onClick={onExperimentDiscard}
+					>
+						{Liferay.Language.get('discard-experiment')}
+					</ClayButton>
+				</>
+			)}
+
 			{reviewModalVisible && (
 				<ReviewExperimentModal
 					onRun={onRunExperiment}
@@ -121,7 +144,9 @@ function SegmentsExperimentsActions({
 
 SegmentsExperimentsActions.propTypes = {
 	onEditSegmentsExperimentStatus: PropTypes.func.isRequired,
+	onExperimentDiscard: PropTypes.func.isRequired,
 	onRunExperiment: PropTypes.func.isRequired,
+	onWinnerExperiencePublishing: PropTypes.func.isRequired,
 	segmentsExperiment: SegmentsExperimentType,
 	variants: PropTypes.arrayOf(SegmentsVariantType)
 };

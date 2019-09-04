@@ -28,20 +28,7 @@ import {
 import SegmentsExperimentsActions from './SegmentsExperimentsActions.es';
 import SegmentsExperimentsDetails from './SegmentsExperimentsDetails.es';
 import Variants from './Variants/Variants.es';
-import {STATUS_DRAFT} from '../util/statuses.es';
-
-const _statusToType = status => STATUS_TO_TYPE[status];
-
-const STATUS_TO_TYPE = {
-	0: 'secondary',
-	1: 'primary',
-	2: 'success',
-	3: 'success',
-	4: 'primary',
-	5: 'warning',
-	6: 'danger',
-	7: 'warning'
-};
+import {statusToLabelDisplayType, STATUS_DRAFT} from '../util/statuses.es';
 
 function SegmentsExperiments({
 	onCreateSegmentsExperiment,
@@ -53,6 +40,8 @@ function SegmentsExperiments({
 	onVariantCreation,
 	onVariantDeletion,
 	onVariantEdition,
+	onWinnerExperiencePublishing,
+	onExperimentDiscard,
 	onTargetChange,
 	segmentsExperiences = [],
 	segmentsExperiment,
@@ -138,7 +127,7 @@ function SegmentsExperiments({
 					</div>
 
 					<ClayLabel
-						displayType={_statusToType(
+						displayType={statusToLabelDisplayType(
 							segmentsExperiment.status.value
 						)}
 					>
@@ -176,7 +165,11 @@ function SegmentsExperiments({
 						onEditSegmentsExperimentStatus={
 							onEditSegmentsExperimentStatus
 						}
+						onExperimentDiscard={onExperimentDiscard}
 						onRunExperiment={onRunExperiment}
+						onWinnerExperiencePublishing={
+							onWinnerExperiencePublishing
+						}
 						segmentsExperiment={segmentsExperiment}
 						variants={variants}
 					/>
@@ -232,12 +225,14 @@ SegmentsExperiments.propTypes = {
 	onDeleteSegmentsExperiment: PropTypes.func.isRequired,
 	onEditSegmentsExperiment: PropTypes.func.isRequired,
 	onEditSegmentsExperimentStatus: PropTypes.func.isRequired,
+	onExperimentDiscard: PropTypes.func.isRequired,
 	onRunExperiment: PropTypes.func.isRequired,
 	onSelectSegmentsExperienceChange: PropTypes.func.isRequired,
 	onTargetChange: PropTypes.func.isRequired,
 	onVariantCreation: PropTypes.func.isRequired,
 	onVariantDeletion: PropTypes.func.isRequired,
 	onVariantEdition: PropTypes.func.isRequired,
+	onWinnerExperiencePublishing: PropTypes.func.isRequired,
 	segmentsExperiences: PropTypes.arrayOf(SegmentsExperienceType),
 	segmentsExperiment: SegmentsExperimentType,
 	selectedSegmentsExperienceId: PropTypes.string.isRequired,

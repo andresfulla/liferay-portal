@@ -25,14 +25,19 @@ import {
 import SegmentsExperimentsContext from '../context.es';
 import UnsupportedSegmentsExperiments from './UnsupportedSegmentsExperiments.es';
 import {navigateToExperience} from '../util/navigation.es';
-import {STATUS_RUNNING} from '../util/statuses.es';
+import {
+	STATUS_RUNNING,
+	STATUS_COMPLETED,
+	STATUS_TERMINATED
+} from '../util/statuses.es';
 
 function SegmentsExperimentsSidebar({
 	initialGoals,
 	initialSegmentsExperiences,
 	initialSegmentsVariants,
 	initialSegmentsExperiment,
-	initialSelectedSegmentsExperienceId = '0'
+	initialSelectedSegmentsExperienceId = '0',
+	winnerSegmentsVariantId
 }) {
 	const {APIService, page} = useContext(SegmentsExperimentsContext);
 
@@ -41,7 +46,13 @@ function SegmentsExperimentsSidebar({
 	const [segmentsExperiment, setSegmentsExperiment] = useState(
 		initialSegmentsExperiment
 	);
-	const [variants, setVariants] = useState(initialSegmentsVariants);
+	const [variants, setVariants] = useState(
+		initialSegmentsVariants.map(initialVariant => {
+			if (winnerSegmentsVariantId === initialVariant.segmentsExperienceId)
+				return {...initialVariant, winner: true};
+			return initialVariant;
+		})
+	);
 
 	return page.type === 'content' ? (
 		<div className="p-3">
@@ -52,6 +63,7 @@ function SegmentsExperimentsSidebar({
 				onEditSegmentsExperimentStatus={
 					_handleEditSegmentExperimentStatus
 				}
+				onExperimentDiscard={_handleExperimentDiscard}
 				onRunExperiment={_handleRunExperiment}
 				onSelectSegmentsExperienceChange={
 					_handleSelectSegmentsExperience
@@ -60,6 +72,7 @@ function SegmentsExperimentsSidebar({
 				onVariantCreation={_handleVariantCreation}
 				onVariantDeletion={_handleVariantDeletion}
 				onVariantEdition={_handleVariantEdition}
+				onWinnerExperiencePublishing={_handleWinnerExperiencePublishing}
 				segmentsExperiences={initialSegmentsExperiences}
 				segmentsExperiment={segmentsExperiment}
 				selectedSegmentsExperienceId={
@@ -341,6 +354,17 @@ function SegmentsExperimentsSidebar({
 		navigateToExperience(segmentsExperienceId);
 	}
 
+	function _handleExperimentDiscard() {
+		const body = {
+			segmentsExperimentId: segmentsExperiment.segmentsExperimentId,
+			status: STATUS_TERMINATED
+		};
+
+		APIService.discardExperiement(body).then(({segmentsExperiment}) => {
+			segmentsExperiment(segmentsExperiment);
+		});
+	}
+
 	function _handleTargetChange(selector) {
 		const body = {
 			description: segmentsExperiment.description,
@@ -451,6 +475,18 @@ function SegmentsExperimentsSidebar({
 				});
 		});
 	}
+
+	function _handleWinnerExperiencePublishing() {
+		const body = {
+			segmentsExperienceId: winnerSegmentsVariantId,
+			segmentsExperimentId: segmentsExperiment.segmentsExperimentId,
+			status: STATUS_COMPLETED
+		};
+
+		APIService.publishExperience(body).then(({segmentsExperiment}) => {
+			setSegmentsExperiment(segmentsExperiment);
+		});
+	}
 }
 
 SegmentsExperimentsSidebar.propTypes = {
@@ -458,7 +494,8 @@ SegmentsExperimentsSidebar.propTypes = {
 	initialSegmentsExperiences: PropTypes.arrayOf(SegmentsExperienceType),
 	initialSegmentsExperiment: SegmentsExperimentType,
 	initialSegmentsVariants: PropTypes.arrayOf(SegmentsVariantType).isRequired,
-	initialSelectedSegmentsExperienceId: PropTypes.string
+	initialSelectedSegmentsExperienceId: PropTypes.string,
+	winnerSegmentsVariantId: PropTypes.string
 };
 
 export default SegmentsExperimentsSidebar;

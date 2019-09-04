@@ -60,16 +60,11 @@ function APIService({endpoints, namespace, contentPageEditorNamespace}) {
 	}
 
 	function editExperiment(body) {
-		return fetch(editSegmentsExperimentURL, {
+		return _fetchWithError(editSegmentsExperimentURL, {
 			body: _getFormDataRequest(body, namespace),
 			credentials: 'include',
 			method: 'POST'
-		})
-			.then(response => response.json())
-			.then(objectResponse => {
-				if (objectResponse.error) throw objectResponse.error;
-				return objectResponse;
-			});
+		});
 	}
 
 	function editExperimentStatus(body) {
@@ -82,6 +77,23 @@ function APIService({endpoints, namespace, contentPageEditorNamespace}) {
 
 	function editVariant(body) {
 		return _fetchWithError(editSegmentsVariantURL, {
+			body: _getFormDataRequest(body, namespace),
+			credentials: 'include',
+			method: 'POST'
+		});
+	}
+
+	function discardExperiement(body) {
+		return _fetchWithError(editSegmentsExperimentStatusURL, {
+			body: _getFormDataRequest(body, namespace),
+			credentials: 'include',
+			method: 'POST'
+		});
+	}
+
+	function publishExperience(body) {
+		// TODO somehow type this
+		return _fetchWithError(editSegmentsExperimentStatusURL, {
 			body: _getFormDataRequest(body, namespace),
 			credentials: 'include',
 			method: 'POST'
@@ -101,9 +113,11 @@ function APIService({endpoints, namespace, contentPageEditorNamespace}) {
 		createVariant,
 		deleteExperiment,
 		deleteVariant,
+		discardExperiement,
 		editExperiment,
 		editExperimentStatus,
 		editVariant,
+		publishExperience,
 		runExperiment
 	};
 }
@@ -117,7 +131,8 @@ APIService.propTypes = {
 		deleteSegmentsVariantURL: PropTypes.string.isRequired,
 		editSegmentsExperimentStatusURL: PropTypes.string.isRequired,
 		editSegmentsExperimentURL: PropTypes.string.isRequired,
-		editSegmentsVariantURL: PropTypes.string.isRequired
+		editSegmentsVariantURL: PropTypes.string.isRequired,
+		runSegmentsExperimentURL: PropTypes.string.isRequired
 	}),
 	namespace: PropTypes.string.isRequired
 };
