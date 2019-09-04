@@ -19,13 +19,7 @@
 <%
 EditSegmentsEntryDisplayContext editSegmentsEntryDisplayContext = (EditSegmentsEntryDisplayContext)request.getAttribute(SegmentsWebKeys.EDIT_SEGMENTS_ENTRY_DISPLAY_CONTEXT);
 
-String redirect = ParamUtil.getString(request, "redirect", editSegmentsEntryDisplayContext.getRedirect());
-
-String backURL = ParamUtil.getString(request, "backURL", redirect);
-
-SegmentsEntry segmentsEntry = editSegmentsEntryDisplayContext.getSegmentsEntry();
-
-long segmentsEntryId = editSegmentsEntryDisplayContext.getSegmentsEntryId();
+String backURL = editSegmentsEntryDisplayContext.getBackURL();
 
 if (Validator.isNotNull(backURL)) {
 	portletDisplay.setShowBackIcon(true);
@@ -42,8 +36,8 @@ renderResponse.setTitle(editSegmentsEntryDisplayContext.getTitle(locale));
 <portlet:actionURL name="updateSegmentsEntry" var="updateSegmentsEntryActionURL" />
 
 <aui:form action="<%= updateSegmentsEntryActionURL %>" method="post" name="editSegmentFm" onSubmit='<%= "event.preventDefault(); " + renderResponse.getNamespace() + "saveSegmentsEntry();" %>'>
-	<aui:input name="redirect" type="hidden" value="<%= redirect %>" />
-	<aui:input name="segmentsEntryId" type="hidden" value="<%= segmentsEntryId %>" />
+	<aui:input name="redirect" type="hidden" value="<%= editSegmentsEntryDisplayContext.getRedirect() %>" />
+	<aui:input name="segmentsEntryId" type="hidden" value="<%= editSegmentsEntryDisplayContext.getSegmentsEntryId() %>" />
 	<aui:input name="segmentsEntryKey" type="hidden" value="<%= editSegmentsEntryDisplayContext.getSegmentsEntryKey() %>" />
 	<aui:input name="type" type="hidden" value="<%= editSegmentsEntryDisplayContext.getType() %>" />
 	<aui:input name="dynamic" type="hidden" value="<%= true %>" />
@@ -57,61 +51,8 @@ renderResponse.setTitle(editSegmentsEntryDisplayContext.getTitle(locale));
 			<span aria-hidden="true" class="loading-animation"></span>
 		</div>
 
-		<portlet:renderURL var="previewMembersURL" windowState="<%= LiferayWindowState.POP_UP.toString() %>">
-			<portlet:param name="mvcRenderCommandName" value="previewSegmentsEntryUsers" />
-			<portlet:param name="segmentsEntryId" value="<%= String.valueOf(segmentsEntryId) %>" />
-		</portlet:renderURL>
-
-		<liferay-portlet:resourceURL copyCurrentRenderParameters="<%= false %>" id="getSegmentsEntryClassPKsCount" var="getSegmentsEntryClassPKsCountURL" />
-		<liferay-portlet:resourceURL copyCurrentRenderParameters="<%= false %>" id="getSegmentsFieldValueName" var="getSegmentsFieldValueNameURL" />
-
-		<%
-		Map<String, Object> context = new HashMap<>();
-		context.put("assetsPath", PortalUtil.getPathContext(request) + "/assets");
-		context.put("namespace", renderResponse.getNamespace());
-		context.put("requestFieldValueNameURL", getSegmentsFieldValueNameURL);
-
-		Map<String, String> availableLocales = new HashMap<>();
-
-		for (Locale availableLocale : editSegmentsEntryDisplayContext.getAvailableLocales()) {
-			String availableLanguageId = LocaleUtil.toLanguageId(availableLocale);
-
-			availableLocales.put(availableLanguageId, availableLocale.getDisplayName(locale));
-		}
-
-		Map<String, Object> props = new HashMap<>();
-		props.put("availableLocales", availableLocales);
-		props.put("contributors", editSegmentsEntryDisplayContext.getContributorsJSONArray());
-		props.put("defaultLanguageId", editSegmentsEntryDisplayContext.getDefaultLanguageId());
-		props.put("formId", renderResponse.getNamespace() + "editSegmentFm");
-		props.put("hasUpdatePermission", editSegmentsEntryDisplayContext.hasUpdatePermission());
-		props.put("initialMembersCount", editSegmentsEntryDisplayContext.getSegmentsEntryClassPKsCount());
-		props.put("initialSegmentActive", (segmentsEntry == null) ? false : segmentsEntry.isActive());
-
-		if (segmentsEntry != null) {
-			JSONSerializer jsonSerializer = JSONFactoryUtil.createJSONSerializer();
-
-			String initialSegmentName = JSONFactoryUtil.createJSONObject(jsonSerializer.serializeDeep(segmentsEntry.getNameMap())).toString();
-
-			props.put("initialSegmentName", initialSegmentName);
-		}
-
-		props.put("locale", locale.toString());
-		props.put("portletNamespace", renderResponse.getNamespace());
-		props.put("previewMembersURL", previewMembersURL.toString());
-		props.put("propertyGroups", editSegmentsEntryDisplayContext.getPropertyGroupsJSONArray(locale));
-		props.put("redirect", HtmlUtil.escape(redirect));
-		props.put("requestMembersCountURL", getSegmentsEntryClassPKsCountURL.toString());
-		props.put("showInEditMode", editSegmentsEntryDisplayContext.isShowInEditMode());
-		props.put("source", editSegmentsEntryDisplayContext.getSource());
-
-		Map<String, Object> data = new HashMap<>();
-		data.put("context", context);
-		data.put("props", props);
-		%>
-
 		<react:component
-			data="<%= data %>"
+			data="<%= editSegmentsEntryDisplayContext.getData() %>"
 			module="js/SegmentsApp.es"
 		/>
 	</div>
