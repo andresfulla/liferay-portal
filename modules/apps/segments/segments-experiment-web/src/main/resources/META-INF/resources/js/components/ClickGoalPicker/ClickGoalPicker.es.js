@@ -273,7 +273,7 @@ function OverlayContainer({root, allowEdit}) {
 }
 
 OverlayContainer.propTypes = {
-	allowEdit: PropTypes.boolean,
+	allowEdit: PropTypes.bool,
 	root: PropTypes.instanceOf(Element).isRequired
 };
 
@@ -335,7 +335,7 @@ function Overlay({allowEdit, root, targetableElements}) {
 }
 
 Overlay.propTypes = {
-	allowEdit: PropTypes.boolean,
+	allowEdit: PropTypes.bool,
 	root: PropTypes.instanceOf(Element).isRequired,
 	targetableElements: PropTypes.arrayOf(PropTypes.instanceOf(Element))
 		.isRequired
