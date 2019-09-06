@@ -19,7 +19,7 @@ import SegmentsExperimentsSidebar from './components/SegmentsExperimentsSidebar.
 import SegmentsExperimentsContext from './context.es';
 
 function renderComponent({props, context}) {
-	const {page, endpoints} = context;
+	const {page, endpoints, viewSegmentsExperimentDetailsURL} = context;
 	const {
 		createSegmentsExperimentURL,
 		createSegmentsVariantURL,
@@ -51,7 +51,8 @@ function renderComponent({props, context}) {
 					namespace: context.namespace
 				}),
 				editVariantLayoutURL: editSegmentsVariantLayoutURL,
-				page
+				page,
+				viewSegmentsExperimentDetailsURL
 			}}
 		>
 			<SegmentsExperimentsSidebar
@@ -62,6 +63,10 @@ function renderComponent({props, context}) {
 				initialSelectedSegmentsExperienceId={
 					props.selectedSegmentsExperienceId
 				}
+				viewSegmentsExperimentDetailsURL={
+					props.viewSegmentsExperimentDetailsURL
+				}
+				winnerSegmentsVariantId={props.winnerSegmentsVariantId}
 			/>
 		</SegmentsExperimentsContext.Provider>
 	);
