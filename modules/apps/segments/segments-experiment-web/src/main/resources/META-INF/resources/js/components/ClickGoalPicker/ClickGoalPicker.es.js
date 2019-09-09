@@ -129,8 +129,8 @@ function ClickGoalPicker({allowEdit = true, onSelectClickGoalTarget, target}) {
 				<dl className="mb-2">
 					<div className="d-flex">
 						<dt>{Liferay.Language.get('target')}:</dt>
-						<dd className="ml-2 text-truncate">
-							{state.selectedTarget ? (
+						{state.selectedTarget ? (
+							<dd className="ml-2 text-truncate">
 								<ClayLink
 									href={state.selectedTarget}
 									onClick={scrollIntoView}
@@ -138,12 +138,14 @@ function ClickGoalPicker({allowEdit = true, onSelectClickGoalTarget, target}) {
 								>
 									{state.selectedTarget}
 								</ClayLink>
-							) : (
-								Liferay.Language.get(
+							</dd>
+						) : (
+							<dd className="ml-2 text-secondary">
+								{Liferay.Language.get(
 									'select-element-to-be-measured'
-								)
-							)}
-						</dd>
+								)}
+							</dd>
+						)}
 					</div>
 				</dl>
 
