@@ -321,6 +321,62 @@ describe('Run and review test', () => {
 		expect(confidenceSlider.length).toBe(1);
 		expect(splitSliders.length).toBe(2);
 	});
+
+	test.todo('Running test cannot be edited');
+
+	test.todo(
+		'Variants cannot be edited/deleted/added in a running experiment'
+	);
+});
+
+describe('Click Target selection', () => {
+	test.todo(
+		'Set Click Target section appears when draft test has goal set to click'
+	);
+
+	test.todo(
+		'All clickable elements highlighted when the user clicks on Set Target Button'
+	);
+
+	test.todo(
+		'A tooltip Click Element to Set as Click Target for your Goal appears when the user clicks on Set Target Button'
+	);
+
+	test.todo('Selectable as target elements show tooltips on hover');
+
+	test.todo(
+		'When the user Set Element as Click Target, then The element is set as the Click Target and the id of the element as a link'
+	);
+
+	test.todo(
+		'Cancel selection click target element proccess when clickign out of selection zone'
+	);
+
+	test.todo(
+		'When hovering over to invalid click target elements, the mouse is displayed in not-allowed mode'
+	);
+
+	test.todo(
+		'The user can edit a selected click target in a draft experiment'
+	);
+
+	test.todo('The user can remove a selected click target in a draft element');
+
+	test.todo(
+		'The user clicks in the UI reference to the selected click target element, the page scrolls to make it visible'
+	);
+});
+
+describe('Experiment history tab', () => {
+	test.todo('test is archived after terminating it');
+
+	test.todo('test is archive after completing it');
+
+	test.todo('test just archived are shown in the top of the history list');
+
+	test.todo('tests have name, description and status label');
+
+	test.todo('history tab title has number of archived tests next to it');
 });
 
 describe('Winner declared', () => {
