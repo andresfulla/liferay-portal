@@ -12,7 +12,20 @@
  * details.
  */
 
-export {default as render} from './render.es';
-export {default as useEventListener} from './hooks/useEventListener.es';
-export {default as useIsMounted} from './hooks/useIsMounted.es';
-export {default as usePrevious} from './hooks/usePrevious.es';
+import {useEffect, useRef} from 'react';
+
+/**
+ * Hook for comparing current and previous values (of state, props or any
+ * arbitrary value).
+ *
+ * @see https://reactjs.org/docs/hooks-faq.html#how-to-get-the-previous-props-or-state
+ */
+export default function usePrevious(value) {
+	const ref = useRef();
+
+	useEffect(() => {
+		ref.current = value;
+	});
+
+	return ref.current;
+}
