@@ -16,6 +16,7 @@ import ClayButton from '@clayui/button';
 import ClayIcon from '@clayui/icon';
 import ClayLink from '@clayui/link';
 import classNames from 'classnames';
+import {useEventListener} from 'frontend-js-react-web';
 import {throttle} from 'frontend-js-web';
 import PropTypes from 'prop-types';
 import React from 'react';
@@ -26,7 +27,6 @@ import {
 	getTargetableElements,
 	stopImmediatePropagation,
 	getRootElementGeometry,
-	useEventListener,
 	getElementGeometry
 } from './utils.es';
 
