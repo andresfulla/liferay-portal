@@ -29,8 +29,7 @@ import {StateContext} from '../state/context.es';
 import SegmentsExperimentsContext from '../context.es';
 import ClayTabs from '@clayui/tabs';
 import ExperimentsHistory from './ExperimentsHistory.es';
-
-const NO_EXPERIMENT_ILLUSTRATION_FILENAME = '/no-experiment.svg';
+import {NO_EXPERIMENT_ILLUSTRATION_FILENAME} from '../util/contants.es';
 
 const TABS_STATES = {
 	ACTIVE: 0,
@@ -193,7 +192,7 @@ function SegmentsExperiments({
 					)}
 
 					{!experiment && (
-						<div className="text-center mt-2">
+						<div className="text-center">
 							<img
 								alt=""
 								className="my-3"
