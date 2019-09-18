@@ -16,6 +16,7 @@ import React, {useContext, useState, useEffect, useRef} from 'react';
 import PropTypes from 'prop-types';
 import ClayModal, {useModal} from '@clayui/modal';
 import ClayButton from '@clayui/button';
+import {throttle} from 'frontend-js-web';
 import {SplitPicker} from './SplitPicker/SplitPicker.es';
 import {SliderWithLabel} from './SliderWithLabel.es';
 import {SegmentsVariantType} from '../types.es';
@@ -27,8 +28,10 @@ import {
 } from '../util/percentages.es';
 import BusyButton from './BusyButton/BusyButton.es';
 import SegmentsExperimentContext from '../context.es';
+import {StateContext} from '../state/context.es';
 
 const SUCCESS_ANIMATION_PATH = '/success.gif';
+const TIME_ESTIMATION_THROTTLE_TIME_MS = 1000;
 
 function ReviewExperimentModal({onRun, variants, visible, setVisible}) {
 	const [busy, setBusy] = useState(false);
@@ -51,7 +54,8 @@ function ReviewExperimentModal({onRun, variants, visible, setVisible}) {
 			return {...variant, split};
 		})
 	);
-	const {assetsPath} = useContext(SegmentsExperimentContext);
+	const {assetsPath, APIService} = useContext(SegmentsExperimentContext);
+	const {experiment} = useContext(StateContext);
 
 	const {observer, onClose} = useModal({
 		onClose: () => setVisible(false)
@@ -67,6 +71,27 @@ function ReviewExperimentModal({onRun, variants, visible, setVisible}) {
 	});
 
 	const successAnimationPath = `${assetsPath}${SUCCESS_ANIMATION_PATH}`;
+
+	useEffect(
+		throttle(
+			() =>
+				APIService.getEstimatedTime({
+					confidenceLevel,
+					segmentsExperimentId: experiment.segmentsExperimentId,
+					segmentsExperimentRels: JSON.stringify(
+						_variantsToSplitVariantsMap(draftVariants)
+					)
+				})
+					.then(response => {
+						debugger;
+					})
+					.catch(error => {
+						debugger;
+					}),
+			TIME_ESTIMATION_THROTTLE_TIME_MS
+		),
+		[draftVariants, confidenceLevel]
+	);
 
 	return (
 		visible && (
@@ -181,12 +206,7 @@ function ReviewExperimentModal({onRun, variants, visible, setVisible}) {
 	 * and bubbles up `onRun` with `confidenceLevel` and `splitVariantsMap`
 	 */
 	function _handleRun() {
-		const splitVariantsMap = draftVariants.reduce((acc, v) => {
-			return {
-				...acc,
-				[v.segmentsExperimentRelId]: percentageNumberToIndex(v.split)
-			};
-		}, {});
+		const splitVariantsMap = _variantsToSplitVariantsMap(draftVariants);
 
 		setBusy(true);
 
@@ -200,6 +220,15 @@ function ReviewExperimentModal({onRun, variants, visible, setVisible}) {
 			}
 		});
 	}
+}
+
+function _variantsToSplitVariantsMap(variants) {
+	return variants.reduce((acc, v) => {
+		return {
+			...acc,
+			[v.segmentsExperimentRelId]: percentageNumberToIndex(v.split)
+		};
+	}, {});
 }
 
 ReviewExperimentModal.propTypes = {
