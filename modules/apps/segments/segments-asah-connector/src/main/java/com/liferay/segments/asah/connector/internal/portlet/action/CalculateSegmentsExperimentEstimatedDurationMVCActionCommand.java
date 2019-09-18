@@ -29,15 +29,23 @@ import com.liferay.portal.kernel.util.GetterUtil;
 import com.liferay.portal.kernel.util.ParamUtil;
 import com.liferay.portal.kernel.util.Portal;
 import com.liferay.portal.kernel.util.WebKeys;
+import com.liferay.segments.asah.connector.internal.client.AsahFaroBackendClient;
+import com.liferay.segments.asah.connector.internal.client.AsahFaroBackendClientFactory;
+import com.liferay.segments.asah.connector.internal.client.model.DXPVariantSettings;
+import com.liferay.segments.asah.connector.internal.client.model.ExperimentSettings;
 import com.liferay.segments.constants.SegmentsPortletKeys;
 import com.liferay.segments.model.SegmentsExperiment;
 import com.liferay.segments.model.SegmentsExperimentRel;
 import com.liferay.segments.service.SegmentsExperimentLocalService;
 import com.liferay.segments.service.SegmentsExperimentRelLocalService;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
+import java.util.List;
 import java.util.Map;
+import java.util.Objects;
+import java.util.Optional;
 
 import javax.portlet.ActionRequest;
 import javax.portlet.ActionResponse;
@@ -54,7 +62,7 @@ import org.osgi.service.component.annotations.Reference;
 	immediate = true,
 	property = {
 		"javax.portlet.name=" + SegmentsPortletKeys.SEGMENTS_EXPERIMENT,
-		"mvc.command.name=/calculate_segments_experiment_estimated_days_duration"
+		"mvc.command.name=/calculate_segments_experiment_estimated_duration"
 	},
 	service = MVCActionCommand.class
 )
@@ -129,23 +137,81 @@ public class CalculateSegmentsExperimentEstimatedDurationMVCActionCommand
 		}
 
 		Long segmentsExperimentEstimatedDaysDuration =
-			_calculateSegmentsExperimentEstimatedDurationMVCCommandHelper.
-				calculateExperimentEstimatedDaysDuration(
-					segmentsExperiment,
-					ParamUtil.getDouble(actionRequest, "confidenceLevel"),
-					segmentsExperienceKeySplitMap);
+			_calculateSegmentsExperimentEstimatedDaysDuration(
+				segmentsExperiment,
+				ParamUtil.getDouble(actionRequest, "confidenceLevel"),
+				segmentsExperienceKeySplitMap);
 
 		return JSONUtil.put(
 			"segmentsExperimentEstimatedDaysDuration",
 			segmentsExperimentEstimatedDaysDuration);
 	}
 
+	private Long _calculateSegmentsExperimentEstimatedDaysDuration(
+		SegmentsExperiment segmentsExperiment, double confidenceLevel,
+		Map<String, Double> segmentsExperienceKeySplitMap) {
+
+		Optional<AsahFaroBackendClient> asahFaroBackendClientOptional =
+			_asahFaroBackendClientFactory.createAsahFaroBackendClient();
+
+		if (!asahFaroBackendClientOptional.isPresent()) {
+			return null;
+		}
+
+		_asahFaroBackendClient = asahFaroBackendClientOptional.get();
+
+		return _asahFaroBackendClient.calculateExperimentEstimatedDaysDuration(
+			segmentsExperiment.getSegmentsExperienceKey(),
+			_createExperimentSettings(
+				confidenceLevel, segmentsExperienceKeySplitMap,
+				segmentsExperiment));
+	}
+
+	private DXPVariantSettings _createDXPVariantSettings(
+		String controlSegmentsExperienceKey, String segmentsExperienceKey,
+		Double split) {
+
+		DXPVariantSettings dxpVariantSettings = new DXPVariantSettings();
+
+		dxpVariantSettings.setControl(
+			Objects.equals(
+				controlSegmentsExperienceKey, segmentsExperienceKey));
+
+		dxpVariantSettings.setTrafficSplit(split);
+
+		dxpVariantSettings.setDXPVariantId(segmentsExperienceKey);
+
+		return dxpVariantSettings;
+	}
+
+	private ExperimentSettings _createExperimentSettings(
+		double confidenceLevel,
+		Map<String, Double> segmentsExperienceKeySplitMap,
+		SegmentsExperiment segmentsExperiment) {
+
+		ExperimentSettings experimentSettings = new ExperimentSettings();
+
+		experimentSettings.setConfidenceLevel(confidenceLevel);
+
+		List<DXPVariantSettings> dxpVariantsSettings = new ArrayList<>();
+
+		segmentsExperienceKeySplitMap.forEach(
+			(segmentsExperienceKey, split) -> dxpVariantsSettings.add(
+				_createDXPVariantSettings(
+					segmentsExperiment.getSegmentsExperimentKey(),
+					segmentsExperienceKey, split)));
+		experimentSettings.setDXPVariantsSettings(dxpVariantsSettings);
+
+		return experimentSettings;
+	}
+
 	private static final Log _log = LogFactoryUtil.getLog(
 		CalculateSegmentsExperimentEstimatedDurationMVCActionCommand.class);
 
+	private AsahFaroBackendClient _asahFaroBackendClient;
+
 	@Reference
-	private CalculateSegmentsExperimentEstimatedDurationMVCCommandHelper
-		_calculateSegmentsExperimentEstimatedDurationMVCCommandHelper;
+	private AsahFaroBackendClientFactory _asahFaroBackendClientFactory;
 
 	@Reference
 	private Portal _portal;
