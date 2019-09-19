@@ -38,8 +38,8 @@ function ReviewExperimentModal({onRun, variants, visible, setVisible}) {
 	const [busy, setBusy] = useState(false);
 	const [success, setSuccess] = useState(false);
 	const [estimation, setEstimation] = useState({
-		loading: true,
-		days: null
+		days: null,
+		loading: true
 	});
 	const [confidenceLevel, setConfidenceLevel] = useState(
 		INITIAL_CONFIDENCE_LEVEL
@@ -84,16 +84,16 @@ function ReviewExperimentModal({onRun, variants, visible, setVisible}) {
 				.then(({segmentsExperimentEstimatedDaysDuration}) => {
 					if (mounted.current) {
 						setEstimation({
-							loading: false,
-							days: segmentsExperimentEstimatedDaysDuration
+							days: segmentsExperimentEstimatedDaysDuration,
+							loading: false
 						});
 					}
 				})
 				.catch(_error => {
 					if (mounted.current) {
 						setEstimation({
-							loading: false,
-							days: null
+							days: null,
+							loading: false
 						});
 					}
 				});
@@ -111,7 +111,7 @@ function ReviewExperimentModal({onRun, variants, visible, setVisible}) {
 			)
 		});
 		return () => {};
-	}, [draftVariants, confidenceLevel]);
+	}, [draftVariants, confidenceLevel, experiment.segmentsExperimentId]);
 
 	return (
 		visible && (
@@ -180,7 +180,7 @@ function ReviewExperimentModal({onRun, variants, visible, setVisible}) {
 											/>
 										) : (
 											estimation.days &&
-											_getHumanDays(estimation.days)
+											_getDaysMessage(estimation.days)
 										)}
 									</p>
 								</div>
@@ -259,7 +259,7 @@ function _variantsToSplitVariantsMap(variants) {
 	}, {});
 }
 
-function _getHumanDays(days) {
+function _getDaysMessage(days) {
 	if (days === 1)
 		return Liferay.Util.sub(Liferay.Language.get('x-day'), days);
 	else return Liferay.Util.sub(Liferay.Language.get('x-days'), days);
