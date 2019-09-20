@@ -38,11 +38,11 @@ import {
 } from '../../../src/main/resources/META-INF/resources/js/util/statuses.es';
 
 jest.mock(
-	'../../../src/main/resources/META-INF/resources/js/util/hooks.es',
+	'../../../src/main/resources/META-INF/resources/js/util/toasts.es',
 	() => {
 		return {
-			openSuccessToast: () => {},
-			openErrorToast: () => {}
+			openErrorToast: () => {},
+			openSuccessToast: () => {}
 		};
 	}
 );
