@@ -42,6 +42,7 @@ import {
 	addVariant
 } from '../state/actions.es';
 import {STATUS_COMPLETED, STATUS_TERMINATED} from '../util/statuses.es';
+import {openErrorToast, openSuccessToast} from '../util/toasts.es';
 
 function SegmentsExperimentsSidebar({
 	initialExperimentHistory,
@@ -146,9 +147,15 @@ function SegmentsExperimentsSidebar({
 			segmentsExperimentId: experimentId
 		};
 
-		APIService.deleteExperiment(body).then(() => {
-			navigateToExperience(initialSelectedSegmentsExperienceId);
-		});
+		APIService.deleteExperiment(body)
+			.then(() => {
+				openSuccessToast();
+
+				navigateToExperience(initialSelectedSegmentsExperienceId);
+			})
+			.catch(_error => {
+				openErrorToast();
+			});
 	}
 
 	function _handleExperimentCreation(experimentData) {
@@ -189,6 +196,8 @@ function SegmentsExperimentsSidebar({
 					status
 				} = segmentsExperiment;
 
+				openSuccessToast();
+
 				dispatch(addVariant(segmentsExperimentRel));
 
 				dispatch(closeCreationModal());
@@ -208,6 +217,8 @@ function SegmentsExperimentsSidebar({
 				);
 			})
 			.catch(function _errorCallback() {
+				openSuccessToast();
+
 				dispatch(
 					openCreationModal({
 						description,
@@ -339,13 +350,19 @@ function SegmentsExperimentsSidebar({
 			segmentsExperimentId: experiment.segmentsExperimentId
 		};
 
-		APIService.editExperiment(body).then(() => {
-			dispatch(
-				updateSegmentsExperiment({
-					goal: {...experiment.goal, target: selector}
-				})
-			);
-		});
+		APIService.editExperiment(body)
+			.then(() => {
+				openSuccessToast();
+
+				dispatch(
+					updateSegmentsExperiment({
+						goal: {...experiment.goal, target: selector}
+					})
+				);
+			})
+			.catch(_error => {
+				openErrorToast();
+			});
 	}
 }
 

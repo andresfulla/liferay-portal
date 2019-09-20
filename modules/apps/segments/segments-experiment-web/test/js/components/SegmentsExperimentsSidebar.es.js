@@ -37,6 +37,16 @@ import {
 	STATUS_COMPLETED
 } from '../../../src/main/resources/META-INF/resources/js/util/statuses.es';
 
+jest.mock(
+	'../../../src/main/resources/META-INF/resources/js/util/hooks.es',
+	() => {
+		return {
+			openSuccessToast: () => {},
+			openErrorToast: () => {}
+		};
+	}
+);
+
 function _renderSegmentsExperimentsSidebarComponent({
 	classNameId = '',
 	classPK = '',
