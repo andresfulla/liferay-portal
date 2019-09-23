@@ -217,8 +217,6 @@ function SegmentsExperimentsSidebar({
 				);
 			})
 			.catch(function _errorCallback() {
-				openSuccessToast();
-
 				dispatch(
 					openCreationModal({
 						description,
