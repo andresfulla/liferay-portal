@@ -37,7 +37,11 @@ function ExperimentsHistory({experimentHistory, onDeleteSegmentsExperiment}) {
 				width="120px"
 			/>
 
-			<h4>{Liferay.Language.get('there-is-no-test-history-for-experience')}</h4>
+			<h4>
+				{Liferay.Language.get(
+					'there-is-no-test-history-for-experience'
+				)}
+			</h4>
 
 			<p className="text-secondary">
 				{Liferay.Language.get(
