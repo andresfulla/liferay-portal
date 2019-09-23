@@ -23,7 +23,7 @@ import {
 	addVariant,
 	updateVariant,
 	updateVariants,
-	updateSegmentsExperiment
+	archiveExperiment
 } from '../../state/actions.es';
 import {DispatchContext, StateContext} from '../../state/context.es';
 import SegmentsExperimentsContext from '../../context.es';
@@ -201,10 +201,13 @@ function Variants({selectedSegmentsExperienceId}) {
 
 		APIService.publishExperience(body)
 			.then(({segmentsExperiment}) => {
-				// TODO archive current experiemnt ??
 				openSuccessToast();
 
-				dispatch(updateSegmentsExperiment(segmentsExperiment));
+				dispatch(
+					archiveExperiment({
+						status: segmentsExperiment.status
+					})
+				);
 			})
 			.catch(_error => {
 				openErrorToast();
