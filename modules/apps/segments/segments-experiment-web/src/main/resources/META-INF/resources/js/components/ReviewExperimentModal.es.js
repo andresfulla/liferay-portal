@@ -12,7 +12,13 @@
  * details.
  */
 
-import React, {useContext, useState, useEffect, useRef} from 'react';
+import React, {
+	useCallback,
+	useContext,
+	useState,
+	useEffect,
+	useRef
+} from 'react';
 import PropTypes from 'prop-types';
 import ClayButton from '@clayui/button';
 import ClayLoadingIndicator from '@clayui/loading-indicator';
@@ -115,6 +121,17 @@ function ReviewExperimentModal({onRun, variants, visible, setVisible}) {
 		experiment.segmentsExperimentId
 	]);
 
+	const [height, setHeight] = useState(0);
+
+	const measureHeight = useCallback(
+		node => {
+			if (node !== null && !success) {
+				setHeight(node.getBoundingClientRect().height);
+			}
+		},
+		[setHeight, success]
+	);
+
 	return (
 		visible && (
 			<ClayModal observer={observer} size="lg">
@@ -125,7 +142,10 @@ function ReviewExperimentModal({onRun, variants, visible, setVisible}) {
 				</ClayModal.Header>
 				<ClayModal.Body>
 					{success ? (
-						<div className="text-center">
+						<div
+							className="text-center"
+							style={{height: height + 'px'}}
+						>
 							<img
 								alt=""
 								className="mb-4 mt-3"
@@ -137,7 +157,7 @@ function ReviewExperimentModal({onRun, variants, visible, setVisible}) {
 							</h3>
 						</div>
 					) : (
-						<>
+						<div ref={measureHeight}>
 							<h3 className="sheet-subtitle border-bottom-0 text-secondary">
 								{Liferay.Language.get('traffic-split')}
 							</h3>
@@ -192,7 +212,7 @@ function ReviewExperimentModal({onRun, variants, visible, setVisible}) {
 									)}
 								</p>
 							</div>
-						</>
+						</div>
 					)}
 				</ClayModal.Body>
 
