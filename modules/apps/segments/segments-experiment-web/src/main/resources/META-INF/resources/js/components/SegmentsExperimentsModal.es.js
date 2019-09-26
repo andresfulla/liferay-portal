@@ -14,7 +14,7 @@
 
 import React, {useState} from 'react';
 import PropTypes from 'prop-types';
-import ClayModal, {useModal} from '@clayui/modal';
+import ClayModal from '@clayui/modal';
 import ClayButton from '@clayui/button';
 import ClayAlert from '@clayui/alert';
 import ValidatedInput from './ValidatedInput/ValidatedInput.es';
@@ -23,21 +23,17 @@ import {ClaySelect} from '@clayui/form';
 import {SegmentsExperimentGoal} from '../types.es';
 
 function SegmentsExperimentsModal({
-	active,
 	description = '',
 	error,
 	goal,
 	goals = [],
-	handleClose,
 	name = '',
+	onClose,
 	onSave,
 	segmentsExperienceId,
 	segmentsExperimentId,
 	title
 }) {
-	const {observer, onClose} = useModal({
-		onClose: handleClose
-	});
 	const [inputDescription, setInputDescription] = useState(description);
 	const [inputGoal, setInputGoal] = useState(
 		(goal && goal.value) || (goals[0] && goals[0].value)
@@ -45,8 +41,8 @@ function SegmentsExperimentsModal({
 	const [inputName, setInputName] = useState(name);
 	const [invalidForm, setInvalidForm] = useState(false);
 
-	return active ? (
-		<ClayModal observer={observer} size="lg">
+	return (
+		<>
 			<ClayModal.Header>{title}</ClayModal.Header>
 			<ClayModal.Body>
 				<form onSubmit={_handleFormSubmit}>
@@ -111,7 +107,11 @@ function SegmentsExperimentsModal({
 			<ClayModal.Footer
 				last={
 					<ClayButton.Group spaced>
-						<ClayButton displayType="secondary" onClick={onClose}>
+						<ClayButton
+							displayType="secondary"
+							onClick={onClose}
+							type="button"
+						>
 							{Liferay.Language.get('cancel')}
 						</ClayButton>
 						<ClayButton
@@ -124,8 +124,8 @@ function SegmentsExperimentsModal({
 					</ClayButton.Group>
 				}
 			/>
-		</ClayModal>
-	) : null;
+		</>
+	);
 
 	function _handleGoalChange(event) {
 		setInputGoal(event.target.value);
@@ -176,13 +176,12 @@ function SegmentsExperimentsModal({
 }
 
 SegmentsExperimentsModal.propTypes = {
-	active: PropTypes.bool.isRequired,
 	description: PropTypes.string,
 	error: PropTypes.string,
 	goal: SegmentsExperimentGoal,
 	goals: PropTypes.arrayOf(SegmentsExperimentGoal),
-	handleClose: PropTypes.func.isRequired,
 	name: PropTypes.string,
+	onClose: PropTypes.func.isRequired,
 	onSave: PropTypes.func.isRequired,
 	segmentsExperienceId: PropTypes.string,
 	segmentsExperimentId: PropTypes.string,

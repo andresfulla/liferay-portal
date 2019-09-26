@@ -43,6 +43,7 @@ import {
 } from '../state/actions.es';
 import {STATUS_COMPLETED, STATUS_TERMINATED} from '../util/statuses.es';
 import {openErrorToast, openSuccessToast} from '../util/toasts.es';
+import ClayModal, {useModal} from '@clayui/modal';
 
 function SegmentsExperimentsSidebar({
 	initialExperimentHistory,
@@ -68,6 +69,19 @@ function SegmentsExperimentsSidebar({
 
 	const {createExperimentModal, editExperimentModal, experiment} = state;
 
+	const {
+		observer: creationModalObserver,
+		onClose: onCreationModalClose
+	} = useModal({
+		onClose: () => dispatch(closeCreationModal())
+	});
+	const {
+		observer: editionModalObserver,
+		onClose: onEditionModalClose
+	} = useModal({
+		onClose: () => dispatch(closeEditionModal())
+	});
+
 	return page.type === 'content' ? (
 		<DispatchContext.Provider value={dispatch}>
 			<StateContext.Provider value={state}>
@@ -90,38 +104,40 @@ function SegmentsExperimentsSidebar({
 						segmentsExperiences={initialSegmentsExperiences}
 					/>
 					{createExperimentModal.active && (
-						<SegmentsExperimentsModal
-							active={createExperimentModal.active}
-							description={createExperimentModal.description}
-							error={createExperimentModal.error}
-							goals={initialGoals}
-							handleClose={_handleModalClose}
-							name={createExperimentModal.name}
-							onSave={_handleExperimentCreation}
-							segmentsExperienceId={
-								createExperimentModal.segmentsExperienceId
-							}
-							title={Liferay.Language.get('create-new-test')}
-						/>
+						<ClayModal observer={creationModalObserver} size="lg">
+							<SegmentsExperimentsModal
+								description={createExperimentModal.description}
+								error={createExperimentModal.error}
+								goals={initialGoals}
+								name={createExperimentModal.name}
+								onClose={onCreationModalClose}
+								onSave={_handleExperimentCreation}
+								segmentsExperienceId={
+									createExperimentModal.segmentsExperienceId
+								}
+								title={Liferay.Language.get('create-new-test')}
+							/>
+						</ClayModal>
 					)}
 					{editExperimentModal.active && (
-						<SegmentsExperimentsModal
-							active={editExperimentModal.active}
-							description={editExperimentModal.description}
-							error={editExperimentModal.error}
-							goal={editExperimentModal.goal}
-							goals={initialGoals}
-							handleClose={_handleEditModalClose}
-							name={editExperimentModal.name}
-							onSave={_handleExperimentEdition}
-							segmentsExperienceId={
-								editExperimentModal.segmentsExperienceId
-							}
-							segmentsExperimentId={
-								editExperimentModal.segmentsExperimentId
-							}
-							title={Liferay.Language.get('edit-test')}
-						/>
+						<ClayModal observer={editionModalObserver} size="lg">
+							<SegmentsExperimentsModal
+								description={editExperimentModal.description}
+								error={editExperimentModal.error}
+								goal={editExperimentModal.goal}
+								goals={initialGoals}
+								name={editExperimentModal.name}
+								onClose={onEditionModalClose}
+								onSave={_handleExperimentEdition}
+								segmentsExperienceId={
+									editExperimentModal.segmentsExperienceId
+								}
+								segmentsExperimentId={
+									editExperimentModal.segmentsExperimentId
+								}
+								title={Liferay.Language.get('edit-test')}
+							/>
+						</ClayModal>
 					)}
 				</div>
 			</StateContext.Provider>
@@ -132,14 +148,6 @@ function SegmentsExperimentsSidebar({
 
 	function _handleCreateSegmentsExperiment(_experienceId) {
 		dispatch(openCreationModal());
-	}
-
-	function _handleModalClose() {
-		dispatch(closeCreationModal());
-	}
-
-	function _handleEditModalClose() {
-		dispatch(closeEditionModal());
 	}
 
 	function _handleDeleteSegmentsExperiment(experimentId) {
