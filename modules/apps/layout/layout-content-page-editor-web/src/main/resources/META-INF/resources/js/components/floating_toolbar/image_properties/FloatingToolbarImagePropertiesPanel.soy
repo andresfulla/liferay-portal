@@ -5,9 +5,13 @@
  */
 {template .render}
 	{@param item: ?}
+	{@param? imageAlt: string}
+	{@param? imageTitle: string}
 	{@param? _handleAltTextInputChange: any}
 	{@param? _handleClearImageButtonClick: any}
 	{@param? _handleSelectImageButtonClick: any}
+	{@param? defaultSegmentsExperienceId: string}
+	{@param? segmentsExperienceId: string}
 
 	<div class="popover p-3">
 		<div class="floating-toolbar-spacing-panel">
@@ -27,7 +31,7 @@
 						id="floatingToolbarImagePropertiesPanelSelectImage"
 						readonly="readonly"
 						type="text"
-						value="{$item.editableValues.config ? $item.editableValues.config.imageTitle ?: $item.editableValues.config.imageSource ?: '' : ''}"
+						value="{$imageTitle}"
 					/>
 				</div>
 
@@ -58,7 +62,7 @@
 
 			{call .altText}
 				{param _handleAltTextInputChange: $_handleAltTextInputChange /}
-				{param item: $item /}
+				{param imageAlt: $imageAlt /}
 			{/call}
 		</div>
 	</div>
@@ -68,8 +72,8 @@
  * Alternative text Input
  */
 {template .altText}
-	{@param item: ?}
 	{@param? _handleAltTextInputChange: any}
+	{@param? imageAlt: string }
 
 	<div class="form-group">
 		<label for="floatingToolbarImagePropertiesPanelAltText">
@@ -77,8 +81,8 @@
 		</label>
 
 		{let $inputValue kind="text"}
-			{if $item.editableValues.config and $item.editableValues.config.alt}
-				{$item.editableValues.config.alt}
+			{if $imageAlt}
+				{$imageAlt}
 			{/if}
 		{/let}
 

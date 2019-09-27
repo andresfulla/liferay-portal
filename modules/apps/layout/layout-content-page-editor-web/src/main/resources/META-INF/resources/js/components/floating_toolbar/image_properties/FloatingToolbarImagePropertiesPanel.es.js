@@ -28,11 +28,55 @@ import {
 import getConnectedComponent from '../../../store/ConnectedComponent.es';
 import templates from './FloatingToolbarImagePropertiesPanel.soy';
 import {UPDATE_CONFIG_ATTRIBUTES} from '../../../actions/actions.es';
+import {prefixSegmentsExperienceId} from '../../../utils/prefixSegmentsExperienceId.es';
 
 /**
  * FloatingToolbarImagePropertiesPanel
  */
 class FloatingToolbarImagePropertiesPanel extends Component {
+	/**
+	 * Extracts segmented `imageTitle` and `imageAlt` from the `state`
+	 * and adds them to the state to easier template use.
+	 *
+	 * @inheritdoc
+	 * @param {object} state
+	 * @review
+	 */
+	prepareStateForRender(state) {
+		const {config} = state.item.editableValues;
+		const segmentationData = {
+			defaultExperienceKey: prefixSegmentsExperienceId(
+				state.defaultSegmentsExperienceId
+			),
+			experienceKey: prefixSegmentsExperienceId(
+				state.segmentsExperienceId
+			)
+		};
+
+		let segmentedImageTitle = _getSegmentedConfigValue(
+			config,
+			'imageTitle',
+			segmentationData
+		);
+		const segmentedImageAlt = _getSegmentedConfigValue(
+			config,
+			'alt',
+			segmentationData
+		);
+
+		if (!segmentedImageTitle)
+			segmentedImageTitle = _getSegmentedConfigValue(
+				config,
+				'imageSource',
+				segmentationData
+			);
+
+		return {
+			...state,
+			imageAlt: segmentedImageAlt || '',
+			imageTitle: segmentedImageTitle || ''
+		};
+	}
 	/**
 	 * Updates fragment configuration
 	 * @param {object} config Configuration
@@ -126,6 +170,33 @@ FloatingToolbarImagePropertiesPanel.STATE = {
 
 	/**
 	 * @default undefined
+	 * @memberof FloatingToolbarImagePropertiesPanel
+	 * @review
+	 * @type {string}
+	 */
+	defaultSegmentsExperienceId: Config.string(),
+
+	/**
+	 * @default ''
+	 * @memberof FloatingToolbarImagePropertiesPanel
+	 * @review
+	 * @type {string}
+	 */
+	imageAlt: Config.string().value(''),
+
+	/**
+	 * Calculated at `prepareStateForRender` method
+	 * based on segmentation
+	 *
+	 * @default ''
+	 * @memberof FloatingToolbarImagePropertiesPanel
+	 * @review
+	 * @type {string}
+	 */
+	imageTitle: Config.string().value(''),
+
+	/**
+	 * @default undefined
 	 * @memberOf FloatingToolbarImagePropertiesPanel
 	 * @review
 	 * @type {object}
@@ -151,7 +222,7 @@ FloatingToolbarImagePropertiesPanel.STATE = {
 
 const ConnectedFloatingToolbarImagePropertiesPanel = getConnectedComponent(
 	FloatingToolbarImagePropertiesPanel,
-	['imageSelectorURL', 'portletNamespace']
+	['imageSelectorURL', 'portletNamespace', 'segmentsExperienceId']
 );
 
 Soy.register(ConnectedFloatingToolbarImagePropertiesPanel, templates);
@@ -161,3 +232,38 @@ export {
 	FloatingToolbarImagePropertiesPanel
 };
 export default FloatingToolbarImagePropertiesPanel;
+
+/**
+ * Helper function to retrieve the value of a config object taking segmentation into account.
+ *
+ * By order of preference:
+ * 1. config[experienceKey][valueKey]
+ * 2. config[defaultExperienceKey][valueKey]
+ * 3. config[valueKey]
+ *
+ * @param {object} config
+ * @param {string} valueKey
+ * @param {object} segmentationData
+ * @param {string} segmentationData.defaultExperienceKey
+ * @param {string} segmentationData.experienceKey
+ * @return {string}
+ * @review
+ */
+function _getSegmentedConfigValue(
+	config,
+	valueKey,
+	{defaultExperienceKey, experienceKey}
+) {
+	let segmentedConfigValue =
+		config && config[experienceKey] && config[experienceKey][valueKey];
+
+	if (segmentedConfigValue === undefined)
+		segmentedConfigValue =
+			config[defaultExperienceKey] &&
+			config[defaultExperienceKey][valueKey];
+
+	if (segmentedConfigValue === undefined)
+		segmentedConfigValue = config && config[valueKey];
+
+	return segmentedConfigValue;
+}

@@ -17,6 +17,7 @@
 	]>}
 	{@param? _handlePanelButtonClick: any}
 	{@param? classes: string}
+	{@param? defaultSegmentsExperienceId: string}
 	{@param? fixSelectedPanel: bool}
 	{@param? selectedPanelId: string}
 	{@param? spritemap: string}
@@ -45,6 +46,7 @@
 		{if $selectedPanelId}
 			<div class="fragments-editor__floating-toolbar-panel" ref="panel">
 				{delcall com.liferay.layout.content.page.editor.web.FloatingToolbarPanel variant="$selectedPanelId"}
+					{param defaultSegmentsExperienceId: $defaultSegmentsExperienceId /}
 					{param item: $item /}
 					{param itemId: $itemId /}
 					{param itemType: $itemType /}

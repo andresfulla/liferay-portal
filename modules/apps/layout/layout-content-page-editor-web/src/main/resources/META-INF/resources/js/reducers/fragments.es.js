@@ -35,6 +35,7 @@ import {
 	getFragmentRowIndex
 } from '../utils/FragmentsEditorGetUtils.es';
 import {updatePageEditorLayoutData} from '../utils/FragmentsEditorFetchUtils.es';
+import {prefixSegmentsExperienceId} from '../utils/prefixSegmentsExperienceId.es';
 
 /**
  * Adds a fragment at the corresponding container in the layout
@@ -520,6 +521,11 @@ function updateFragmentEntryLinkConfigReducer(state, action) {
 			fragmentEntryLinkId
 		];
 
+		const {segmentsExperienceId} = nextState;
+		const prefixedEperienceId = prefixSegmentsExperienceId(
+			segmentsExperienceId
+		);
+
 		Object.entries(config).forEach(entry => {
 			const [key, value] = entry;
 
@@ -527,6 +533,7 @@ function updateFragmentEntryLinkConfigReducer(state, action) {
 				EDITABLE_FRAGMENT_ENTRY_PROCESSOR,
 				editableId,
 				'config',
+				prefixedEperienceId,
 				key
 			];
 
