@@ -57,6 +57,7 @@ function Variants({selectedSegmentsExperienceId}) {
 	const publishable =
 		experiment.status.value === STATUS_FINISHED_WINNER ||
 		experiment.status.value === STATUS_FINISHED_NO_WINNER;
+
 	return (
 		<>
 			<h4 className="mb-3 mt-4 sheet-subtitle">
@@ -199,19 +200,27 @@ function Variants({selectedSegmentsExperienceId}) {
 			winnerSegmentsExperienceId: experienceId
 		};
 
-		APIService.publishExperience(body)
-			.then(({segmentsExperiment}) => {
-				openSuccessToast();
+		const confirmed = confirm(
+			Liferay.Language.get(
+				'are-you-sure-you-want-to-publish-this-variant'
+			)
+		);
 
-				dispatch(
-					archiveExperiment({
-						status: segmentsExperiment.status
-					})
-				);
-			})
-			.catch(_error => {
-				openErrorToast();
-			});
+		if (confirmed) {
+			APIService.publishExperience(body)
+				.then(({segmentsExperiment}) => {
+					openSuccessToast();
+
+					dispatch(
+						archiveExperiment({
+							status: segmentsExperiment.status
+						})
+					);
+				})
+				.catch(_error => {
+					openErrorToast();
+				});
+		}
 	}
 
 	function _handleVariantCreation({name}) {
