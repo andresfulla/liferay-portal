@@ -548,7 +548,12 @@ describe('Winner declared', () => {
 		expect(allPublishButtons.length).toBe(segmentsVariants.length - 1);
 	});
 
-	it('variants publish action button action', async () => {
+	it('variants publish action button confirming', async () => {
+		/**
+		 * The user accepts the confirmation message
+		 */
+		global.confirm = jest.fn(() => true);
+
 		const {APIServiceMocks, getByText} = renderApp({
 			initialSegmentsExperiences: segmentsExperiences,
 			initialSegmentsExperiment: {
@@ -568,12 +573,54 @@ describe('Winner declared', () => {
 
 		userEvent.click(publishButton);
 
+		/**
+		 * The user has accepted one confirmation message
+		 */
+		expect(global.confirm).toHaveBeenCalledTimes(1);
+
 		expect(publishExperience).toHaveBeenCalledWith({
 			segmentsExperimentId: segmentsExperiment.segmentsExperimentId,
 			status: STATUS_COMPLETED,
 			winnerSegmentsExperienceId: segmentsVariants[1].segmentsExperienceId
 		});
+
 		await waitForElement(() => getByText('completed'));
+	});
+
+	it('variants publish action not confirming', async () => {
+		/**
+		 * The user rejects the confirmation message
+		 */
+		global.confirm = jest.fn(() => false);
+
+		const {APIServiceMocks, getByText} = renderApp({
+			initialSegmentsExperiences: segmentsExperiences,
+			initialSegmentsExperiment: {
+				...segmentsExperiment,
+				editable: false,
+				status: {
+					label: 'Winner Declared',
+					value: STATUS_FINISHED_WINNER
+				}
+			},
+			initialSegmentsVariants: segmentsVariants,
+			winnerSegmentsVariantId: '1'
+		});
+		const {publishExperience} = APIServiceMocks;
+
+		const publishButton = getByText('publish');
+
+		userEvent.click(publishButton);
+
+		/**
+		 * The user has rejected one confirmation message
+		 */
+		expect(global.confirm).toHaveBeenCalledTimes(1);
+
+		/**
+		 * API hasn't been called
+		 */
+		expect(publishExperience).toHaveBeenCalledTimes(0);
 	});
 
 	it('discard button action', async () => {
