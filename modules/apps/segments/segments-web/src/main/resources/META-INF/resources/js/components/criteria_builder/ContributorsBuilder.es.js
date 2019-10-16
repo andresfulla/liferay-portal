@@ -206,7 +206,7 @@ class ContributorBuilder extends React.Component {
 																editing={
 																	editing
 																}
-																onClick={
+																onSelect={
 																	onConjunctionChange
 																}
 																supportedConjunctions={

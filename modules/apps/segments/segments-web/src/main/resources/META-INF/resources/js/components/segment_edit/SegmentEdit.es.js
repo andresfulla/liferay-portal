@@ -182,7 +182,7 @@ class SegmentEdit extends Component {
 		Liferay.Portal.ToolTip.show(event.currentTarget, message);
 	};
 
-	_handleConjunctionChange = () => {
+	_handleConjunctionChange = _conjunctionName => {
 		this.setState(prevState => {
 			const contributors = applyConjunctionChangeToContributor(
 				prevState.contributors
