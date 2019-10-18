@@ -422,7 +422,7 @@ public class ContentPageEditorDisplayContext {
 			}
 
 			if (contentPageEditorSidebarPanel.includeSeparator() &&
-				(soyContexts.size() > 0)) {
+				soyContexts.isEmpty()) {
 
 				SoyContext availableSoyContext =
 					SoyContextFactoryUtil.createSoyContext();
