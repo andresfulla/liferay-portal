@@ -51,7 +51,7 @@ jest.mock(
 describe('SegmentsExperimentsSidebar', () => {
 	afterEach(cleanup);
 
-	test('renders info message ab testing panel only available for content pages', () => {
+	test('Renders info message ab testing panel only available for content pages', () => {
 		const {getByText} = renderApp({
 			type: 'widget'
 		});
@@ -63,7 +63,7 @@ describe('SegmentsExperimentsSidebar', () => {
 		expect(message).not.toBe(null);
 	});
 
-	test('renders ab testing panel with experience selected and zero experiments', () => {
+	test('Renders ab testing panel with experience selected and zero experiments', () => {
 		const {getByText, getByDisplayValue} = renderApp({
 			initialSegmentsExperiences: segmentsExperiences
 		});
@@ -74,7 +74,7 @@ describe('SegmentsExperimentsSidebar', () => {
 		getByText('create-test');
 	});
 
-	test('renders ab testing panel with experience selected and an experiment', () => {
+	test('Renders ab testing panel with experience selected and an experiment', () => {
 		const {getByText, getByDisplayValue} = renderApp({
 			initialSegmentsExperiences: segmentsExperiences,
 			initialSegmentsExperiment: segmentsExperiment
@@ -93,7 +93,7 @@ describe('SegmentsExperimentsSidebar', () => {
 		getByText('edit');
 	});
 
-	test('renders modal to create experiment when the user clicks on create test button', async () => {
+	test('Renders modal to create experiment when the user clicks on create test button', async () => {
 		const {getByText} = renderApp({
 			initialSegmentsExperiences: segmentsExperiences
 		});
@@ -110,7 +110,7 @@ describe('SegmentsExperimentsSidebar', () => {
 		getByText('cancel');
 	});
 
-	test('renders experiment status label', () => {
+	test('Renders experiment status label', () => {
 		const {getByText} = renderApp({
 			initialSegmentsExperiment: segmentsExperiment
 		});
@@ -119,7 +119,7 @@ describe('SegmentsExperimentsSidebar', () => {
 		expect(statusLabel).not.toBe(null);
 	});
 
-	test("renders experiment without actions when it's not editable", () => {
+	test("Renders experiment without actions when it's not editable", () => {
 		segmentsExperiment.editable = false;
 
 		const {queryByTestId} = renderApp({
@@ -135,7 +135,7 @@ describe('SegmentsExperimentsSidebar', () => {
 describe('Variants', () => {
 	afterEach(cleanup);
 
-	test('renders no variants message', () => {
+	test('Renders no variants message', () => {
 		const {getByText} = renderApp({
 			initialSegmentsExperiences: segmentsExperiences,
 			initialSegmentsExperiment: segmentsExperiment,
@@ -153,7 +153,7 @@ describe('Variants', () => {
 		expect(variantsHelp).not.toBe(null);
 	});
 
-	test('renders variant list', () => {
+	test('Renders variant list', () => {
 		const {getByText} = renderApp({
 			initialSegmentsExperiences: segmentsExperiences,
 			initialSegmentsExperiment: segmentsExperiment,
@@ -169,7 +169,7 @@ describe('Variants', () => {
 		expect(variant).not.toBe(null);
 	});
 
-	test('create variant button', async () => {
+	test('Create variant button', async () => {
 		const {APIServiceMocks, getByText, getByLabelText} = renderApp({
 			initialSegmentsExperiences: segmentsExperiences,
 			initialSegmentsExperiment: segmentsExperiment,
@@ -205,7 +205,7 @@ describe('Variants', () => {
 		);
 	});
 
-	test("renders variants without create variant button when it's not editable", () => {
+	test("Renders variants without create variant button when it's not editable", () => {
 		segmentsExperiment.editable = false;
 
 		const {queryByTestId} = renderApp({
@@ -218,10 +218,10 @@ describe('Variants', () => {
 	});
 });
 
-describe('Run and review test', () => {
+describe('Review and Run test', () => {
 	afterEach(cleanup);
 
-	test('can view Review Experiment Modal', async () => {
+	test('Can view review experiment modal', async () => {
 		const {getByText, getByDisplayValue, getAllByDisplayValue} = renderApp({
 			initialSegmentsExperiences: segmentsExperiences,
 			initialSegmentsExperiment: segmentsExperiment,
@@ -248,7 +248,7 @@ describe('Run and review test', () => {
 		expect(splitSliders.length).toBe(2);
 	});
 
-	test('can view estimation time', async () => {
+	test('Can view estimation time', async () => {
 		const {APIServiceMocks, getByText} = renderApp({
 			initialSegmentsExperiences: segmentsExperiences,
 			initialSegmentsExperiment: segmentsExperiment,
@@ -265,7 +265,7 @@ describe('Run and review test', () => {
 		expect(getEstimatedTime).toHaveBeenCalledTimes(1);
 	});
 
-	test("can run test that won't be editable", async () => {
+	test("Can run test that won't be editable", async () => {
 		const {APIServiceMocks, queryAllByLabelText, getByText} = renderApp({
 			initialSegmentsExperiences: segmentsExperiences,
 			initialSegmentsExperiment: segmentsExperiment,
@@ -340,7 +340,7 @@ describe('Run and review test', () => {
 	});
 });
 
-describe('Click Target selection', () => {
+describe('Click Target Selection', () => {
 	test.todo(
 		'Set Click Target section appears when draft test has goal set to click'
 	);
@@ -378,10 +378,10 @@ describe('Click Target selection', () => {
 	);
 });
 
-describe('Experiment history tab', () => {
+describe('Experiment History Tab', () => {
 	afterEach(cleanup);
 
-	test('test is archived after terminating it', async () => {
+	test('Experiment is archived after terminating it', async () => {
 		window.confirm = jest.fn(() => true);
 
 		const runningExperiment = {
@@ -420,7 +420,7 @@ describe('Experiment history tab', () => {
 		getByText('create-test');
 	});
 
-	test('test is archive after completing it', async () => {
+	test('Experiment is archive after completing it', async () => {
 		const noWinnerDeclaredExperiment = {
 			...segmentsExperiment,
 			editable: false,
@@ -469,7 +469,7 @@ describe('Experiment history tab', () => {
 		await waitForElement(() => getByText(segmentsExperiment.name));
 	});
 
-	test('tests have name, description and status label', async () => {
+	test('Experiments have name, description and status label', async () => {
 		const experimentHistory = [
 			{
 				...segmentsExperiment,
@@ -526,7 +526,7 @@ describe('Experiment history tab', () => {
 describe('No Winner Declared', () => {
 	afterEach(cleanup);
 
-	test('variant publish action confirming in No Winner Declared status', async () => {
+	test('Variant publish action button when confirming in no winner declared status', async () => {
 		/**
 		 * The user accepts the confirmation message
 		 */
@@ -565,7 +565,7 @@ describe('No Winner Declared', () => {
 		await waitForElement(() => getByText('completed'));
 	});
 
-	test('variant publish action not confirming in No Winner Declared status', async () => {
+	test('Variant publish action button when not confirming in no winner declared status', async () => {
 		/**
 		 * The user rejects the confirmation message
 		 */
@@ -605,7 +605,7 @@ describe('No Winner Declared', () => {
 describe('Winner declared', () => {
 	afterEach(cleanup);
 
-	test('experiment has basic Winner Declared basic elements', () => {
+	test('Experiment has basic winner declared elements', () => {
 		const {getByText, getAllByText} = renderApp({
 			initialSegmentsExperiences: segmentsExperiences,
 			initialSegmentsExperiment: {
@@ -627,7 +627,7 @@ describe('Winner declared', () => {
 		expect(allPublishButtons.length).toBe(segmentsVariants.length - 1);
 	});
 
-	test('variant publish action confirming in Winner Declared status', async () => {
+	test('Variant publish action button when confirming in winner declared status', async () => {
 		/**
 		 * The user accepts the confirmation message
 		 */
@@ -666,7 +666,7 @@ describe('Winner declared', () => {
 		await waitForElement(() => getByText('completed'));
 	});
 
-	test('variant publish action not confirming in Winner Declared status', async () => {
+	test('Variant publish action button when not confirming in winner declared status', async () => {
 		/**
 		 * The user rejects the confirmation message
 		 */
@@ -702,7 +702,7 @@ describe('Winner declared', () => {
 		expect(publishExperience).toHaveBeenCalledTimes(0);
 	});
 
-	test('discard button action', async () => {
+	test('Discard button action', async () => {
 		const {APIServiceMocks, getByText} = renderApp({
 			initialSegmentsExperiences: segmentsExperiences,
 			initialSegmentsExperiment: {
