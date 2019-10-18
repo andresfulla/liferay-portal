@@ -421,7 +421,9 @@ public class ContentPageEditorDisplayContext {
 				continue;
 			}
 
-			if (contentPageEditorSidebarPanel.includeSeparator()) {
+			if (contentPageEditorSidebarPanel.includeSeparator() &&
+				(soyContexts.size() > 0)) {
+
 				SoyContext availableSoyContext =
 					SoyContextFactoryUtil.createSoyContext();
 
