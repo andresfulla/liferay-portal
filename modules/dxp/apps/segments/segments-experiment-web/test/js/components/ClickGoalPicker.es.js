@@ -21,7 +21,7 @@ import {segmentsExperiment} from '../fixtures.es';
 describe('SegmentsExperimentsClickGoal', () => {
 	afterEach(cleanup);
 
-	it('renders when goal value is "click"', () => {
+	test('renders when goal value is "click"', () => {
 		const experiment = {
 			...segmentsExperiment,
 			goal: {
