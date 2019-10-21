@@ -12,18 +12,19 @@
  * details.
  */
 
-import React, {useState, useRef, useEffect} from 'react';
 import ClayAlert from '@clayui/alert';
-import ValidatedInput from '../../ValidatedInput/ValidatedInput.es';
-import ClayModal from '@clayui/modal';
 import ClayButton from '@clayui/button';
+import ClayModal from '@clayui/modal';
+import React, {useState, useRef, useEffect} from 'react';
+
 import BusyButton from '../../BusyButton/BusyButton.es';
+import ValidatedInput from '../../ValidatedInput/ValidatedInput.es';
 
 export default function VariantForm({
-	onSave,
-	onClose,
-	name = '',
 	errorMessage,
+	name = '',
+	onClose,
+	onSave,
 	title,
 	variantId
 }) {

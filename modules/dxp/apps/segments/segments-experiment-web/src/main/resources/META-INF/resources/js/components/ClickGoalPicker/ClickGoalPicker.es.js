@@ -19,8 +19,9 @@ import classNames from 'classnames';
 import {useEventListener} from 'frontend-js-react-web';
 import {throttle} from 'frontend-js-web';
 import PropTypes from 'prop-types';
-import React from 'react';
 import ReactDOM from 'react-dom';
+import React from 'react';
+
 import {getInitialState, reducer, StateContext} from './reducer.es';
 import {
 	GeometryType,
@@ -35,8 +36,8 @@ const {
 	useContext,
 	useEffect,
 	useLayoutEffect,
-	useRef,
 	useReducer,
+	useRef,
 	useState
 } = React;
 
@@ -183,7 +184,7 @@ ClickGoalPicker.propTypes = {
  * Responsible for performing the "full-screen takeover" and mounting the
  * <Overlay /> component when active.
  */
-function OverlayContainer({root, allowEdit}) {
+function OverlayContainer({allowEdit, root}) {
 	const cssId = 'segments-experiments-click-goal-css-overrides';
 
 	const dispatch = useContext(DispatchContext);
@@ -355,7 +356,7 @@ Overlay.propTypes = {
 function Target({allowEdit, element, geometry, mode, selector}) {
 	const dispatch = useContext(DispatchContext);
 
-	const {bottom, height, left, right, width, top} = getElementGeometry(
+	const {bottom, height, left, right, top, width} = getElementGeometry(
 		element
 	);
 

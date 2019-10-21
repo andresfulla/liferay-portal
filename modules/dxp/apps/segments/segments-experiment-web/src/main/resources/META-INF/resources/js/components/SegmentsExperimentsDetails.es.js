@@ -13,6 +13,7 @@
  */
 
 import React from 'react';
+
 import {SegmentsExperimentType} from '../types.es';
 import {indexToPercentageString} from '../util/percentages.es';
 import {STATUS_DRAFT} from '../util/statuses.es';

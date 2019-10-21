@@ -28,8 +28,8 @@ export function getInitialState(firstState) {
 	const {
 		initialExperimentHistory,
 		initialSegmentsExperiment,
-		initialSelectedSegmentsExperienceId,
 		initialSegmentsVariants,
+		initialSelectedSegmentsExperienceId,
 		viewSegmentsExperimentDetailsURL,
 		winnerSegmentsVariantId
 	} = firstState;

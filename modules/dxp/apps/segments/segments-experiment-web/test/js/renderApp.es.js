@@ -12,11 +12,12 @@
  * details.
  */
 
-import React from 'react';
 import {render} from '@testing-library/react';
-import {segmentsGoals, DEFAULT_ESTIMATED_DAYS} from './fixtures.es';
+import React from 'react';
+
 import SegmentsExperimentsSidebar from '../../src/main/resources/META-INF/resources/js/components/SegmentsExperimentsSidebar.es';
 import SegmentsExperimentsContext from '../../src/main/resources/META-INF/resources/js/context.es';
+import {segmentsGoals, DEFAULT_ESTIMATED_DAYS} from './fixtures.es';
 
 export default function renderApp({
 	classNameId = '',

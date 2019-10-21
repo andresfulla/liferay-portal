@@ -13,6 +13,7 @@
  */
 
 import React from 'react';
+
 import FlaskIllustration from './FlaskIllustration.es';
 
 export default function UnsupportedSegmentsExperiments() {

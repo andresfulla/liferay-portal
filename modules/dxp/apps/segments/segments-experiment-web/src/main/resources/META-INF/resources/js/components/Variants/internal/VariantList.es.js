@@ -12,11 +12,12 @@
  * details.
  */
 
-import React from 'react';
-import PropTypes from 'prop-types';
 import ClayList from '@clayui/list';
-import Variant from './Variant.es';
+import PropTypes from 'prop-types';
+import React from 'react';
+
 import {SegmentsVariantType} from '../../../types.es';
+import Variant from './Variant.es';
 
 function VariantList({
 	editable,

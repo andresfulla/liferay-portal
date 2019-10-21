@@ -12,10 +12,10 @@
  * details.
  */
 
-import React, {useState, useRef, useEffect} from 'react';
 import ClayIcon from '@clayui/icon';
-import PropTypes from 'prop-types';
 import getCN from 'classnames';
+import PropTypes from 'prop-types';
+import React, {useState, useRef, useEffect} from 'react';
 
 function _isValueValid(value) {
 	const noSpacesValue = value.replace(/\s/g, '');

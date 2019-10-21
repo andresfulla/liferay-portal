@@ -12,15 +12,16 @@
  * details.
  */
 
-import React, {useState} from 'react';
-import PropTypes from 'prop-types';
-import ClayModal from '@clayui/modal';
-import ClayButton from '@clayui/button';
 import ClayAlert from '@clayui/alert';
-import ValidatedInput from './ValidatedInput/ValidatedInput.es';
-import ClayIcon from '@clayui/icon';
+import ClayButton from '@clayui/button';
 import {ClaySelect} from '@clayui/form';
+import ClayIcon from '@clayui/icon';
+import ClayModal from '@clayui/modal';
+import PropTypes from 'prop-types';
+import React, {useState} from 'react';
+
 import {SegmentsExperimentGoal} from '../types.es';
+import ValidatedInput from './ValidatedInput/ValidatedInput.es';
 
 function SegmentsExperimentsModal({
 	description = '',

@@ -12,17 +12,17 @@
  * details.
  */
 
-import React from 'react';
-import PropTypes from 'prop-types';
 import ClaySlider from '@clayui/slider';
+import PropTypes from 'prop-types';
+import React from 'react';
 
 function SliderWithLabel({
 	label,
-	subTitle,
-	value,
-	onValueChange,
 	max = 99,
-	min = 1
+	min = 1,
+	onValueChange,
+	subTitle,
+	value
 }) {
 	return (
 		<label className="form-group-autofit">
