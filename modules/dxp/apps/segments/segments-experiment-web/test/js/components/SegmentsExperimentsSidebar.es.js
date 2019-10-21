@@ -31,8 +31,7 @@ import {
 import {
 	segmentsExperiment,
 	segmentsExperiences,
-	segmentsVariants,
-	DEFAULT_ESTIMATED_DAYS
+	segmentsVariants
 } from '../fixtures.es';
 import renderApp from '../renderApp.es';
 
@@ -244,23 +243,6 @@ describe('Review and Run test', () => {
 
 		expect(confidenceSlider.length).toBe(1);
 		expect(splitSliders.length).toBe(2);
-	});
-
-	it('Can view estimation time', async () => {
-		const {APIServiceMocks, getByText} = renderApp({
-			initialSegmentsExperiences: segmentsExperiences,
-			initialSegmentsExperiment: segmentsExperiment,
-			initialSegmentsVariants: segmentsVariants
-		});
-		const {getEstimatedTime} = APIServiceMocks;
-
-		const runTestButton = getByText('review-and-run-test');
-		userEvent.click(runTestButton);
-
-		await waitForElement(() => getByText('traffic-split'));
-
-		await waitForElement(() => getByText(DEFAULT_ESTIMATED_DAYS.message));
-		expect(getEstimatedTime).toHaveBeenCalledTimes(1);
 	});
 
 	it("Can run test that won't be editable", async () => {

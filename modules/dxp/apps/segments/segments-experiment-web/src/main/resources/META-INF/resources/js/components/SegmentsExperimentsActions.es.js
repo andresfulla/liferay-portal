@@ -12,6 +12,7 @@
 import ClayButton from '@clayui/button';
 import ClayIcon from '@clayui/icon';
 import ClayLink from '@clayui/link';
+import {useModal} from '@clayui/modal';
 import PropTypes from 'prop-types';
 import React, {useState, useContext} from 'react';
 
@@ -41,6 +42,9 @@ function SegmentsExperimentsActions({onEditSegmentsExperimentStatus}) {
 	const dispatch = useContext(DispatchContext);
 
 	const [reviewModalVisible, setReviewModalVisible] = useState(false);
+	const {observer, onClose} = useModal({
+		onClose: () => setReviewModalVisible(false)
+	});
 	const {APIService} = useContext(SegmentsExperimentsContext);
 
 	const readyToRun = _experimentReady(experiment, variants);
@@ -119,10 +123,10 @@ function SegmentsExperimentsActions({onEditSegmentsExperimentStatus}) {
 
 			{reviewModalVisible && (
 				<ReviewExperimentModal
+					modalObserver={observer}
+					onModalClose={onClose}
 					onRun={_handleRunExperiment}
-					setVisible={setReviewModalVisible}
 					variants={variants}
-					visible={reviewModalVisible}
 				/>
 			)}
 			{viewExperimentURL && (
