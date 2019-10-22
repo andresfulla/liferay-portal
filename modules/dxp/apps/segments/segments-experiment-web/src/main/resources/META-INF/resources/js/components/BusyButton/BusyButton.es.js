@@ -12,10 +12,10 @@
  * details.
  */
 
-import React from 'react';
-import PropTypes from 'prop-types';
 import ClayButton from '@clayui/button';
 import ClayLoadingIndicator from '@clayui/loading-indicator';
+import PropTypes from 'prop-types';
+import React from 'react';
 
 function BusyButton(props) {
 	const {busy, ...rest} = props;

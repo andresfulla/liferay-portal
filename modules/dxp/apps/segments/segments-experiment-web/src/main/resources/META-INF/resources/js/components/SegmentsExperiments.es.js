@@ -12,24 +12,25 @@
  * details.
  */
 
-import React, {useContext, useState} from 'react';
-import PropTypes from 'prop-types';
 import ClayButton from '@clayui/button';
 import ClayDropDown from '@clayui/drop-down';
+import {ClaySelect} from '@clayui/form';
 import ClayIcon from '@clayui/icon';
 import ClayLabel from '@clayui/label';
-import {ClaySelect} from '@clayui/form';
-import ClickGoalPicker from './ClickGoalPicker/ClickGoalPicker.es';
+import ClayTabs from '@clayui/tabs';
+import PropTypes from 'prop-types';
+import React, {useContext, useState} from 'react';
+
+import SegmentsExperimentsContext from '../context.es';
+import {StateContext} from '../state/context.es';
 import {SegmentsExperienceType} from '../types.es';
+import {NO_EXPERIMENT_ILLUSTRATION_FILE_NAME} from '../util/contants.es';
+import {statusToLabelDisplayType, STATUS_DRAFT} from '../util/statuses.es';
+import ClickGoalPicker from './ClickGoalPicker/ClickGoalPicker.es';
+import ExperimentsHistory from './ExperimentsHistory.es';
 import SegmentsExperimentsActions from './SegmentsExperimentsActions.es';
 import SegmentsExperimentsDetails from './SegmentsExperimentsDetails.es';
 import Variants from './Variants/Variants.es';
-import {statusToLabelDisplayType, STATUS_DRAFT} from '../util/statuses.es';
-import {StateContext} from '../state/context.es';
-import SegmentsExperimentsContext from '../context.es';
-import ClayTabs from '@clayui/tabs';
-import ExperimentsHistory from './ExperimentsHistory.es';
-import {NO_EXPERIMENT_ILLUSTRATION_FILE_NAME} from '../util/contants.es';
 
 const TABS_STATES = {
 	ACTIVE: 0,

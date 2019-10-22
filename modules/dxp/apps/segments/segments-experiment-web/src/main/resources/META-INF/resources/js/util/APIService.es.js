@@ -12,10 +12,10 @@
  * details.
  */
 
-import PropTypes from 'prop-types';
 import {fetch} from 'frontend-js-web';
+import PropTypes from 'prop-types';
 
-function APIService({endpoints, namespace, contentPageEditorNamespace}) {
+function APIService({contentPageEditorNamespace, endpoints, namespace}) {
 	const {
 		calculateSegmentsExperimentEstimatedDurationURL,
 		createSegmentsExperimentURL,

@@ -13,11 +13,12 @@
  */
 
 import React from 'react';
-import APIService from './util/APIService.es';
+
 import SegmentsExperimentsSidebar from './components/SegmentsExperimentsSidebar.es';
 import SegmentsExperimentsContext from './context.es';
+import APIService from './util/APIService.es';
 
-export default function({props, context}) {
+export default function({context, props}) {
 	const {assetsPath, endpoints, page} = context;
 	const {
 		calculateSegmentsExperimentEstimatedDurationURL,

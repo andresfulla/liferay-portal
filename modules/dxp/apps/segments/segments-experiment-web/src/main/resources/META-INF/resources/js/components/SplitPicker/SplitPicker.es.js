@@ -12,13 +12,14 @@
  * details.
  */
 
-import React, {useReducer, useEffect} from 'react';
 import PropTypes from 'prop-types';
-import {SliderWithLabel} from '../SliderWithLabel.es';
+import React, {useReducer, useEffect} from 'react';
+
 import {SegmentsVariantType} from '../../types.es';
+import {SliderWithLabel} from '../SliderWithLabel.es';
 import {changeSplitValue} from './utils.es';
 
-function SplitPicker({variants, onChange}) {
+function SplitPicker({onChange, variants}) {
 	const [splitVariants, dispatch] = useReducer(_reducer, variants);
 
 	useEffect(() => {

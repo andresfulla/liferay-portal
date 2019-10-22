@@ -12,14 +12,15 @@
  * details.
  */
 
-import React from 'react';
-import PropTypes from 'prop-types';
-import ClayList from '@clayui/list';
 import ClayLabel from '@clayui/label';
-import {statusToLabelDisplayType} from '../util/statuses.es';
-import {SegmentsExperimentType} from '../types.es';
+import ClayList from '@clayui/list';
+import PropTypes from 'prop-types';
+import React from 'react';
+
 import SegmentsExperimentContext from '../context.es';
+import {SegmentsExperimentType} from '../types.es';
 import {NO_EXPERIMENT_ILLUSTRATION_FILE_NAME} from '../util/contants.es';
+import {statusToLabelDisplayType} from '../util/statuses.es';
 
 const {useContext} = React;
 

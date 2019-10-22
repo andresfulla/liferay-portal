@@ -12,13 +12,12 @@
  * details.
  */
 
-import React, {useContext, useState} from 'react';
-import PropTypes from 'prop-types';
-import {openErrorToast, openSuccessToast} from '../../util/toasts.es';
 import ClayButton from '@clayui/button';
 import ClayModal, {useModal} from '@clayui/modal';
-import VariantList from './internal/VariantList.es';
-import VariantForm from './internal/VariantForm.es';
+import PropTypes from 'prop-types';
+import React, {useContext, useState} from 'react';
+
+import SegmentsExperimentsContext from '../../context.es';
 import {
 	addVariant,
 	updateVariant,
@@ -26,13 +25,15 @@ import {
 	archiveExperiment
 } from '../../state/actions.es';
 import {DispatchContext, StateContext} from '../../state/context.es';
-import SegmentsExperimentsContext from '../../context.es';
 import {navigateToExperience} from '../../util/navigation.es';
 import {
 	STATUS_COMPLETED,
 	STATUS_FINISHED_NO_WINNER,
 	STATUS_FINISHED_WINNER
 } from '../../util/statuses.es';
+import {openErrorToast, openSuccessToast} from '../../util/toasts.es';
+import VariantForm from './internal/VariantForm.es';
+import VariantList from './internal/VariantList.es';
 
 function Variants({selectedSegmentsExperienceId}) {
 	const dispatch = useContext(DispatchContext);
