@@ -148,7 +148,7 @@ function ReviewExperimentModal({modalObserver, onModalClose, onRun, variants}) {
 					</div>
 				) : (
 					<div ref={measureHeight}>
-						<h3 className="sheet-subtitle border-bottom-0 text-secondary">
+						<h3 className="border-bottom-0 sheet-subtitle text-secondary">
 							{Liferay.Language.get('traffic-split')}
 						</h3>
 
@@ -161,7 +161,7 @@ function ReviewExperimentModal({modalObserver, onModalClose, onRun, variants}) {
 
 						<hr />
 
-						<h3 className="sheet-subtitle border-bottom-0 text-secondary">
+						<h3 className="border-bottom-0 sheet-subtitle text-secondary">
 							{Liferay.Language.get('confidence-level')}
 						</h3>
 

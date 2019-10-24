@@ -16,8 +16,8 @@ import classNames from 'classnames';
 import {useEventListener} from 'frontend-js-react-web';
 import {throttle} from 'frontend-js-web';
 import PropTypes from 'prop-types';
-import ReactDOM from 'react-dom';
 import React from 'react';
+import ReactDOM from 'react-dom';
 
 import {getInitialState, reducer, StateContext} from './reducer.es';
 import {
