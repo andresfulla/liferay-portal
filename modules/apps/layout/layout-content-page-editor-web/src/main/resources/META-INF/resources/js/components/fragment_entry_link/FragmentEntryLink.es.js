@@ -115,6 +115,7 @@ class FragmentEntryLink extends Component {
 	 */
 	rendered() {
 		if (
+			this.hasUpdatePermissions &&
 			this.fragmentEntryLinkId === this.activeItemId &&
 			this.activeItemType === FRAGMENTS_EDITOR_ITEM_TYPES.fragment
 		) {
@@ -482,6 +483,7 @@ const ConnectedFragmentEntryLink = getConnectedComponent(FragmentEntryLink, [
 	'dropTargetBorder',
 	'duplicateFragmentEntryLinkURL',
 	'fragmentEntryLinks',
+	'hasUpdatePermissions',
 	'hoveredItemId',
 	'hoveredItemType',
 	'imageSelectorURL',
