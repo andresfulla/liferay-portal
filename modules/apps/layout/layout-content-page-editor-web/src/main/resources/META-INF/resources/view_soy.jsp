@@ -53,40 +53,40 @@ JSONSerializer jsonSerializer = JSONFactoryUtil.createJSONSerializer();
 %>
 
 <aui:script require="<%= sb.toString() %>">
-	var store = StoreModule.createStore(
-		<%= jsonSerializer.serializeDeep(contentPageEditorDisplayContext.getEditorSoyContext()) %>,
-		ReducersModule.reducer,
-		[
-			'<%= portletNamespace + "disabledAreaMaskWrapper" %>',
-			'<%= portletNamespace + "editModeWrapper" %>',
-			'<%= portletNamespace + "fragmentsEditor" %>',
-			'<%= portletNamespace + "sidebar" %>',
-			'<%= portletNamespace + "toolbar" %>'
-		]
+const a = <%= jsonSerializer.serializeDeep(contentPageEditorDisplayContext.getEditorSoyContext()) %>;
+a.hasUpdatePermissions = false;
+a.sidebarPanels = [];
+
+var store = StoreModule.createStore(a, ReducersModule.reducer, [
+	'<%= portletNamespace + "disabledAreaMaskWrapper" %>',
+	'<%= portletNamespace + "editModeWrapper" %>',
+	'<%= portletNamespace + "fragmentsEditor" %>',
+	'<%= portletNamespace + "sidebar" %>',
+	'<%= portletNamespace + "toolbar" %>'
+]);
+
+var editModeComponents = {
+	<%= portletNamespace + "disabledAreaMaskWrapper" %>:
+		DisabledAreaMaskModule.default,
+	<%= portletNamespace + "editModeWrapper" %>: EditModeWrapperModule.default
+};
+
+Object.keys(editModeComponents).forEach(function(key) {
+	Liferay.component(
+		key,
+		new editModeComponents[key]({
+			store: store
+		})
 	);
+});
 
-	var editModeComponents = {
-		<%= portletNamespace + "disabledAreaMaskWrapper" %>:
-			DisabledAreaMaskModule.default,
-		<%= portletNamespace + "editModeWrapper" %>: EditModeWrapperModule.default
-	};
-
+function handleDestroyPortlet() {
 	Object.keys(editModeComponents).forEach(function(key) {
-		Liferay.component(
-			key,
-			new editModeComponents[key]({
-				store: store
-			})
-		);
+		Liferay.destroyComponent(key);
 	});
 
-	function handleDestroyPortlet() {
-		Object.keys(editModeComponents).forEach(function(key) {
-			Liferay.destroyComponent(key);
-		});
+	Liferay.detach('destroyPortlet', handleDestroyPortlet);
+}
 
-		Liferay.detach('destroyPortlet', handleDestroyPortlet);
-	}
-
-	Liferay.on('destroyPortlet', handleDestroyPortlet);
+Liferay.on('destroyPortlet', handleDestroyPortlet);
 </aui:script>
