@@ -98,7 +98,8 @@ public class SegmentsExperienceUtil {
 					JSONObject editableJSONObject =
 						editableProcessorJSONObject.getJSONObject(editableKey);
 
-					JSONObject valueJSONObject = null;
+					JSONObject valueJSONObject =
+						JSONFactoryUtil.createJSONObject();
 
 					if (editableJSONObject.has(
 							SegmentsExperienceConstants.ID_PREFIX +
@@ -107,9 +108,6 @@ public class SegmentsExperienceUtil {
 						valueJSONObject = editableJSONObject.getJSONObject(
 							SegmentsExperienceConstants.ID_PREFIX +
 								sourceSegmentsExperienceId);
-					}
-					else {
-						continue;
 					}
 
 					editableJSONObject.put(
