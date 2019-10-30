@@ -476,6 +476,25 @@ function selectSegmentsExperienceReducer(state, action) {
 			.then(nextNewState =>
 				_setUsedWidgets(nextNewState, action.segmentsExperienceId)
 			)
+			.then(nextNewState => {
+				const {
+					hasLockedSegmentsExperiment
+				} = nextState.availableSegmentsExperiences[
+					action.segmentsExperienceId
+				];
+
+				return {
+					...nextNewState,
+					hasUpdatePermissions: !hasLockedSegmentsExperiment,
+					selectedSidebarPanelId: hasLockedSegmentsExperiment
+						? null
+						: nextNewState.selectedSidebarPanelId,
+					sidebarPanels: nextNewState.sidebarPanels.map(panel => ({
+						...panel,
+						disabled: hasLockedSegmentsExperiment
+					}))
+				};
+			})
 			.then(nextNewState => resolve(nextNewState))
 			.catch(e => {
 				reject(e);

@@ -7,11 +7,13 @@
 	{@param? _handleLookAndFeeldButtonClick: any}
 	{@param? _handlePanelButtonClick: any}
 	{@param? selectedSidebarPanel: [
+		disabled: bool,
 		icon: string,
 		label: string,
 		sidebarPanelId: string
 	]}
 	{@param? sidebarPanels: list<[
+		disabled: bool,
 		type: string,
 		icon: string,
 		label: string,
@@ -74,6 +76,10 @@
 							data-sidebar-panel-id="{$sidebarPanel.sidebarPanelId}"
 							data-title="{$sidebarPanel.label}"
 							type="button"
+
+							{if $sidebarPanel.disabled == true}
+								disabled
+							{/if}
 
 							{if $sidebarPanel.sidebarPanelId == 'lookAndFeel'}
 								data-onclick="{$_handleLookAndFeeldButtonClick}"

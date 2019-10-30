@@ -107,17 +107,19 @@ class FragmentsEditor extends Component {
 			this
 		);
 
+		if (this.hasUpdatePermissions) {
+			this._addEditingEventListeners();
+		}
+	}
+
+	_addEditingEventListeners() {
 		document.addEventListener('click', this._handleDocumentClick, true);
 		document.addEventListener('keydown', this._handleDocumentKeyDown);
 		document.addEventListener('keyup', this._handleDocumentKeyUp);
 		document.addEventListener('mouseover', this._handleDocumentMouseOver);
 	}
 
-	/**
-	 * @inheritdoc
-	 * @review
-	 */
-	disposed() {
+	_removeEditingEventListeners() {
 		document.removeEventListener('click', this._handleDocumentClick, true);
 		document.removeEventListener('keydown', this._handleDocumentKeyDown);
 		document.removeEventListener('keyup', this._handleDocumentKeyUp);
@@ -125,6 +127,26 @@ class FragmentsEditor extends Component {
 			'mouseover',
 			this._handleDocumentMouseOver
 		);
+	}
+
+	syncHasUpdatePermissions(value, prev) {
+		if (!value && value !== prev) {
+			this.store.dispatch({
+				type: CLEAR_ACTIVE_ITEM
+			});
+
+			this._removeEditingEventListeners();
+		} else if (value !== prev) {
+			this._addEditingEventListeners();
+		}
+	}
+
+	/**
+	 * @inheritdoc
+	 * @review
+	 */
+	disposed() {
+		this._removeEditingEventListeners();
 
 		stopListeningWidgetConfigurationChange();
 	}

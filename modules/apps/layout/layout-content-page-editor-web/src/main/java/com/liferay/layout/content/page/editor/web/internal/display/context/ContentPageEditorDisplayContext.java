@@ -439,6 +439,8 @@ public class ContentPageEditorDisplayContext {
 				SoyContextFactoryUtil.createSoyContext();
 
 			availableSoyContext.put(
+				"disabled", false
+			).put(
 				"icon", contentPageEditorSidebarPanel.getIcon()
 			).put(
 				"label",

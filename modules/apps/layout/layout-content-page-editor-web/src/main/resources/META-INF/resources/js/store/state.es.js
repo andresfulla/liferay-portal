@@ -727,6 +727,7 @@ const INITIAL_STATE = {
 	 */
 	sidebarPanels: Config.arrayOf(
 		Config.shapeOf({
+			disabled: Config.bool().value(false),
 			icon: Config.string(),
 			label: Config.string(),
 			sidebarPanelId: Config.string()
