@@ -402,35 +402,46 @@ function Target({allowEdit, element, geometry, mode, selector}) {
 				top: spaceOnTop
 			}}
 		>
-			<div
-				className={classNames({
-					'lfr-portal-tooltip': mode === 'inactive',
-					'lfr-segments-experiment-click-goal-target-overlay': true,
-					'lfr-segments-experiment-click-goal-target-overlay-editing':
-						mode === 'editing',
-					'lfr-segments-experiment-click-goal-target-overlay-selected':
-						mode === 'selected'
-				})}
-				data-target-selector={selector}
-				data-title={
-					mode === 'inactive'
-						? Liferay.Language.get(
-								'click-element-to-set-as-click-target-for-your-goal'
-						  )
-						: ''
-				}
-				onClick={handleClick}
-				style={{height, width}}
-			></div>
-			{mode !== 'inactive' && (
-				<ClickGoalPicker.TargetTopper
-					allowEdit={allowEdit}
-					element={element}
-					geometry={geometry}
-					isEditing={mode === 'editing'}
-					selector={selector}
-				/>
+			{mode === 'inactive' && (
+				<div
+					className={classNames({
+						'lfr-portal-tooltip': mode === 'inactive',
+						'lfr-segments-experiment-click-goal-target-overlay': true
+					})}
+					data-target-selector={selector}
+					data-title={Liferay.Language.get(
+						'click-element-to-set-as-click-target-for-your-goal'
+					)}
+					onClick={handleClick}
+					style={{height, width}}
+				></div>
 			)}
+
+			{mode !== 'inactive' && (
+				<>
+					<div
+						className={classNames({
+							'lfr-segments-experiment-click-goal-target-overlay': true,
+							'lfr-segments-experiment-click-goal-target-overlay-editing':
+								mode === 'editing',
+							'lfr-segments-experiment-click-goal-target-overlay-selected':
+								mode === 'selected'
+						})}
+						data-target-selector={selector}
+						onClick={handleClick}
+						style={{height, width}}
+					></div>
+
+					<ClickGoalPicker.TargetTopper
+						allowEdit={allowEdit}
+						element={element}
+						geometry={geometry}
+						isEditing={mode === 'editing'}
+						selector={selector}
+					/>
+				</>
+			)}
+
 			{mode === 'editing' && (
 				<ClickGoalPicker.TargetPopover selector={selector} />
 			)}
