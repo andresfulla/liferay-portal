@@ -257,15 +257,14 @@ public class SegmentsDisplayContext {
 	}
 
 	public String getSegmentsEntryURLTarget(SegmentsEntry segmentsEntry) {
-		if ((segmentsEntry == null) ||
-			Objects.equals(
+		if (Objects.equals(
 				segmentsEntry.getSource(),
-				SegmentsEntryConstants.SOURCE_DEFAULT)) {
+				SegmentsEntryConstants.SOURCE_ASAH_FARO_BACKEND)) {
 
-			return "_self";
+			return "_blank";
 		}
 
-		return "_blank";
+		return "_self";
 	}
 
 	public String getSortingURL() {
