@@ -90,7 +90,7 @@ public class SegmentsEntryModelResourcePermissionRegistrar {
 			throws PortalException {
 
 			if (actionId.equals(ActionKeys.UPDATE) &&
-				!SegmentsEntryConstants.SOURCE_DEFAULT.equals(
+				SegmentsEntryConstants.SOURCE_ASAH_FARO_BACKEND.equals(
 					segmentsEntry.getSource())) {
 
 				return false;
