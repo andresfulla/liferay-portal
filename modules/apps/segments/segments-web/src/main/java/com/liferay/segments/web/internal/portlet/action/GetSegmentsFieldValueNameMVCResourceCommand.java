@@ -14,6 +14,9 @@
 
 package com.liferay.segments.web.internal.portlet.action;
 
+import com.liferay.portal.kernel.json.JSONUtil;
+import com.liferay.portal.kernel.portlet.JSONPortletResponseUtil;
+import com.liferay.portal.kernel.portlet.bridges.mvc.BaseMVCResourceCommand;
 import com.liferay.portal.kernel.portlet.bridges.mvc.MVCResourceCommand;
 import com.liferay.portal.kernel.util.ParamUtil;
 import com.liferay.portal.kernel.util.Portal;
@@ -21,20 +24,20 @@ import com.liferay.segments.constants.SegmentsPortletKeys;
 import com.liferay.segments.field.customizer.SegmentsFieldCustomizer;
 import com.liferay.segments.field.customizer.SegmentsFieldCustomizerRegistry;
 
-import java.io.PrintWriter;
-
+import java.util.Locale;
 import java.util.Optional;
 
-import javax.portlet.PortletException;
 import javax.portlet.ResourceRequest;
 import javax.portlet.ResourceResponse;
+
+import javax.servlet.http.HttpServletResponse;
 
 import org.osgi.service.component.annotations.Component;
 import org.osgi.service.component.annotations.Reference;
 
 /**
- * @author Gavin Wan
- * @author Pei-Jung Lan
+ * @author David Arques
+ * @author Eduardo García
  */
 @Component(
 	immediate = true,
@@ -45,45 +48,49 @@ import org.osgi.service.component.annotations.Reference;
 	service = MVCResourceCommand.class
 )
 public class GetSegmentsFieldValueNameMVCResourceCommand
-	implements MVCResourceCommand {
+	extends BaseMVCResourceCommand {
 
 	@Override
-	public boolean serveResource(
+	protected void doServeResource(
 			ResourceRequest resourceRequest, ResourceResponse resourceResponse)
-		throws PortletException {
+		throws Exception {
 
-		try {
-			PrintWriter printWriter = resourceResponse.getWriter();
+		Optional<String> fieldValueNameOptional = getFieldValueName(
+			ParamUtil.getString(resourceRequest, "entityName"),
+			ParamUtil.getString(resourceRequest, "fieldName"),
+			ParamUtil.getString(resourceRequest, "fieldValue"),
+			_portal.getLocale(resourceRequest));
 
-			printWriter.write(getText(resourceRequest, resourceResponse));
+		if (!fieldValueNameOptional.isPresent()) {
+			HttpServletResponse httpServletResponse =
+				_portal.getHttpServletResponse(resourceResponse);
 
-			return false;
+			httpServletResponse.setStatus(HttpServletResponse.SC_NOT_FOUND);
+
+			return;
 		}
-		catch (Exception e) {
-			throw new PortletException(e);
-		}
+
+		JSONPortletResponseUtil.writeJSON(
+			resourceRequest, resourceResponse,
+			JSONUtil.put("fieldValueName", fieldValueNameOptional.get()));
 	}
 
-	protected String getText(
-		ResourceRequest resourceRequest, ResourceResponse resourceResponse) {
-
-		String entityName = ParamUtil.getString(resourceRequest, "entityName");
-		String fieldName = ParamUtil.getString(resourceRequest, "fieldName");
-		String fieldValue = ParamUtil.getString(resourceRequest, "fieldValue");
+	protected Optional<String> getFieldValueName(
+		String entityName, String fieldName, String fieldValue, Locale locale) {
 
 		Optional<SegmentsFieldCustomizer> segmentFieldCustomizerOptional =
 			_segmentsFieldCustomizerRegistry.getSegmentFieldCustomizerOptional(
 				entityName, fieldName);
 
 		if (!segmentFieldCustomizerOptional.isPresent()) {
-			return fieldValue;
+			return Optional.empty();
 		}
 
 		SegmentsFieldCustomizer segmentsFieldCustomizer =
 			segmentFieldCustomizerOptional.get();
 
-		return segmentsFieldCustomizer.getFieldValueName(
-			fieldValue, _portal.getLocale(resourceRequest));
+		return Optional.ofNullable(
+			segmentsFieldCustomizer.getFieldValueName(fieldValue, locale));
 	}
 
 	@Reference
