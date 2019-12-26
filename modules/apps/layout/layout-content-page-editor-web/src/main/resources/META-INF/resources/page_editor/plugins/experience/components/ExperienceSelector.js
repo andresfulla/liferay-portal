@@ -26,8 +26,7 @@ import {
 	CREATE_SEGMENTS_EXPERIENCE,
 	EDIT_SEGMENTS_EXPERIENCE,
 	DELETE_SEGMENTS_EXPERIENCE,
-	DEPRIORITIZE_SEGMENTS_EXPERIENCE_PRIORITY,
-	PRIORITIZE_SEGMENTS_EXPERIENCE_PRIORITY
+	UPDATE_SEGMENTS_EXPERIENCE_PRIORITY
 } from '../actions';
 import {
 	storeModalExperienceState,
@@ -228,8 +227,14 @@ const ExperienceSelector = ({
 	};
 
 	const decreasePriority = (id, priority) => {
-		// TODO define new priority
-		const newPriority = priority;
+		const targetIndex = experiences.findIndex(
+			experience => experience.segmentsExperienceId === id
+		);
+
+		const prevIndex = targetIndex + 1;
+
+		const newPriority = experiences[prevIndex].priority;
+		const subtargetId = experiences[prevIndex].segmentsExperienceId;
 
 		updateExperiencePriority({
 			newPriority,
@@ -238,10 +243,16 @@ const ExperienceSelector = ({
 			.then(() => {
 				dispatch({
 					payload: {
-						newPriority,
-						segmentsExperienceId: id
+						subtarget: {
+							priority,
+							segmentsExperienceId: subtargetId
+						},
+						target: {
+							priority: newPriority,
+							segmentsExperienceId: id
+						}
 					},
-					type: DEPRIORITIZE_SEGMENTS_EXPERIENCE_PRIORITY
+					type: UPDATE_SEGMENTS_EXPERIENCE_PRIORITY
 				});
 			})
 			.catch(() => {
@@ -249,8 +260,14 @@ const ExperienceSelector = ({
 			});
 	};
 	const increasePriority = (id, priority) => {
-		// TODO define new priority
-		const newPriority = priority;
+		const targetIndex = experiences.findIndex(
+			experience => experience.segmentsExperienceId === id
+		);
+
+		const nextIndex = targetIndex - 1;
+
+		const newPriority = experiences[nextIndex].priority;
+		const subtargetId = experiences[nextIndex].segmentsExperienceId;
 
 		updateExperiencePriority({
 			newPriority,
@@ -259,10 +276,16 @@ const ExperienceSelector = ({
 			.then(() => {
 				dispatch({
 					payload: {
-						newPriority,
-						segmentsExperienceId: id
+						subtarget: {
+							priority,
+							segmentsExperienceId: subtargetId
+						},
+						target: {
+							priority: newPriority,
+							segmentsExperienceId: id
+						}
 					},
-					type: PRIORITIZE_SEGMENTS_EXPERIENCE_PRIORITY
+					type: UPDATE_SEGMENTS_EXPERIENCE_PRIORITY
 				});
 			})
 			.catch(() => {

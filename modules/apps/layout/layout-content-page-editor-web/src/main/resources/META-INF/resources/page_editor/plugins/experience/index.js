@@ -19,7 +19,8 @@ import {
 	EDIT_SEGMENTS_EXPERIENCE,
 	CREATE_SEGMENTS_EXPERIENCE,
 	SELECT_SEGMENTS_EXPERIENCE,
-	DELETE_SEGMENTS_EXPERIENCE
+	DELETE_SEGMENTS_EXPERIENCE,
+	UPDATE_SEGMENTS_EXPERIENCE_PRIORITY
 } from './actions';
 import ExperienceToolbarSection from './components/ExperienceToolbarSection';
 
@@ -103,6 +104,30 @@ function deleteExperienceReducer(state, payload) {
 	return nextState;
 }
 
+function updatedExperiencePriority(state, {subtarget, target}) {
+	const experiences = state.availableSegmentsExperiences;
+
+	const targetExperience = {
+		...experiences[target.segmentsExperienceId],
+		priority: target.priority
+	};
+	const subtargetExperience = {
+		...experiences[subtarget.segmentsExperienceId],
+		priority: subtarget.priority
+	};
+
+	const updatedExperiences = {
+		...experiences,
+		[target.segmentsExperienceId]: targetExperience,
+		[subtarget.segmentsExperienceId]: subtargetExperience
+	};
+
+	return {
+		...state,
+		availableSegmentsExperiences: updatedExperiences
+	};
+}
+
 /**
  * Entry-point for "Experience" (toolbar drop-down) functionality.
  */
@@ -141,6 +166,12 @@ export default class Experience {
 					break;
 				case DELETE_SEGMENTS_EXPERIENCE:
 					nextState = deleteExperienceReducer(
+						nextState,
+						action.payload
+					);
+					break;
+				case UPDATE_SEGMENTS_EXPERIENCE_PRIORITY:
+					nextState = updatedExperiencePriority(
 						nextState,
 						action.payload
 					);
