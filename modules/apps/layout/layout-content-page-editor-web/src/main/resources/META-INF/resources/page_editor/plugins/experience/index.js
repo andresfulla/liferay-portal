@@ -51,7 +51,7 @@ function editExperienceReducer(state, payload) {
 function createExperienceReducer(state, payload) {
 	let nextState = state;
 
-	const newExperience = payload;
+	const {segmentsExperience: newExperience} = payload;
 
 	nextState = {
 		...nextState,
@@ -60,6 +60,11 @@ function createExperienceReducer(state, payload) {
 			[newExperience.segmentsExperienceId]: {...newExperience}
 		},
 		segmentsExperienceId: newExperience.segmentsExperienceId
+
+		//_storeNewLayoutData
+		//_updateFragmentEntryLinksEditableValues
+		//_setExperienceLock
+		//_switchLayoutDataList -> _updateFragmentEntryLinks and _setUsedWidgets
 	};
 
 	return nextState;
