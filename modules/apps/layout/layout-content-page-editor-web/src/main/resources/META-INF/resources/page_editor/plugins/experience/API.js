@@ -16,6 +16,10 @@ import React from 'react';
 
 export const APIContext = React.createContext({});
 
+// TODO grab urls from displayContext
+const UPDATE_SEGMENTS_EXPERIENCE_PRIORITY_URL =
+	'/segments.segmentsexperience/update-segments-experience-priority';
+
 export default function API({
 	addSegmentsExperienceURL: _addSegmentsExperienceURL,
 	classNameId: _classNameId,
@@ -52,12 +56,10 @@ export default function API({
 		});
 	}
 
-	function updateExperiencePriority({
-		newPriority: _newPriority,
-		segmentsExperienceId: _segmentsExperienceId
-	}) {
-		return new Promise(resolve => {
-			setTimeout(() => resolve({}), 1000);
+	function updateExperiencePriority({newPriority, segmentsExperienceId}) {
+		return Liferay.Service(UPDATE_SEGMENTS_EXPERIENCE_PRIORITY_URL, {
+			newPriority,
+			segmentsExperienceId
 		});
 	}
 
