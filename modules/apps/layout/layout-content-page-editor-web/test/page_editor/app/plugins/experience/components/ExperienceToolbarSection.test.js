@@ -12,7 +12,13 @@
  * details.
  */
 
-import {cleanup, render, waitForElement, within} from '@testing-library/react';
+import {
+	cleanup,
+	render,
+	wait,
+	waitForElement,
+	within
+} from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import React from 'react';
 
@@ -22,6 +28,8 @@ import AppContext from '../../../../../../src/main/resources/META-INF/resources/
 import ExperienceToolbarSection from '../../../../../../src/main/resources/META-INF/resources/page_editor/plugins/experience/components/ExperienceToolbarSection';
 
 import '@testing-library/jest-dom/extend-expect';
+
+import {UPDATE_SEGMENTS_EXPERIENCE_PRIORITY} from '../../../../../../src/main/resources/META-INF/resources/page_editor/plugins/experience/actions';
 
 function renderExperienceToolbarSection(
 	mockState = {},
@@ -171,5 +179,157 @@ describe('ExperienceToolbarSection', () => {
 
 		getByText('experience-locked');
 		getByText('edit-is-not-allowed-for-this-experience');
+	});
+
+	it('calls the backend to increase priority', async () => {
+		window.Liferay.Service = jest.fn(() => Promise.resolve());
+
+		const mockDispatch = jest.fn(() => {});
+
+		const {
+			getAllByRole,
+			getByLabelText,
+			getByRole
+		} = renderExperienceToolbarSection(mockState, mockConfig, mockDispatch);
+
+		const dropDownButton = getByLabelText('experience');
+
+		userEvent.click(dropDownButton);
+
+		await waitForElement(() => getByRole('list'));
+
+		const experienceItems = getAllByRole('listitem');
+
+		expect(experienceItems.length).toBe(3);
+
+		expect(
+			within(experienceItems[0]).getByText('Experience #1')
+		).toBeInTheDocument();
+		expect(
+			within(experienceItems[1]).getByText('Experience #2')
+		).toBeInTheDocument();
+
+		const bottomExperiencePriorityButton = within(
+			experienceItems[1]
+		).getByTitle('prioritize-experience');
+		const topExperiencePriorityButton = within(
+			experienceItems[0]
+		).getByTitle('prioritize-experience');
+
+		/**
+		 * Top Experience cannot be prioritized
+		 */
+		expect(topExperiencePriorityButton.disabled).toBe(true);
+
+		/**
+		 * Bottom Experience can be prioritized
+		 */
+		expect(bottomExperiencePriorityButton.disabled).toBe(false);
+
+		userEvent.click(bottomExperiencePriorityButton);
+
+		await wait(() =>
+			expect(window.Liferay.Service).toHaveBeenCalledTimes(1)
+		);
+
+		expect(window.Liferay.Service).toHaveBeenCalledWith(
+			expect.stringContaining(''),
+			expect.objectContaining({
+				newPriority: 3,
+				segmentsExperienceId: 'test-experience-id-02'
+			})
+		);
+
+		expect(mockDispatch).toHaveBeenCalledWith(
+			expect.objectContaining({
+				payload: {
+					subtarget: {
+						priority: 1,
+						segmentsExperienceId: 'test-experience-id-01'
+					},
+					target: {
+						priority: 3,
+						segmentsExperienceId: 'test-experience-id-02'
+					}
+				},
+				type: UPDATE_SEGMENTS_EXPERIENCE_PRIORITY
+			})
+		);
+	});
+
+	it('calls the backend to decrease priority', async () => {
+		window.Liferay.Service = jest.fn(() => Promise.resolve());
+
+		const mockDispatch = jest.fn(() => {});
+
+		const {
+			getAllByRole,
+			getByLabelText,
+			getByRole
+		} = renderExperienceToolbarSection(mockState, mockConfig, mockDispatch);
+
+		const dropDownButton = getByLabelText('experience');
+
+		userEvent.click(dropDownButton);
+
+		await waitForElement(() => getByRole('list'));
+
+		const experienceItems = getAllByRole('listitem');
+
+		expect(experienceItems.length).toBe(3);
+
+		expect(
+			within(experienceItems[0]).getByText('Experience #1')
+		).toBeInTheDocument();
+		expect(
+			within(experienceItems[1]).getByText('Experience #2')
+		).toBeInTheDocument();
+
+		const bottomExperiencePriorityButton = within(
+			experienceItems[1]
+		).getByTitle('deprioritize-experience');
+		const topExperiencePriorityButton = within(
+			experienceItems[0]
+		).getByTitle('deprioritize-experience');
+
+		/**
+		 * Top Experience can be deprioritized
+		 */
+		expect(topExperiencePriorityButton.disabled).toBe(false);
+
+		/**
+		 * Bottom Experience cannot be deprioritized
+		 */
+		expect(bottomExperiencePriorityButton.disabled).toBe(true);
+
+		userEvent.click(topExperiencePriorityButton);
+
+		await wait(() =>
+			expect(window.Liferay.Service).toHaveBeenCalledTimes(1)
+		);
+
+		expect(window.Liferay.Service).toHaveBeenCalledWith(
+			expect.stringContaining(''),
+			expect.objectContaining({
+				newPriority: 1,
+				segmentsExperienceId: 'test-experience-id-01'
+			})
+		);
+
+		expect(mockDispatch).toHaveBeenCalledWith(
+			expect.objectContaining({
+				payload: {
+					subtarget: {
+						priority: 3,
+						segmentsExperienceId: 'test-experience-id-02'
+					},
+					target: {
+						priority: 1,
+						segmentsExperienceId: 'test-experience-id-01'
+					}
+				},
+				type: UPDATE_SEGMENTS_EXPERIENCE_PRIORITY
+			})
+		);
 	});
 });
