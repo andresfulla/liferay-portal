@@ -36,6 +36,42 @@ import {
 import ExperienceModal from './ExperienceModal';
 import ExperiencesList from './ExperiencesList';
 
+/**
+ * It produces an object with a target and subtarget keys indicating what experiences
+ * should change to change the priority of target priority.
+ */
+function experiencePrioritySwap(
+	orderedExperiences,
+	targetExperienceId,
+	direction
+) {
+	const targetIndex = orderedExperiences.findIndex(
+		experience => experience.segmentsExperienceId === targetExperienceId
+	);
+
+	let subtargetIndex;
+
+	if (direction === 'up') {
+		subtargetIndex = targetIndex - 1;
+	} else if (direction === 'down') {
+		subtargetIndex = targetIndex + 1;
+	}
+
+	const subtargetExperience = orderedExperiences[subtargetIndex];
+	const targetExperience = orderedExperiences[targetIndex];
+
+	return {
+		subtarget: {
+			priority: targetExperience.priority,
+			segmentsExperienceId: subtargetExperience.segmentsExperienceId
+		},
+		target: {
+			priority: subtargetExperience.priority,
+			segmentsExperienceId: targetExperience.segmentsExperienceId
+		}
+	};
+}
+
 const ExperienceSelector = ({
 	experiences,
 	segments,
@@ -226,31 +262,22 @@ const ExperienceSelector = ({
 			});
 	};
 
-	const decreasePriority = (id, priority) => {
-		const targetIndex = experiences.findIndex(
-			experience => experience.segmentsExperienceId === id
+	const decreasePriority = id => {
+		const {subtarget, target} = experiencePrioritySwap(
+			experiences,
+			id,
+			'down'
 		);
 
-		const prevIndex = targetIndex + 1;
-
-		const newPriority = experiences[prevIndex].priority;
-		const subtargetId = experiences[prevIndex].segmentsExperienceId;
-
 		updateExperiencePriority({
-			newPriority,
+			newPriority: target.priority,
 			segmentsExperienceId: id
 		})
 			.then(() => {
 				dispatch({
 					payload: {
-						subtarget: {
-							priority,
-							segmentsExperienceId: subtargetId
-						},
-						target: {
-							priority: newPriority,
-							segmentsExperienceId: id
-						}
+						subtarget,
+						target
 					},
 					type: UPDATE_SEGMENTS_EXPERIENCE_PRIORITY
 				});
@@ -259,31 +286,22 @@ const ExperienceSelector = ({
 				// TODO handle error
 			});
 	};
-	const increasePriority = (id, priority) => {
-		const targetIndex = experiences.findIndex(
-			experience => experience.segmentsExperienceId === id
+	const increasePriority = id => {
+		const {subtarget, target} = experiencePrioritySwap(
+			experiences,
+			id,
+			'up'
 		);
 
-		const nextIndex = targetIndex - 1;
-
-		const newPriority = experiences[nextIndex].priority;
-		const subtargetId = experiences[nextIndex].segmentsExperienceId;
-
 		updateExperiencePriority({
-			newPriority,
+			newPriority: target.priority,
 			segmentsExperienceId: id
 		})
 			.then(() => {
 				dispatch({
 					payload: {
-						subtarget: {
-							priority,
-							segmentsExperienceId: subtargetId
-						},
-						target: {
-							priority: newPriority,
-							segmentsExperienceId: id
-						}
+						subtarget,
+						target
 					},
 					type: UPDATE_SEGMENTS_EXPERIENCE_PRIORITY
 				});
