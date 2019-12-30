@@ -40,7 +40,7 @@ import ExperiencesList from './ExperiencesList';
  * It produces an object with a target and subtarget keys indicating what experiences
  * should change to change the priority of target priority.
  */
-function experiencePrioritySwap(
+function getUpdateExperiencePriorityTargets(
 	orderedExperiences,
 	targetExperienceId,
 	direction
@@ -263,7 +263,7 @@ const ExperienceSelector = ({
 	};
 
 	const decreasePriority = id => {
-		const {subtarget, target} = experiencePrioritySwap(
+		const {subtarget, target} = getUpdateExperiencePriorityTargets(
 			experiences,
 			id,
 			'down'
@@ -287,7 +287,7 @@ const ExperienceSelector = ({
 			});
 	};
 	const increasePriority = id => {
-		const {subtarget, target} = experiencePrioritySwap(
+		const {subtarget, target} = getUpdateExperiencePriorityTargets(
 			experiences,
 			id,
 			'up'

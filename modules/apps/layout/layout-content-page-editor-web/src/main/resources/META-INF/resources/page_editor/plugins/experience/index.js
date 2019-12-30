@@ -104,7 +104,7 @@ function deleteExperienceReducer(state, payload) {
 	return nextState;
 }
 
-function updatedExperiencePriority(state, {subtarget, target}) {
+function updateExperiencePriorityReducer(state, {subtarget, target}) {
 	const experiences = state.availableSegmentsExperiences;
 
 	const targetExperience = {
@@ -171,7 +171,7 @@ export default class Experience {
 					);
 					break;
 				case UPDATE_SEGMENTS_EXPERIENCE_PRIORITY:
-					nextState = updatedExperiencePriority(
+					nextState = updateExperiencePriorityReducer(
 						nextState,
 						action.payload
 					);
