@@ -58,9 +58,13 @@ export default function API({
 	}
 
 	function updateExperiencePriority({newPriority, segmentsExperienceId}) {
-		return Liferay.Service(UPDATE_SEGMENTS_EXPERIENCE_PRIORITY_URL, {
-			newPriority,
-			segmentsExperienceId
+		return new Promise((resolve, reject) => {
+			Liferay.Service(UPDATE_SEGMENTS_EXPERIENCE_PRIORITY_URL, {
+				newPriority,
+				segmentsExperienceId
+			})
+				.then(resolve)
+				.catch(reject);
 		});
 	}
 
@@ -70,11 +74,15 @@ export default function API({
 		segmentsEntryId,
 		segmentsExperienceId
 	}) {
-		Liferay.Service(EDIT_SEGMENTS_EXPERIENCE_URL, {
-			active,
-			nameMap,
-			segmentsEntryId,
-			segmentsExperienceId
+		return new Promise((resolve, reject) => {
+			Liferay.Service(EDIT_SEGMENTS_EXPERIENCE_URL, {
+				active,
+				nameMap,
+				segmentsEntryId,
+				segmentsExperienceId
+			})
+				.then(resolve)
+				.catch(reject);
 		});
 	}
 
