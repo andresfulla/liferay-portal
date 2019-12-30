@@ -65,7 +65,7 @@ export default function ExperienceToolbarSection({selectId}) {
 			portletNamespace,
 			removeSegmentsExperienceURL: '/'
 		});
-	}, [addSegmentsExperienceURL, classNameId, classPK]);
+	}, [addSegmentsExperienceURL, classNameId, classPK, portletNamespace]);
 
 	const selectedExperience =
 		availableSegmentsExperiences[segmentsExperienceId];
