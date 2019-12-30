@@ -14,6 +14,7 @@
 
 import {
 	cleanup,
+	fireEvent,
 	render,
 	wait,
 	waitForElement,
@@ -29,7 +30,10 @@ import ExperienceToolbarSection from '../../../../../../src/main/resources/META-
 
 import '@testing-library/jest-dom/extend-expect';
 
-import {UPDATE_SEGMENTS_EXPERIENCE_PRIORITY} from '../../../../../../src/main/resources/META-INF/resources/page_editor/plugins/experience/actions';
+import {
+	UPDATE_SEGMENTS_EXPERIENCE_PRIORITY,
+	EDIT_SEGMENTS_EXPERIENCE
+} from '../../../../../../src/main/resources/META-INF/resources/page_editor/plugins/experience/actions';
 
 function renderExperienceToolbarSection(
 	mockState = {},
@@ -98,6 +102,7 @@ const mockConfig = {
 		}
 	},
 	classPK: 'test-classPK',
+	defaultLanguageId: 'en_US',
 	defaultSegmentsExperienceId: '0',
 	hasUpdatePermissions: true
 };
@@ -329,6 +334,84 @@ describe('ExperienceToolbarSection', () => {
 					}
 				},
 				type: UPDATE_SEGMENTS_EXPERIENCE_PRIORITY
+			})
+		);
+	});
+
+	it('calls the backend to edit the experience', async () => {
+		window.Liferay.Service = jest.fn(() => Promise.resolve());
+
+		const mockDispatch = jest.fn(() => {});
+
+		const {
+			getAllByRole,
+			getByLabelText,
+			getByRole,
+			getByText
+		} = renderExperienceToolbarSection(mockState, mockConfig, mockDispatch);
+
+		const dropDownButton = getByLabelText('experience');
+
+		userEvent.click(dropDownButton);
+
+		await waitForElement(() => getByRole('list'));
+
+		const experienceItems = getAllByRole('listitem');
+
+		expect(experienceItems.length).toBe(3);
+
+		expect(
+			within(experienceItems[0]).getByText('Experience #1')
+		).toBeInTheDocument();
+
+		const editExperienceButton = within(experienceItems[0]).getByTitle(
+			'edit-experience'
+		);
+
+		expect(editExperienceButton.disabled).toBe(false);
+
+		userEvent.click(editExperienceButton);
+
+		await waitForElement(() => getByLabelText('name'));
+
+		const nameInput = getByLabelText('name');
+		const segmentSelect = getByLabelText('audience');
+
+		expect(nameInput.value).toBe('Experience #1');
+		expect(segmentSelect.value).toBe('test-segment-id-00');
+
+		userEvent.type(nameInput, 'New Experience #1');
+		fireEvent.change(segmentSelect, {
+			target: {value: 'test-segment-id-01'}
+		});
+
+		expect(nameInput.value).toBe('New Experience #1');
+		expect(segmentSelect.value).toBe('test-segment-id-01');
+
+		userEvent.click(getByText('save'));
+
+		await wait(() =>
+			expect(window.Liferay.Service).toHaveBeenCalledTimes(1)
+		);
+
+		expect(window.Liferay.Service).toHaveBeenCalledWith(
+			expect.stringContaining(''),
+			expect.objectContaining({
+				active: true,
+				nameMap: '{"en_US":"New Experience #1"}',
+				segmentsEntryId: 'test-segment-id-01',
+				segmentsExperienceId: 'test-experience-id-01'
+			})
+		);
+
+		expect(mockDispatch).toHaveBeenCalledWith(
+			expect.objectContaining({
+				payload: {
+					name: 'New Experience #1',
+					segmentsEntryId: 'test-segment-id-01',
+					segmentsExperienceId: 'test-experience-id-01'
+				},
+				type: EDIT_SEGMENTS_EXPERIENCE
 			})
 		);
 	});
