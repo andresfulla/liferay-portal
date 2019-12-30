@@ -16,10 +16,10 @@ import React from 'react';
 
 import {Component} from '../../core/AppContext';
 import {
-	EDIT_SEGMENTS_EXPERIENCE,
 	CREATE_SEGMENTS_EXPERIENCE,
-	SELECT_SEGMENTS_EXPERIENCE,
 	DELETE_SEGMENTS_EXPERIENCE,
+	EDIT_SEGMENTS_EXPERIENCE,
+	SELECT_SEGMENTS_EXPERIENCE,
 	UPDATE_SEGMENTS_EXPERIENCE_PRIORITY
 } from './actions';
 import ExperienceToolbarSection from './components/ExperienceToolbarSection';
@@ -146,26 +146,26 @@ export default class Experience {
 			let nextState = state;
 
 			switch (action.type) {
-				case EDIT_SEGMENTS_EXPERIENCE:
-					nextState = editExperienceReducer(
-						nextState,
-						action.payload
-					);
-					break;
 				case CREATE_SEGMENTS_EXPERIENCE:
 					nextState = createExperienceReducer(
 						nextState,
 						action.payload
 					);
 					break;
-				case SELECT_SEGMENTS_EXPERIENCE:
-					nextState = selectExperienceReducer(
+				case DELETE_SEGMENTS_EXPERIENCE:
+					nextState = deleteExperienceReducer(
 						nextState,
 						action.payload
 					);
 					break;
-				case DELETE_SEGMENTS_EXPERIENCE:
-					nextState = deleteExperienceReducer(
+				case EDIT_SEGMENTS_EXPERIENCE:
+					nextState = editExperienceReducer(
+						nextState,
+						action.payload
+					);
+					break;
+				case SELECT_SEGMENTS_EXPERIENCE:
+					nextState = selectExperienceReducer(
 						nextState,
 						action.payload
 					);
