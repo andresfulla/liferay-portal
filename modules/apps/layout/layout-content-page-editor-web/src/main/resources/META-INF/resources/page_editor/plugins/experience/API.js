@@ -17,6 +17,9 @@ import React from 'react';
 export const APIContext = React.createContext({});
 
 // TODO grab urls from displayContext
+const EDIT_SEGMENTS_EXPERIENCE_URL =
+	'/segments.segmentsexperience/update-segments-experience';
+
 const UPDATE_SEGMENTS_EXPERIENCE_PRIORITY_URL =
 	'/segments.segmentsexperience/update-segments-experience-priority';
 
@@ -24,8 +27,6 @@ export default function API({
 	addSegmentsExperienceURL: _addSegmentsExperienceURL,
 	classNameId: _classNameId,
 	classPK: _classPK,
-	editSegmentsExperiencePriorityURL: _editSegmentsExperiencePriorityURL,
-	editSegmentsExperienceURL: _editSegmentsExperienceURL,
 	removeSegmentsExperienceURL: _removeSegmentsExperienceURL
 }) {
 	function createExperience({name, segmentsEntryId}) {
@@ -65,24 +66,18 @@ export default function API({
 
 	function updateExperience({
 		active,
-		name,
+		nameMap,
 		segmentsEntryId,
 		segmentsExperienceId
 	}) {
-		// TODO actual call to server
-		return new Promise(resolve => {
-			setTimeout(
-				() =>
-					resolve({
-						active,
-						name,
-						segmentsEntryId,
-						segmentsExperienceId
-					}),
-				1500
-			);
+		Liferay.Service(EDIT_SEGMENTS_EXPERIENCE_URL, {
+			active,
+			nameMap,
+			segmentsEntryId,
+			segmentsExperienceId
 		});
 	}
+
 	return {
 		createExperience,
 		removeExperience,
