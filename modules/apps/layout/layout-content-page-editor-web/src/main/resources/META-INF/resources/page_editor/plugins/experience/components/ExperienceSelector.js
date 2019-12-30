@@ -155,7 +155,7 @@ const ExperienceSelector = ({
 					if (isMounted()) {
 						setEditingExperience({
 							error: Liferay.Language.get(
-								'an-unexpected-error-occurred-while-creating-the-experience'
+								'an-unexpected-error-occurred-while-updating-the-experience'
 							),
 							name,
 							segmentsEntryId,
@@ -168,28 +168,34 @@ const ExperienceSelector = ({
 				name,
 				segmentsEntryId
 			})
-				.then(experience => {
-					if (isMounted()) {
-						onModalClose();
+				.then(
+					({fragmentEntryLinks, layoutData, segmentsExperience}) => {
+						if (isMounted()) {
+							onModalClose();
+						}
+
+						dispatch({
+							payload: {
+								fragmentEntryLinks,
+								layoutData,
+								segmentsExperience
+							},
+							type: CREATE_SEGMENTS_EXPERIENCE
+						});
+
+						Liferay.Util.openToast({
+							title: Liferay.Language.get(
+								'the-experience-was-created-successfully'
+							),
+							type: 'success'
+						});
 					}
-
-					dispatch({
-						payload: experience,
-						type: CREATE_SEGMENTS_EXPERIENCE
-					});
-
-					Liferay.Util.openToast({
-						title: Liferay.Language.get(
-							'the-experience-was-created-successfully'
-						),
-						type: 'success'
-					});
-				})
+				)
 				.catch(_error => {
 					if (isMounted()) {
 						setEditingExperience({
 							error: Liferay.Language.get(
-								'an-unexpected-error-occurred-while-updating-the-experience'
+								'an-unexpected-error-occurred-while-creating-the-experience'
 							),
 							name,
 							segmentsEntryId,

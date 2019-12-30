@@ -14,32 +14,29 @@
 
 import React from 'react';
 
+import serviceFetch from '../../app/services/serviceFetch';
+
 export const APIContext = React.createContext({});
 
 export default function API({
-	addSegmentsExperienceURL: _addSegmentsExperienceURL,
-	classNameId: _classNameId,
-	classPK: _classPK,
+	addSegmentsExperienceURL,
+	classNameId,
+	classPK,
 	editSegmentsExperiencePriorityURL: _editSegmentsExperiencePriorityURL,
 	editSegmentsExperienceURL: _editSegmentsExperienceURL,
+	portletNamespace,
 	removeSegmentsExperienceURL: _removeSegmentsExperienceURL
 }) {
 	function createExperience({name, segmentsEntryId}) {
-		// TODO actual call to server
+		const body = {
+			active: true,
+			classNameId,
+			classPK,
+			name,
+			segmentsEntryId
+		};
 
-		return new Promise(resolve => {
-			setTimeout(
-				() =>
-					resolve({
-						active: true,
-						name,
-						priority: 10,
-						segmentsEntryId,
-						segmentsExperienceId: Math.random().toString()
-					}),
-				1000
-			);
-		});
+		return serviceFetch({portletNamespace}, addSegmentsExperienceURL, body);
 	}
 
 	function removeExperience(
