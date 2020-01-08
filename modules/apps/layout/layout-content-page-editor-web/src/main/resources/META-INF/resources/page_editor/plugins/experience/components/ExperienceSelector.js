@@ -53,7 +53,7 @@ function getUpdateExperiencePriorityTargets(
 
 	if (direction === 'up') {
 		subtargetIndex = targetIndex - 1;
-	} else if (direction === 'down') {
+	} else {
 		subtargetIndex = targetIndex + 1;
 	}
 
