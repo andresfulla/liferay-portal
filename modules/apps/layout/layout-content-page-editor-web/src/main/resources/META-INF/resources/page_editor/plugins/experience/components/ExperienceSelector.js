@@ -80,7 +80,7 @@ const ExperienceSelector = ({
 }) => {
 	const {
 		classPK,
-		defaultSegmentsExperienceId: defaultExperienceId,
+		defaultSegmentsExperienceId,
 		editSegmentsEntryURL,
 		hasEditSegmentsEntryPermission,
 		hasUpdatePermissions,
@@ -253,7 +253,10 @@ const ExperienceSelector = ({
 		removeExperience(id)
 			.then(() =>
 				dispatch({
-					payload: {defaultExperienceId, segmentsExperienceId: id},
+					payload: {
+						defaultExperienceId: defaultSegmentsExperienceId,
+						segmentsExperienceId: id
+					},
 					type: DELETE_SEGMENTS_EXPERIENCE
 				})
 			)
@@ -348,7 +351,7 @@ const ExperienceSelector = ({
 							activeExperienceId={
 								selectedExperience.segmentsExperienceId
 							}
-							defaultExperienceId={defaultExperienceId}
+							defaultExperienceId={defaultSegmentsExperienceId}
 							experiences={experiences}
 							hasUpdatePermissions={hasUpdatePermissions}
 							onDeleteExperience={deleteExperience}
