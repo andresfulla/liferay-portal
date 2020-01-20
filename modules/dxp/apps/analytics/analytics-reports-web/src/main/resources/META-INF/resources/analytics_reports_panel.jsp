@@ -17,7 +17,51 @@
 <%@ include file="/init.jsp" %>
 
 <div id="<%= renderResponse.getNamespace() + "-analytics-reports-root" %>">
-	<div class="inline-item my-5 p-5 w-100">
-		<span aria-hidden="true" class="loading-animation"></span>
-	</div>
+		<div class="p-3 pt-5 text-center">
+			<liferay-ui:icon
+				alt="connect-to-analytics-cloud"
+				src='<%= PortalUtil.getPathContext(request) + "/assets/ac-icon.svg" %>'
+			/>
+
+			<h4 class="mt-3"><liferay-ui:message key="connect-to-analytics-cloud" /></h4>
+
+			<p><liferay-ui:message key="connect-to-analytics-cloud-help" /></p>
+
+			<c:choose>
+				<c:when test="SegmentsExperimentUtil.isAnalyticsEnabled(themeDisplay.getCompanyId())">
+					<liferay-ui:icon
+						label="<%= true %>"
+						linkCssClass="btn btn-primary btn-sm mb-4"
+						markupView="lexicon"
+						message="open-analytics-cloud"
+						target="_blank"
+						url="segmentsExperimentDisplayContext.getLiferayAnalyticsURL(themeDisplay.getCompanyId())"
+					/>
+				</c:when>
+				<c:otherwise>
+					<liferay-ui:icon
+						label="<%= true %>"
+						linkCssClass="btn btn-primary btn-sm mb-4"
+						markupView="lexicon"
+						message="start-free-trial"
+						target="_blank"
+						url="http://SegmentsExperimentUtil.ANALYTICS_CLOUD_TRIAL_URL"
+					/>
+				</c:otherwise>
+			</c:choose>
+
+			<portlet:actionURL name="/hide_analytics_reports_panel" var="hideAnalyticsReportsPanelURL">
+				<portlet:param name="redirect" value="<%= themeDisplay.getLayoutFriendlyURL(layout) %>" />
+			</portlet:actionURL>
+
+			<liferay-ui:icon
+				label="<%= true %>"
+				linkCssClass="btn btn-secondary btn-sm mb-4"
+				markupView="lexicon"
+				message="hide-content-performance-panel"
+				url="<%= hideAnalyticsReportsPanelURL %>"
+			/>
+		</div>
+
+
 </div>
