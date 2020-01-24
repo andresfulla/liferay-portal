@@ -19,11 +19,7 @@ export default function sidebarReducer(state, action) {
 
 	switch (action.type) {
 		case TYPES.SWITCH_SIDEBAR_PANEL:
-			nextState = {
-				...state,
-				sidebarOpen: action.sidebarOpen,
-				sidebarPanelId: action.sidebarPanelId
-			};
+			nextState = switchSidebar(state, action);
 			break;
 
 		default:
@@ -31,4 +27,18 @@ export default function sidebarReducer(state, action) {
 	}
 
 	return nextState;
+}
+
+function switchSidebar(state, action) {
+	const sidebarOpen = !state.lockedSegmentsExperience && action.sidebarOpen;
+	const sidebarPanelId =
+		action.sidebarPanelId === undefined
+			? state.sidebarPanelId
+			: action.sidebarPanelId;
+
+	return {
+		...state,
+		sidebarOpen,
+		sidebarPanelId
+	};
 }

@@ -16,7 +16,8 @@ import {
 	setExperimentStatus,
 	switchLayoutData,
 	selectExperience,
-	setUsedWidgets
+	setUsedWidgets,
+	setExperienceLock
 } from './utils';
 
 function selectExperienceReducer(state, payload) {
@@ -34,6 +35,8 @@ function selectExperienceReducer(state, payload) {
 	nextState = selectExperience(nextState, segmentsExperienceId);
 
 	nextState = setExperimentStatus(nextState, segmentsExperienceId);
+
+	nextState = setExperienceLock(nextState, segmentsExperienceId);
 
 	return nextState;
 }

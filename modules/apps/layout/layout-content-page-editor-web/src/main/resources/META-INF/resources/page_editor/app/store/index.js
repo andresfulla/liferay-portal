@@ -86,6 +86,7 @@ function transformServerData(data, {panels}) {
 		...data,
 
 		// By default, show first panel of first section.
+		sidebarOpen: !data.lockedSegmentsExperience && data.sidebarOpen,
 		sidebarPanelId: panels && panels[0] && panels[0][0]
 	};
 }

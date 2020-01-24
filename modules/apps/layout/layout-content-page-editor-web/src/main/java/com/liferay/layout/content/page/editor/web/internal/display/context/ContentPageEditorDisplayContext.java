@@ -393,6 +393,9 @@ public class ContentPageEditorDisplayContext {
 			).put(
 				"layoutDataList", editorSoyContext.get("layoutDataList")
 			).put(
+				"lockedSegmentsExperience",
+				editorSoyContext.get("lockedSegmentsExperience")		
+			).put(
 				"mappedInfoItems", editorSoyContext.get("mappedInfoItems")
 			).put(
 				"masterLayoutData", editorSoyContext.get("masterLayoutData")

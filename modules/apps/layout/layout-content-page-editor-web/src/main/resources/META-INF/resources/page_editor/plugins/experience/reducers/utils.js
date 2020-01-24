@@ -52,14 +52,16 @@ function addExperience(state, experience) {
  * @param {boolean} experience.hasLockedSegmentsExperiment
  * @return {object} nextState
  */
-function setExperienceLock(state, experience) {
-	const lockedSegmentsExperience = experience.hasLockedSegmentsExperiment;
+function setExperienceLock(state, experienceId) {
+	const experience = state.availableSegmentsExperiences[experienceId];
 
-	//TODO selectedSidebarPanelId
+	const lockedSegmentsExperience = experience.hasLockedSegmentsExperiment;
 
 	return {
 		...state,
-		lockedSegmentsExperience
+		lockedSegmentsExperience,
+		// the sidebar could be already closed
+		sidebarOpen: !lockedSegmentsExperience
 	};
 }
 

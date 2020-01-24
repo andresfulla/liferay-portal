@@ -47,7 +47,7 @@ export default function Sidebar() {
 	const {getInstance, register} = usePlugins();
 
 	const {panels, sidebarPanels} = config;
-	const {sidebarOpen, sidebarPanelId} = store;
+	const {lockedSegmentsExperience, sidebarOpen, sidebarPanelId} = store;
 
 	const panel = sidebarPanels[sidebarPanelId];
 	const promise = load(sidebarPanelId, panel.pluginEntryPoint);
@@ -58,6 +58,9 @@ export default function Sidebar() {
 		dispatch,
 		store
 	};
+
+	// TODO update conditions for permissions
+	const disabledButtons = lockedSegmentsExperience;
 
 	const registerPanel = register(sidebarPanelId, promise, {app, panel});
 
@@ -147,6 +150,7 @@ export default function Sidebar() {
 									aria-pressed={active}
 									className={classNames({active})}
 									data-tooltip-align="left"
+									disabled={disabledButtons}
 									displayType="unstyled"
 									id={panel.sidebarPanelId}
 									key={panel.sidebarPanelId}
