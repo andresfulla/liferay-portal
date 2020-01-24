@@ -144,6 +144,8 @@ function FragmentContent({fragmentEntryLink, itemId}, ref) {
 		}
 	}, [activeItemId, ref]);
 
+	const editableFragmentContent = !state.lockedSegmentsExperience;
+
 	useEffect(() => {
 		let element = document.createElement('div');
 		element.innerHTML = defaultContent;
@@ -301,7 +303,9 @@ function FragmentContent({fragmentEntryLink, itemId}, ref) {
 		processor.destroyEditor(element);
 	};
 
-	return (
+	return editableFragmentContent ? (
+		<UnsafeHTML markup={content} ref={ref} />
+	) : (
 		<>
 			<UnsafeHTML
 				markup={content}
