@@ -114,6 +114,8 @@ public class AnalyticsReportsDisplayContext {
 				_portal.getPortletNamespace(
 					AnalyticsReportsPortletKeys.ANALYTICS_REPORTS)
 			).put(
+				"languageId", _themeDisplay.getLanguageId()
+			).put(
 				"page",
 				HashMapBuilder.<String, Object>put(
 					"plid",
