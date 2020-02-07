@@ -12,20 +12,23 @@
 import React from 'react';
 
 import BasicInformation from './components/BasicInformation.es';
+import Chart from './components/Chart.es';
 import TotalCount from './components/TotalCount.es';
 import APIService from './util/APIService.es';
 
 export default function({context, props}) {
-	const {endpoints, namespace, page} = context;
+	const {endpoints, languageId, namespace, page} = context;
 	const {authorName, publishDate, title} = props;
 
 	const {
+		getAnalyticsReportsHistoricalViewsURL,
 		getAnalyticsReportsTotalReadsURL,
 		getAnalyticsReportsTotalViewsURL
 	} = endpoints;
 
 	const api = APIService({
 		endpoints: {
+			getAnalyticsReportsHistoricalViewsURL,
 			getAnalyticsReportsTotalReadsURL,
 			getAnalyticsReportsTotalViewsURL
 		},
@@ -42,6 +45,10 @@ export default function({context, props}) {
 		return api.getTotalViews().then(response => {
 			return response.analyticsReportsTotalViews;
 		});
+	}
+
+	function _handleHistoricalViews() {
+		return api.getHistoricalViews();
 	}
 
 	return (
@@ -69,6 +76,11 @@ export default function({context, props}) {
 				popoverMessage={Liferay.Language.get(
 					'this-number-refers-to-the-total-number-of-reads-since-the-content-was-published'
 				)}
+			/>
+			<hr />
+			<Chart
+				dataProviders={[_handleHistoricalViews]}
+				languageId={languageId}
 			/>
 		</div>
 	);

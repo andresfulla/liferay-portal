@@ -14,6 +14,7 @@ import PropTypes from 'prop-types';
 
 function APIService({endpoints, namespace, page}) {
 	const {
+		getAnalyticsReportsHistoricalViewsURL,
 		getAnalyticsReportsTotalReadsURL,
 		getAnalyticsReportsTotalViewsURL
 	} = endpoints;
@@ -39,7 +40,18 @@ function APIService({endpoints, namespace, page}) {
 		});
 	}
 
+	function getHistoricalViews() {
+		const body = {plid};
+
+		return _fetchWithError(getAnalyticsReportsHistoricalViewsURL, {
+			body: _getFormDataRequest(body, namespace),
+			credentials: 'include',
+			method: 'POST'
+		});
+	}
+
 	return {
+		getHistoricalViews,
 		getTotalReads,
 		getTotalViews
 	};
