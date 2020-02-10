@@ -115,7 +115,8 @@ public class AnalyticsReportsDisplayContext {
 				_portal.getPortletNamespace(
 					AnalyticsReportsPortletKeys.ANALYTICS_REPORTS)
 			).put(
-				"languageTag", () -> {
+				"languageTag",
+				() -> {
 					Locale locale = _themeDisplay.getLocale();
 
 					return locale.toLanguageTag();
