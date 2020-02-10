@@ -15,8 +15,8 @@ import React from 'react';
 import {
 	CartesianGrid,
 	Legend,
-	LineChart,
 	Line,
+	LineChart,
 	Tooltip,
 	XAxis,
 	YAxis
@@ -31,7 +31,8 @@ const CHART_SIZE = {height: 180, width: 280};
 function keyToTranslatedLabelValue(key) {
 	if (key === 'analyticsReportsHistoricalViews') {
 		return Liferay.Language.get('views-metric');
-	} else {
+	}
+	else {
 		return key;
 	}
 }
@@ -64,6 +65,7 @@ function thousandsToKilosFormater(value) {
 	if (value > 1000) {
 		return value / 1000 + 'K';
 	}
+
 	return value;
 }
 
