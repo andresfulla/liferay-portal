@@ -26,6 +26,7 @@ import com.liferay.portal.kernel.util.PrefsPropsUtil;
 import com.liferay.portal.kernel.util.WebKeys;
 
 import java.util.Date;
+import java.util.Locale;
 import java.util.Map;
 
 import javax.portlet.RenderResponse;
@@ -114,7 +115,11 @@ public class AnalyticsReportsDisplayContext {
 				_portal.getPortletNamespace(
 					AnalyticsReportsPortletKeys.ANALYTICS_REPORTS)
 			).put(
-				"languageId", _themeDisplay.getLanguageId()
+				"languageTag", () -> {
+					Locale locale = _themeDisplay.getLocale();
+
+					return locale.toLanguageTag();
+				}
 			).put(
 				"page",
 				HashMapBuilder.<String, Object>put(

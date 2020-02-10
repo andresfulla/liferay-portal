@@ -75,7 +75,7 @@ describe('Chart', () => {
 		const {getByText} = render(
 			<Chart
 				dataProviders={[viewDataProviderMock]}
-				languageId={'en_EN'}
+				languageTag={'en-EN'}
 			/>
 		);
 

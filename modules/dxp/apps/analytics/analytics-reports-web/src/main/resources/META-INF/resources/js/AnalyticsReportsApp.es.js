@@ -17,7 +17,7 @@ import TotalCount from './components/TotalCount.es';
 import APIService from './util/APIService.es';
 
 export default function({context, props}) {
-	const {endpoints, languageId, namespace, page} = context;
+	const {endpoints, languageTag, namespace, page} = context;
 	const {authorName, publishDate, title} = props;
 
 	const {
@@ -80,7 +80,7 @@ export default function({context, props}) {
 			<hr />
 			<Chart
 				dataProviders={[_handleHistoricalViews]}
-				languageId={languageId}
+				languageTag={languageTag}
 			/>
 		</div>
 	);

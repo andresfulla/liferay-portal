@@ -10,6 +10,7 @@
  */
 
 import {useIsMounted} from 'frontend-js-react-web';
+import PropTypes from 'prop-types';
 import React from 'react';
 import {
 	CartesianGrid,
@@ -98,22 +99,6 @@ const generateDateFormatters = key => {
 	};
 };
 
-/**
- * Helper to deal with the differnce in language keys for
- * human reading, svg consumption and keys
- *
- * @param {string} [keyLang='']
- * @param {boolean} [lowercase=true]
- * @returns {string}
- */
-function keyLangToLanguageTag(keyLang = '', lowercase = true) {
-	let langTag = keyLang.replace(/_/g, '-');
-	if (lowercase) {
-		langTag = langTag.toLowerCase();
-	}
-	return langTag;
-}
-
 function legendFormatterGenerator(totals) {
 	return value => (
 		<span>
@@ -125,7 +110,7 @@ function legendFormatterGenerator(totals) {
 	);
 }
 
-export default function Chart({languageId, dataProviders = []}) {
+export default function Chart({languageTag, dataProviders = []}) {
 	const [dataSet, setDataSet] = useState(null);
 	const isMounted = useIsMounted();
 
@@ -148,11 +133,9 @@ export default function Chart({languageId, dataProviders = []}) {
 		// eslint-disable-next-line react-hooks/exhaustive-deps
 	}, [dataProviders]);
 
-	const dateFormatters = useMemo(() => {
-		const keyLang = keyLangToLanguageTag(languageId);
-
-		return generateDateFormatters(keyLang);
-	}, [languageId]);
+	const dateFormatters = useMemo(() => generateDateFormatters(languageTag), [
+		languageTag
+	]);
 
 	const title = useMemo(() => {
 		if (dataSet && dataSet.histogram) {
@@ -234,3 +217,8 @@ export default function Chart({languageId, dataProviders = []}) {
 		</>
 	) : null;
 }
+
+Chart.propTypes = {
+	dataProviders: PropTypes.arrayOf(PropTypes.func).isRequired,
+	languageTag: PropTypes.string.isRequired
+};
