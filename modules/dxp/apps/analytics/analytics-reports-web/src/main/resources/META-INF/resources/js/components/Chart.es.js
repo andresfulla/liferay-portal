@@ -31,8 +31,7 @@ const CHART_SIZE = {height: 180, width: 280};
 function keyToTranslatedLabelValue(key) {
 	if (key === 'analyticsReportsHistoricalViews') {
 		return Liferay.Language.get('views-metric');
-	}
-	else {
+	} else {
 		return key;
 	}
 }
@@ -55,7 +54,30 @@ function transformDataToDataSet(key, data, previousDataset = {}) {
 	return result;
 }
 
+/*
+ * If a number is bigger than 1000 it will transform it to kilos
+ *
+ * 4 => 4
+ * 4000 => '4K'
+ */
+function thousandsToKilosFormater(value) {
+	if (value > 1000) {
+		return value / 1000 + 'K';
+	}
+	return value;
+}
+
+/*
+ * It generates a set of functions used to produce
+ * internationalized date related content.
+ */
 const generateDateFormatters = key => {
+	/*
+	 * Given 2 date objects it produces a user friendly date interval
+	 *
+	 * For 'en-US'
+	 * [Date, Date] => '16 - Jun 21, 2020'
+	 */
 	function formatChartTitle([initialDate, finalDate]) {
 		const dateFormatter = (
 			date,
@@ -81,12 +103,24 @@ const generateDateFormatters = key => {
 		)} - ${dateFormatter(finalDate)}`;
 	}
 
+	/*
+	 * Given a date like string it produces a internationalized long date
+	 *
+	 * For 'en-US'
+	 * String => 'June 16, 2020'
+	 */
 	function formatLongDate(value) {
 		return Intl.DateTimeFormat([key], {
 			dateStyle: 'long'
 		}).format(new Date(value));
 	}
 
+	/*
+	 * Given a date like string produces the day of the month
+	 *
+	 * For 'en-US'
+	 * String => '16'
+	 */
 	function formatNumericDay(value) {
 		return Intl.DateTimeFormat([key], {
 			day: 'numeric'
@@ -183,12 +217,7 @@ export default function Chart({languageTag, dataProviders = []}) {
 					allowDecimals={false}
 					minTickGap={3}
 					stroke={AXIS_COLOR}
-					tickFormatter={function(value) {
-						if (value > 1000) {
-							return value / 1000 + 'K';
-						}
-						return value;
-					}}
+					tickFormatter={thousandsToKilosFormater}
 					tickLine={false}
 					width={25}
 				/>
