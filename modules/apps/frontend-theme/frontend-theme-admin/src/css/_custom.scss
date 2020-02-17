@@ -24,7 +24,7 @@ body {
 	padding: 0;
 
 	.portlet-layout {
-		margin: 0 0 25px;
+		margin: $portlet-layout-margin;
 
 		.portlet-column {
 			padding: 0;
