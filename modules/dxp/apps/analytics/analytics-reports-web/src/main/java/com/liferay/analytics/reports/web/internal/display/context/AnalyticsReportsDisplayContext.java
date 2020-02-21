@@ -16,6 +16,7 @@ package com.liferay.analytics.reports.web.internal.display.context;
 
 import com.liferay.analytics.reports.info.item.AnalyticsReportsInfoItem;
 import com.liferay.analytics.reports.web.internal.constants.AnalyticsReportsPortletKeys;
+import com.liferay.analytics.reports.web.internal.data.model.TimeRange;
 import com.liferay.portal.kernel.json.JSONArray;
 import com.liferay.portal.kernel.json.JSONFactoryUtil;
 import com.liferay.portal.kernel.json.JSONUtil;
@@ -30,12 +31,11 @@ import com.liferay.portal.kernel.util.PrefsPropsUtil;
 import com.liferay.portal.kernel.util.ResourceBundleUtil;
 import com.liferay.portal.kernel.util.WebKeys;
 
-import java.util.Arrays;
+import java.util.Collection;
 import java.util.Date;
 import java.util.Locale;
 import java.util.Map;
 import java.util.ResourceBundle;
-import java.util.stream.Stream;
 
 import javax.portlet.RenderResponse;
 import javax.portlet.ResourceURL;
@@ -140,7 +140,7 @@ public class AnalyticsReportsDisplayContext {
 					}
 				).build()
 			).put(
-				"timeSpans", _getTimeSpansJSONArray(_themeDisplay.getLocale())
+				"timeRanges", _getTimeRangesJSONArray(_themeDisplay.getLocale())
 			).build()
 		).put(
 			"props", getProps()
@@ -151,23 +151,6 @@ public class AnalyticsReportsDisplayContext {
 
 	public String getLiferayAnalyticsURL(long companyId) {
 		return PrefsPropsUtil.getString(companyId, "liferayAnalyticsURL");
-	}
-
-	public enum TimeSpan {
-
-		LAST_7_DAYS("last-7-days"), LAST_24_HOURS("last-24-hours"),
-		LAST_30_DAYS("last-30-days");
-
-		public String getLabel() {
-			return _label;
-		}
-
-		private TimeSpan(String label) {
-			_label = label;
-		}
-
-		private final String _label;
-
 	}
 
 	protected Map<String, Object> getProps() {
@@ -202,25 +185,24 @@ public class AnalyticsReportsDisplayContext {
 		return layout.getPublishDate();
 	}
 
-	private JSONArray _getTimeSpansJSONArray(Locale locale) {
-		JSONArray segmentsExperimentRelsJSONArray =
-			JSONFactoryUtil.createJSONArray();
+	private JSONArray _getTimeRangesJSONArray(Locale locale) {
+		JSONArray timeRangesJSONArray = JSONFactoryUtil.createJSONArray();
 
 		ResourceBundle resourceBundle = ResourceBundleUtil.getBundle(
 			"content.Language", locale, getClass());
 
-		Stream<TimeSpan> stream = Arrays.stream(TimeSpan.values());
+		Collection<TimeRange> timeRanges = TimeRange.values();
 
-		stream.forEach(
-			timeSpan -> segmentsExperimentRelsJSONArray.put(
+		timeRanges.forEach(
+			timeRange -> timeRangesJSONArray.put(
 				JSONUtil.put(
 					"label",
-					LanguageUtil.get(resourceBundle, timeSpan.getLabel())
+					LanguageUtil.get(resourceBundle, timeRange.getKey())
 				).put(
-					"value", timeSpan.getLabel()
+					"value", timeRange.getKey()
 				)));
 
-		return segmentsExperimentRelsJSONArray;
+		return timeRangesJSONArray;
 	}
 
 	private final AnalyticsReportsInfoItem _analyticsReportsInfoItem;
