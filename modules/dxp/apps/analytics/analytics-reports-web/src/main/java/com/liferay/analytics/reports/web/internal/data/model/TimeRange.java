@@ -50,6 +50,14 @@ public class TimeRange {
 		false, "last-30-days", 30) {
 	};
 
+	public static TimeRange defaultTimeRange() {
+		return LAST_7_DAYS;
+	}
+
+	public static String defaultTimeRangeKey() {
+		return defaultTimeRange().getKey();
+	}
+
 	public static TimeRange of(int rangeKey) {
 		return Optional.ofNullable(
 			_timeRanges.get(rangeKey)
