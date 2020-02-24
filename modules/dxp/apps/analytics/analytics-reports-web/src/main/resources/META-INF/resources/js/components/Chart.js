@@ -12,6 +12,7 @@
 import {ClayButtonWithIcon} from '@clayui/button';
 import {ClaySelect} from '@clayui/form';
 import ClayLoadingIndicator from '@clayui/loading-indicator';
+import className from 'classnames';
 import {useIsMounted} from 'frontend-js-react-web';
 import PropTypes from 'prop-types';
 import React from 'react';
@@ -250,6 +251,10 @@ export default function Chart({
 			? dateFormatters.formatNumericHour
 			: dateFormatters.formatNumericDay;
 
+	const lineChartWrapperClasses = className('line-chart-wrapper', {
+		'line-chart-wrapper--loading': chartState.loading
+	});
+
 	return (
 		<>
 			{timeSpanOptions.length && (
@@ -290,24 +295,8 @@ export default function Chart({
 			)}
 
 			{dataSet ? (
-				<div
-					className="position-relative"
-					style={{
-						opacity: chartState.loading ? 0.8 : 1,
-						pointerEvents: chartState.loading ? 'none' : 'all'
-					}}
-				>
-					{chartState.loading && (
-						<ClayLoadingIndicator
-							small
-							style={{
-								left: 0,
-								position: 'absolute',
-								right: 0,
-								top: 'calc(50% - 1rem)'
-							}}
-						/>
-					)}
+				<div className={lineChartWrapperClasses}>
+					{chartState.loading && <ClayLoadingIndicator small />}
 
 					{title && <h4>{title}</h4>}
 

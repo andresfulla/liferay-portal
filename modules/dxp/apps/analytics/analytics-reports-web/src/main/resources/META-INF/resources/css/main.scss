@@ -77,7 +77,20 @@
 		}
 	}
 
-	.interval-selector-wrapper {
-		display: flex;
+	.line-chart-wrapper {
+		opacity: 1;
+		position: relative;
+
+		&.line-chart-wrapper--loading {
+			opacity: 0.8;
+			pointer-events: none;
+		}
+	}
+
+	.loading-animation {
+		left: 0;
+		position: absolute;
+		right: 0;
+		top: calc(50% - 1rem);
 	}
 }
