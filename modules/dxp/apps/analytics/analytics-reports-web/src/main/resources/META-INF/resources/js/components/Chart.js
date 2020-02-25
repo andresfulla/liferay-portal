@@ -260,15 +260,24 @@ export default function Chart({languageTag, dataProviders = []}) {
 				>
 					<Legend
 						formatter={legendFormatter}
+						iconSize={'10px'}
 						iconType="circle"
 						layout="vertical"
 						verticalAlign="top"
 						wrapperStyle={{left: 0, paddingBottom: '1rem'}}
 					/>
 
-					<CartesianGrid strokeDasharray="0 0" vertical={false} />
+					<CartesianGrid
+						stroke="#E7E7ED"
+						strokeDasharray="0 0"
+						vertical={true}
+						verticalPoints={[CHART_SIZE.width - 5]}
+					/>
 
 					<XAxis
+						axisLine={{
+							stroke: '#E7E7ED'
+						}}
 						dataKey="label"
 						tickFormatter={dateFormatters.formatNumericDay}
 						tickLine={false}
@@ -276,6 +285,9 @@ export default function Chart({languageTag, dataProviders = []}) {
 
 					<YAxis
 						allowDecimals={false}
+						axisLine={{
+							stroke: '#E7E7ED'
+						}}
 						minTickGap={3}
 						tickFormatter={thousandsToKilosFormater}
 						tickLine={false}
@@ -299,7 +311,7 @@ export default function Chart({languageTag, dataProviders = []}) {
 
 						return (
 							<Line
-								activeDot={{r: 6, strokeWidth: 0}}
+								activeDot={{r: 5, strokeWidth: 0}}
 								dataKey={keyName}
 								fill={color}
 								key={keyName}
