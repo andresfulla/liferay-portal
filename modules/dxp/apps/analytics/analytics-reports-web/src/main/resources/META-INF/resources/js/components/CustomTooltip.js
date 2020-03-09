@@ -11,19 +11,36 @@
 
 import PropTypes from 'prop-types';
 import React from 'react';
-
 /**
  * Component to customize the content of recharts Tooltip
  * http://recharts.org/en-US/api/Tooltip#content
  */
 export default function CustomTooltip(props) {
-	const {formatter, label, labelFormatter, payload, separator = ''} = props;
+	const {
+		fill,
+		formatter,
+		label,
+		labelFormatter,
+		payload,
+		separator = '',
+	} = props;
 
 	return label ? (
 		<div className="custom-tooltip">
 			<p className="mb-1 mt-0">
 				<b>{labelFormatter ? labelFormatter(label) : label}</b>
 			</p>
+			<hr className="mb-1 mt-1" />
+			<span>
+				<span
+					className={'custom-circle mr-1'}
+					style={{
+						backgroundColor: 'white',
+						border: `2px solid ${fill}`,
+					}}
+				></span>
+				{Liferay.Language.get('published')}
+			</span>
 			<ul className="list-unstyled mb-0">
 				{payload.map(item => {
 					const [value, name, iconType] = formatter
@@ -40,7 +57,7 @@ export default function CustomTooltip(props) {
 							></span>
 							{name}
 							{separator}
-							{value}
+							<b>{value}</b>
 						</li>
 					);
 				})}

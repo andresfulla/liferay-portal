@@ -21,6 +21,7 @@ import {
 	Legend,
 	Line,
 	LineChart,
+	ReferenceDot,
 	Tooltip,
 	XAxis,
 	YAxis,
@@ -34,6 +35,7 @@ import CustomTooltip from './CustomTooltip';
 const {useEffect, useMemo} = React;
 
 const CARTESIAN_GRID_COLOR = '#E7E7ED';
+
 const CHART_SIZES = {
 	dotRadius: 4,
 	height: 220,
@@ -56,6 +58,8 @@ const METRICS_STATIC_VALUES = {
 		langKey: Liferay.Language.get('views-metric'),
 	},
 };
+
+const PUBLISH_DATE_COLOR = '#2E5AAC';
 
 function keyToTranslatedLabelValue(key) {
 	const metricValues = METRICS_STATIC_VALUES[key];
@@ -201,6 +205,7 @@ export default function Chart({
 	dataProviders = [],
 	defaultTimeSpanOption,
 	languageTag,
+	publishDate,
 	timeSpanOptions,
 }) {
 	const {actions, state: chartState} = useChartState({
@@ -272,6 +277,8 @@ export default function Chart({
 		dataSet && legendFormatterGenerator(dataSet.totals, languageTag);
 
 	const disabledNextTimeSpan = chartState.timeSpanOffset === 0;
+
+	const publishDateISOString = new Date(publishDate).toISOString();
 
 	const xAxisFormatter =
 		chartState.timeSpanOption === LAST_24_HOURS
@@ -379,7 +386,9 @@ export default function Chart({
 							/>
 
 							<Tooltip
-								content={<CustomTooltip />}
+								content={
+									<CustomTooltip fill={PUBLISH_DATE_COLOR} />
+								}
 								formatter={(value, name) => {
 									return [
 										numberFormat(languageTag, value),
@@ -389,6 +398,17 @@ export default function Chart({
 								}}
 								labelFormatter={dateFormatters.formatLongDate}
 								separator={': '}
+							/>
+
+							<ReferenceDot
+								fill={'white'}
+								r={3}
+								stroke={PUBLISH_DATE_COLOR}
+								strokeWidth={CHART_SIZES.lineWidth}
+								x={publishDateISOString
+									.split('T')[0]
+									.concat('T00:00:00')}
+								y={0}
 							/>
 
 							{dataSet.keyList.map(keyName => {
@@ -422,6 +442,7 @@ Chart.propTypes = {
 	dataProviders: PropTypes.arrayOf(PropTypes.func).isRequired,
 	defaultTimeSpanOption: PropTypes.string.isRequired,
 	languageTag: PropTypes.string.isRequired,
+	publishDate: PropTypes.number.isRequired,
 	timeSpanOptions: PropTypes.arrayOf(
 		PropTypes.shape({
 			key: PropTypes.string.isRequired,
