@@ -370,10 +370,11 @@ export default function Chart({
 								small
 								symbol="angle-left"
 								title={
-									disabledPreviousPeriodButton &&
-									Liferay.Language.get(
+									disabledPreviousPeriodButton
+										? Liferay.Language.get(
 										'you-cannot-choose-a-date-previous-to-the-publication-date'
 									)
+										: undefined
 								}
 							/>
 						</ClayTooltipProvider>
