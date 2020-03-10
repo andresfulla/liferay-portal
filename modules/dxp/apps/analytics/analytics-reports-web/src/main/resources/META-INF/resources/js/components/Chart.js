@@ -276,9 +276,9 @@ export default function Chart({
 
 			const firstDate = new Date(firstDateLabel);
 			const lastDate = new Date(lastDateLabel);
-			const publisedDate = new Date(publishDate);
+			const publishedDate = new Date(publishDate);
 
-			if (firstDate < publisedDate && lastDate > publisedDate) {
+			if (firstDate < publishedDate && lastDate > publishedDate) {
 				//Publish date between selected time range
 				return true;
 			}
@@ -372,8 +372,8 @@ export default function Chart({
 								title={
 									disabledPreviousPeriodButton
 										? Liferay.Language.get(
-										'you-cannot-choose-a-date-previous-to-the-publication-date'
-									)
+												'you-cannot-choose-a-date-previous-to-the-publication-date'
+										  )
 										: undefined
 								}
 							/>
