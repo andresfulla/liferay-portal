@@ -16,6 +16,14 @@
 
 <%@ include file="/wiki/init.jsp" %>
 
+<react:component
+	data="<%= new java.util.HashMap() %>"
+	module="js/Chart"
+/>
+
+
+
+<%--
 <liferay-util:dynamic-include key="com.liferay.wiki.web#/wiki/view.jsp#pre" />
 
 <%
@@ -472,3 +480,4 @@ if (portletTitleBasedNavigation) {
 		</c:if>
 	</div>
 </div>
+--%>
