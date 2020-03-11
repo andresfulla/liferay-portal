@@ -232,17 +232,10 @@ export default function Chart({
 			}).then(data => {
 				if (!gone) {
 					if (isMounted()) {
-						let timeSpanComparator;
-
-						switch (chartState.timeSpanOption) {
-							case LAST_24_HOURS: {
-								timeSpanComparator = HOUR_IN_MILLISECONDS;
-								break;
-							}
-							default:
-								timeSpanComparator = DAY_IN_MILLISECONDS;
-								break;
-						}
+						const timeSpanComparator =
+							chartState.timeSpanOption === LAST_24_HOURS
+								? HOUR_IN_MILLISECONDS
+								: DAY_IN_MILLISECONDS;
 
 						Object.keys(data).map(key => {
 							actions.addDataSetItem({
@@ -285,12 +278,9 @@ export default function Chart({
 	const referenceDotPosition = useMemo(() => {
 		const publishDateISOString = new Date(publishDate).toISOString();
 
-		switch (chartState.timeSpanOption) {
-			case LAST_24_HOURS:
-				return publishDateISOString.split(':')[0].concat(':00:00');
-			default:
-				return publishDateISOString.split('T')[0].concat('T00:00:00');
-		}
+		return chartState.timeSpanOption === LAST_24_HOURS
+			? publishDateISOString.split(':')[0].concat(':00:00')
+			: publishDateISOString.split('T')[0].concat('T00:00:00');
 	}, [chartState.timeSpanOption, publishDate]);
 
 	const title = useMemo(() => {
