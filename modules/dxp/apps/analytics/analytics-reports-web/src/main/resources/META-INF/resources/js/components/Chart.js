@@ -276,12 +276,10 @@ export default function Chart({
 			const firstDate = new Date(firstDateLabel);
 			const publishedDate = new Date(publishDate);
 
-			if (firstDate < publishedDate) {
-				return true;
-			}
-
-			return false;
+			return firstDate < publishedDate;
 		}
+
+		return true;
 	}, [histogram, publishDate]);
 
 	const referenceDotPosition = useMemo(() => {
