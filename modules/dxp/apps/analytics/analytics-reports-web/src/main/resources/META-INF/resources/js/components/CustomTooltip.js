@@ -17,11 +17,11 @@ import React from 'react';
  */
 export default function CustomTooltip(props) {
 	const {
-		fill,
 		formatter,
 		label,
 		labelFormatter,
 		payload,
+		publishDateFill,
 		separator = '',
 	} = props;
 
@@ -36,7 +36,7 @@ export default function CustomTooltip(props) {
 					className={'custom-circle mr-1'}
 					style={{
 						backgroundColor: 'white',
-						border: `2px solid ${fill}`,
+						border: `2px solid ${publishDateFill}`,
 					}}
 				></span>
 				{Liferay.Language.get('published')}
@@ -76,5 +76,6 @@ CustomTooltip.propTypes = {
 			value: PropTypes.number.isRequired,
 		})
 	),
+	publishDateFill: PropTypes.string,
 	separator: PropTypes.string,
 };

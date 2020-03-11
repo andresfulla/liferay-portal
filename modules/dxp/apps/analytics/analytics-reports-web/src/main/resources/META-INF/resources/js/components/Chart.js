@@ -437,7 +437,9 @@ export default function Chart({
 							<Tooltip
 								content={
 									<CustomTooltip
-										fill={CHART_COLORS.publishDate}
+										publishDateFill={
+											CHART_COLORS.publishDate
+										}
 									/>
 								}
 								formatter={(value, name) => {
