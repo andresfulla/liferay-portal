@@ -35,10 +35,16 @@ import CustomTooltip from './CustomTooltip';
 
 const {useEffect, useMemo} = React;
 
-const CARTESIAN_GRID_COLOR = '#E7E7ED';
+const CHART_COLORS = {
+	analyticsReportsHistoricalReads: '#50D2A0',
+	analyticsReportsHistoricalViews: '#4B9BFF',
+	cartesianGrid: '#E7E7ED',
+	publishDate: '#2E5AAC',
+};
 
 const CHART_SIZES = {
 	dotRadius: 4,
+	fill: 'white',
 	height: 220,
 	lineWidth: 2,
 	width: 280,
@@ -53,19 +59,17 @@ const LAST_24_HOURS = 'last-24-hours';
 
 const METRICS_STATIC_VALUES = {
 	analyticsReportsHistoricalReads: {
-		color: '#50D2A0',
+		color: CHART_COLORS.analyticsReportsHistoricalReads,
 		iconType: 'square',
 		langKey: Liferay.Language.get('reads-metric'),
 	},
 
 	analyticsReportsHistoricalViews: {
-		color: '#4B9BFF',
+		color: CHART_COLORS.analyticsReportsHistoricalViews,
 		iconType: 'circle',
 		langKey: Liferay.Language.get('views-metric'),
 	},
 };
-
-const PUBLISH_DATE_COLOR = '#2E5AAC';
 
 function keyToTranslatedLabelValue(key) {
 	const metricValues = METRICS_STATIC_VALUES[key];
@@ -402,7 +406,7 @@ export default function Chart({
 							/>
 
 							<CartesianGrid
-								stroke={CARTESIAN_GRID_COLOR}
+								stroke={CHART_COLORS.cartesianGrid}
 								strokeDasharray="0 0"
 								vertical={true}
 								verticalPoints={[
@@ -412,7 +416,7 @@ export default function Chart({
 
 							<XAxis
 								axisLine={{
-									stroke: CARTESIAN_GRID_COLOR,
+									stroke: CHART_COLORS.cartesianGrid,
 								}}
 								dataKey="label"
 								tickFormatter={xAxisFormatter}
@@ -422,7 +426,7 @@ export default function Chart({
 							<YAxis
 								allowDecimals={false}
 								axisLine={{
-									stroke: CARTESIAN_GRID_COLOR,
+									stroke: CHART_COLORS.cartesianGrid,
 								}}
 								minTickGap={3}
 								tickFormatter={thousandsToKilosFormater}
@@ -432,7 +436,9 @@ export default function Chart({
 
 							<Tooltip
 								content={
-									<CustomTooltip fill={PUBLISH_DATE_COLOR} />
+									<CustomTooltip
+										fill={CHART_COLORS.publishDate}
+									/>
 								}
 								formatter={(value, name) => {
 									return [
@@ -446,9 +452,9 @@ export default function Chart({
 							/>
 
 							<ReferenceDot
-								fill={'white'}
+								fill={CHART_SIZES.referenceDotFill}
 								r={3}
-								stroke={PUBLISH_DATE_COLOR}
+								stroke={CHART_COLORS.publishDate}
 								strokeWidth={CHART_SIZES.lineWidth}
 								x={referenceDotPosition}
 								y={0}
