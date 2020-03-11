@@ -23,6 +23,7 @@ export default function CustomTooltip(props) {
 		payload,
 		publishDateFill,
 		separator = '',
+		showPublishedDateLabel,
 	} = props;
 
 	return label ? (
@@ -31,16 +32,18 @@ export default function CustomTooltip(props) {
 				<b>{labelFormatter ? labelFormatter(label) : label}</b>
 			</p>
 			<hr className="mb-1 mt-1" />
-			<span>
-				<span
-					className={'custom-circle mr-1'}
-					style={{
-						backgroundColor: 'white',
-						border: `2px solid ${publishDateFill}`,
-					}}
-				></span>
-				{Liferay.Language.get('published')}
-			</span>
+			{showPublishedDateLabel && (
+				<span>
+					<span
+						className={'custom-circle mr-1'}
+						style={{
+							backgroundColor: 'white',
+							border: `2px solid ${publishDateFill}`,
+						}}
+					></span>
+					{Liferay.Language.get('published')}
+				</span>
+			)}
 			<ul className="list-unstyled mb-0">
 				{payload.map(item => {
 					const [value, name, iconType] = formatter
@@ -78,4 +81,5 @@ CustomTooltip.propTypes = {
 	),
 	publishDateFill: PropTypes.string,
 	separator: PropTypes.string,
+	showPublishedDateLabel: PropTypes.bool,
 };

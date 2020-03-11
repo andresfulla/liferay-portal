@@ -440,6 +440,9 @@ export default function Chart({
 										publishDateFill={
 											CHART_COLORS.publishDate
 										}
+										showPublishedDateLabel={
+											disabledPreviousPeriodButton
+										}
 									/>
 								}
 								formatter={(value, name) => {
