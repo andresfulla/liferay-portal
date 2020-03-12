@@ -272,14 +272,11 @@ export default function Chart({
 	const disabledPreviousPeriodButton = useMemo(() => {
 		if (histogram.length) {
 			const firstDateLabel = histogram[0].label;
-			const lastDateLabel = histogram[histogram.length - 1].label;
 
 			const firstDate = new Date(firstDateLabel);
-			const lastDate = new Date(lastDateLabel);
 			const publishedDate = new Date(publishDate);
 
-			if (firstDate < publishedDate && lastDate > publishedDate) {
-				//Publish date between selected time range
+			if (firstDate < publishedDate) {
 				return true;
 			}
 
