@@ -47,7 +47,7 @@ jest.mock(
 
 const FRAGMENT_ENTRY_LINK_ID = '1';
 
-const fragmentEntryLink = {
+const defaultFragmentEntryLink = {
 	comments: [],
 	configuration: {
 		fieldSets: [
@@ -101,7 +101,10 @@ const mockDispatch = jest.fn(a => {
 	}
 });
 
-const renderConfigurationPanel = ({segmentsExperienceId}) => {
+const renderConfigurationPanel = ({
+	segmentsExperienceId,
+	fragmentEntryLink = defaultFragmentEntryLink,
+}) => {
 	const state = {
 		fragmentEntryLinks: {[FRAGMENT_ENTRY_LINK_ID]: fragmentEntryLink},
 		segmentsExperienceId,
@@ -195,6 +198,85 @@ describe('FragmentConfigurationPanel', () => {
 					[EDITABLE_FRAGMENT_ENTRY_PROCESSOR]: {},
 					[FREEMARKER_FRAGMENT_ENTRY_PROCESSOR]: {
 						'segments-experience-id-2': {headingLevel: 'h2'},
+					},
+				},
+			})
+		);
+
+		expect(FragmentService.renderFragmentEntryLinkContent).toBeCalled();
+	});
+
+	it('merges configuration values when a new one is added', async () => {
+		config.defaultSegmentsExperienceId = '0';
+
+		const fragmentEntryLink = {
+			comments: [],
+			configuration: {
+				fieldSets: [
+					{
+						fields: [
+							{
+								dataType: 'string',
+								defaultValue: 'h1',
+								description: '',
+								label: 'Heading Level',
+								name: 'headingLevel',
+								type: 'select',
+								typeOptions: {
+									validValues: [
+										{label: 'H1', value: 'h1'},
+										{label: 'H2', value: 'h2'},
+										{label: 'H3', value: 'h3'},
+										{label: 'H4', value: 'h4'},
+									],
+								},
+							},
+							{
+								dataType: 'string',
+								defaultValue: 'default',
+								description: '',
+								label: 'Another thing',
+								name: 'anotherThing',
+								type: 'text',
+							},
+						],
+						label: '',
+					},
+				],
+			},
+			defaultConfigurationValues: {
+				headingLevel: 'h1',
+			},
+			editableValues: {
+				[EDITABLE_FRAGMENT_ENTRY_PROCESSOR]: {},
+				[FREEMARKER_FRAGMENT_ENTRY_PROCESSOR]: {
+					'segments-experience-id-0': {anotherThing: 'test'},
+				},
+			},
+			fragmentEntryLinkId: FRAGMENT_ENTRY_LINK_ID,
+			name: 'Heading',
+		};
+
+		const {getByLabelText} = renderConfigurationPanel({
+			fragmentEntryLink,
+			segmentsExperienceId: '0',
+		});
+
+		const input = getByLabelText('Heading Level');
+
+		await fireEvent.change(input, {
+			target: {value: 'h2'},
+		});
+
+		expect(FragmentService.updateEditableValues).toBeCalledWith(
+			expect.objectContaining({
+				editableValues: {
+					[EDITABLE_FRAGMENT_ENTRY_PROCESSOR]: {},
+					[FREEMARKER_FRAGMENT_ENTRY_PROCESSOR]: {
+						'segments-experience-id-0': {
+							anotherThing: 'test',
+							headingLevel: 'h2',
+						},
 					},
 				},
 			})
