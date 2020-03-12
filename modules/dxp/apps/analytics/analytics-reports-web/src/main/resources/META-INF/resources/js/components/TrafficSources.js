@@ -9,6 +9,7 @@
  * distribution rights of the Software.
  */
 
+import ClayButton from '@clayui/button';
 import {useIsMounted} from 'frontend-js-react-web';
 import PropTypes from 'prop-types';
 import React from 'react';
@@ -39,7 +40,11 @@ const FALLBACK_COLOR = '#e92563';
 
 const getColorByName = name => COLORS_MAP[name] || FALLBACK_COLOR;
 
-export default function TrafficSources({dataProvider, languageTag}) {
+export default function TrafficSources({
+	dataProvider,
+	languageTag,
+	onTrafficSourceClick,
+}) {
 	const isMounted = useIsMounted();
 	const [trafficSources, setTrafficSources] = useState([]);
 	const [highlighted, setHighlighted] = useState(null);
@@ -91,7 +96,15 @@ export default function TrafficSources({dataProvider, languageTag}) {
 											handleLegendMouseEnter(entry.name)
 										}
 									>
-										{entry.title}
+										<ClayButton
+											displayType="unstyled"
+											onClick={() =>
+												onTrafficSourceClick(entry.name)
+											}
+											small
+										>
+											{entry.title}
+										</ClayButton>
 									</td>
 									<td className="text-secondary">
 										<Hint
@@ -207,4 +220,5 @@ function TrafficSourcesCustomTooltip(props) {
 TrafficSources.propTypes = {
 	dataProvider: PropTypes.func.isRequired,
 	languageTag: PropTypes.string.isRequired,
+	onTrafficSourceClick: PropTypes.func.isRequired,
 };

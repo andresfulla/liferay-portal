@@ -11,6 +11,35 @@
 
 import {fetch} from 'frontend-js-web';
 
+const MOCK_TRAFFIC_SOURCES_DETAILS = {
+	organic: {
+		keywords: [
+			{
+				title: 'commerce',
+				value: 90000,
+			},
+			{
+				title: 'e-commerce',
+				value: 14800,
+			},
+		],
+		title: 'Organic Traffic',
+	},
+	paid: {
+		keywords: [
+			{
+				title: 'commerce',
+				value: 90000,
+			},
+			{
+				title: 'e-commerce',
+				value: 14800,
+			},
+		],
+		title: 'Paid Traffic',
+	},
+};
+
 function APIService({endpoints, namespace, page}) {
 	const {
 		getAnalyticsReportsHistoricalReadsURL,
@@ -60,6 +89,15 @@ function APIService({endpoints, namespace, page}) {
 		});
 	}
 
+	function getTrafficSourceDetails(name) {
+		// TODO remove frontend mock
+		return new Promise(resolve =>
+			setTimeout(() => {
+				resolve(MOCK_TRAFFIC_SOURCES_DETAILS[name]);
+			}, 900)
+		);
+	}
+
 	function getTrafficSources() {
 		// TODO remove frontend mock
 		return new Promise(resolve =>
@@ -97,6 +135,7 @@ function APIService({endpoints, namespace, page}) {
 		getHistoricalViews,
 		getTotalReads,
 		getTotalViews,
+		getTrafficSourceDetails,
 		getTrafficSources,
 	};
 }
