@@ -92,7 +92,7 @@ export const FragmentConfigurationPanel = ({item}) => {
 			const configurationValues = getConfigurationValues(
 				defaultConfigurationValues,
 				fragmentEntryLink,
-				segmentsExperienceId
+				prefixedSegmentsExperienceId
 			);
 
 			const nextConfigurationValues = {
@@ -104,6 +104,7 @@ export const FragmentConfigurationPanel = ({item}) => {
 				updateFragmentConfiguration({
 					configurationValues: nextConfigurationValues,
 					fragmentEntryLink,
+					prefixedSegmentsExperienceId,
 					segmentsExperienceId,
 				})
 			);
@@ -112,6 +113,7 @@ export const FragmentConfigurationPanel = ({item}) => {
 			defaultConfigurationValues,
 			dispatch,
 			fragmentEntryLink,
+			prefixedSegmentsExperienceId,
 			segmentsExperienceId,
 		]
 	);
@@ -124,7 +126,7 @@ export const FragmentConfigurationPanel = ({item}) => {
 						configurationValues={getConfigurationValues(
 							defaultConfigurationValues,
 							fragmentEntryLink,
-							segmentsExperienceId
+							prefixedSegmentsExperienceId
 						)}
 						fields={fieldSet.fields}
 						key={index}
@@ -166,14 +168,14 @@ RestoreButton.propTypes = {
 function getConfigurationValues(
 	defaultConfigurationValues,
 	fragmentEntryLink,
-	segmentsExperienceId
+	prefixedSegmentsExperienceId
 ) {
-	return segmentsExperienceId
+	return prefixedSegmentsExperienceId
 		? {
 				...defaultConfigurationValues,
 				...fragmentEntryLink.editableValues[
 					FREEMARKER_FRAGMENT_ENTRY_PROCESSOR
-				][segmentsExperienceId],
+				][prefixedSegmentsExperienceId],
 		  }
 		: {
 				...defaultConfigurationValues,
