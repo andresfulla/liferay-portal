@@ -12,7 +12,6 @@
  * details.
  */
 
-import {SEGMENTS_EXPERIENCE_ID_PREFIX} from '../../config/constants/segmentsExperienceIdPrefix';
 import {config} from '../../config/index';
 import InfoItemService from '../../services/InfoItemService';
 
@@ -68,14 +67,10 @@ function selectEditableValueContent(
 	languageId,
 	prefixedSegmentsExperienceId
 ) {
-	const prefixedDefaultSegmentsExperienceId = `${SEGMENTS_EXPERIENCE_ID_PREFIX}${config.defaultSegmentsExperienceId}`;
 	let content = editableValue;
 
 	if (content[prefixedSegmentsExperienceId]) {
 		content = content[prefixedSegmentsExperienceId];
-	}
-	else if (content[prefixedDefaultSegmentsExperienceId]) {
-		content = content[prefixedDefaultSegmentsExperienceId];
 	}
 
 	if (content[languageId]) {
