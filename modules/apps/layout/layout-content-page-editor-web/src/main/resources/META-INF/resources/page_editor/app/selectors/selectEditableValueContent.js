@@ -12,7 +12,6 @@
  * details.
  */
 
-import {SEGMENTS_EXPERIENCE_ID_PREFIX} from '../config/constants/segmentsExperienceIdPrefix';
 import {config} from '../config/index';
 import selectEditableValue from './selectEditableValue';
 import selectPrefixedSegmentsExperienceId from './selectPrefixedSegmentsExperienceId';
@@ -24,7 +23,6 @@ export default function selectEditableValueContent(
 	processorType
 ) {
 	const {languageId} = state;
-	const defaultPrefixedSegmentsExperienceId = `${SEGMENTS_EXPERIENCE_ID_PREFIX}${config.defaultSegmentsExperienceId}`;
 	const prefixedSegmentsExperienceId = selectPrefixedSegmentsExperienceId(
 		state
 	);
@@ -40,9 +38,6 @@ export default function selectEditableValueContent(
 
 	if (content[prefixedSegmentsExperienceId]) {
 		content = content[prefixedSegmentsExperienceId];
-	}
-	else if (content[defaultPrefixedSegmentsExperienceId]) {
-		content = content[defaultPrefixedSegmentsExperienceId];
 	}
 
 	if (content[languageId]) {
