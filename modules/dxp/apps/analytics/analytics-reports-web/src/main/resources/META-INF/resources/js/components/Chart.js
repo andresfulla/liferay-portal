@@ -247,8 +247,8 @@ export default function Chart({
 		languageTag,
 	]);
 
-	const {dataSet = {}} = chartState;
-	const {histogram = [], keyList = []} = dataSet;
+	const {dataSet} = chartState;
+	const {histogram, keyList} = dataSet;
 
 	const disabledPreviousPeriodButton = useMemo(() => {
 		if (histogram.length) {

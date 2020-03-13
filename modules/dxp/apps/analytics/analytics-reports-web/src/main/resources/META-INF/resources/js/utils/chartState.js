@@ -20,6 +20,7 @@ const DAY_IN_MILLISECONDS = 24 * 60 * 60 * 1000;
 
 export const useChartState = ({defaultTimeSpanOption, publishDate}) => {
 	const [state, dispatch] = useReducer(reducer, {
+		dataSet: {histogram: [], keyList: [], totals: []},
 		loading: true,
 		publishDate,
 		timeSpanOffset: 0,
