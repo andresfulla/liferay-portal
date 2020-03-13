@@ -16,10 +16,12 @@ const NEXT_TIME_SPAN = 'next-time-span';
 const PREV_TIME_SPAN = 'previous-time-span';
 const CHANGE_TIME_SPAN_OPTION = 'change-time-span-option';
 const SET_LOADING = 'set-loading';
+const DAY_IN_MILLISECONDS = 24 * 60 * 60 * 1000;
 
-export const useChartState = ({defaultTimeSpanOption}) => {
+export const useChartState = ({defaultTimeSpanOption, publishDate}) => {
 	const [state, dispatch] = useReducer(reducer, {
 		loading: true,
+		publishDate,
 		timeSpanOffset: 0,
 		timeSpanOption: defaultTimeSpanOption,
 	});
@@ -152,17 +154,12 @@ function setLoadingState(state) {
 	return nextState;
 }
 
-function transformDataToDataSet(
+function mergeDataSets({
 	key,
-	data,
-	previousDataset = {histogram: [], keyList: [], totals: []}
-) {
-	const result = mergeDataSets(data, previousDataset, key);
-
-	return result;
-}
-
-function mergeDataSets(newData, previousDataSet, key) {
+	newData,
+	previousDataSet = {histogram: [], keyList: [], totals: []},
+	publishDate,
+}) {
 	const resultDataSet = {};
 
 	resultDataSet.keyList = [...previousDataSet.keyList, key];
@@ -172,10 +169,26 @@ function mergeDataSets(newData, previousDataSet, key) {
 		[key]: newData.value,
 	};
 
-	const newFormattedHistogram = newData.histogram.map(h => ({
-		[key]: h.value,
-		label: h.key,
-	}));
+	const publishDateObject = new Date(publishDate);
+
+	const newFormattedHistogram = newData.histogram.map(h => {
+		const valueDataObject = new Date(h.key);
+
+		if (
+			valueDataObject < publishDateObject &&
+			publishDateObject - valueDataObject > DAY_IN_MILLISECONDS
+		) {
+			return {
+				[key]: null,
+				label: h.key,
+			};
+		}
+
+		return {
+			[key]: h.value,
+			label: h.key,
+		};
+	});
 
 	let start = 0;
 	const mergeHistogram = [];
@@ -227,11 +240,12 @@ function addDataSetItem(state, payload) {
 
 	return {
 		...state,
-		dataSet: transformDataToDataSet(
-			payload.key,
-			payload.dataSetItem,
-			previousDataSet
-		),
+		dataSet: mergeDataSets({
+			key: payload.key,
+			newData: payload.dataSetItem,
+			previousDataSet,
+			publishDate: state.publishDate,
+		}),
 		loading: false,
 	};
 }

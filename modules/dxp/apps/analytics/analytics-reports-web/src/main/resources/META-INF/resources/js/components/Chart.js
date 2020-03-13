@@ -210,6 +210,7 @@ export default function Chart({
 }) {
 	const {actions, state: chartState} = useChartState({
 		defaultTimeSpanOption,
+		publishDate,
 	});
 	const isMounted = useIsMounted();
 
