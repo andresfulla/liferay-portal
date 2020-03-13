@@ -246,7 +246,11 @@ export default function Chart({
 		languageTag,
 	]);
 
-	const {dataSet} = chartState;
+	const referenceDotPosition = useMemo(() => {
+		const publishDateISOString = new Date(publishDate).toISOString();
+
+		return publishDateISOString.split('T')[0].concat('T00:00:00');
+	}, [publishDate]);
 
 	const title = useMemo(() => {
 		if (dataSet && dataSet.histogram) {
@@ -405,9 +409,7 @@ export default function Chart({
 								r={3}
 								stroke={PUBLISH_DATE_COLOR}
 								strokeWidth={CHART_SIZES.lineWidth}
-								x={publishDateISOString
-									.split('T')[0]
-									.concat('T00:00:00')}
+								x={referenceDotPosition}
 								y={0}
 							/>
 
