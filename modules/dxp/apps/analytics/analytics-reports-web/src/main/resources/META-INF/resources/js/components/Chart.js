@@ -247,6 +247,27 @@ export default function Chart({
 		languageTag,
 	]);
 
+	const {dataSet = {}} = chartState;
+	const {histogram = [], keyList = []} = dataSet;
+
+	const disabledPreviousPeriodButton = useMemo(() => {
+		if (histogram.length) {
+			const firstDateLabel = histogram[0].label;
+			const lastDateLabel = histogram[histogram.length - 1].label;
+
+			const firstDate = new Date(firstDateLabel);
+			const lastDate = new Date(lastDateLabel);
+			const publisedDate = new Date(publishDate);
+
+			if (firstDate < publisedDate && lastDate > publisedDate) {
+				//Publish date between selected time range
+				return true;
+			}
+
+			return false;
+		}
+	}, [histogram, publishDate]);
+
 	const referenceDotPosition = useMemo(() => {
 		const publishDateISOString = new Date(publishDate).toISOString();
 
@@ -254,17 +275,16 @@ export default function Chart({
 	}, [publishDate]);
 
 	const title = useMemo(() => {
-		if (dataSet && dataSet.histogram) {
-			const firstDateLabel = dataSet.histogram[0].label;
-			const lastDateLabel =
-				dataSet.histogram[dataSet.histogram.length - 1].label;
+		if (histogram.length) {
+			const firstDateLabel = histogram[0].label;
+			const lastDateLabel = histogram[histogram.length - 1].label;
 
 			return dateFormatters.formatChartTitle([
 				new Date(firstDateLabel),
 				new Date(lastDateLabel),
 			]);
 		}
-	}, [dataSet, dateFormatters]);
+	}, [histogram, dateFormatters]);
 
 	const handleTimeSpanChange = event => {
 		const {value} = event.target;
@@ -282,8 +302,6 @@ export default function Chart({
 		dataSet && legendFormatterGenerator(dataSet.totals, languageTag);
 
 	const disabledNextTimeSpan = chartState.timeSpanOffset === 0;
-
-	const publishDateISOString = new Date(publishDate).toISOString();
 
 	const xAxisFormatter =
 		chartState.timeSpanOption === LAST_24_HOURS
@@ -318,6 +336,7 @@ export default function Chart({
 						<ClayButtonWithIcon
 							aria-label={Liferay.Language.get('previous-period')}
 							className="mr-1"
+							disabled={disabledPreviousPeriodButton}
 							displayType="secondary"
 							onClick={handlePreviousTimeSpanClick}
 							small
@@ -349,7 +368,7 @@ export default function Chart({
 
 					<div className="line-chart mt-3">
 						<LineChart
-							data={dataSet.histogram}
+							data={histogram}
 							height={CHART_SIZES.height}
 							width={CHART_SIZES.width}
 						>
@@ -414,7 +433,7 @@ export default function Chart({
 								y={0}
 							/>
 
-							{dataSet.keyList.map(keyName => {
+							{keyList.map(keyName => {
 								const color = keyToHexColor(keyName);
 								const shape = keyToIconType(keyName);
 
