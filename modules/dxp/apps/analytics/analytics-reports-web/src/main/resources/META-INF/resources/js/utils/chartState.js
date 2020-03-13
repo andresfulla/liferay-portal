@@ -16,7 +16,6 @@ const NEXT_TIME_SPAN = 'next-time-span';
 const PREV_TIME_SPAN = 'previous-time-span';
 const CHANGE_TIME_SPAN_OPTION = 'change-time-span-option';
 const SET_LOADING = 'set-loading';
-const DAY_IN_MILLISECONDS = 24 * 60 * 60 * 1000;
 
 export const useChartState = ({defaultTimeSpanOption, publishDate}) => {
 	const [state, dispatch] = useReducer(reducer, {
@@ -160,6 +159,7 @@ function mergeDataSets({
 	newData,
 	previousDataSet = {histogram: [], keyList: [], totals: []},
 	publishDate,
+	timeSpanComparator,
 }) {
 	const resultDataSet = {};
 
@@ -177,7 +177,7 @@ function mergeDataSets({
 
 		if (
 			valueDataObject < publishDateObject &&
-			publishDateObject - valueDataObject > DAY_IN_MILLISECONDS
+			publishDateObject - valueDataObject > timeSpanComparator
 		) {
 			return {
 				[key]: null,
@@ -229,7 +229,8 @@ function mergeDataSets({
  * 		}>
  * 		values: number
  * 	},
- * 	key: string
+ * 	key: string,
+ *  timeSpanComparator: number,
  * }
  */
 function addDataSetItem(state, payload) {
@@ -246,6 +247,7 @@ function addDataSetItem(state, payload) {
 			newData: payload.dataSetItem,
 			previousDataSet,
 			publishDate: state.publishDate,
+			timeSpanComparator: payload.timeSpanComparator,
 		}),
 		loading: false,
 	};

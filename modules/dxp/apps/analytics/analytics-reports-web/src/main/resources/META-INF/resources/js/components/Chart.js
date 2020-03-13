@@ -44,6 +44,11 @@ const CHART_SIZES = {
 	width: 280,
 	yAxisWidth: 40,
 };
+
+const DAY_IN_MILLISECONDS = 24 * 60 * 60 * 1000;
+
+const HOUR_IN_MILLISECONDS = 60 * 60 * 1000;
+
 const LAST_24_HOURS = 'last-24-hours';
 
 const METRICS_STATIC_VALUES = {
@@ -227,10 +232,23 @@ export default function Chart({
 			}).then(data => {
 				if (!gone) {
 					if (isMounted()) {
+						let timeSpanComparator;
+
+						switch (chartState.timeSpanOption) {
+							case LAST_24_HOURS: {
+								timeSpanComparator = HOUR_IN_MILLISECONDS;
+								break;
+							}
+							default:
+								timeSpanComparator = DAY_IN_MILLISECONDS;
+								break;
+						}
+
 						Object.keys(data).map(key => {
 							actions.addDataSetItem({
 								dataSetItem: data[key],
 								key,
+								timeSpanComparator,
 							});
 						});
 					}
@@ -272,8 +290,13 @@ export default function Chart({
 	const referenceDotPosition = useMemo(() => {
 		const publishDateISOString = new Date(publishDate).toISOString();
 
-		return publishDateISOString.split('T')[0].concat('T00:00:00');
-	}, [publishDate]);
+		switch (chartState.timeSpanOption) {
+			case LAST_24_HOURS:
+				return publishDateISOString.split(':')[0].concat(':00:00');
+			default:
+				return publishDateISOString.split('T')[0].concat('T00:00:00');
+		}
+	}, [chartState.timeSpanOption, publishDate]);
 
 	const title = useMemo(() => {
 		if (histogram.length) {
