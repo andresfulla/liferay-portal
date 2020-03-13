@@ -140,7 +140,7 @@ const generateDateFormatters = key => {
 	 * Given a date like string it produces a internationalized long date
 	 *
 	 * For 'en-US'
-	 * String => 'June 16, 2020'
+	 * String => '06/17/2020'
 	 */
 	function formatLongDate(value) {
 		return Intl.DateTimeFormat([key]).format(new Date(value));
