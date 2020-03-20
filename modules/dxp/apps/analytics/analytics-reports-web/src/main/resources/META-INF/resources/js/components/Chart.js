@@ -12,6 +12,7 @@
 import {ClayButtonWithIcon} from '@clayui/button';
 import {ClaySelect} from '@clayui/form';
 import ClayLoadingIndicator from '@clayui/loading-indicator';
+import {ClayTooltipProvider} from '@clayui/tooltip';
 import className from 'classnames';
 import {useIsMounted} from 'frontend-js-react-web';
 import PropTypes from 'prop-types';
@@ -333,15 +334,26 @@ export default function Chart({
 					</ClaySelect>
 
 					<div className="d-flex ml-2">
-						<ClayButtonWithIcon
-							aria-label={Liferay.Language.get('previous-period')}
-							className="mr-1"
-							disabled={disabledPreviousPeriodButton}
-							displayType="secondary"
-							onClick={handlePreviousTimeSpanClick}
-							small
-							symbol="angle-left"
-						/>
+						<ClayTooltipProvider>
+							<ClayButtonWithIcon
+								aria-label={Liferay.Language.get(
+									'previous-period'
+								)}
+								className="mr-1"
+								data-tooltip-align="top-right"
+								disabled={disabledPreviousPeriodButton}
+								displayType="secondary"
+								onClick={handlePreviousTimeSpanClick}
+								small
+								symbol="angle-left"
+								title={
+									disabledPreviousPeriodButton &&
+									Liferay.Language.get(
+										'you-cannot-choose-a-date-previous-to-the-publication-date'
+									)
+								}
+							/>
+						</ClayTooltipProvider>
 						<ClayButtonWithIcon
 							aria-label={Liferay.Language.get('next-period')}
 							disabled={disabledNextTimeSpan}
